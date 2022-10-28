@@ -609,7 +609,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "inductionfurnace", "$icon_inductionfurnace$", "Industrial Furnace:\n\nA heavy-duty furnace that produces up to 3x more ingots at cost of lower speed. Requires coal to smelt metal.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 30);
 		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 2);
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 500);
 		// AddRequirement(b.reqs, "blob", "mat_battery", "Voltron Battery Plus", 50);
@@ -765,7 +765,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	blocks.push_back(page_3);
 	{
 		BuildBlock b(0, "collector", "$collector$", "Collector:\n\nGathers energy from closest generators and transfers to electric poles. Only one collector can take energy from single generators. Must be put away from other generators to be active.\n\nDistance: 8 blocks\nCan be toggled off");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 4);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 2);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
 		b.size.Set(8,8);
 		blocks[3].push_back(b);
@@ -802,7 +802,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "pole", "$pole$", "Electric pole:\n\nTransfers energy and supplies closest energy consumptions.\n\nOnly one pole can supply energy to single consumptions.\n\nDistance: 8 blocks");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 2);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 5);
 		b.size.Set(8, 8);
 		blocks[3].push_back(b);
 	}
@@ -868,7 +868,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "crusher", "$icon_crusher$", "Crusher\nSmashes rocks into concrete and dirt into sulphur with a lower yield");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 4);
 		b.buildOnGround = true;
 		b.size.Set(24, 32);
@@ -876,9 +876,9 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "electricfurnace", "$icon_electricfurnace$", "Electric furnace:\n\nAn advanced analogue for induction furnace. Smelts ore into 4 ingots but requires energy and does not require coal for steel and titanium. Also has toggle mode.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 60);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
 		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 16);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 80);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 60);
 		b.buildOnGround = true;
 		b.size.Set(40, 32);
 		blocks[3].push_back(b);
