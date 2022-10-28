@@ -120,7 +120,7 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-    if (getGameTime()%30==0)
+    if (this.get_u32("elec") > 0 && getGameTime()%30==0)
     {
         if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
         //printf(""+this.get_u16('feed_id'));
@@ -130,7 +130,7 @@ void onTick(CBlob@ this)
             this.set_u16("feed_id", 0);
         }
 
-        if (this.get_u32("elec") > 0 && (this.exists("state") && this.get_bool("state")))
+        if (this.exists("state") && this.get_bool("state"))
         {
             if (this.get_u32("elec") <= this.get_u16("energy_consumption"))
                 this.set_u32("elec", 0);

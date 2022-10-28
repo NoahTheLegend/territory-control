@@ -10,7 +10,7 @@
 #include "Hitters.as";
 
 const u32 ELECTRICITY_MAX = 500;
-const u32 ELECTRICITY_PROD = 10;
+const u32 ELECTRICITY_PROD = 15;
 
 void onInit(CBlob@ this)
 {

@@ -87,15 +87,18 @@ void FindInherit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-	if (getGameTime()%30==0)
+	if ((this.get_u32("elec") == 0 && getGameTime()%90==0) || (this.get_u32("elec") > 0 && getGameTime()%30==0))
 	{
 		//printf(""+this.get_u16("inherit_id"));
 		//printf(""+this.get_u16("collector_id"));
 
-		if (this.get_u16("inherit_id") == 0 
-		|| getBlobByNetworkID(this.get_u16("inherit_id")) is null)
+		if (this.get_u32("elec") == 0)
 		{
-			FindInherit(this);
+			if (this.get_u16("inherit_id") == 0 
+			|| getBlobByNetworkID(this.get_u16("inherit_id")) is null)
+			{
+				FindInherit(this);
+			}
 		}
 
 		CBlob@ inherit = getBlobByNetworkID(this.get_u16("inherit_id"));
@@ -126,16 +129,16 @@ void onTick(CBlob@ this)
 			else this.set_u16("collector_id", 0);
 		}
 
-		CBlob@[] consumptions;
-		getBlobsByTag("consumes energy", consumptions);
-
 		if (this.get_u32("elec") > 0)
 		{
+			CBlob@[] consumptions;
+			if (getMap() !is null) getMap().getBlobsInRadius(this.getPosition(), ELECTRICITY_GIVE_RADIUS, consumptions);
+		
 			for (u16 i = 0; i < consumptions.length; i++)
 			{
 				CBlob@ consumer = consumptions[i];
 				if (consumer is null) continue;
-				if (this.getDistanceTo(consumer) > ELECTRICITY_GIVE_RADIUS) continue;
+				if (!consumer.hasTag("consumes energy")) continue;
 				if (consumer.get_u16("feed_id") != 0 && consumer.get_u16("feed_id") != this.getNetworkID()) continue;
 	
 				if (collector_id != 0)

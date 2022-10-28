@@ -1,5 +1,5 @@
 ﻿const u32 ELECTRICITY_MAX = 4500;
-const u32 ELECTRICITY_PROD = 350;
+const u32 ELECTRICITY_PROD = 300;
 
 void onInit(CBlob@ this)
 {
