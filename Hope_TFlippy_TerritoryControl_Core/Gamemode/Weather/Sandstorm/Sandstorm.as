@@ -215,7 +215,7 @@ void RenderRain(CBlob@ this, int id)
 	Render::SetModelTransform(model);
 	Render::RawQuads("SANDSTORM", Rain_vs);
 	f32 alpha = Maths::Clamp(Maths::Max(fog, 255 * fogHeightModifier * 1.8f) * modifier, 0, 190);
-	Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha/2,fogDarkness+95,fogDarkness+40,fogDarkness);
+	Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha,fogDarkness+95,fogDarkness+40,fogDarkness);
 	Render::RawQuads("FOG", Fog_vs);
 }
 
