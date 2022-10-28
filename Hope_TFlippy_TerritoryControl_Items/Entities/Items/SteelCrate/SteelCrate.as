@@ -30,7 +30,8 @@ void onInit(CBlob@ this)
 
     string dest = this.get_string("destination");
     //printf("my destination: "+dest);
-    MakeInventory(this, dest);
+    
+    //MakeInventory(this, dest);
 }
 
 void onTick(CBlob@ this)
