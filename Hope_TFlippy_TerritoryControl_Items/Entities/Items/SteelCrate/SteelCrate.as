@@ -27,15 +27,17 @@ void onInit(CBlob@ this)
 
     this.set_f32("dts", 0);
     this.set_f32("wps", 0);
-
-    string dest = this.get_string("destination");
-    //printf("my destination: "+dest);
-    
-    //MakeInventory(this, dest);
 }
 
 void onTick(CBlob@ this)
 {
+    if (this.getTickSinceCreated() == 1)
+    {
+        string dest = this.get_string("destination");
+        //printf("my destination: "+dest);
+
+        MakeInventory(this, dest);
+    }
     CSprite@ sprite = this.getSprite();
     if (sprite !is null)
     {
@@ -135,20 +137,27 @@ void ReleaseEnemies(CBlob@ this)
 
 void MakeInventory(CBlob@ this, string dest)
 {
-    f32 drs;
-    f32 dts;
-    f32 wps;
+    f32 drs = 0;
+    f32 dts = 0;
+    f32 wps = 0;
 
     for (u8 i = 1; i <= 4; i++)
     {
-        if (this.get_string("m"+i) == "drillstation") drs++;
-        else if (this.get_string("m"+i) == "detailedscanner") dts++;
-        else if (this.get_string("m"+i) == "weaponpack") wps++;
+        if (this.exists("m"+i))
+        {
+            if (this.get_string("m"+i) == "drillstation") drs++;
+            else if (this.get_string("m"+i) == "detailedscanner") dts++;
+            else if (this.get_string("m"+i) == "weaponpack") wps++;
+        }
     }
 
     this.set_f32("drs", drs);
     this.set_f32("dts", dts);
     this.set_f32("wps", wps);
+
+    //print("drs "+drs);
+    //print("dts "+dts);
+    //print("wps "+wps);
 
     if (isServer())
     {
