@@ -115,19 +115,19 @@ void onInit(CBlob@ this)
 	}
 	{
 		AssemblerItem i("mat_shotgunammo", 12, "Shotgun Shells (12)");
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
-		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 25);
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 3);
+		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 40);
 		items.push_back(i);
 	}
 	{
 		AssemblerItem i("mat_gatlingammo", 150, "Machine Gun Ammo (150)");
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 3);
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 4);
 		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 50);
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("mat_sniperammo", 10, "High Power Ammunition (10)");
-		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 2);
+		AssemblerItem i("mat_sniperammo", 20, "High Power Ammunition (20)");
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 5);
 		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 40);
 		items.push_back(i);
 	}

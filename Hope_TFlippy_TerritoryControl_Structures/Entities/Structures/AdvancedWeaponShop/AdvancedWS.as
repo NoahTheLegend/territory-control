@@ -87,8 +87,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Soviet PPSH", "$ppsh$", "ppsh", "WW2 most-used russian weapon.\n\nUses Lowcal Rounds.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 2);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
 		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 		
 		s.customButton = true;
@@ -101,9 +100,8 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Brand-new AK", "$bnak$", "bnak", "Popular russian weapon.\n\nUses Highcal Rounds.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 12);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
-		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 4);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2400);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 2);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 		
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -114,10 +112,9 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "RP-46", "$rp46$", "rp46", "Powerful machinegun with slow fire rate and medium accuracy.\n\nUses Highcal Rounds.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 6);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 10);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 4);
+		AddRequirement(s.requirements, "coin", "", "Coins", 2000);
 		
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -127,11 +124,10 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "TKB-521", "$tkb521$", "tkb521", "A nice machinegun with a big magazine and medium damage.\n\nUses Highcal Rounds.");
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 200);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 12);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 6);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2750);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 2250);
 		
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -141,10 +137,10 @@ void onInit(CBlob@ this)
 	}
 	{	
 		ShopItem@ s = addShopItem(this, "Sniper Rifle Dragunova", "$svd$", "svd", "A strong semi-auto half-sniper rifle.\n\nUses High Power Rounds.");
-		AddRequirement(s.requirements, "blob",  "mat_wood", "Wood", 300);
+		AddRequirement(s.requirements, "blob",  "mat_wood", "Wood", 200);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
 		s.spawnNothing = true;
 	}
@@ -152,8 +148,8 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Mosin Nagant", "$mosin$", "mosin", "An old but reliable russian sniper rifle.\n\nUses High Power Rounds.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 6);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 12);
+		AddRequirement(s.requirements, "coin", "", "Coins", 2000);
 
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -163,10 +159,10 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Nitro 700", "$nitro700$", "nitro700", "Strong shotgun used to take down buffalos, not badgers.\n\nUses High Power Rounds.");
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 350);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
-		AddRequirement(s.requirements, "coin", "", "Coins", 3500);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 16);
+		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
 		
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -202,9 +198,10 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Grenade Launcher M79", "$icon_grenadelauncher$", "grenadelauncher", "A short-ranged weapon that launches grenades.\n\nUses Grenades.");
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 500);
-		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 5);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 12);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 350);
+		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -240,8 +237,8 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Acidthrower", "$icon_acidthrower$", "acidthrower", "A tool used for dissolving plants, buildings and people.\n\nUses Acid.");
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 10);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1250);
 
 		s.customButton = true;

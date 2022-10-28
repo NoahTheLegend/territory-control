@@ -66,9 +66,7 @@ void onInit(CBlob@ this)
         ShopItem@ s = addShopItem(this, "UPF Cock 19", "$cock$", "cock", "Buffed version of fuger.\n\nUses Lowcal Rounds.");
 		//AddRequirement(s.requirements, "coin", "", "Coins", 500);
         AddRequirement(s.requirements, "blob", "fuger", "Fuger", 1);
-        AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
-	    AddRequirement(s.requirements, "blob",  "mat_steelingot", "Steel Ingot", 6);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 4);
+        AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
 		
         s.spawnNothing = true;
     }
@@ -101,8 +99,8 @@ void onInit(CBlob@ this)
         ShopItem@ s = addShopItem(this, "Klauser Pistole C96", "$c96$", "c96", "Klauser self-loading pistol.\n\nUses Highcal Rounds.");
 		//AddRequirement(s.requirements, "coin", "", "Coins", 960);
 		AddRequirement(s.requirements, "blob", "beagle", "UPF Beagle-20", 1);
-		AddRequirement(s.requirements, "blob",  "mat_steelingot", "Steel Ingot", 4);
-        AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 2);
+		AddRequirement(s.requirements, "blob",  "mat_steelingot", "Steel Ingot", 8);
+        AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
 		
         s.spawnNothing = true;
     }
@@ -134,8 +132,8 @@ void onInit(CBlob@ this)
     {
         ShopItem@ s = addShopItem(this, "UPF XM8", "$xm$", "xm", "Strong automatical rifle.\n\nUses Highcal Rounds.");
 		//AddRequirement(s.requirements, "coin", "", "Coins", 1500);
-        AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 24);
+        AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
         AddRequirement(s.requirements, "blob", "assaultrifle", "UPF Assault Rifle", 1);
 		
         s.spawnNothing = true;
@@ -146,8 +144,8 @@ void onInit(CBlob@ this)
         AddRequirement(s.requirements, "blob", "xm", "UPF XM8", 1);
 		AddRequirement(s.requirements, "blob", "carbine", "UPF Carbine", 1);
 		AddRequirement(s.requirements, "blob", "illegalgunpart", "Illegal Gun Part", 1);
-        AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 36);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
+        AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 24);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
         
         s.spawnNothing = true;
     }
