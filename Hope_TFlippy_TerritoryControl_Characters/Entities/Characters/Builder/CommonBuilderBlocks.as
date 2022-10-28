@@ -431,23 +431,21 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
-	    BuildBlock b(0, "advancedweaponshop", "$icon_advancedweaponshop$", "Advanced Weapon Shop:\n\nA workshop for advanced weapons.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 400);
+	    BuildBlock b(0, "advancedweaponshop", "$icon_advancedweaponshop$", "Advanced Weapon Shop:\n\nA workshop for advanced weapons.\nContains bullets crafting.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 350);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 24);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 6);
 		b.buildOnGround = true;
 		b.size.Set(40, 24);
 		blocks[1].push_back(b);
 	}	
 	{
-	    BuildBlock b(0, "upfweaponshop", "$icon_upfweaponshop$", "UPF Weapon Shop:\n\nA workshop for UPF chicken weapons.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 300);
+	    BuildBlock b(0, "upfweaponshop", "$icon_upfweaponshop$", "UPF Weapon Shop:\n\nA workshop for UPF chicken weapons.\nContains cheaper bullets.");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
 		AddRequirement(b.reqs, "blob", "bp_weapons", "Blueprint (Weapons)", 1);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 24);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 30);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
 		b.buildOnGround = true;
 		b.size.Set(40, 24);
 		blocks[1].push_back(b);
