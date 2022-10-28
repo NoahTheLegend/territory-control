@@ -40,37 +40,40 @@ void onRender(CSprite@ this)
     //if (getBlobByName("info_dead") !is null) color = colors[2];
     color = colors[3];
 
-    if (drawWire)
+    if (getLocalPlayer() !is null && getLocalPlayer().isMyPlayer() && getMap().getBlobAtPosition(getControls().getMouseWorldPos()) is blob)
     {
-        CBlob@ inherit = getBlobByNetworkID(blob.get_u16("inherit_id"));
-        if (inherit !is null && blob.getDistanceTo(inherit) < blob.get_f32("max_dist"))
+        if (drawWire)
         {
-            Vec2f pos = blob.getInterpolatedPosition();
-            Vec2f endpos = inherit.getInterpolatedPosition();
+            CBlob@ inherit = getBlobByNetworkID(blob.get_u16("inherit_id"));
+            if (inherit !is null && blob.getDistanceTo(inherit) < blob.get_f32("max_dist"))
+            {
+                Vec2f pos = blob.getInterpolatedPosition();
+                Vec2f endpos = inherit.getInterpolatedPosition();
 
-            GUI::DrawLine(pos, endpos, color);
+                GUI::DrawLine(pos, endpos, color);
+            }
         }
-    }
-    else if (!blob.hasTag("no_wire") && blob.hasTag("consumes energy") && blob.get_u16("feed_id") != 0)
-    {
-        CBlob@ feeder = getBlobByNetworkID(blob.get_u16("feed_id"));
-        if (feeder !is null && blob.get_bool("state"))
+        else if (!blob.hasTag("no_wire") && blob.hasTag("consumes energy") && blob.get_u16("feed_id") != 0)
         {
-            Vec2f pos = blob.getInterpolatedPosition();
-            Vec2f endpos = feeder.getInterpolatedPosition();
+            CBlob@ feeder = getBlobByNetworkID(blob.get_u16("feed_id"));
+            if (feeder !is null && blob.get_bool("state"))
+            {
+                Vec2f pos = blob.getInterpolatedPosition();
+                Vec2f endpos = feeder.getInterpolatedPosition();
 
-            GUI::DrawLine(pos + blob.get_Vec2f("wire_offset"), endpos, color);
+                GUI::DrawLine(pos + blob.get_Vec2f("wire_offset"), endpos, color);
+            }
         }
-    }
-    else if (!blob.hasTag("no_wire") && blob.hasTag("generator") && blob.get_u16("consume_id") != 0)
-    {
-        CBlob@ consumer = getBlobByNetworkID(blob.get_u16("consume_id"));
-        if (consumer !is null && !consumer.get_bool("inactive"))
+        else if (!blob.hasTag("no_wire") && blob.hasTag("generator") && blob.get_u16("consume_id") != 0)
         {
-            Vec2f pos = blob.getInterpolatedPosition();
-            Vec2f endpos = consumer.getInterpolatedPosition();
+            CBlob@ consumer = getBlobByNetworkID(blob.get_u16("consume_id"));
+            if (consumer !is null && !consumer.get_bool("inactive"))
+            {
+                Vec2f pos = blob.getInterpolatedPosition();
+                Vec2f endpos = consumer.getInterpolatedPosition();
 
-            GUI::DrawLine(pos + blob.get_Vec2f("wire_offset"), endpos, color);
+                GUI::DrawLine(pos + blob.get_Vec2f("wire_offset"), endpos, color);
+            }
         }
     }
 }
