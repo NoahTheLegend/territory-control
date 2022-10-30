@@ -797,6 +797,7 @@ void Reset(CRules@ this)
 	printf("Restarting rules script: " + getCurrentScriptName());
 
 	InitCosts();
+	RestartCosts();
 
 	Players players();
 
@@ -818,7 +819,6 @@ void Reset(CRules@ this)
 	ConfigFile cfg = ConfigFile(configstr);
 	if (cfg.read_s32("game_time") != -2)
 	{
-		RestartCosts();
 		Reset(this);
 	}
 
