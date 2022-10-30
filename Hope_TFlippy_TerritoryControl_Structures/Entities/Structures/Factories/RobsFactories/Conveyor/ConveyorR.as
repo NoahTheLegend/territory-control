@@ -56,6 +56,7 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
+	if (blob.getName()=="seed")return false;
 	if(blob.isKeyPressed(key_down))return false;
 	if (blob.getPosition().y > this.getPosition().y) return false;
 	
@@ -64,6 +65,7 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
+	if (blob.getName()=="seed")return;
 	if (blob is null || blob.hasTag("player")) return;
 	if (blob.getPosition().y > this.getPosition().y) return;
 	if (blob.getShape().isStatic())return;

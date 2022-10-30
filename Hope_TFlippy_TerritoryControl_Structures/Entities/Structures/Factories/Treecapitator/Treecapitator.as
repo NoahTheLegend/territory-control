@@ -79,3 +79,11 @@ bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
 	return false;
 }
+
+bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
+{
+	if (blob.getName() == "pumpkin" || blob.getName() == "grain"
+	|| blob.getName() == "mat_ganja" || blob.getName() == "ganjapod") 
+		return false;
+	return true;
+}
