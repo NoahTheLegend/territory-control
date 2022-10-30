@@ -82,7 +82,7 @@ void onTick(CBlob@ this)
 		if (diff <= prod) // set to max if last step will make energy over max value
 		{
 			this.set_u32("elec", ELECTRICITY_MAX);
-			u16 fuel_consumed = (ELECTRICITY_MAX - this.get_f32("fuel_count")) / (fuel.getName() == "mat_fuel" ? 1.0f : 10.0f);
+			u16 fuel_consumed = (ELECTRICITY_MAX - this.get_f32("fuel_count")) / (fuel.getName() == "mat_fuel" ? 1.0f : 5.0f);
 		}
 		else
 		{
