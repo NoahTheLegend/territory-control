@@ -55,7 +55,7 @@ void onTick (CBlob@ this)
 	//if (!params.saferead_u16(blob_id)) return;	
 	const bool can_heal = getGameTime() > this.get_u16("next_use");
 	
-	if (this.get_u16("hooman") != 0)
+	if (this.get_u16("hooman") != 0 && can_heal)
 	{
 		CBlob@ blob = getBlobByNetworkID(this.get_u16("hooman"));
 		if (blob is null) return;
@@ -81,7 +81,7 @@ void onTick (CBlob@ this)
 		{
 			//&& can_heal
 			//&& this.get_bool("shouldheal")
-			if (this.getNetworkID() == blob.get_u16("bighoodcan_netid")) this.SendCommand(this.getCommandID("food_eat"));
+			if (this.getNetworkID() == blob.get_u16("bighoodcan_netid") && blob.isMyPlayer()) this.SendCommand(this.getCommandID("food_eat"));
 		}
 	/*
 		this.getSprite().PlaySound("Eat.ogg");
