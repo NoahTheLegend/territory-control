@@ -853,7 +853,7 @@ void onTick(CBlob@ this)
                             }
                         }
                     }
-                    else if (uzi >= 16)
+                    else if (uzi >= 8)
                     {
                         this.set_string("module"+(this.get_u8("frameindex")-5), "weaponpack");
                         u8 counter = 0;
