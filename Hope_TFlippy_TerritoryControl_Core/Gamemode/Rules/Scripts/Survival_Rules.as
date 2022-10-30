@@ -814,13 +814,6 @@ void Reset(CRules@ this)
 		}
 	}
 
-	string configstr = "Rules/CTF/ctf_vars.cfg";
-	ConfigFile cfg = ConfigFile(configstr);
-	if (cfg.read_s32("game_time") != -2)
-	{
-		Reset(this);
-	}
-
 	this.SetGlobalMessage("");
 	this.set("players", @players);
 	this.SetCurrentState(GAME);
