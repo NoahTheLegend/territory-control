@@ -152,6 +152,7 @@ void onTick(CBlob@ this)
 						{
 							u32 diff = consumer_elec_max - consumer_elec;
 							u32 amo = Maths::Min(consumer_elec_max - consumer_elec, ELECTRICITY_GIVE_AMOUNT * consumer.get_u8("consume_mod"));
+							if (amo > elec) amo = elec;
 							
 							consumer.add_u32("elec", amo);
 							//printf("BEFORE: "+elec);
