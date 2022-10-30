@@ -797,7 +797,6 @@ void Reset(CRules@ this)
 	printf("Restarting rules script: " + getCurrentScriptName());
 
 	InitCosts();
-	RestartCosts();
 
 	Players players();
 
