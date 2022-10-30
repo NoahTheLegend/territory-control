@@ -70,8 +70,8 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	int result = blacklist.find(hardwareID);
 	if (result >= 0)
 	{
-		BanPlayer(player, -1);
-		printf("Permabanned Player: " + player.getUsername() + " IP: " + player.server_getIP() + " ID:" + player.server_getHWID());
+		//BanPlayer(player, -1);
+		printf("Tried: Permabanned Player: " + player.getUsername() + " IP: " + player.server_getIP() + " ID:" + player.server_getHWID());
 	}
 
 	string playerName = player.getUsername().split('~')[0];//Part one of a fix for slave rejoining
