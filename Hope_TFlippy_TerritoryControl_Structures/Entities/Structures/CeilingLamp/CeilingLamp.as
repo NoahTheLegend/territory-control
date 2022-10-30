@@ -10,6 +10,7 @@ void onInit(CBlob@ this)
 	// this.getSprite().SetZ(800); //background
 
 	this.Tag("builder always hit");
+	this.Tag("sentry");
 
 	this.SetLight(true);
 	this.SetLightRadius(128.0f);
@@ -27,7 +28,7 @@ void onTick(CBlob@ this)
 {
 	if (getGameTime()%30==0)
 	{
-		if (this.get_u32("elec") == 0)
+		if (this.get_u32("elec") == 0 && this.getTeamNum() <= 6)
 		{
 			this.SetLight(false);
 			this.set_bool("security_state", false);

@@ -14,6 +14,7 @@ void onInit(CBlob@ this)
 {
 	this.Tag("builder always hit");
 	this.Tag("medium weight");
+	this.Tag("sentry");
 
 	GunSettings settings = GunSettings();
 
@@ -129,7 +130,7 @@ const Vec2f headOffset = Vec2f(0, -5);
 
 void onTick(CBlob@ this)
 {
-	if (this.get_bool("security_state") && (this.get_u32("elec") > 50 || this.getTeamNum() == 250))
+	if (this.get_bool("security_state") && (this.get_u32("elec") > 50 || this.getTeamNum() >= 7))
 	{
 		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
 		CBlob@ attachedBlob = point.getOccupied();

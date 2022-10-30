@@ -13,6 +13,7 @@ void onInit(CBlob@ this)
 {
 	this.Tag("builder always hit");
 	this.Tag("heavy weight");
+	this.Tag("sentry");
 
 	this.set_f32("pickup_priority", 16.00f);
 	this.getShape().SetRotationsAllowed(false);
@@ -34,7 +35,7 @@ void onInit(CBlob@ this)
 			this.server_PutInInventory(ammo);
 		}
 	}
-
+	
 	this.set_bool("security_state", true);
 }
 
@@ -102,7 +103,7 @@ void onTick(CBlob@ this)
 
 	if (attachedBlob !is null && !attachedBlob.hasTag("vehicle")) return;
 
-	if (this.get_bool("security_state") && (this.get_u32("elec") > 50 || this.getTeamNum() == 250))
+	if (this.get_bool("security_state") && (this.get_u32("elec") > 50 || this.getTeamNum() >= 7))
 	{
 		CBlob@[] blobs;
 		getBlobsByTag("aerial", @blobs);

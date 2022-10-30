@@ -120,7 +120,8 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-    if (this.get_u32("elec") > 0 && getGameTime()%30==0)
+    bool elec_skip = (this.hasTag("sentry") && this.getTeamNum() >= 7);
+    if (!elec_skip || (this.get_u32("elec") > 0 && getGameTime()%30==0))
     {
         if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
         //printf(""+this.get_u16('feed_id'));

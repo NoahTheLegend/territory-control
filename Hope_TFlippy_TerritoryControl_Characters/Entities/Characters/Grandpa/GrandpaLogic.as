@@ -84,7 +84,7 @@ void onTick(CBlob@ this)
 	CMap@ map = this.getMap();
 	if (map !is null)
 	{
-		if (this.getPosition().y > map.tilemapheight*8-48) this.AddForce(Vec2f(0, -1000.0f));
+		if (this.getPosition().y > map.tilemapheight*8-24) this.AddForce(Vec2f(0, -1000.0f));
 	}
 	if (sprite !is null)
 	{

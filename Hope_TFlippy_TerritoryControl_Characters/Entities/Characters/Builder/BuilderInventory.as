@@ -14,7 +14,7 @@ namespace Builder
 		PAGE_SELECT = 32,
 
 		make_block = 58,
-		make_reserved = 98
+		make_reserved = 101
 	};
 
 	enum Page

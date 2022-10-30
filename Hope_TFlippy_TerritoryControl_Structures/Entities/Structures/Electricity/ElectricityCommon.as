@@ -11,6 +11,8 @@ void onRender(CSprite@ this)
     CBlob@ blob = this.getBlob();
     if (blob is null) return;
     if (blob.get_bool("inactive")) return;
+    bool elec_skip = (blob.hasTag("sentry") && blob.getTeamNum() >= 7);
+    if (elec_skip) return;
 	Vec2f mouseWorld = getControls().getMouseWorldPos();
 	bool mouseOnBlob = (mouseWorld - blob.getPosition()).getLength() < this.getBlob().getRadius();
 	u32 elec = blob.get_u32("elec");
