@@ -152,12 +152,16 @@ void onTick(CBlob@ this)
 						{
 							u32 diff = consumer_elec_max - consumer_elec;
 							u32 amo = Maths::Min(consumer_elec_max - consumer_elec, ELECTRICITY_GIVE_AMOUNT * consumer.get_u8("consume_mod"));
+							
 							consumer.add_u32("elec", amo);
-	
+							//printf("BEFORE: "+elec);
 							//if (collector.get_u32("elec") >= diff)
 							collector.add_u32("elec", -amo);
 							//else collector.set_u32("elec", 0);
 	
+							//printf("GIVEN: "+amo);
+							//printf("LEFT: "+collector.get_u32("elec"));
+
 							consumer.set_u16("feed_id", this.getNetworkID());
 						}
 					}
