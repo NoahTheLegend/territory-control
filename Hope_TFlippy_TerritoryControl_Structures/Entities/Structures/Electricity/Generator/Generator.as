@@ -82,7 +82,7 @@ void onTick(CBlob@ this)
 		}
 		else
 		{
-			if (coal || quantity >= 80) this.add_u32("elec", ELECTRICITY_PROD+XORRandom(ELECTRICITY_PROD+1));
+			if (coal || quantity >= 40) this.add_u32("elec", ELECTRICITY_PROD+XORRandom(ELECTRICITY_PROD+1));
 		}
 
 		if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
@@ -91,13 +91,13 @@ void onTick(CBlob@ this)
 		{
 			if (coal)
 			{
-				if (quantity <= 2) fuel.server_Die();
-				else fuel.server_SetQuantity(quantity-2);
+				if (quantity <= 1) fuel.server_Die();
+				else fuel.server_SetQuantity(quantity-1);
 			}
-			else if (quantity >= 80)
+			else if (quantity >= 40)
 			{
-				if (quantity <= 80) fuel.server_Die();
-				else fuel.server_SetQuantity(quantity-80);
+				if (quantity <= 40) fuel.server_Die();
+				else fuel.server_SetQuantity(quantity-4);
 			}
 		}
 	}

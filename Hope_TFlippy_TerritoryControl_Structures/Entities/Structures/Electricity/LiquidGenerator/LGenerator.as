@@ -102,14 +102,14 @@ void onTick(CBlob@ this)
 				}
 				else fuel.server_SetQuantity(quantity-1);
 			}
-			else if (quantity <= 10)
+			else if (quantity <= 5)
 			{
 				fuel.Tag("dead");
 				fuel.server_Die();
 			}
 			else
 			{
-				fuel.server_SetQuantity(quantity-10);
+				fuel.server_SetQuantity(quantity-5);
 			}
 		}
 	}

@@ -156,7 +156,9 @@ void onTick(CBlob@ this)
 							consumer.add_u32("elec", amo);
 							//printf("BEFORE: "+elec);
 							//if (collector.get_u32("elec") >= diff)
-							collector.add_u32("elec", -amo);
+							if (collector.get_u32("elec") - amo < 0) collector.set_u32("elec", 0);
+							else
+								collector.add_u32("elec", -amo);
 							//else collector.set_u32("elec", 0);
 	
 							//printf("GIVEN: "+amo);

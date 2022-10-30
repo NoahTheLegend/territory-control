@@ -34,7 +34,7 @@ void onInit(CBlob@ this)
 	this.Tag("inline_block");
 	this.set_bool("inactive", false);
 
-	this.getCurrentScript().tickFrequency = 30;
+	this.getCurrentScript().tickFrequency = 1;
 
 	CheckInactive(this);
 
@@ -75,67 +75,70 @@ void onTick(CBlob@ this)
 	{
 		this.set_bool("inactive", true);
 	}
-	if (this.get_u32("elec") > 250000) this.set_u32("elec", this.get_u32("elec_max"));
-	//printf(""+this.get_u32('elec'));
-	//this.set_u32("elec", 1350);
-	if (this.get_bool("inactive"))
+	if (this.get_u32("elec") > 250000) this.set_u32("elec", 0);
+	if (getGameTime()%30==0)
 	{
-		this.setInventoryName("Inactive");
-		return;
-	}
-
-	CBlob@[] generators;
-	CBlob@[] input;
-	getBlobsByTag("generator", generators);
-	if (generators.length > 0)
-	{
-		for (u16 i = 0; i < generators.length; i++)
+		//printf(""+this.get_u32('elec'));
+		//this.set_u32("elec", 1350);
+		if (this.get_bool("inactive"))
 		{
-			CBlob@ generator = generators[i];
+			this.setInventoryName("Inactive");
+			return;
+		}
+
+		CBlob@[] generators;
+		CBlob@[] input;
+		getBlobsByTag("generator", generators);
+		if (generators.length > 0)
+		{
+			for (u16 i = 0; i < generators.length; i++)
+			{
+				CBlob@ generator = generators[i];
+				if (generator is null) continue;
+				if (generator.get_u16("consume_id") != 0 && generator.get_u16("consume_id") != this.getNetworkID()) continue;
+				if (generator.getTeamNum() < 7 && generator.getTeamNum() != this.getTeamNum()) continue;
+
+				if (this.getDistanceTo(generator) > ELECTRICITY_PICK_RADIUS) continue;
+				input.push_back(generator);
+			}
+		}
+
+		u32 elec_max = 0;
+		for (u8 i = 0; i < input.length; i++)
+		{
+			CBlob@ generator = input[i];
 			if (generator is null) continue;
-			if (generator.get_u16("consume_id") != 0 && generator.get_u16("consume_id") != this.getNetworkID()) continue;
-			if (generator.getTeamNum() < 7 && generator.getTeamNum() != this.getTeamNum()) continue;
+			generator.set_u16("consume_id", this.getNetworkID());
+			u32 elec = this.get_u32("elec");
+			if (elec < this.get_u32("elec_max"))
+			{
+				u32 generator_elec = generator.get_u32("elec");
+				u32 res = elec + generator_elec;
+				if (res > this.get_u32("elec_max")) generator_elec -= res - this.get_u32("elec_max");
 
-			if (this.getDistanceTo(generator) > ELECTRICITY_PICK_RADIUS) continue;
-			input.push_back(generator);
+				this.add_u32("elec", generator_elec);
+				this.Sync("elec", true);
+				generator.add_u32("elec", -generator_elec);
+				generator.Sync("elec", true);
+			}
+			elec_max += generator.get_u32("elec_max");
 		}
+
+		this.set_u32("elec_max", elec_max);
 	}
-
-	u32 elec_max = 0;
-	for (u8 i = 0; i < input.length; i++)
-	{
-		CBlob@ generator = input[i];
-		if (generator is null) continue;
-		generator.set_u16("consume_id", this.getNetworkID());
-		u32 elec = this.get_u32("elec");
-		if (elec < this.get_u32("elec_max"))
-		{
-			u32 generator_elec = generator.get_u32("elec");
-			u32 res = elec + generator_elec;
-			if (res > this.get_u32("elec_max")) generator_elec -= res - this.get_u32("elec_max");
-
-			this.add_u32("elec", generator_elec);
-			this.Sync("elec", true);
-			generator.add_u32("elec", -generator_elec);
-			generator.Sync("elec", true);
-		}
-		elec_max += generator.get_u32("elec_max");
-	}
-
-	this.set_u32("elec_max", elec_max);
-}
+}	
 
 void onSetStatic(CBlob@ this, const bool isStatic)
-{
+{	
 	if (!isStatic) return;
-	
+
 	CSprite@ sprite = this.getSprite();
 	if (sprite is null) return;
-	
+
 	sprite.SetZ(-10);
-	
+
 	sprite.PlaySound("/build_door.ogg");
-}
+}	
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
