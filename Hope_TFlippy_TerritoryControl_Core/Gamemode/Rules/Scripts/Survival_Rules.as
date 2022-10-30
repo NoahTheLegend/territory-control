@@ -815,7 +815,7 @@ void Reset(CRules@ this)
 		}
 	}
 
-	string configstr = "ctf_vars.cfg";
+	string configstr = "Rules/CTF/ctf_vars.cfg";
 	ConfigFile cfg = ConfigFile(configstr);
 	if (cfg.read_s32("game_time") != -2)
 	{
