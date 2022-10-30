@@ -791,8 +791,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "beamtowermirror", "$icon_beamtowermirror$", "Solar panel (produces: 10-17; max: 500):\n\nGenerates a small amount of energy during the day.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 12);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 30);
 		b.buildOnGround = true;
 		b.size.Set(16, 24);
