@@ -628,7 +628,7 @@ void onTick(CBlob@ this)
                 this.set_u16("mat_fuel", 150);
                 this.set_u16("mat_copperwire", 100);
                 this.set_u16("mat_carbon", 150);
-                this.set_u16("mat_titaniumingot", 150);
+                this.set_u16("mat_titaniumingot", 100);
                 this.set_u16("lighter", 4);
                 this.set_u16("bp_energetics", 1);
             }
@@ -637,8 +637,8 @@ void onTick(CBlob@ this)
                 if (this.getSprite() !is null) this.getSprite().SetEmitSoundPaused(false);
                 this.set_u16("mat_ironingot", 150);
                 this.set_u16("mat_steelingot", 75);
-                this.set_u16("mat_copperingot", 750);
-                this.set_u16("mat_oil", 300);
+                this.set_u16("mat_copperingot", 400);
+                this.set_u16("mat_oil", 250);
                 this.set_u16("mat_copperwire", 150);
                 this.set_u16("mat_carbon", 150);
                 this.set_u16("mat_titaniumingot", 50);
@@ -646,11 +646,11 @@ void onTick(CBlob@ this)
             }
             else if (frameindex == 4)
             {
-                this.set_u16("mat_ironingot", 300);
-                this.set_u16("mat_steelingot", 150);
+                this.set_u16("mat_ironingot", 250);
+                this.set_u16("mat_steelingot", 125);
                 this.set_u16("mat_carbon", 350);
-                this.set_u16("mat_titaniumingot", 250);
-                this.set_u16("mat_concrete", 2000);
+                this.set_u16("mat_titaniumingot", 200);
+                this.set_u16("mat_concrete", 3000);
                 this.set_u16("wrench", 5);
             }
             else if (frameindex == 5)
