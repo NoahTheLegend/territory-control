@@ -4,6 +4,7 @@ void onInit(CBlob@ this)
     this.Tag("heavy weight");
 
     //SyncVars(this);
+    this.Tag("extractable");
 
     this.Tag("parachute");
     if (this.hasTag("asteroid")) this.set_string("destination", "asteroid");
