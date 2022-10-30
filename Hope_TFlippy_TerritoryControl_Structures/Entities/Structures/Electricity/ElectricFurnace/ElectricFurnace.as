@@ -75,7 +75,7 @@ void onTick(CBlob@ this)
 {
 	if (!this.get_bool("state") && this.hasTag("togglesupport")) return; // set this to stop structure
 	//printf("step "+this.get_u8("step")+" mp "+this.get_u8("multiplier"));
-	if (this.get_u8("step") == this.get_u8("multiplier") && this.get_u32("elec") > 500)
+	if (this.get_u8("step") == this.get_u8("multiplier") && this.get_u32("elec") > 1000)
 	{
 		for (u8 i = 0; i < 6; i++) // i < matNames.length
 		{

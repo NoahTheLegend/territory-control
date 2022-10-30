@@ -13,14 +13,14 @@ void onInit(CBlob@ this)
 
     if (name == "securitystation") // also taking energy on interacting with cards
     {
-        energy_consumption = 15;
+        energy_consumption = 5;
         max_energy = 500;
         consume_mod = 2;
         wire_offset = Vec2f(5.5, -9);
     }
     else if (name == "chickenassembler")
     {
-        energy_consumption = 30;
+        energy_consumption = 10;
         max_energy = 2000;
         consume_mod = 15;
         wire_offset = Vec2f(20, 8);
@@ -33,7 +33,7 @@ void onInit(CBlob@ this)
     }
     else if (name == "glider")
     {
-        energy_consumption = 3;
+        energy_consumption = 2;
         max_energy = 50;
     }
     else if (name == "vbarbedwire")
@@ -51,14 +51,14 @@ void onInit(CBlob@ this)
     }
     else if (name == "discshop")
     {
-        energy_consumption = 15;
+        energy_consumption = 5;
         max_energy = 300;
         consume_mod = 3;
         wire_offset = Vec2f(0, 8);
     }
     else if (name == "crusher")
     {
-        energy_consumption = 30;
+        energy_consumption = 10;
         max_energy = 1000;
         consume_mod = 5;
         wire_offset = Vec2f(0, 12); 
@@ -86,7 +86,7 @@ void onInit(CBlob@ this)
     }
     else if (name == "electricfurnace")
     {
-        energy_consumption = 50; // multiplied per every item when smelt
+        energy_consumption = 25; // multiplied per every item when smelt
         max_energy = 5000;
         consume_mod = 20;
         wire_offset = Vec2f(0, 8);
