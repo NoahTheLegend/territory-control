@@ -8,6 +8,20 @@ void onInit(CBlob@ this)
 	this.getShape().SetStatic(true);
 	
 	getRules().set_u8("map_type", MapType::dead);
+
+	this.Tag("infos");
+	if (isServer())
+	{
+		CBlob@[] infos;
+		getBlobsByTag("infos", @infos);
+		for (u8 i = 0; i < infos.length; i++)
+		{
+			CBlob@ b = infos[i];
+			if (b is null) continue;
+			if (b is this) continue;
+			b.server_Die();
+		}
+	}
 	
 	if (isServer())
 	{

@@ -28,6 +28,20 @@ void onInit(CBlob@ this)
 	
 	getRules().set_u8("map_type", MapType::jungle);
 
+	this.Tag("infos");
+	if (isServer())
+	{
+		CBlob@[] infos;
+		getBlobsByTag("infos", @infos);
+		for (u8 i = 0; i < infos.length; i++)
+		{
+			CBlob@ b = infos[i];
+			if (b is null) continue;
+			if (b is this) continue;
+			b.server_Die();
+		}
+	}
+
 	// Disabled to reduce lag
 	// if (isServer())
 	// {

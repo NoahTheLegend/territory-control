@@ -10,6 +10,20 @@ void onInit(CBlob@ this)
 	getRules().set_u8("map_type", MapType::desert);
 	Sound::Play("amogus.ogg");
 
+	this.Tag("infos");
+	if (isServer())
+	{
+		CBlob@[] infos;
+		getBlobsByTag("infos", @infos);
+		for (u8 i = 0; i < infos.length; i++)
+		{
+			CBlob@ b = infos[i];
+			if (b is null) continue;
+			if (b is this) continue;
+			b.server_Die();
+		}
+	}
+
 	if (isClient())
 	{
 		SetScreenFlash(255, 255, 255, 255);
