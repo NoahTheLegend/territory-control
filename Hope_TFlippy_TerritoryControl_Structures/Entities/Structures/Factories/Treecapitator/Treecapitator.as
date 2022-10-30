@@ -38,7 +38,7 @@ void onTick(CBlob@ this)
 		for (int i = 0; i < blobs.length; i++)
 		{
 			CBlob@ b = blobs[i];
-			if (b !is null && b.hasTag("nature"))
+			if (b !is null && (b.hasTag("nature") || b.getName() == "log"))
 			{
 				string bname = b.getName();
 
@@ -58,9 +58,9 @@ void onTick(CBlob@ this)
 				{
 					this.server_PutInInventory(b);
 				}
-				else if (/*bname == "pumpkin_plant" ||*/ bname == "ganja_plant" || bname == "grain_plant" )
+				else if (bname == "pumpkin_plant" || bname == "ganja_plant" || bname == "grain_plant" )
 				{
-					if (/*b.hasTag("has pumpkin") ||*/ b.hasTag("has pod") || b.hasTag("has grain"))
+					if (b.hasTag("has pumpkin") || b.hasTag("has pod") || b.hasTag("has grain"))
 					{
 						this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 0.5f, Hitters::saw);
 						this.server_Hit(this, this.getPosition(), Vec2f(0,0), 0.25f, Hitters::saw); // slightly break structure

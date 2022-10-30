@@ -4,7 +4,7 @@ void onInit(CBlob@ this)
 {
 	this.SetFacingLeft(XORRandom(2) == 0);
 
-	this.getCurrentScript().tickFrequency = 150;
+	this.getCurrentScript().tickFrequency = 45;
 	this.getSprite().SetZ(10.0f);
 
 	this.Tag("builder always hit");
