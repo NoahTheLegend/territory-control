@@ -788,7 +788,7 @@ string getRank(string &in username, SColor &out col, CPlayer@ p)
 		case -571333817: // NoahTheLegend
 		{
 			col = SColor(255, 75, 176, 223);
-			return "Hope TC Contributor";
+			return "Developer";
 		}
 		break;
 
