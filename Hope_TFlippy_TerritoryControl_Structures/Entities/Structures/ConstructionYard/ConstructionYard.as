@@ -274,8 +274,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Charge Drill", "$chargedrill$", "chargedrill", "$chargedrill$\n\n\n\n\n" + "A giant drill that is capable to dig giant tunnels.\n You can roll it while driving, press [DOWN] button.\nYou can reverse modes while driving, press [SPACEBAR] button.", false, false);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 6);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 20);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 20);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 12);
 		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 40);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1750);
@@ -288,9 +287,9 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Journalist copter", "$jourcopicon$", "jourcop", "$jourcopicon$\n\n\n\n\n\nWatch the battlefield dramas, but don't forget about the *birdies*!", false, true);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 28);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 12);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 6);
 		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 40);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
 		s.crate_icon = 0;
 		s.customButton = true;
