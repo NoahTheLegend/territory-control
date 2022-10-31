@@ -12,7 +12,7 @@ void onRender(CSprite@ this)
 	const f32 renderRadius = (blob.getRadius()) * 2.00f;
 	bool mouseOnBlob = (mouseWorld - center).getLength() < renderRadius;
 
-	if (mouseOnBlob)
+	if (mouseOnBlob && !blob.isInInventory())
 	{
 		string text = blob.get_string("text");
 		Vec2f pos = getDriver().getScreenPosFromWorldPos(this.getBlob().getPosition() + Vec2f(0, 8));
