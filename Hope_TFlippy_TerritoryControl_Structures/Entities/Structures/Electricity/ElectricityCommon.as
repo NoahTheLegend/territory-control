@@ -23,9 +23,10 @@ void onRender(CSprite@ this)
 		GUI::SetFont("menu");
         if (elec == 0 && blob.hasTag("generator"))
         {
-		    GUI::DrawTextCentered("Requires "+(blob.getName()!="beamtowermirror"?"fuel!":"more sun power!"), Vec2f(pos.x, pos.y + 50 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
+		    if (!blob.hasTag("no fuel hint")) GUI::DrawTextCentered("Requires "+(blob.getName()!="beamtowermirror"?"fuel!":"more sun power!"), Vec2f(pos.x, pos.y + 50 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
 		    if (blob.getName() == "generator") GUI::DrawTextCentered("(Wood or coal)", Vec2f(pos.x, pos.y + 65 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
             else if (blob.getName() == "lgenerator") GUI::DrawTextCentered("(Oil, methane or fuel)", Vec2f(pos.x, pos.y + 65 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
+            //else if (blob.getName() == "nuclearreactor") GUI::DrawTextCentered("(Enriched mithril)", Vec2f(pos.x, pos.y + 65 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
         }
         else
         {
