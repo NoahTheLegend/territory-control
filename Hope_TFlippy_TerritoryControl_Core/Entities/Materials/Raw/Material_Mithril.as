@@ -37,7 +37,7 @@ void onTick(CBlob@ this)
 			MakeParticle(this, mag);
 		}
 
-		if (isServer())
+		if (isServer() && !this.isAttached())
 		{
 			this.server_SetQuantity(this.getQuantity() - 2);
 			CMap@ map = getMap();

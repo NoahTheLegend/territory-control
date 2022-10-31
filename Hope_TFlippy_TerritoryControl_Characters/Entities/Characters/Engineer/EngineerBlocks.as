@@ -125,7 +125,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_chickenassembler$", "ChickenAssembler.png", Vec2f(56, 24), 0, teamnum);
 	AddIconToken("$icon_oiltank$","OilTank.png",Vec2f(32, 16), 0, teamnum);
 	AddIconToken("$icon_gastank$","GasTank.png",Vec2f(16, 24), 0, teamnum);
-	AddIconToken("$icon_chemlab$","ChemLab.png",Vec2f(48, 24), 0, teamnum);
+	AddIconToken("$icon_chemlab$","ChemLab.png",Vec2f(56, 24), 0, teamnum);
 	AddIconToken("$icon_itemtrasher$","ItemTrasher.png",Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$plasteelconveyor$", "PlasteelConveyor.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$plasteelfilter$", "PlasteelFilter.png", Vec2f(24, 8), 0, teamnum);
@@ -826,6 +826,17 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[3].push_back(b);
 	}
 	{
+		BuildBlock b(0, "nuclearreactor", "$nuclearreactor$", "Nuclear Reactor:\n\nGenerates a huge amount of electricity. Has a control panel with password check. Can be sabotaged.\n\nRequires enriched mithril as fuel, mithril also increases heat. Transforms enriched mithril into regular, with different yield.\n\nYou can set up a catalyzer or refrigerant into the utility slot (Also remove them with a wrench) to get certain modifications.\n\nExplodes with an insane power when heated up too much.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 150);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 40);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 150);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 30);
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(64, 48);
+		blocks[3].push_back(b);
+	}
+	{
 		BuildBlock b(0, "securitystation", "$icon_securitystation$", "Security Station:\n\nProvides remote control and linking of various security devices, such as blast doors and turrets.\n\nCreates a unique Security Card upon construction, which can be used to limit  control of devices exclusively to this machine.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 20);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 4);
@@ -833,26 +844,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "chickenassembler", "$icon_chickenassembler$", "UPF Assembly Line:\n\nA reverse-engineered assembly line used to manufacture some of the UPF products.");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 10);
-		AddRequirement(b.reqs, "blob", "bp_automation_advanced", "Blueprint (Advanced Automation)", 1);
-		b.buildOnGround = true;
-		b.size.Set(56, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "chemlab", "$icon_chemlab$", "Chemical Production Machine:\n\nA machine capable of manufacturing basic drugs and chemicals.");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 40);
-		AddRequirement(b.reqs, "blob", "bp_chemistry", "Blueprint (Chemistry)", 1);
-		b.buildOnGround = true;
-		b.size.Set(48, 24);
 		blocks[3].push_back(b);
 	}
 	{
@@ -879,6 +870,26 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 60);
 		b.buildOnGround = true;
 		b.size.Set(40, 32);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "chickenassembler", "$icon_chickenassembler$", "UPF Assembly Line:\n\nA reverse-engineered assembly line used to manufacture some of the UPF products.");
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 10);
+		AddRequirement(b.reqs, "blob", "bp_automation_advanced", "Blueprint (Advanced Automation)", 1);
+		b.buildOnGround = true;
+		b.size.Set(56, 24);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "chemlab", "$icon_chemlab$", "Chemical Production Machine:\n\nA machine capable of manufacturing basic drugs and chemicals.");
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 40);
+		AddRequirement(b.reqs, "blob", "bp_chemistry", "Blueprint (Chemistry)", 1);
+		b.buildOnGround = true;
+		b.size.Set(48, 24);
 		blocks[3].push_back(b);
 	}
 	{

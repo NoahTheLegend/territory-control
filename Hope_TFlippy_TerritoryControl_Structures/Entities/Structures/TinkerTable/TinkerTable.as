@@ -286,11 +286,36 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Catalyzer for Mithril Reactor", "$icon_catalyzer$", "catalyzer", "Increases reactor's irradiation just like if you put 75 of enriched mithril instead.");
+		ShopItem@ s = addShopItem(this, "Catalyzer for Reactors", "$icon_catalyzer$", "catalyzer", "Increases reactor's irradiation just like if you put 75 of enriched mithril instead.\nIncreases max. heat and explosive potential for big nuclear reactor, increases electricity output.\nSlightly destabilizes the reactor.");
 		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 50);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 5);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 5);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
+
+		s.customButton = true;
+		s.buttonwidth = 1;
+		s.buttonheight = 1;
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Refrigerant for Reactors", "$icon_refrigerant$", "refrigerant", "Decreases reactor's irradiation.\mIncreases mithril output in big nuclear reactor, slightly decreases electricity output.\nModerately stabilizes and cools down the reactor.");
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
+		AddRequirement(s.requirements, "blob", "bubblegem", "Bubble gem", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+
+		s.customButton = true;
+		s.buttonwidth = 1;
+		s.buttonheight = 1;
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Codebreaker", "$codebreaker$", "codebreaker", "Used for resetting password in reactor's console.\nTakes 30 seconds.");
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 
 		s.customButton = true;
 		s.buttonwidth = 1;
@@ -341,6 +366,7 @@ void addTokens(CBlob@ this)
 	AddIconToken("$icon_jetpackv2$", "JetpackV2.png", Vec2f(16, 16), 0, teamnum);
 	AddIconToken("$icon_catalyzer$", "Catalyzer.png", Vec2f(9, 11), 0, teamnum);
 	AddIconToken("$icon_drill$", "Drill.png", Vec2f(32, 16), 0, teamnum);
+	AddIconToken("$icon_refrigerant$", "RefrigerantIcon", Vec2f(8, 14), 0, teamnum);
 }
 
 void onTick(CBlob@ this)

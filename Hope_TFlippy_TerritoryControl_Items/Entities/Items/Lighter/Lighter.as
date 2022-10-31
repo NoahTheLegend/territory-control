@@ -13,6 +13,8 @@ void onInit(CBlob@ this)
 		ap.SetKeysToTake(key_action1 | key_action2);
 	}
 	
+	CSprite@ sprite = this.getSprite();
+	if (sprite !is null) sprite.getConsts().accurateLighting = false;
 	// this.getSprite().addAnimation("honk", 0, false);
 
 	this.set_bool("holding", false);
