@@ -26,6 +26,8 @@ void onInit(CBlob@ this)
 	this.set_u16("consume_id", 0);
 	this.set_Vec2f("wire_offset", Vec2f(0.5, 0));
 	this.set_bool("locked", true);
+
+	this.set_Vec2f("wire_offset", Vec2f(0, 12.0f));
 	
 	this.set_string("password", "");
 	this.set_bool("sabotage", false);
