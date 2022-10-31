@@ -139,8 +139,8 @@ void onTick(CBlob@ this)
 		}
 	}
 
-	moveVars.walkFactor *= 0.90f;
-	moveVars.jumpFactor *= 0.90f;
+	moveVars.walkFactor *= 1.1f;
+	moveVars.jumpFactor *= 1.2f;
 
 	if (knocked > 0)
 	{
