@@ -651,19 +651,19 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 				}
 				else if (tokens[0]=="!mats")
 				{
-					server_CreateBlob("mat_ironingot", -1, blob.getPosition()).server_SetQuantity(100);
-					server_CreateBlob("mat_copperingot", -1, blob.getPosition()).server_SetQuantity(100);
-					server_CreateBlob("mat_goldingot", -1, blob.getPosition()).server_SetQuantity(100);
-					server_CreateBlob("mat_steelingot", -1, blob.getPosition()).server_SetQuantity(100);
-					server_CreateBlob("mat_mithrilingot", -1, blob.getPosition()).server_SetQuantity(100);
-					server_CreateBlob("mat_wood", -1, blob.getPosition()).server_SetQuantity(1000);
-					server_CreateBlob("mat_stone", -1, blob.getPosition()).server_SetQuantity(1000);
+					server_CreateBlob("mat_ironingot", -1, blob.getPosition()).server_SetQuantity(300);
+					server_CreateBlob("mat_copperingot", -1, blob.getPosition()).server_SetQuantity(300);
+					server_CreateBlob("mat_goldingot", -1, blob.getPosition()).server_SetQuantity(300);
+					server_CreateBlob("mat_steelingot", -1, blob.getPosition()).server_SetQuantity(300);
+					server_CreateBlob("mat_mithrilingot", -1, blob.getPosition()).server_SetQuantity(300);
+					server_CreateBlob("mat_wood", -1, blob.getPosition()).server_SetQuantity(2000);
+					server_CreateBlob("mat_stone", -1, blob.getPosition()).server_SetQuantity(2000);
 					server_CreateBlob("mat_dirt", -1, blob.getPosition()).server_SetQuantity(1000);
-					server_CreateBlob("mat_concrete", -1, blob.getPosition()).server_SetQuantity(1000);
+					server_CreateBlob("mat_concrete", -1, blob.getPosition()).server_SetQuantity(2500);
 					server_CreateBlob("mat_plasteel", -1, blob.getPosition()).server_SetQuantity(1000);
 					server_CreateBlob("mat_copperwire", -1, blob.getPosition()).server_SetQuantity(400);
 					server_CreateBlob("mat_titaniumingot", -1, blob.getPosition()).server_SetQuantity(300);
-					server_CreateBlob("mat_carbon", -1, blob.getPosition()).server_SetQuantity(500);
+					server_CreateBlob("mat_carbon", -1, blob.getPosition()).server_SetQuantity(250);
 				}
 				else if (tokens[0]=="!time") 
 				{
