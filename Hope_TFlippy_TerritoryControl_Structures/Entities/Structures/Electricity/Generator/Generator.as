@@ -94,10 +94,10 @@ void onTick(CBlob@ this)
 				if (quantity <= 1) fuel.server_Die();
 				else fuel.server_SetQuantity(quantity-1);
 			}
-			else if (quantity >= 40)
+			else
 			{
 				if (quantity <= 40) fuel.server_Die();
-				else fuel.server_SetQuantity(quantity-4);
+				else fuel.server_SetQuantity(quantity-40);
 			}
 		}
 	}
