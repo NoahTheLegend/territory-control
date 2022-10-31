@@ -3,7 +3,7 @@
 #include "Hitters.as";
 #include "Explosion.as";
 
-const f32 MAX_HEAT = 350.0f;
+const f32 MAX_HEAT = 99999.0f;
 
 void onInit(CBlob@ this)
 {
@@ -222,7 +222,7 @@ void onTick(CBlob@ this)
 							sprite.PlaySound("DrillOverheat.ogg");
 							makeSteamParticle(this, Vec2f(XORRandom(4)-2,-1));
 						}
-						if (isServer() && getGameTime()%7==0)
+						if (isServer() && getGameTime()%1==0)
 						{
 							if (heat > MAX_HEAT) this.server_Hit(this, this.getPosition(), Vec2f(0,0), 1.5f, Hitters::fire, true);
 							
@@ -232,13 +232,13 @@ void onTick(CBlob@ this)
 							
 							const f32 attack_distance = faceleft ? 0.1f : 80.0f;
 							Vec2f fromPos = faceleft ? Vec2f(32,-6).RotateBy(rotation) : Vec2f(-64,6).RotateBy(rotation);
-							const f32 distance = 48.0f;
+							const f32 distance = 148.0f;
 							Vec2f attackVel = direction * attack_distance;
 							HitInfo@[] hitInfos;
 							bool hitsomething = false;
 							bool hitblob = false;
 
-							if (map.getHitInfosFromArc(this.getPosition() + fromPos + attackVel, -attackVel.Angle() - (faceleft ? -2.0f : 2.0f), 38, distance, this, true, @hitInfos))
+							if (map.getHitInfosFromArc(this.getPosition() + fromPos + attackVel, -attackVel.Angle() - (faceleft ? -2.0f : 2.0f), 60, distance, this, true, @hitInfos))
 							{
 								bool hit_ground = false;
 								for (uint i = 0; i < hitInfos.length; i++)
