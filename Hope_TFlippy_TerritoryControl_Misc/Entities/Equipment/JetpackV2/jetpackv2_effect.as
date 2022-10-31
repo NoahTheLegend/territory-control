@@ -46,7 +46,11 @@ void onTick(CBlob@ this)
 	bool shift = controls.isKeyPressed(KEY_LSHIFT) || controls.isKeyPressed(KEY_RSHIFT);
 	if (controls !is null) 
 		if (shift)
-			if (this.get_f32("fuel_count") > 0) this.set_f32("fuel_count", this.get_f32("fuel_count") - 3);
+			if (this.get_f32("fuel_count") > 0)
+			{
+				this.set_f32("fuel_count", this.get_f32("fuel_count") - 3);
+				if (this.get_f32("fuel_count") < 0) this.set_f32("fuel_count", 0);
+			}
 	if (this.get_u32("timer") > 0) this.set_u32("timer", this.get_u32("timer") - 1);
 	if (this.get_string("reload_script") == "jetpack")
 	{
