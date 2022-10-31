@@ -222,7 +222,7 @@ void onTick(CBlob@ this)
 							sprite.PlaySound("DrillOverheat.ogg");
 							makeSteamParticle(this, Vec2f(XORRandom(4)-2,-1));
 						}
-						if (isServer() && getGameTime()%10==0)
+						if (isServer() && getGameTime()%7==0)
 						{
 							if (heat > MAX_HEAT) this.server_Hit(this, this.getPosition(), Vec2f(0,0), 1.5f, Hitters::fire, true);
 							
