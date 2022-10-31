@@ -297,7 +297,7 @@ void onTick(CBlob@ this)
 
 		if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
 
-		if (isServer() && XORRandom(3) == 0)
+		if (isServer() && XORRandom(2) == 0)
 		{
 			fuel.server_SetQuantity(quantity-1);
 		}
