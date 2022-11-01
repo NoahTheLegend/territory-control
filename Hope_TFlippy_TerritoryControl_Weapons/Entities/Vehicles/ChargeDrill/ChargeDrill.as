@@ -162,7 +162,7 @@ void onTick(CBlob@ this)
 		this.setVelocity(Vec2f(this.getVelocity().x*0.5, this.getVelocity().y));
 	}
 
-	if (getGameTime()%10==0 && !this.hasTag("l1") && this.get_f32("heat") > 0) this.add_f32("heat", this.isInWater() ? -2.5f : -1.5f);
+	if (getGameTime()%6==0 && !this.hasTag("l1") && this.get_f32("heat") > 0) this.add_f32("heat", this.isInWater() ? -2.5f : -1.5f);
 
 	if (this.hasAttached() || this.getTickSinceCreated() < 30) //driver, seat or gunner, or just created
 	{
@@ -222,7 +222,7 @@ void onTick(CBlob@ this)
 							sprite.PlaySound("DrillOverheat.ogg");
 							makeSteamParticle(this, Vec2f(XORRandom(4)-2,-1));
 						}
-						if (isServer() && getGameTime()%7==0)
+						if (isServer() && getGameTime()%6==0)
 						{
 							if (heat > MAX_HEAT) this.server_Hit(this, this.getPosition(), Vec2f(0,0), 1.5f, Hitters::fire, true);
 							
