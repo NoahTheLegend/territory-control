@@ -15,7 +15,7 @@
 
 #include "ThrowCommon.as";
 
-const f32 DEFAULT_THROW_VEL = 6.0f;
+const f32 DEFAULT_THROW_VEL_CUSTOM = 6.0f;
 
 void onInit(CBlob@ this)
 {
@@ -34,7 +34,7 @@ void onInit(CBlob@ this)
 	this.set_f32("throw ourvel scale", 1.0f);
 }
 
-bool ActivateBlob(CBlob@ this, CBlob@ blob, Vec2f pos, Vec2f vector, Vec2f vel)
+bool ActivateBlob(CBlob@ this, CBlob@ blob, Vec2f pos, Vec2f vector, Vec2f vel, bool custom = true)
 {
 	bool shouldthrow = false;
 	bool done = false;
@@ -79,7 +79,7 @@ bool ActivateBlob(CBlob@ this, CBlob@ blob, Vec2f pos, Vec2f vector, Vec2f vel)
 	//throw it if it's already activated and not reactivatable
 	if (isServer() && !blob.hasTag("custom throw") && shouldthrow && this.getCarriedBlob() is blob)
 	{
-		DoThrow(this, blob, pos, vector, vel);
+		DoThrowCustom(this, blob, pos, vector, vel);
 		done = true;
 	}
 
@@ -96,7 +96,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		CBlob @carried = this.getCarriedBlob();
 		if (carried !is null)
 		{
-			ActivateBlob(this, carried, pos, vector, vel);
+			ActivateBlob(this, carried, pos, vector, vel, true);
 		}
 		// else // search in inv
 		// {
@@ -120,7 +120,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			if (isServer() && !carried.hasTag("custom throw"))
 			{
-				DoThrow(this, carried, pos, vector, vel);
+				DoThrowCustom(this, carried, pos, vector, vel);
 			}
 			//this.Tag( carried.getName() + " done throw" );
 		}
@@ -130,7 +130,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 // THROW
 
-void DoThrow(CBlob@ this, CBlob@ carried, Vec2f pos, Vec2f vector, Vec2f selfVelocity)
+void DoThrowCustom(CBlob@ this, CBlob@ carried, Vec2f pos, Vec2f vector, Vec2f selfVelocity)
 {
 	f32 ourvelscale = 0.0f;
 
@@ -139,7 +139,7 @@ void DoThrow(CBlob@ this, CBlob@ carried, Vec2f pos, Vec2f vector, Vec2f selfVel
 		ourvelscale = this.get_f32("throw ourvel scale");
 	}
 
-	Vec2f vel = getThrowVelocity(this, vector, selfVelocity, ourvelscale);
+	Vec2f vel = getThrowVelocityCustom(this, vector, selfVelocity, ourvelscale);
 
 	if (carried !is null)
 	{
@@ -175,11 +175,11 @@ void DoThrow(CBlob@ this, CBlob@ carried, Vec2f pos, Vec2f vector, Vec2f selfVel
 	}
 }
 
-Vec2f getThrowVelocity(CBlob@ this, Vec2f vector, Vec2f selfVelocity, f32 this_vel_affect = 0.1f)
+Vec2f getThrowVelocityCustom(CBlob@ this, Vec2f vector, Vec2f selfVelocity, f32 this_vel_affect = 0.1f)
 {
 	Vec2f vel = vector;
 	f32 len = vel.Normalize();
-	vel *= DEFAULT_THROW_VEL;
+	vel *= DEFAULT_THROW_VEL_CUSTOM;
 	vel *= this.get_f32("throw scale");
 	vel += selfVelocity * this_vel_affect; // blob velocity
 

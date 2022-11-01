@@ -141,6 +141,7 @@ namespace Descriptions
 	quarters                   = getTranslatedString("Place of merriment and healing"),
 	storagecache               = getTranslatedString("A Cache for storing your materials, items and armaments."),
 	quarry               	   = getTranslatedString("A Quarry intended to mine stone, fueled by wood."),
+	outpost                    = getTranslatedString("Outpost"),
 
 	//Quarters.as
 	beer                       = getTranslatedString("A refreshing mug of beer."),
