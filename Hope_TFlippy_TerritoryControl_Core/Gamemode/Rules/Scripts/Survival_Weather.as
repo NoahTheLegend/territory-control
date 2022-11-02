@@ -85,9 +85,10 @@ void updateEnvironment(CRules@ this)
 		u8 rand = XORRandom(100);
 
 		if (rand < 8) server_CreateBlob("info_dead", 255, Vec2f(0, 0));
-		else if (rand >= 8 && rand < 21) server_CreateBlob("info_jungle", 255, Vec2f(0, 0));
-		else if (rand >= 21 && rand < 40) server_CreateBlob("info_arctic", 255, Vec2f(0, 0));
-		else if (rand >= 40 && rand < 65) server_CreateBlob("info_desert", 255, Vec2f(0, 0));
+		else if (rand >= 8 && rand < 18) server_CreateBlob("info_jungle", 255, Vec2f(0, 0));
+		else if (rand >= 18 && rand < 33) server_CreateBlob("info_arctic", 255, Vec2f(0, 0));
+		else if (rand >= 33 && rand < 63) server_CreateBlob("info_desert", 255, Vec2f(0, 0));
+		else server_CreateBlob("info_forest", 255, Vec2f(0,0));
 	}
 	this.set_bool("updated", true);
 }
