@@ -5,7 +5,7 @@
 #include "MakeDustParticle.as";
 #include "RgbStuff.as";
 
-const f32 max_time = 3.00f;
+const f32 max_time = 12.00f;
 const f32 base_radius = 32.00f;
 
 void onInit(CBlob@ this)
