@@ -15,14 +15,14 @@ void onInit(CBlob@ this)
 	this.set_bool("map_damage_raycast", true);
 	this.set_Vec2f("explosion_offset", Vec2f(0, 0));
 
-	this.set_u8("stack size", 1);
+	this.set_u8("stack size", 2);
 	this.set_f32("bomb angle", 90);
 
 	this.Tag("map_damage_dirt");
 	this.Tag("explosive");
 	this.Tag("medium weight");
 
-	this.maxQuantity = 2;
+	this.maxQuantity = 1;
 }
 
 void onDie(CBlob@ this)
@@ -102,7 +102,7 @@ void DoExplosion(CBlob@ this)
 	this.set_f32("map_damage_radius", (40.0f + random) * modifier);
 	this.set_f32("map_damage_ratio", 0.25f);
 
-	Explode(this, 40.0f + random, 10.0f);
+	Explode(this, 32.0f + random, 8.0f);
 
 	for (int i = 0; i < 8 * modifier; i++) 
 	{

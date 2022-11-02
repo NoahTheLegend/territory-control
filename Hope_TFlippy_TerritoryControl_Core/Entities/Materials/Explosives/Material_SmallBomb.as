@@ -15,7 +15,7 @@ void onInit(CBlob@ this)
 	this.set_bool("map_damage_raycast", true);
 	this.set_Vec2f("explosion_offset", Vec2f(0, 16));
 
-	this.set_u8("stack size", 8);
+	this.set_u8("stack size", 4);
 	this.set_f32("bomb angle", 90);
 
 	// this.Tag("map_damage_dirt");
