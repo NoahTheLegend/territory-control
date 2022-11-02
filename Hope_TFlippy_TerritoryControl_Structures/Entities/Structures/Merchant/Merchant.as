@@ -150,15 +150,15 @@ void onInit(CBlob@ this)
 		}
 	}*/
 	{
-		u32 cost = getRandomCost(@rand, 250, 375);
-		ShopItem@ s = addShopItem(this, "Sell Pumpkin (1)", "$COIN$", "coin-" + cost, "Sell 1 pumpkin for " + cost + " coins.");
-		AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 1);
-		s.spawnNothing = true;
-	}
-	{
 		u32 cost = getRandomCost(@rand, 400, 600);
 		ShopItem@ s = addShopItem(this, "Sell Oil Drum (50 l)", "$COIN$", "coin-" + cost, "Sell 50 litres of oil for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "mat_oil", "Oil Drum (50 l)", 50);
+		s.spawnNothing = true;
+	}
+	{
+		u32 cost = getRandomCost(@rand, 1600, 2400);
+		ShopItem@ s = addShopItem(this, "Sell Oil Drum (200 l)", "$COIN$", "coin-" + cost, "Sell 50 litres of oil for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "mat_oil", "Oil Drum (200 l)", 200);
 		s.spawnNothing = true;
 	}
 	{
@@ -186,8 +186,26 @@ void onInit(CBlob@ this)
 	}
 	{
 		u32 cost = getRandomCost(@rand, 250, 375);
+		ShopItem@ s = addShopItem(this, "Sell Pumpkin (1)", "$COIN$", "coin-" + cost, "Sell 1 pumpkin for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 1);
+		s.spawnNothing = true;
+	}
+	{
+		u32 cost = getRandomCost(@rand, 1000, 1500);
+		ShopItem@ s = addShopItem(this, "Sell Pumpkin (4)", "$COIN$", "coin-" + cost, "Sell 4 pumpkin for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 4);
+		s.spawnNothing = true;
+	}
+	{
+		u32 cost = getRandomCost(@rand, 250, 375);
 		ShopItem@ s = addShopItem(this, "Sell ganja (10)", "$COIN$", "coin-" + cost, "Sell 10 ganja leaves for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 10);
+		s.spawnNothing = true;
+	}
+	{
+		u32 cost = getRandomCost(@rand, 1250, 1875);
+		ShopItem@ s = addShopItem(this, "Sell ganja (50)", "$COIN$", "coin-" + cost, "Sell 50 ganja leaves for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 50);
 		s.spawnNothing = true;
 	}
 	{
@@ -202,11 +220,6 @@ void onInit(CBlob@ this)
 			AddRequirement(s.requirements, "blob", "vodka", "Vodka.", 4);
 			s.spawnNothing = true;
 		}
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Gramophone Record", "$musicdisc$", "musicdisc", "A random gramophone record.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 30);
-		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Building for Dummies", "$artisancertificate$", "artisancertificate", "Simplified Builder manuscript for those dumb peasants.", true);
@@ -237,6 +250,11 @@ void onInit(CBlob@ this)
 		s.customButton = true;
 		s.buttonwidth = 1;
 		s.buttonheight = 1;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Gramophone Record", "$musicdisc$", "musicdisc", "A random gramophone record.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 30);
+		s.spawnNothing = true;
 	}
 	// {
 		// ShopItem@ s = addShopItem(this, "Sell Mystery Meat (50)", "$COIN$", "coin-50", "Sell 50 Mystery Meat for 50 coins.");
