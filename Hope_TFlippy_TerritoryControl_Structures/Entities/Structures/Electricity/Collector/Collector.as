@@ -1,4 +1,5 @@
 #include "Hitters.as";
+#include "MinableMatsCommon.as";
 
 const f32 ELECTRICITY_PICK_RADIUS = 64.0f;
 
@@ -13,6 +14,11 @@ void onInit(CBlob@ this)
 	this.getShape().getConsts().waterPasses = true;
 	
 	this.Tag("place norotate");
+
+	HarvestBlobMat[] mats = {}; //These numbers are the TOTAL amount of mats you get from mining the blob fully
+	mats.push_back(HarvestBlobMat(2.0f, "mat_steelingot")); //NO FILE
+	mats.push_back(HarvestBlobMat(10.0f, "mat_copperwire")); //NO FILE
+	this.set("minableMats", mats);
 
 	this.addCommandID("sync_prep");
 	this.addCommandID("sync");

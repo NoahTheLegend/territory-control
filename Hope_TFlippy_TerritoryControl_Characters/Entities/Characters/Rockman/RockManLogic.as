@@ -659,7 +659,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 		{
 			this.server_Pickup(anotherBlob);
 		}
-	}*/
+	}
 }
 
 void onAddToInventory(CBlob@ this, CBlob@ blob)
