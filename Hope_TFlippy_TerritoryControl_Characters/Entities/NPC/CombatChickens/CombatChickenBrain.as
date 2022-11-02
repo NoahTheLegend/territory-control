@@ -31,6 +31,7 @@ void onTick(CBrain@ this)
 	
 	CBlob@ blob = this.getBlob();
 	if (getKnocked(blob) > 0) return;
+	if (blob !is null && blob.hasTag("dead")) return;
 	
 	if (blob.getPlayer() !is null) return;
 	

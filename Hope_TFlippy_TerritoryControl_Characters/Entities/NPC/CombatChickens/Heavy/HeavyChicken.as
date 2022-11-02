@@ -303,9 +303,7 @@ void onTick(CBlob@ this)
 		moveVars.jumpFactor *= 1.30f;
 	}
 
-	if (getGameTime() % 30 == 0) this.set_u8("mode", 0);
-
-	if (this.getHealth() < 0.0 && this.hasTag("dead"))
+	if (this.getHealth() < 3.0 && this.hasTag("dead"))
 	{
 		this.getSprite().PlaySound("Wilhelm.ogg", 1.8f, 1.8f);
 
@@ -319,6 +317,7 @@ void onTick(CBlob@ this)
 			{
 				carried.server_DetachFrom(this);
 			}
+			this.server_SetHealth(20.0f);
 		}
 
 		this.getCurrentScript().runFlags |= Script::remove_after_this;
@@ -332,7 +331,7 @@ void onTick(CBlob@ this)
 			this.set_u32("next sound", getGameTime() + 100);
 		}
 	}
-
+	
 	if (this.isMyPlayer())
 	{
 		if (this.isKeyJustPressed(key_action3))

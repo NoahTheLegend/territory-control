@@ -302,16 +302,13 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			}
 			else if (name.findFirst("tip") != -1)
 			{
-				if (isServer())
+				CBlob@ paper = server_CreateBlobNoInit("paper");
+				if (paper !is null)
 				{
-					CBlob@ paper = server_CreateBlobNoInit("paper");
-					if (paper !is null)
-					{
-						paper.server_setTeamNum(255);
-						paper.set_string("text", tips[XORRandom(tips.length)]);
-						paper.Sync("text", true);
-						callerBlob.server_PutInInventory(paper);
-					}
+					paper.server_setTeamNum(255);
+					paper.set_string("text", tips[XORRandom(tips.length)]);
+					paper.Sync("text", true);
+					callerBlob.server_PutInInventory(paper);
 				}
 			}
 			else

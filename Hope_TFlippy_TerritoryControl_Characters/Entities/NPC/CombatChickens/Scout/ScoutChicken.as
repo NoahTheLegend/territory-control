@@ -1,6 +1,7 @@
 // Princess brain
 
 #include "Hitters.as";
+#include "HittersTC.as";
 #include "Explosion.as";
 #include "FireParticle.as"
 #include "FireCommon.as";
@@ -178,7 +179,7 @@ void onTick(CBlob@ this)
 		moveVars.jumpFactor *= 1.80f;
 	}
 
-	if (this.getHealth() < 0.0 && this.hasTag("dead"))
+	if (this.getHealth() < 3.0 && this.hasTag("dead"))
 	{
 		this.getSprite().PlaySound("Wilhelm.ogg", 1.8f, 1.8f);
 
@@ -192,6 +193,7 @@ void onTick(CBlob@ this)
 			{
 				carried.server_DetachFrom(this);
 			}
+			this.server_SetHealth(20.0f);
 		}
 
 		this.getCurrentScript().runFlags |= Script::remove_after_this;

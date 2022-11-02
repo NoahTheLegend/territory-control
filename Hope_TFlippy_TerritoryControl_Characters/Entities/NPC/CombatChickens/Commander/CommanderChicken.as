@@ -1,6 +1,7 @@
 // Princess brain
 
 #include "Hitters.as";
+#include "HittersTC.as";
 #include "Explosion.as";
 #include "FireParticle.as"
 #include "FireCommon.as";
@@ -187,15 +188,15 @@ void onTick(CBlob@ this)
 	{
 		if (!fakeweapons[i].isAttached() && fakeweapons[i] !is null) fakeweapons[i].server_Die();
 	}
-	
+
 	RunnerMoveVars@ moveVars;
 	if (this.get("moveVars", @moveVars))
 	{
-		moveVars.walkFactor *= 1.15f;
-		moveVars.jumpFactor *= 1.50f;
+		moveVars.walkFactor *= 1.10f;
+		moveVars.jumpFactor *= 1.30f;
 	}
 
-	if (this.getHealth() < 0.0 && this.hasTag("dead"))
+	if (this.getHealth() < 3.0 && this.hasTag("dead"))
 	{
 		this.getSprite().PlaySound("Wilhelm.ogg", 1.8f, 1.8f);
 
@@ -209,17 +210,10 @@ void onTick(CBlob@ this)
 			{
 				carried.server_DetachFrom(this);
 			}
+			this.server_SetHealth(20.0f);
 		}
 
 		this.getCurrentScript().runFlags |= Script::remove_after_this;
-	}
-
-	if (this.isMyPlayer())
-	{
-		if (this.isKeyJustPressed(key_action3))
-		{
-			client_SendThrowOrActivateCommand(this);
-		}
 	}
 
 	if (isServer())
@@ -249,9 +243,9 @@ void onTick(CBlob@ this)
 						stream.write_u16(base.getNetworkID());
 						this.SendCommand(this.getCommandID("commander_order_recon_squad"), stream);
 
-						for (int i = 0; i < 3; i++)
+						for (int i = 0; i < 4; i++)
 						{
-							CBlob@ blob = server_MakeCrateOnParachute("scoutchicken", "SpaceStar Ordering Recon Squad", 0, 250, Vec2f(initial_position_x + (64 - XORRandom(128)), XORRandom(32)));
+							CBlob@ blob = server_MakeCrateOnParachute(XORRandom(2) == 0 ? "soldierchicken" : "scoutchicken", "SpaceStar Ordering Recon Squad", 0, 250, Vec2f(initial_position_x + (64 - XORRandom(128)), XORRandom(32)));
 							blob.Tag("unpack on land");
 							blob.Tag("destroy on touch");
 						}
@@ -274,6 +268,14 @@ void onTick(CBlob@ this)
 			this.set_u32("next sound", getGameTime() + 100);
 		}
 	}
+	
+	if (this.isMyPlayer())
+	{
+		if (this.isKeyJustPressed(key_action3))
+		{
+			client_SendThrowOrActivateCommand(this);
+		}
+	}
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
@@ -287,7 +289,16 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		}
 	}
 
+	if (customData == Hitters::explosion) return damage * 0.175f;
+
 	return damage;
+}
+
+bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
+{
+	if (this.getPlayer() is null)
+		return this.getTeamNum() != blob.getTeamNum();
+	else return true;
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
@@ -319,9 +330,3 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	}
 }
 
-bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
-{
-	if (this.getPlayer() is null)
-		return this.getTeamNum() != blob.getTeamNum();
-	else return true;
-}
