@@ -559,7 +559,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (caller is null) return;
 
 		this.set_bool("codebreaking", !this.get_bool("codebreaking"));
-		this.set_u32("codebreaking_time", getGameTime()+30*30); // 30 seconds
+		this.set_u32("codebreaking_time", getGameTime()+30*15); // 15 seconds
 		if (!this.get_bool("codebreaking")) this.set_u32("codebreaking_time", 0);
 
 		this.getSprite().PlaySound(this.get_bool("codebreaking") ? "Security_TurnOn" : "Security_TurnOff", 0.30f, 1.00f);
