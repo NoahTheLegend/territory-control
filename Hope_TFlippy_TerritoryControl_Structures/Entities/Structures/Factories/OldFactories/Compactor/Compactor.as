@@ -1,8 +1,8 @@
 ﻿#include "MakeMat.as";
 #include "Requirements.as";
 
-const u16 MAX_LOOP = 10; // what you get for breaking it
-const u16 LOOP_RNG = 40; // variation on what will spawn if broken 
+const u16 MAX_LOOP = 5; // what you get for breaking it
+const u16 LOOP_RNG = 10; // variation on what will spawn if broken 
 
 void onInit(CSprite@ this)
 {
