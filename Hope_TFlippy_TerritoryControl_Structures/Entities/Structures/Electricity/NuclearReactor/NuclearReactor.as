@@ -218,6 +218,14 @@ void onTick(CBlob@ this)
 				if (irradiation < max_irradiation/10) frame = 0;
 				else if (irradiation < max_irradiation/5) frame = 1;
 				else if (irradiation < max_irradiation/1.5) frame = 2;
+				if (frame > 0)
+				{
+					f32 vol = 0.25f;
+					if (frame > 1) vol = 0.75f;
+					else if (frame > 2) vol = 2.0f;
+					for (u8 i = 0; i < frame; i++)
+						Sound::Play("geiger" + XORRandom(3) + ".ogg", this.getPosition(), vol, 1.0f+0.025f*frame);
+				}
 				console.SetFrameIndex(frame);
 			}
 			
