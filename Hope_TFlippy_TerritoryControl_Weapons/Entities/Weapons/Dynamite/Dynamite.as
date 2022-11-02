@@ -29,7 +29,7 @@ void onInit(CBlob@ this)
 	this.set_f32("hitmap_chance", hitmap_chance);
 
 	 // To compensate for explosions dealing higher tile damage
-	this.set_f32("mining_multiplier", (1.25f / hitmap_chance) * 2.00f);
+	this.set_f32("mining_multiplier", (1.25f / hitmap_chance) * 1.65f);
 }
 
 void onTick(CSprite@ this)
