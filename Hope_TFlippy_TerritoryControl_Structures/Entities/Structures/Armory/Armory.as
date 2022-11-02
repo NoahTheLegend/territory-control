@@ -53,9 +53,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Soldier uniform", "$icon_suitofarmor$", "suitofarmor", "A suit of armor that offers you mobility. Has good knife for self defense if you happen to lose your gun.");
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 20);
-		AddRequirement(s.requirements, "coin", "", "Coins", 750);
+		ShopItem@ s = addShopItem(this, "Soldier uniform", "$icon_suitofarmor$", "suitofarmor", "A suit of armor that offers you mobility. Has a good knife for self defense if you happen to lose your gun.\nHas extra resistance to bullets.");
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 		
 		s.spawnNothing = true;
 	}

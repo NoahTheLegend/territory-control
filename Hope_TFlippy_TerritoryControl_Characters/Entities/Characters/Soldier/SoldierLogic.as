@@ -394,7 +394,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		
 		case HittersTC::bullet_high_cal:
 		case HittersTC::shotgun:
-			damage *= 0.900f;
+			damage *= 0.850f;
 			break;
 		
 		case HittersTC::railgun_lance:
