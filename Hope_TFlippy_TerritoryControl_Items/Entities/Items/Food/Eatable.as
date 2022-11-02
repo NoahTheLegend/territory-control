@@ -14,7 +14,7 @@ void onInit(CBlob@ this)
 	{
 		// heart
 		case 246031843:	
-			this.maxQuantity = 1;
+			this.maxQuantity = 3;
 			break;
 		// cake
 		case -1964341159:
@@ -50,11 +50,11 @@ void onInit(CBlob@ this)
 			break;
 		// icecream
 		case 258075966:	
-			this.maxQuantity = 1;
+			this.maxQuantity = 2;
 			break;
 		// doritos
 		case 739538537:	
-			this.maxQuantity = 2;
+			this.maxQuantity = 4;
 			break;
 	}
 
