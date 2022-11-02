@@ -53,17 +53,17 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Soldier uniform", "$icon_suitofarmor$", "suitofarmor", "A suit of armor that offers you mobility. Has a good knife for self defense if you happen to lose your gun.\nHas extra resistance to bullets.");
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
+		ShopItem@ s = addShopItem(this, "Night Vision Device (NVD)", "$nvd$", "nvd", "Night vision googles fixed on a military helmet.\nRequires mithril.\n\nHold mithril and press [E]\nYou can also toggle it.");
+		AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
+		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 50);
 		AddRequirement(s.requirements, "coin", "", "Coins", 250);
-		
+	
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Royal Guard Armor", "$icon_royalarmor$", "royalarmor", "A heavy armor that offers high damage resistance at cost of low mobility. Has a shield which is tough enough to block bullets.");
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 2);
-		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+		ShopItem@ s = addShopItem(this, "Repair Night Vision Device", "$nvd$", "nvd", "Repair NVD.");
+		AddRequirement(s.requirements, "blob", "nvd", "Night Vision Device", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 75);
 
 		s.spawnNothing = true;
 	}
@@ -89,10 +89,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Truncheon", "$icon_nightstick$", "nightstick", "A traditional tool used by seal clubbing clubs.");
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
-
+		ShopItem@ s = addShopItem(this, "Bushy Helm", "$bush$", "bushyhelm", "Add bush camo to helm.");
+		AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
+	
 		s.spawnNothing = true;
 	}
 	{
@@ -118,39 +117,30 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Slavemaster's Kit", "$icon_shackles$", "shackles", "A kit containing shackles, shiny iron ball, elegant striped pants, noisy chains and a slice of cheese.");
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
-
-		s.spawnNothing = true;
-	}
-	//{
-	//	ShopItem@ s = addShopItem(this, "Bushy Helm", "$bush$", "bushyhelm", "Add bush camo to helm.");
-	//	AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
-	//	AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
-	//	AddRequirement(s.requirements, "coin", "", "Coins", 125);
-	//
-	//	s.spawnNothing = true;
-	//}
-	{
-		ShopItem@ s = addShopItem(this, "Night Vision Device (NVD)", "$nvd$", "nvd", "Night vision googles fixed on a military helmet.\nRequires mithril.\n\nHold mithril and press [E]\nYou can also toggle it.");
-		AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
-		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 50);
-		AddRequirement(s.requirements, "coin", "", "Coins", 250);
-	
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Repair Night Vision Device", "$nvd$", "nvd", "Repair NVD.");
-		AddRequirement(s.requirements, "blob", "nvd", "Night Vision Device", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
-
-		s.spawnNothing = true;
-	}
-	{
 		ShopItem@ s = addShopItem(this, "Repair Jump Shoes", "$jumpshoes$", "jumpshoes", "Repair jump shoes.");
 		AddRequirement(s.requirements, "blob", "jumpshoes", "Jump Shoes", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Truncheon", "$icon_nightstick$", "nightstick", "A traditional tool used by seal clubbing clubs.");
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
 		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Slavemaster's Kit", "$icon_shackles$", "shackles", "A kit containing shackles, shiny iron ball, elegant striped pants, noisy chains and a slice of cheese.");
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Master's Slavemaster's Kit", "$goldenshackles$", "goldenshackles", "Just shackles, but the slave will work hard.");
+		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 
 		s.spawnNothing = true;
 	}
@@ -345,10 +335,15 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			else
 			{
 				string blobName = spl[0];
-				if (blobName == "bushyhelm") blobName = "militaryhelmet";
+				bool mask = false;
+				if (blobName == "bushyhelm")
+				{
+					blobName = "militaryhelmet";
+					mask = true;
+				}
 
 				CBlob@ blob = server_CreateBlob(blobName, callerBlob.getTeamNum(), this.getPosition());
-				if (spl[0] == "bushyhelm") blob.Tag("bushy");
+				if (mask) blob.Tag("bushy");
 
 				if (blob is null && callerBlob is null) return;
 

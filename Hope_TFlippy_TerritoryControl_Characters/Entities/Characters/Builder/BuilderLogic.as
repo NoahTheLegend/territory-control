@@ -52,7 +52,7 @@ void onInit(CBlob@ this)
 		this.set_f32("mining_multiplier", 1.1f);
 		this.set_u8("mining_hardness", 4);
 		this.set_f32("max_build_length", 9.00f);
-		this.set_u32("build delay", 3);
+		this.set_u32("build delay", 2);
 		this.set_f32("pickaxe_distance", 24.0f);
 	}
 	

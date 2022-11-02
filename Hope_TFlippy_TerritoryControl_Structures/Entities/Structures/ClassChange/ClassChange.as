@@ -89,7 +89,11 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Ancient Weaboo Scroll", "$ninjascroll$", "ninjascroll", "An ancient scroll with ninja codex and techniques.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 3750);
+		AddRequirement(s.requirements, "coin", "", "Coins", 4000);
+		AddRequirement(s.requirements, "blob", "log", "Log", 1);
+		AddRequirement(s.requirements, "blob", "klaxon", "klaxon", 1);
+		AddRequirement(s.requirements, "blob", "animalbox", "Animal box", 1);
+		AddRequirement(s.requirements, "blob", "bobomax", "Bobomax", 1);
 
 		s.spawnNothing = true;
 	}
