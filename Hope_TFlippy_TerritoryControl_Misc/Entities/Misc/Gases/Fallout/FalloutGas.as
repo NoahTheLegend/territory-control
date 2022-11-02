@@ -13,7 +13,7 @@ void onInit(CBlob@ this)
 	this.getSprite().SetZ(10.0f);
 
 	this.SetMapEdgeFlags(CBlob::map_collide_sides);
-	this.getCurrentScript().tickFrequency = 5;
+	this.getCurrentScript().tickFrequency = 8;
 
 	this.getSprite().RotateBy(90 * XORRandom(4), Vec2f());
 
