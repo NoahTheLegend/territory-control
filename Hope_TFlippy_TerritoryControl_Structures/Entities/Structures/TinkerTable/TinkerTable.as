@@ -56,14 +56,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Copper Wire (10)", "$mat_copperwire$", "mat_copperwire-10", "A bundle of copper wires. Kids' favourite toy.");
-		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 5);
-
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Copper Wire (100)", "$mat_copperwire$", "mat_copperwire-100", "A thick bundle of copper wires. Kids' favourite toy.");
-		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 50);
+		ShopItem@ s = addShopItem(this, "Copper Wire (20)", "$mat_copperwire$", "mat_copperwire-20", "A bundle of copper wires. Kids' favourite toy.");
+		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 10);
 
 		s.spawnNothing = true;
 	}
@@ -71,6 +65,12 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Mustard Gas", "$icon_mustard$", "mat_mustard-50", "A bottle of a highly poisonous gas. Causes blisters, blindness and lung damage.");
 		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 50);
 		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Backpack", "$icon_backpack$", "backpack", "A large leather backpack that can be equipped and used as an inventory.\nOccupies the Torso slot");
+		AddRequirement(s.requirements, "coin", "", "Coins", 150);
 
 		s.spawnNothing = true;
 	}
@@ -136,12 +136,6 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Backpack", "$icon_backpack$", "backpack", "A large leather backpack that can be equipped and used as an inventory.\nOccupies the Torso slot");
-		AddRequirement(s.requirements, "coin", "", "Coins", 150);
-
-		s.spawnNothing = true;
-	}
-	{
 		ShopItem@ s = addShopItem(this, "Rocket Pack", "$icon_jetpack$", "jetpack", "A small rocket-propelled backpack.\nOccupies the Torso slot.\nPress [Shift] to jump!");
 		AddRequirement(s.requirements, "blob", "mat_smallrocket", "Small Rocket", 2);
 		AddRequirement(s.requirements, "blob", "mat_oil", "Oil", 50);
@@ -157,15 +151,15 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
-	//{
-	//	ShopItem@ s = addShopItem(this, "Money Generating Boots", "$moneygenboots$", "moneygenboots", "Boots that produce money while walking.\nOccupies the boots slot.\nNeeds coal or wood to make money.");
-	//	AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
-	//	AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 25);
-	//	AddRequirement(s.requirements, "blob", "kitten", "Kitten", 2);
-	//	AddRequirement(s.requirements, "coin", "", "Coins", 250);
+	{
+		ShopItem@ s = addShopItem(this, "Money Generating Boots", "$moneygenboots$", "moneygenboots", "Boots that produce money while walking.\nOccupies the boots slot.\nNeeds coal or wood to make money.");
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
+		AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 25);
+		AddRequirement(s.requirements, "blob", "kitten", "Kitten", 2);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
-	//	s.spawnNothing = true;
-	//}
+		s.spawnNothing = true;
+	}
 	// {
 	// 	ShopItem@ s = addShopItem(this, "Miner's Helmet", "$icon_minershelmet$", "minershelmet", "Turns you into an illuminati miner.\nOccupies the Head slot");
 	// 	AddRequirement(s.requirements, "blob", "lantern", "Lantern", 1);

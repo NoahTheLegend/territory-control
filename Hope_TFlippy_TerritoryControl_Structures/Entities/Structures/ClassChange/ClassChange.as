@@ -35,7 +35,7 @@ void onInit(CBlob@ this)
 
 	this.set_Vec2f("shop offset", Vec2f(0,0));
 	this.set_Vec2f("shop menu size", Vec2f(4, 3));
-	this.set_string("shop description", "Garderobe");
+	this.set_string("shop description", "Wardrobe");
 	this.set_u8("shop icon", 15);
 
 	{
