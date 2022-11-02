@@ -15,7 +15,7 @@ void onInit(CBlob@ this)
 	this.set_bool("map_damage_raycast", true);
 	this.set_Vec2f("explosion_offset", Vec2f(0, 16));
 
-	this.set_u8("stack size", 4);
+	this.set_u8("stack size", 1);
 	this.set_f32("bomb angle", 90);
 
 	// this.Tag("map_damage_dirt");
@@ -23,7 +23,7 @@ void onInit(CBlob@ this)
 	this.Tag("explosive");
 	this.Tag("medium weight");
 
-	this.maxQuantity = 8;
+	this.maxQuantity = 4;
 }
 
 void onDie(CBlob@ this)
