@@ -195,7 +195,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Spotter Airplane", "$icon_triplane$", "triplane", "$icon_triplane$\n\n\n\n" + "A fast airplane used for scouting and light bombing.\n\n[W]/[D] to accelerate\n[LMB] to shoot\n[Space] to drop items out of inventory\n[C] to leave", false, true);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 6);
 		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
 		s.crate_icon = 14;

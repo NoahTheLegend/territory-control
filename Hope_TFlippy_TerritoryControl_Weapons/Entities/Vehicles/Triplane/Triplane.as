@@ -26,7 +26,7 @@ void onInit(CBlob@ this)
 	settings.B_GRAV = Vec2f(0, 0.006); //Bullet Gravity
 	settings.B_TTL = 11; //Bullet Time to live
 	settings.B_SPEED = 70; //Bullet speed
-	settings.B_DAMAGE = 2.0f; //Bullet damage
+	settings.B_DAMAGE = 2.5f; //Bullet damage
 	settings.G_RECOIL = 0;
 	settings.FIRE_SOUND = "GatlingGun-Shoot0.ogg";
 	settings.MUZZLE_OFFSET = Vec2f(-38, 8.5); //Where muzzle flash and bullet spawn
@@ -227,7 +227,7 @@ void Shoot(CBlob@ this)
 	if (isServer())
 	{
 		// Angle shittery
-		f32 angle = this.getAngleDegrees() + ((XORRandom(500) - 100) / 100.0f);
+		f32 angle = this.getAngleDegrees() + ((XORRandom(500) - 100) / 100.0f) + (this.isFacingLeft() ? -10.0f : 10.0f);
 
 		// Muzzle
 		Vec2f fromBarrel = Vec2f((settings.MUZZLE_OFFSET.x / 3) * (this.isFacingLeft() ? 1 : -1), settings.MUZZLE_OFFSET.y + 1);
@@ -311,14 +311,14 @@ void onDie(CBlob@ this)
 void onCollision(CBlob@ this,CBlob@ blob,bool solid)
 {
 	float power = this.getOldVelocity().getLength();
-	if (power > 5.0f && blob == null)
+	if (power > 15.0f && blob == null)
 	{
 		if (isClient())
 		{
 			Sound::Play("WoodHeavyHit1.ogg", this.getPosition(), 1.0f);
 		}
 
-		this.server_Hit(this, this.getPosition(), Vec2f(0, 0), (this.getAttachments().getAttachmentPointByName("FLYER") is null || this.getHealth() < 10.0f) ? power * 2.5f : power * 0.0050f, 0, true);
+		this.server_Hit(this, this.getPosition(), Vec2f(0, 0), (this.getAttachments().getAttachmentPointByName("FLYER") is null || this.getHealth() < 10.0f) ? power * 1.25: power * 0.0050f, 0, true);
 	}
 }
 
