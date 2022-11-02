@@ -68,7 +68,7 @@ void onTick(CBlob@ this)
 	if (this.isInWater())
 	{
 		RunnerMoveVars@ moveVars;
-		if (this.get("moveVars", @moveVars))
+		if (this.get("moveVars", @moveVars) && !this.hasScript("flippers_effect.as"))
 		{
 			CBlob@ fishie = this.getCarriedBlob();
 			if (fishie !is null && fishie.getName() == "fishy")
