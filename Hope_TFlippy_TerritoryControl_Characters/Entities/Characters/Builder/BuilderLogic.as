@@ -47,6 +47,15 @@ void onInit(CBlob@ this)
 	if (!this.exists("max_build_length")) this.set_f32("max_build_length", 4.00f);
 	if (!this.exists("build delay")) this.set_u32("build delay", 4);
 	
+	if (this.getName() == "advancedengineer")
+	{
+		this.set_f32("mining_multiplier", 1.1f);
+		this.set_u8("mining_hardness", 4);
+		this.set_f32("max_build_length", 9.00f);
+		this.set_u32("build delay", 3);
+		this.set_f32("pickaxe_distance", 24.0f);
+	}
+	
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().removeIfTag = "dead";
 	
@@ -120,8 +129,16 @@ void onTick(CBlob@ this)
 		RunnerMoveVars@ moveVars;
 		if(this.get("moveVars", @moveVars))
 		{
-			moveVars.walkFactor = 0.5f;
-			moveVars.jumpFactor = 0.5f;
+			if (this.getName() != "advancedengineer")
+			{
+				moveVars.walkFactor = 0.5f;
+				moveVars.jumpFactor = 0.5f;
+			}
+			else
+			{
+				moveVars.walkFactor = 0.85f;
+				moveVars.jumpFactor = 0.65f;
+			}
 		}
 	}
 
@@ -493,6 +510,7 @@ void Pickaxe(CBlob@ this)
 void SortHits(CBlob@ this, HitInfo@[]@ hitInfos, f32 damage, SortHitsParams@ p)
 {
 	//HitInfo objects are sorted, first come closest hits
+	if (this.getName() == "advancedengineer") damage = 1.5f;
 	for (uint i = 0; i < hitInfos.length; i++)
 	{
 		HitInfo@ hi = hitInfos[i];
