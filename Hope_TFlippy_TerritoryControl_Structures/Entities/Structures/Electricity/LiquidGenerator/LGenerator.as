@@ -1,5 +1,5 @@
 ﻿const u32 ELECTRICITY_MAX = 4500;
-const u32 ELECTRICITY_PROD = 300;
+const u32 ELECTRICITY_PROD = 250;
 
 void onInit(CBlob@ this)
 {
@@ -134,6 +134,29 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			u32 elec;
             if (!params.saferead_u32(elec)) return;
 			this.set_u32("elec", elec);
+		}
+	}
+}
+
+const string[] matNames = { 
+	"mat_oil",
+	"mat_fuel"
+};
+
+void onCollision(CBlob@ this, CBlob@ blob, bool solid)
+{
+	if (blob is null) return;
+	
+	if (!blob.isAttached() && blob.hasTag("material"))
+	{
+		string config = blob.getName();
+		for (int i = 0; i < matNames.length; i++)
+		{
+			if (config == matNames[i])
+			{
+				if (isServer()) this.server_PutInInventory(blob);
+				if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
+			}
 		}
 	}
 }

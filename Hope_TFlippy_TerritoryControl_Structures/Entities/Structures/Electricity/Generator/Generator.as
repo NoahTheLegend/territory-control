@@ -125,3 +125,26 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		}
 	}
 }
+
+const string[] matNames = { 
+	"mat_wood",
+	"mat_coal"
+};
+
+void onCollision(CBlob@ this, CBlob@ blob, bool solid)
+{
+	if (blob is null) return;
+	
+	if (!blob.isAttached() && blob.hasTag("material"))
+	{
+		string config = blob.getName();
+		for (int i = 0; i < matNames.length; i++)
+		{
+			if (config == matNames[i])
+			{
+				if (isServer()) this.server_PutInInventory(blob);
+				if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
+			}
+		}
+	}
+}
