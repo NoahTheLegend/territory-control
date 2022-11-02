@@ -74,7 +74,8 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Terdla's Bubble Gem", "$bubble_gem$", "bubblegem", "A useless pretty blue gem! May cause hiccups");
-		AddRequirement(s.requirements, "coin", "", "Coins", 200);
+		AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 		s.spawnNothing = true;
 	}
 	{
