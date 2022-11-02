@@ -74,7 +74,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 8));
-	this.set_Vec2f("shop menu size", Vec2f(6, 2));
+	this.set_Vec2f("shop menu size", Vec2f(6, 3));
 	this.set_string("shop description", "Coalville Mining Company");
 	
 	if (this.hasTag("name_changed"))
@@ -85,6 +85,7 @@ void onInit(CBlob@ this)
 	
 	this.set_u8("shop icon", 25);
 
+	// BUY
 	{
 		ShopItem@ s = addShopItem(this, "Buy Dirt (50)", "$mat_dirt$", "mat_dirt-50", "Buy 50 Dirt for 50 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 50);
@@ -115,6 +116,7 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "coin", "", "Coins", 150);
 		s.spawnNothing = true;
 	}
+	// BUY MORE
 	{
 		ShopItem@ s = addShopItem(this, "Buy Dirt (500)", "$mat_dirt$", "mat_dirt-500", "Buy 500 Dirt for 500 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
@@ -143,6 +145,37 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Buy Sulphur (500)", "$mat_sulphur$", "mat_sulphur-500", "Buy 500 Sulphur for 1500 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
+		s.spawnNothing = true;
+	}
+	// SELL
+	{
+		ShopItem@ s = addShopItem(this, "Sell Dirt (250)", "$COIN$", "coin-75", "Sell 250 Dirt for 125 coins (0.2x of the price)");
+		AddRequirement(s.requirements, "blob", "mat_dirt", "Dirt", 250);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Sell Stone (500)", "$COIN$", "coin-100", "Sell 500 Stone for 100 coins (0.5x of the price)");
+		AddRequirement(s.requirements, "blob", "mat_stone", "Stone", 500);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Sell Coal (125)", "$COIN$", "coin-250", "Sell 125 Coal for 250 coins (0.2x of the price)");
+		AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 125);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Sell Copper Ore (250)", "$COIN$", "coin-375", "Sell 250 Copper for 375 coins (0.5x of the price)");
+		AddRequirement(s.requirements, "blob", "mat_copper", "Copper Ore", 250);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Sell Iron Ore (500)", "$COIN$", "coin-415", "Sell 500 Iron for 415 coins (0.33x of the price)");
+		AddRequirement(s.requirements, "blob", "mat_iron", "Iron Ore", 500);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Sell Sulphur (250)", "$COIN$", "coin-225", "Sell 150 Sulphur for 225 coins (0.125x of the price)");
+		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 250);
 		s.spawnNothing = true;
 	}
 }
