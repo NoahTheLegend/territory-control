@@ -97,7 +97,7 @@ void onTick(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
 	if (blob is null) return;
-	if ((!blob.get_bool("state") && blob.hasTag("togglesupport")) || blob.get_u32("elec") == 0) return; // set this to stop structure
+	if ((!blob.get_bool("state") && blob.hasTag("togglesupport")) || blob.get_u32("elec") < 300) return; // set this to stop structure
 	if(this.getSpriteLayer("gear1") !is null){
 		this.getSpriteLayer("gear1").RotateBy(5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
 	}
@@ -192,7 +192,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 
 void React(CBlob@ this)
 {
-	if (getGameTime() >= this.get_u32("next_react") && this.get_u32("elec") > 100)
+	if (getGameTime() >= this.get_u32("next_react") && this.get_u32("elec") > 150)
 	{
 		CInventory@ inv = this.getInventory();
 		if (inv !is null)
@@ -236,6 +236,7 @@ void React(CBlob@ this)
 			CBlob@ rippio_blob = inv.getItem("rippio");
 			CBlob@ ganja_blob = inv.getItem("mat_ganja");
 			CBlob@ ganjapod_blob = inv.getItem("ganjapod");
+			CBlob@ grain_blob = inv.getItem("grain");
 
 			bool hasOil = oil_blob !is null;
 			bool hasMethane = methane_blob !is null;
@@ -256,6 +257,7 @@ void React(CBlob@ this)
 			bool hasRippio = rippio_blob !is null;
 			bool hasGanja = ganja_blob !is null;
 			bool hasGanjaPod = ganjapod_blob !is null;
+			bool hasGrain = grain_blob !is null;
 
 			// Boof Gas Recipe
 			if (pressure > 1000 && heat > 700 && hasGanjaPod)
@@ -346,6 +348,19 @@ void React(CBlob@ this)
 
 				ShakeScreen(20.0f, 30, this.getPosition());
 				this.getSprite().PlaySound("DrugLab_Create_Solid.ogg", 1.00f, 1.00f);
+			}
+
+			if (heat > 1000 && hasGrain)
+			{
+				if (isServer())
+				{
+					if (grain_blob.getQuantity() <= 2) grain_blob.server_Die();
+					else grain_blob.server_SetQuantity(Maths::Max(grain_blob.getQuantity() - 2, 0));
+					Material::createFor(this, "vodka", 1+XORRandom(2));
+				}
+
+				ShakeScreen(30.0f, 15, this.getPosition());
+				this.getSprite().PlaySound("DrugLab_Create_Acidic.ogg", 1.00f, 1.00f);
 			}
 
 			/*if (pressure > 100000 && heat > 500 && hasFuel && hasAcid && hasCoal && fuel_count >= 50 && acid_count >= 50 && coal_count >= 50)
@@ -703,7 +718,7 @@ void React(CBlob@ this)
 		}
 	}
 
-	this.add_u32("elec", -100);
+	if (this.get_u32("elec") > 150) this.add_u32("elec", -150);
 	this.set_u32("next_react", getGameTime() + 15);
 }
 

@@ -134,7 +134,9 @@ void onTick(CBlob@ this)
         if (this.exists("state") && this.get_bool("state"))
         {
             if (this.get_u32("elec") <= this.get_u16("energy_consumption"))
+            {
                 this.set_u32("elec", 0);
+            }
             else this.add_u32("elec", -this.get_u16("energy_consumption"));
         }
     }
