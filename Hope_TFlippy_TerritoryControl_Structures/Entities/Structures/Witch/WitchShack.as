@@ -89,11 +89,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Ganja Weed", "$ganjapod$", "ganja_seed", "With these ingredients I may conjure a magical plant of valuable properties.");
-		AddRequirement(s.requirements, "blob", "grain", "Grain", 1);
-		AddRequirement(s.requirements, "blob", "mat_copper", "Copper", 50);
-		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 30);
-		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		ShopItem@ s = addShopItem(this, "A chemical tip", "$paper$", "tip", "A paper with drug and chemical laboratories tips. Some recipes may need different laboratories.\nNobody knows if the recipe is not a lie, but you gotta try it!");
+		AddRequirement(s.requirements, "coin", "", "Coins", 200);
 		s.spawnNothing = true;
 	}
 
@@ -216,6 +213,44 @@ void onTick(CBlob@ this)
 	// }
 }
 
+const string[] tips = {
+	"Boof Gas = [pressure > 1000 | heat > 700 | Ganja pod]",
+	"Boof = [pressure > 1000 | heat < 500 | Ganja >= 20 | Dirt >= 20]",
+	"Gooby = [pressure > 25000 | heat > 1000 | Rippio | Fiks | DangerMeat >= 45]",
+	"Gooby = [pressure > 75000 | heat > 1500 | Rippio | Fiks | Meat]", // lie, explode
+	"Explodium = [heat < 300 | DangerMeat >= 15]",
+	"Vodka = [heat > 1000 | Grain]",
+	"Crack (small chance) and Coal = [pressure < 5000 | heat > 500 | Fiks]",
+	"Paxilon and Boof = [pressure > 100000 | heat > 1000 | Methane | Oil]", // lie, make fuel and explode
+	"Sosek = [pressure > 50000 | heat > 1500 | Vodka | Fuel >= 50 | Coal >= 50]",
+	"Fumes = [pressure > 100000 | heat > 500 | Fuel >= 50 | Acid >= 50 | Coal >= 50]",
+	"Dew = pressure > 10000 | heat < 500 | Protopopov >= 50 | Acid >= 50 | Mithril >= 25]",
+	"Acid, Oil and Fusk (small chance) = [heat > 1400 | ProtopopovBulb]",
+	"Acid, Oil and Fusk (small chance) = [heat > 2500 | ProtopopovBulb]", // lie, explode
+	"Fuel = [pressure > 40000 | heat > 750 | Oil | Methane]",
+	"Oil = [pressure > 70000, pressure < 200000 | heat > 1300 | Coal]",
+	"Acid = [pressure > 20000 | heat > 300 | Mustard | Fuel] ",
+	"Methane and Acid = [pressure > 1000 | heat > 300 | Meat]",
+	"Fuel, Acid and Dirt = [pressure > 10000 | pressure < 50000 | heat > 1000 | Oil]",
+	"Domino, MithrilEnriched and Fuel = [pressure > 25000 | heat > 1500 | Mithril >= 50 | Acid >= 25]",
+	"Stim, Dirst and Mustard = [pressure > 25000 | heat > 400 | hasSulphur | Sulphur >= 50 | Acid >= 50]",
+	"Poot, Bobomax and Oil = [pressure > 40000 | heat > 700 | Acid > 25 | Methane >= 25 | MithrilEnriched >= 5 | Meat >= 10]",
+	"Bobongo, Methane and Fusk (very small chance) = [heat > 500 | Dirt >= 50 | Meat > 15 | Acid >= 25]",
+	"Sulphur = [pressure < 50000 | heat > 100 | Dirt | Acid]",
+	"Foof = [pressure > 20000 | heat > 1000 | heat < 2000 | Acid >= 25 | Oil >= 20]",
+	"Rippio, Rippio Gas and Love (small chance) = [heat > 2250 | Oil >= 25 | Stim]",
+	"Rippio, Rippio Gas and Love (small chance) = [heat > 3500 | Oil >= 25 | Stim | Methane 10]", // lie, explode
+	"Fiks and Domino = [pressure < 25000 | heat > 500 | heat < 2000 | Acid >= 15 | Mithril >= 5]",
+	"Baby = [pressure < 20000 | heat > 100 | heat < 500 | Acid >= 20 | Coal >= 15]",
+	"Propesko and Love (very small chance) = [pressure < 100000 | heat > 500 | Acid >= 25 | Sulphur >= 50 | Coal >= 10]",
+	"Schisk and Bobomax = [pressure > 40000 | heat > 2000 | Oil >= 25 | Mithril >= 25]",
+	"Paxilon, PaxilonGas and Fusk (very small chance) = [heat > 500 | Oil >= 25 | Vodka]",
+	"Gae gas = [pressure < 100000 | heat >= 500 | Love | Mustard >= 50]",
+	"Love = [pressure < 50000 | heat >= 1200 | Rippio | Acid >= 25]",
+	"Steroid = [heat > 2000 | Fiks | Domino | Stim]",
+	"Carbon - coal, heat >= 1k, pressure >= 200k"
+};
+
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if(cmd == this.getCommandID("shop made item"))
@@ -262,6 +297,20 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					if (!callerBlob.server_PutInInventory(mat))
 					{
 						mat.setPosition(callerBlob.getPosition());
+					}
+				}
+			}
+			else if (name.findFirst("tip") != -1)
+			{
+				if (isServer())
+				{
+					CBlob@ paper = server_CreateBlobNoInit("paper");
+					if (paper !is null)
+					{
+						paper.server_setTeamNum(255);
+						paper.set_string("text", tips[XORRandom(tips.length)]);
+						paper.Sync("text", true);
+						callerBlob.server_PutInInventory(paper);
 					}
 				}
 			}
