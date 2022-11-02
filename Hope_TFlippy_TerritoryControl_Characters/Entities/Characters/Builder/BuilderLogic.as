@@ -661,7 +661,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 				server_BuildBlob(this, blocks[PAGE], i);
 			}
 		}
-	}/*
+	}
 	else if(detached.getName() == "seed")
 	{
 		CBlob@ anotherBlob = this.getInventory().getItem(detached.getName());
@@ -669,7 +669,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 		{
 			this.server_Pickup(anotherBlob);
 		}
-	}*/
+	}
 }
 
 void onAddToInventory(CBlob@ this, CBlob@ blob)
