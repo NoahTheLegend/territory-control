@@ -218,7 +218,7 @@ void onTick(CBlob@ this)
 				if (irradiation < max_irradiation/10) frame = 0;
 				else if (irradiation < max_irradiation/5) frame = 1;
 				else if (irradiation < max_irradiation/1.5) frame = 2;
-				if (frame > 0)
+				if (frame > 0 && XORRandom(3) == 0)
 				{
 					f32 vol = 0.25f;
 					if (frame > 1) vol = 0.75f;
