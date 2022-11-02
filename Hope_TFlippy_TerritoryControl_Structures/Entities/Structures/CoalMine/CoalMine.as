@@ -74,7 +74,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 8));
-	this.set_Vec2f("shop menu size", Vec2f(3, 2));
+	this.set_Vec2f("shop menu size", Vec2f(6, 2));
 	this.set_string("shop description", "Coalville Mining Company");
 	
 	if (this.hasTag("name_changed"))
@@ -86,13 +86,13 @@ void onInit(CBlob@ this)
 	this.set_u8("shop icon", 25);
 
 	{
-		ShopItem@ s = addShopItem(this, "Buy Dirt (100)", "$mat_dirt$", "mat_dirt-100", "Buy 100 Dirt for 50 coins.");
+		ShopItem@ s = addShopItem(this, "Buy Dirt (50)", "$mat_dirt$", "mat_dirt-50", "Buy 50 Dirt for 50 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Stone (250)", "$mat_stone$", "mat_stone-250", "Buy 250 Stone for 125 coins.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 125);
+		ShopItem@ s = addShopItem(this, "Buy Stone (250)", "$mat_stone$", "mat_stone-250", "Buy 250 Stone for 135 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 135);
 		s.spawnNothing = true;
 	}
 	{
@@ -101,18 +101,48 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Copper Ore (25)", "$mat_copper$", "mat_copper-25", "Buy 25 copper for 25 coins.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 25);
+		ShopItem@ s = addShopItem(this, "Buy Copper Ore (50)", "$mat_copper$", "mat_copper-50", "Buy 50 copper for 75 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 75);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Iron Ore (100)", "$mat_iron$", "mat_iron-100", "Buy 100 Iron Ore for 100 coins.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		ShopItem@ s = addShopItem(this, "Buy Iron Ore (100)", "$mat_iron$", "mat_iron-100", "Buy 100 Iron Ore for 125 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 125);
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Buy Sulphur (50)", "$mat_sulphur$", "mat_sulphur-50", "Buy 50 Sulphur for 150 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Dirt (500)", "$mat_dirt$", "mat_dirt-500", "Buy 500 Dirt for 500 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Stone (2500)", "$mat_stone$", "mat_stone-2500", "Buy 2500 Stone for 1350 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 1350);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Coal (250)", "$mat_coal$", "mat_coal-250", "Buy 250 Coal for 2500 coins.");
+		AddRequirement(s.requirements,"coin","","Coins", 2500); //made it cost a lot, so it's better to just conquer the building
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Copper Ore (500)", "$mat_copper$", "mat_copper-500", "Buy 500 copper for 750 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 750);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Iron Ore (1000)", "$mat_iron$", "mat_iron-1000", "Buy 1000 Iron Ore for 1250 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 1250);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Sulphur (500)", "$mat_sulphur$", "mat_sulphur-500", "Buy 500 Sulphur for 1500 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 		s.spawnNothing = true;
 	}
 }
