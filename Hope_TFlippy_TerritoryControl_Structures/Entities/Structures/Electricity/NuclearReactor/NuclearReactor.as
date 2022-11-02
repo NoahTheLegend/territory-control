@@ -257,7 +257,7 @@ void onTick(CBlob@ this)
 			if (e_mithril_blob !is null)
 			{
 				const u32 mithril_quantity = e_mithril_blob.getQuantity();
-				const f32 amount = mithril_count / (this.get_string("utility") == "refrigerant" ? 265.0f : 215.0f)+XORRandom(25);
+				const f32 amount = mithril_count / (this.get_string("utility") == "refrigerant" ? 245.0f : 200.0f)+XORRandom(25);
 			
 				const f32 amount_em = irradiation / 1150.0f;
 				
