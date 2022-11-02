@@ -626,5 +626,5 @@ void onRender(CSprite@ this)
 		string text = "Detonation in " + secs + " " + units + "!";
 		GUI::DrawTranslatedTextCentered(text, pos, SColor(255, 255, 0, 0));
 	}
-	if (blob.get_bool("codebreaking")) GUI::DrawProgressBar(pos-Vec2f(32.0f, 0), pos+Vec2f(32.0f, 8.0f), 1.0f - ((blob.get_u32("codebreaking_time")-getGameTime())/900.0f));
+	if (blob.get_bool("codebreaking")) GUI::DrawProgressBar(pos-Vec2f(32.0f, 0), pos+Vec2f(32.0f, 8.0f), 1.0f - ((blob.get_u32("codebreaking_time")-getGameTime())/450.0f));
 }
