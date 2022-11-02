@@ -34,8 +34,6 @@ void onInit(CBlob@ this)
 	this.addCommandID("stop unpack");
 	this.Tag("crate");
 	this.set_string("crateType", "default");
-	this.Tag("extractable");
-	
 
 	u8 frame = 0;
 	
