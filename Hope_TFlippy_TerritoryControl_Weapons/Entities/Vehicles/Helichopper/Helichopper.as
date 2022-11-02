@@ -9,8 +9,8 @@ const Vec2f rocketminiGun_offset = Vec2f(-6,4);
 
 const Vec2f upVelo = Vec2f(0.00f, -0.01f);
 const Vec2f downVelo = Vec2f(0.00f, 0.002f);
-const Vec2f leftVelo = Vec2f(-0.01f, 0.00f);
-const Vec2f rightVelo = Vec2f(0.01f, 0.00f);
+const Vec2f leftVelo = Vec2f(-0.015f, 0.00f);
+const Vec2f rightVelo = Vec2f(0.015f, 0.00f);
 
 const Vec2f minClampVelocity = Vec2f(-0.40f, -0.70f);
 const Vec2f maxClampVelocity = Vec2f( 0.40f, 0.00f);
