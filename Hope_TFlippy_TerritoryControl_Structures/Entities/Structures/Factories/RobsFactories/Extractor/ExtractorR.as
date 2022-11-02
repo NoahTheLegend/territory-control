@@ -67,7 +67,7 @@ void onTick(CBlob@ this)
 {
 	this.set_TileType("background tile", CMap::tile_castle_back);
 	
-	this.getCurrentScript().tickFrequency = 60.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
+	this.getCurrentScript().tickFrequency = 40.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
 
 	if (isServer())
 	{

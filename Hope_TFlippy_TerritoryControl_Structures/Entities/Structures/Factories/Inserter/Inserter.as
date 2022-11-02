@@ -52,7 +52,7 @@ void onInit(CBlob@ this)
 {
 	this.set_TileType("background tile", CMap::tile_castle_back);
 	this.getShape().getConsts().mapCollisions = false;
-	this.getCurrentScript().tickFrequency = 60;
+	this.getCurrentScript().tickFrequency = 30;
 
 	this.Tag("ignore extractor");
 	this.Tag("builder always hit");
