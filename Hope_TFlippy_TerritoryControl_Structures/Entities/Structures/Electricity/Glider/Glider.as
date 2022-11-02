@@ -42,10 +42,7 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
-	if(blob.isKeyPressed(key_down))return false;
-	if (blob.getPosition().y > this.getPosition().y) return false;
-	
-	return true;
+	return false;
 }
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
