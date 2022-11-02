@@ -241,9 +241,11 @@ void onInit(CBlob@ this)
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("mat_fraggrenade", 2, "Fragmentation Grenade (2)");
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
-		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 20);
+		AssemblerItem i("mat_battery", 10, "Battery (10)");
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 3);
+		AddRequirement(i.reqs, "blob", "mat_copperingot", "Copper Ingot", 3);
+		AddRequirement(i.reqs, "blob", "mat_mithril", "Mithril", 20);
+		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 50);
 		items.push_back(i);
 	}
 	this.set("items", items);
