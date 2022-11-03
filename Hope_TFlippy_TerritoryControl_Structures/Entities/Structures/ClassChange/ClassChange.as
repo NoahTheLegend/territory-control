@@ -263,7 +263,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					// }
 				// }
 			}
-			else if (name.findFirst("transform-") != -1)
+			else if (name.findFirst("transform-") != -1 && callerBlob.getTeamNum() > 6)
 			{
 				string[] spll = name.split("-");
 				if (spll.length == 2)
@@ -272,25 +272,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					blob.IgnoreCollisionWhileOverlapped(callerBlob);
 					if (callerBlob.getPlayer() !is null) blob.server_SetPlayer(callerBlob.getPlayer());
 					callerBlob.server_Die();
-				}
-			}
-			else
-			{
-				string blobName = spl[0];
-				if (blobName == "bushyhelm") blobName = "militaryhelmet";
-
-				CBlob@ blob = server_CreateBlob(blobName, callerBlob.getTeamNum(), this.getPosition());
-				if (spl[0] == "bushyhelm") blob.Tag("bushy");
-
-				if (blob is null && callerBlob is null) return;
-
-				if (!blob.canBePutInInventory(callerBlob))
-				{
-					callerBlob.server_Pickup(blob);
-				}
-				else if (callerBlob.getInventory() !is null && !callerBlob.getInventory().isFull())
-				{
-					callerBlob.server_PutInInventory(blob);
 				}
 			}
 		}
