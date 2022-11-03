@@ -5,7 +5,6 @@
 #include "Help.as"
 #include "Survival_Structs.as";
 #include "Logging.as";
-#include "MakeDustParticle.as";
 #include "DeityCommon.as";
 
 void onInit(CBlob@ this)
@@ -30,15 +29,6 @@ void onInit(CBlob@ this)
 	this.set_u32("disable_gliding", 0);
 }
 
-void MakeParticle(CBlob@ this, const Vec2f pos, const string filename)
-{
-	this.getSprite().SetEmitSoundPaused(false);
-	if (!this.isOnScreen()) {return;}
-	ParticleAnimated(filename, pos, Vec2f(0, 1.0f), float(XORRandom(360)), 0.5f + XORRandom(100) * 0.01f, 1 + XORRandom(4), XORRandom(100) * -0.00005f, true);
-	//ParticleAnimated(filename, this.getPosition() + pos, Vec2f(0, 1.0f), float(XORRandom(360)), 0.5f + XORRandom(100) * 0.01f, 1 + XORRandom(4), XORRandom(100) * -0.00005f, true);
-}
-
-
 void onTick(CBlob@ this)
 {
 	CPlayer@ player = this.getPlayer();
@@ -55,73 +45,6 @@ void onTick(CBlob@ this)
 		if (isServer() && this.isAttached()) this.server_DetachFromAll();
 	}
 	DoKnockedUpdate(this);
-
-	CControls@ controls = this.getControls();
-	if (controls !is null && controls.isKeyPressed(KEY_LSHIFT))
-	{
-		if (this.get_bool("jetpack"))
-		{
-			if (isClient())
-			{
-				Vec2f pos = this.getPosition()+Vec2f( 0.0f, 4.0f);
-				MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
-				this.getSprite().PlaySound("/Jetpack_Offblast.ogg");
-			}
-
-			this.set_bool("jetpack", false);
-		}
-
-		if (this.get_bool("jetpackv2"))
-		{
-			if (isClient())
-			{
-				Vec2f pos = this.getPosition()+Vec2f(0.0f, 4.0f);
-				u8 particlesrandom = XORRandom(3);
-				if (this.isFacingLeft())
-				{
-					switch (particlesrandom)
-					{
-						case 0:
-							MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion1.png");
-							break;
-						case 1:
-							MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion2.png");
-							if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
-							{
-								MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallSteam.png");
-								this.getSprite().PlaySound("DrillOverheat.ogg");
-							}
-							break;
-						case 2:
-							MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion3.png");
-							break;
-					}
-				}
-				else
-				{
-					switch (particlesrandom)
-					{
-						case 0:
-							MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion1.png");
-							break;
-						case 1:
-							MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion2.png");
-							if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
-							{
-								MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallSteam.png");
-								this.getSprite().PlaySound("DrillOverheat.ogg");
-							}
-							break;
-						case 2:
-							MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion3.png");
-							break;
-					}
-				}
-			}
-
-			this.set_bool("jetpackv2", false);
-		}
-}
 
 	if (getGameTime() <= this.get_u32("disable_gliding"))
 	{

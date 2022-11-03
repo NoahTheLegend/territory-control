@@ -57,7 +57,7 @@ void onTick(CBlob@ this)
 		UpdateScript(this);
 		this.set_string("reload_script", "");
 	}
-	//u8 particlesrandom = XORRandom(3);
+	u32 particlesrandom = XORRandom(2);
 	if (controls !is null)
 		if (!shift || this.get_f32("fuel_count") < 1) sprite.SetEmitSoundPaused(true);
 	if (controls !is null)
@@ -79,48 +79,46 @@ void onTick(CBlob@ this)
 
 		Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);
 
-		this.set_bool("jetpackv2", true);
-
-		//if (this.isFacingLeft())
-		//{
-		//	switch (particlesrandom)
-		//	{
-		//		case 0:
-		//			MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion1.png");
-		//			break;
-		//		case 1:
-		//			MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion2.png");
-		//			if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
-		//			{
-		//				MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallSteam.png");
-		//				this.getSprite().PlaySound("DrillOverheat.ogg");
-		//			}
-		//			break;
-		//		case 2:
-		//			MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion3.png");
-		//			break;
-		//	}
-		//}
-		//else
-		//{
-		//	switch (particlesrandom)
-		//	{
-		//		case 0:
-		//			MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion1.png");
-		//			break;
-		//		case 1:
-		//			MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion2.png");
-		//			if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
-		//			{
-		//				MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallSteam.png");
-		//				this.getSprite().PlaySound("DrillOverheat.ogg");
-		//			}
-		//			break;
-		//		case 2:
-		//			MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion3.png");
-		//			break;
-		//	}
-		//}			
+		if (this.isFacingLeft())
+		{
+			switch (particlesrandom)
+			{
+				case 0:
+					MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion1.png");
+					break;
+				case 1:
+					MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion2.png");
+					if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
+					{
+						MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallSteam.png");
+						this.getSprite().PlaySound("DrillOverheat.ogg");
+					}
+					break;
+				case 2:
+					MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion3.png");
+					break;
+			}
+		}
+		else
+		{
+			switch (particlesrandom)
+			{
+				case 0:
+					MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion1.png");
+					break;
+				case 1:
+					MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion2.png");
+					if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
+					{
+						MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallSteam.png");
+						this.getSprite().PlaySound("DrillOverheat.ogg");
+					}
+					break;
+				case 2:
+					MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion3.png");
+					break;
+			}
+		}			
 
 		if (this.get_u32("timer") == 0) 
 		{
