@@ -80,9 +80,6 @@ void onTick(CBlob@ this)
 		Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);
 
 		this.set_bool("jetpackv2", true);
-		CBitStream params;
-		params.write_string("v2");
-		this.SendCommand(this.getCommandID("activatejetpack"), params);
 
 		//if (this.isFacingLeft())
 		//{
