@@ -15,7 +15,9 @@ void onInit(CMovement@ this)
 
 void onTick(CMovement@ this)
 {
+	if (this is null) return;
 	CBlob@ blob = this.getBlob();
+	if (blob is null) return;
 	RunnerMoveVars@ moveVars;
 	if (!blob.get("moveVars", @moveVars))
 	{
