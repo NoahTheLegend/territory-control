@@ -8,6 +8,7 @@ void onTick(CBlob@ this)
         this.set_u32("delayed", getGameTime()+3);
         return;
     }
+    if (blob.getName() == "seed") return; // they are picked automatically
     if (blob.getTickSinceCreated() >= 1 && (blob.getPosition() - this.getPosition()).getLength()-this.getRadius() > 12.0f)
     {
         if (!this.hasTag("broken_attach") || getGameTime()%1800==0)
