@@ -8,7 +8,7 @@ const int sail_index = 0;
 void onInit(CBlob@ this)
 {
 	Vehicle_Setup(this,
-	              650.0f, // move speed
+	              700.0f, // move speed
 	              0.18f,  // turn speed
 	              Vec2f(0.0f, -2.5f), // jump out velocity
 	              true  // inventory access
@@ -106,6 +106,11 @@ void onTick(CBlob@ this)
 
 	if (time % 60 == 0)
 		Vehicle_DontRotateInWater(this);
+
+	if (!this.isInWater())
+	{
+		this.setVelocity(Vec2f(0, this.getOldVelocity().y));
+	}
 }
 
 void Vehicle_onFire(CBlob@ this, VehicleInfo@ v, CBlob@ bullet, const u8 charge) {}
