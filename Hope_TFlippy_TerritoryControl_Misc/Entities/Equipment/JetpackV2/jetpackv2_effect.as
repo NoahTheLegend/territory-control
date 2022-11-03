@@ -57,7 +57,7 @@ void onTick(CBlob@ this)
 		UpdateScript(this);
 		this.set_string("reload_script", "");
 	}
-	u32 particlesrandom = XORRandom(2);
+	u32 particlesrandom = XORRandom(3);
 	if (controls !is null)
 		if (!shift || this.get_f32("fuel_count") < 1) sprite.SetEmitSoundPaused(true);
 	if (controls !is null)
