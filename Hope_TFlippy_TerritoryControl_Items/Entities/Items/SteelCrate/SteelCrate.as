@@ -280,7 +280,7 @@ void onRemoveFromInventory(CBlob@ this, CBlob@ blob)
 const string[] rolling = { // from 0 to 2500, as bigger value as more chance to get item
     "advancedengineertools-1500", 
     "amogusplushie-200", 
-    "ancientmanipulator-380",
+    "ancientmanipulator-750",
     "blaster-850",
     "callahan-350",
     "chargelance-250",
@@ -316,7 +316,7 @@ const string[] rolling = { // from 0 to 2500, as bigger value as more chance to 
     "mat_sulphur-1250",
     "mat_titanium-2250",
     "mat_wilmet-1900",
-    "molecularfabricator-350",
+    "molecularfabricator-750",
     "oof-650",
     "pheromones-2000",
     "shito-5",

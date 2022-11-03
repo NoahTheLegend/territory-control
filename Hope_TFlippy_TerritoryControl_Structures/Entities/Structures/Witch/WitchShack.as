@@ -40,7 +40,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
-	this.set_Vec2f("shop menu size", Vec2f(2, 5));
+	this.set_Vec2f("shop menu size", Vec2f(3, 4));
 	this.set_string("shop description", "Witch's Dilapidated Shack");
 	this.set_u8("shop icon", 25);
 
@@ -62,6 +62,12 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
+		ShopItem@ s = addShopItem(this, "Process Mithril (16)", "$mat_mithrilingot$", "mat_mithrilingot-16", "I shall remove the deadly curse from this mythical metal.");
+		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril Ore", 160);
+		AddRequirement(s.requirements, "coin", "", "Coins", 400);
+		s.spawnNothing = true;
+	}
+	{
 		ShopItem@ s = addShopItem(this, "Mystery Box", "$icon_mysterybox$", "mysterybox", "What's inside?\nInconceivable wealth, eternal suffering, upset badgers? Who knows! Only for 75 coins!");
 		AddRequirement(s.requirements, "coin", "", "Coins", 75);
 		s.spawnNothing = true;
@@ -70,6 +76,12 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Companion Box", "$icon_animalbox$", "animalbox", "What's inside?\nI crammed this box with some sort of creature you may take a liking to!");
 		AddRequirement(s.requirements, "blob", "grain", "Grain", 5);
 		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Alien box", "$icon_mysterybox$", "alienbox", "What's inside?\nOnly god knows!");
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 		s.spawnNothing = true;
 	}
 	{
@@ -82,6 +94,13 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Verdla's Suffocation Charm", "$choker_gem$", "choker", "A pretty green smokey gem!");
 		AddRequirement(s.requirements, "blob", "mat_methane", "Methane", 50);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingots", 2);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Infernal Stone", "$infernalstone$", "infernalstone", "It's hot!");
+		AddRequirement(s.requirements, "blob", "meteor", "Meteor", 1);
+		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel", 100);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 250);
 		s.spawnNothing = true;
 	}
 	{
@@ -102,7 +121,7 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "coin", "", "Coins", 10000);
 
 		s.customButton = true;
-		s.buttonwidth = 2;
+		s.buttonwidth = 1;
 		s.buttonheight = 1;
 		s.spawnNothing = true;
 	}
@@ -295,6 +314,16 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			{
 				Random rand(getGameTime());
 				server_MakeSeedsFor(@callerBlob, "ganja_plant", rand.NextRanged(0)+1);
+			}
+			else if (spl[0] == "alienbox")
+			{
+				CBlob@ b = server_CreateBlobNoInit("mysterybox");
+				if (b !is null)
+				{
+					b.Tag("alien");
+					b.server_setTeamNum(-1);
+					b.setPosition(this.getPosition());
+				}
 			}
 			else if (name.findFirst("mat_") != -1)
 			{
