@@ -70,12 +70,12 @@ void onTick(CBlob@ this)
 		RunnerMoveVars@ moveVars;
 		if (this.get("moveVars", @moveVars) && !this.hasScript("flippers_effect.as"))
 		{
+			moveVars.swimspeed = 2.0f;
 			CBlob@ fishie = this.getCarriedBlob();
 			if (fishie !is null && fishie.getName() == "fishy")
 			{
-				moveVars.swimspeed = 3.0f;
+				moveVars.swimspeed = 3.25f;
 			}
-			else moveVars.swimspeed = 1.5f;
 		}
 	}
 
