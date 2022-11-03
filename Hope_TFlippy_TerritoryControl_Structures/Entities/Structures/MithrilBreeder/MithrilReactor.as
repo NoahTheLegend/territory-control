@@ -169,7 +169,7 @@ void onTick(CBlob@ this)
 						const f32 amount_em = irradiation / 2500.0f;
 					
 						Material::createFor(this, "mat_mithrilenriched", Maths::Ceil(amount_em));
-						mithril_blob.server_SetQuantity(Maths::Max(mithril_quantity - Maths::Ceil(amount_em * 4.00f), 0));
+						mithril_blob.server_SetQuantity(Maths::Max(mithril_quantity - Maths::Ceil(amount_em * 3.75f), 0));
 					}
 					
 					if (gold_blob !is null)
