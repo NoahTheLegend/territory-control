@@ -35,7 +35,7 @@ void onInit(CBlob@ this)
 void onTick(CBlob@ this)
 {
 	if (!this.get_bool("state")) return;
-	if (this.get_u32("elec") <= 100) return;
+	//if (this.get_u32("elec") <= 100) return;
 	for (int i = 0; i < matNames.length; i++)
 	{
 		if (this.hasBlob(matNames[i], matRatio[i]))
@@ -52,7 +52,7 @@ void onTick(CBlob@ this)
 				this.getSprite().PlaySound("ProduceSound.ogg", 0.85f, 0.8f);
 				this.getSprite().PlaySound("BombMake.ogg", 0.85f, 0.8f);
 			}
-			this.add_u32("elec", -50);
+			//this.add_u32("elec", -50);
 		}
 	}
 }

@@ -244,7 +244,7 @@ void onTick(CBlob@ this)
 	CBitStream missing;
 	if (hasRequirements(inv, item.reqs, missing))
 	{
-		if (isServer() && this.get_u32("elec") > 250)
+		if (isServer()) //&& this.get_u32("elec") > 250)
 		{
 			if (item.resultname == "incendiarymortar" || item.resultname == "hatc")
 			{
@@ -267,8 +267,8 @@ void onTick(CBlob@ this)
 						crate.server_PutInInventory(blob);
 					}
 
-					this.add_u32("elec", -250);
-					this.Sync("elec", true);
+					//this.add_u32("elec", -250);
+					//this.Sync("elec", true);
 				}
 			}
 			// CBlob @mat = server_CreateBlob(item.resultname, this.getTeamNum(), this.getPosition());

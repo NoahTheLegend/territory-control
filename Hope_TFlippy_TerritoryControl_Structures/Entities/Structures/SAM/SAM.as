@@ -103,7 +103,7 @@ void onTick(CBlob@ this)
 
 	if (attachedBlob !is null && !attachedBlob.hasTag("vehicle")) return;
 
-	if (this.get_bool("security_state") && (this.get_u32("elec") > 50 || this.getTeamNum() >= 7))
+	if (this.get_bool("security_state")) //&& (this.get_u32("elec") > 50 || this.getTeamNum() >= 7))
 	{
 		CBlob@[] blobs;
 		getBlobsByTag("aerial", @blobs);

@@ -101,7 +101,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			card.Init();
 			caller.getPlayer().server_setCoins(caller.getPlayer().getCoins() - 200);
 		}
-		this.add_u32("elec", -125);
+		//this.add_u32("elec", -125);
 	}
 	else if (cmd == this.getCommandID("open_access"))
 	{

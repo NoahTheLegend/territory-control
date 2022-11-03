@@ -762,48 +762,57 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 
 	BuildBlock[] page_3;
 	blocks.push_back(page_3);
+	//{
+	//	BuildBlock b(0, "collector", "$collector$", "Collector:\n\nGathers energy from closest generators and transfers to electric poles. Only one collector can take energy from single generators. Must be put away from other generators to be active.\n\nDistance: 8 blocks\nCan be toggled off");
+	//	AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 2);
+	//	AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
+	//	b.size.Set(8,8);
+	//	blocks[3].push_back(b);
+	//}
+	//{
+	//	BuildBlock b(0, "generator", "$icon_generator$", "Solid fuel generator (produces: 75-150; max: 1500):\n\nGenerates energy in exchange for wood or coal.");
+	//	AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+	//	AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 4);
+	//	AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
+	//	b.buildOnGround = true;
+	//	b.size.Set(32, 24);
+	//	blocks[3].push_back(b);
+	//}
+	//{
+	//	BuildBlock b(0, "lgenerator", "$lgenerator$", "Liquid fuel generator (produces: 350-700; max: 4500):\n\nGenerates more energy in exchange for oil, methane or fuel.");
+	//	AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 32);
+	//	AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
+	//	AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 4);
+	//	AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 20);
+	//	b.buildOnGround = true;
+	//	b.size.Set(28, 16);
+	//	blocks[3].push_back(b);
+	//}
 	{
-		BuildBlock b(0, "collector", "$collector$", "Collector:\n\nGathers energy from closest generators and transfers to electric poles. Only one collector can take energy from single generators. Must be put away from other generators to be active.\n\nDistance: 8 blocks\nCan be toggled off");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 2);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
-		b.size.Set(8,8);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "generator", "$icon_generator$", "Solid fuel generator (produces: 75-150; max: 1500):\n\nGenerates energy in exchange for wood or coal.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 4);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
-		b.buildOnGround = true;
-		b.size.Set(32, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "lgenerator", "$lgenerator$", "Liquid fuel generator (produces: 350-700; max: 4500):\n\nGenerates more energy in exchange for oil, methane or fuel.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 32);
+		BuildBlock b(0, "lgenerator", "$lgenerator$", "Liquid fuel generator.\nConverts methane into oil.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
-		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 4);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 20);
 		b.buildOnGround = true;
 		b.size.Set(28, 16);
 		blocks[3].push_back(b);
 	}
-	{
-		BuildBlock b(0, "beamtowermirror", "$icon_beamtowermirror$", "Solar panel (produces: 10-17; max: 500):\n\nGenerates a small amount of energy during the day.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 30);
-		b.buildOnGround = true;
-		b.size.Set(16, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "pole", "$pole$", "Electric pole:\n\nTransfers energy and supplies closest energy consumptions.\n\nOnly one pole can supply energy to single consumptions.\n\nDistance: 8 blocks");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 2);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 5);
-		b.size.Set(8, 8);
-		blocks[3].push_back(b);
-	}
+	//{
+	//	BuildBlock b(0, "beamtowermirror", "$icon_beamtowermirror$", "Solar panel (produces: 10-17; max: 500):\n\nGenerates a small amount of energy during the day.");
+	//	AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+	//	AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 30);
+	//	b.buildOnGround = true;
+	//	b.size.Set(16, 24);
+	//	blocks[3].push_back(b);
+	//}
+	//{
+	//	BuildBlock b(0, "pole", "$pole$", "Electric pole:\n\nTransfers energy and supplies closest energy consumptions.\n\nOnly one pole can supply energy to single consumptions.\n\nDistance: 8 blocks");
+	//	AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
+	//	AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 2);
+	//	AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 5);
+	//	b.size.Set(8, 8);
+	//	blocks[3].push_back(b);
+	//}
 	{
 		BuildBlock b(0, "glider", "$glider$", "Glider:\n\nHolds players and bots above itself if has electricity.");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 1);
@@ -812,13 +821,13 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		b.size.Set(8, 8);
 		blocks[3].push_back(b);
 	}
-	{
-		BuildBlock b(0, "vbarbedwire", "$vbarbedwire$", "High-voltaged barbed wire:\n\nBurns away flesh on touch, but only if it has electricity!\n\nElectricity amount is hidden to disguise its behavior.");
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 8);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
-		b.size.Set(8, 8);
-		blocks[3].push_back(b);
-	}
+	//{
+	//	BuildBlock b(0, "vbarbedwire", "$vbarbedwire$", "High-voltaged barbed wire:\n\nBurns away flesh on touch, but only if it has electricity!\n\nElectricity amount is hidden to disguise its behavior.");
+	//	AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 8);
+	//	AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
+	//	b.size.Set(8, 8);
+	//	blocks[3].push_back(b);
+	//}
 	{
 		BuildBlock b(0, "ceilinglamp", "$icon_ceilinglamp$", "Ceiling Lamp:\n\nIt's quite bright.\n\nCan be toggled by a Security Station.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 1);

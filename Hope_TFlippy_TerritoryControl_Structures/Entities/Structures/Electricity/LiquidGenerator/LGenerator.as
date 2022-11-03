@@ -19,7 +19,7 @@ void onInit(CBlob@ this)
 	this.set_u32("do sound idk", 0);
 
 	this.set_u32("elec", 0);
-	server_Sync(this);
+	//server_Sync(this);
 
 	CSprite@ sprite = this.getSprite();
 	if (sprite !is null)
@@ -58,58 +58,66 @@ void onTick(CBlob@ this)
 	CBlob@ fuel = inv.getItem(0);
 	if (fuel is null) return;
 
-	bool matching = fuel.getName() == "mat_oil" || fuel.getName() == "mat_methane" || fuel.getName() == "mat_fuel";
+	//bool matching = fuel.getName() == "mat_oil" || fuel.getName() == "mat_methane" || fuel.getName() == "mat_fuel";
+	bool matching = fuel.getName() == "mat_methane";
 
-	CBlob@ feeder = getBlobByNetworkID(this.get_u16("consume_id"));
-	if (this.get_u16("consume_id") != 0 && feeder is null)
-	{
-	    this.set_u16("consume_id", 0);
-	}
+	//CBlob@ feeder = getBlobByNetworkID(this.get_u16("consume_id"));
+	//if (this.get_u16("consume_id") != 0 && feeder is null)
+	//{
+	//    this.set_u16("consume_id", 0);
+	//}
 
-	if (matching && elec <= ELECTRICITY_MAX-ELECTRICITY_PROD)
+	if (matching) // && elec <= ELECTRICITY_MAX-ELECTRICITY_PROD)
 	{
 		this.set_u32("do sound idk", getGameTime()+300);
 
-		u16 diff = ELECTRICITY_MAX - elec;
+		//u16 diff = ELECTRICITY_MAX - elec;
 		u16 quantity = fuel.getQuantity();
-		bool bfuel = false;
-		u16 prod = ELECTRICITY_PROD;
-		if (quantity < 10) prod *= (quantity*0.1);
+		//bool bfuel = false;
+		//u16 prod = ELECTRICITY_PROD;
+		//if (quantity < 10) prod *= (quantity*0.1);
 		//printf(""+prod);
 
-		if (fuel.getName() == "mat_fuel") bfuel = true;
+		//if (fuel.getName() == "mat_fuel") bfuel = true;
 
-		if (diff <= prod) // set to max if last step will make energy over max value
-		{
-			this.set_u32("elec", ELECTRICITY_MAX);
-			u16 fuel_consumed = (ELECTRICITY_MAX - this.get_f32("fuel_count")) / (fuel.getName() == "mat_fuel" ? 1.0f : 5.0f);
-		}
-		else
-		{
-			this.add_u32("elec", prod+XORRandom(prod+1));
-		}
+		//if (diff <= prod) // set to max if last step will make energy over max value
+		//{
+		//	this.set_u32("elec", ELECTRICITY_MAX);
+		//	u16 fuel_consumed = (ELECTRICITY_MAX - this.get_f32("fuel_count")) / (fuel.getName() == "mat_fuel" ? 1.0f : 5.0f);
+		//}
+		//else
+		//{
+		//	this.add_u32("elec", prod+XORRandom(prod+1));
+		//}
 
-		if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
+		//if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
 
 		if (isServer())
 		{
-			if (bfuel)
+			//if (bfuel)
+			//{
+			//	if (quantity == 1)
+			//	{
+			//		fuel.Tag("dead");
+			//		fuel.server_Die();
+			//	}
+			//	else fuel.server_SetQuantity(quantity-1);
+			//}
+			//else if (quantity <= 5)
+			//{
+			//	fuel.Tag("dead");
+			//	fuel.server_Die();
+			//}
+			//else
+			//{
+				fuel.server_SetQuantity(quantity-4+XORRandom(4));
+			//}
+
+			CBlob@ oil = server_CreateBlob("mat_oil", this.getTeamNum(), this.getPosition());
+			if (oil !is null)
 			{
-				if (quantity == 1)
-				{
-					fuel.Tag("dead");
-					fuel.server_Die();
-				}
-				else fuel.server_SetQuantity(quantity-1);
-			}
-			else if (quantity <= 5)
-			{
-				fuel.Tag("dead");
-				fuel.server_Die();
-			}
-			else
-			{
-				fuel.server_SetQuantity(quantity-5);
+				oil.server_SetQuantity(5+XORRandom(6));
+				this.server_PutInInventory(oil);
 			}
 		}
 	}
@@ -139,8 +147,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 }
 
 const string[] matNames = { 
-	"mat_oil",
-	"mat_fuel"
+	"mat_methane"
+	//"mat_oil",
+	//"mat_fuel"
 };
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)

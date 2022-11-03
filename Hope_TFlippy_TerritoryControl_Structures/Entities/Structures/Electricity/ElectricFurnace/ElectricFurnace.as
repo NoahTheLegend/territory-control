@@ -75,7 +75,7 @@ void onTick(CBlob@ this)
 {
 	if (!this.get_bool("state") && this.hasTag("togglesupport")) return; // set this to stop structure
 	//printf("step "+this.get_u8("step")+" mp "+this.get_u8("multiplier"));
-	if (this.get_u8("step") == this.get_u8("multiplier") && this.get_u32("elec") > 1000)
+	if (this.get_u8("step") == this.get_u8("multiplier")) //&& this.get_u32("elec") > 1000)
 	{
 		for (u8 i = 0; i < 6; i++) // i < matNames.length
 		{
@@ -104,7 +104,7 @@ void onTick(CBlob@ this)
 					}
 				}
 				
-				this.add_u32("elec", -(this.get_u16("energy_consumption")*this.get_u8("multiplier")));
+				//this.add_u32("elec", -(this.get_u16("energy_consumption")*this.get_u8("multiplier")));
 
 				this.getSprite().PlaySound("ProduceSound.ogg");
 				this.getSprite().PlaySound("BombMake.ogg");

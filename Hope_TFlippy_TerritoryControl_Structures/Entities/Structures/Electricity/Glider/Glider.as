@@ -47,7 +47,7 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
-	if (this.get_u32("elec") > 3 && blob !is null && blob.hasTag("player"))
+	if (blob !is null && blob.hasTag("player")) // && this.get_u32("elec") > 3)
 	{
 		blob.setPosition(Vec2f(blob.getPosition().x, blob.getPosition().y-2.0f));
 		blob.setVelocity(Vec2f(blob.getVelocity().x, 0));

@@ -33,7 +33,7 @@ const string[] PAGE_NAME =
 	"Basic",
 	"Buildings",
 	"Automation",
-	"Electricity",
+	"Production",
 	"Miscellaneous",
 	// "Mechanisms"
 };

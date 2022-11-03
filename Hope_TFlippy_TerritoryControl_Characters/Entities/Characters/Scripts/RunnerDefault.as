@@ -56,7 +56,7 @@ void onTick(CBlob@ this)
 			this.getMap().getBlobsAtPosition(this.getPosition()+Vec2f(0,12), find_glider);
 			for (u16 i = 0; i < find_glider.length; i++)
 			{
-				if (find_glider[i] !is null && find_glider[i].getName() == "glider" && find_glider[i].get_u32("elec") > 3)
+				if (find_glider[i] !is null && find_glider[i].getName() == "glider") //&& find_glider[i].get_u32("elec") > 3)
 				{
 					//printf("e");
 					this.set_u32("disable_gliding", getGameTime()+10);

@@ -139,7 +139,7 @@ void server_Irradiate(CBlob@ this, const f32 damage, const f32 radius)
 void onTick(CBlob@ this)
 {
 	//this.set_u32('elec', 0);
-	u32 elec = this.get_u32("elec");
+	//u32 elec = this.get_u32("elec");
 	CInventory@ inv = this.getInventory();
 	if (inv is null) return;
 
@@ -148,7 +148,7 @@ void onTick(CBlob@ this)
 	const f32 mithril_count = inv.getCount("mat_mithril");
 	const f32 e_mithril_count = inv.getCount("mat_mithrilenriched");
 
-	const f32 irradiation = Maths::Pow((mithril_count * (this.get_string("utility") == "refrigerant" ? 0.15f : 0.5f)) + (e_mithril_count * 4.00f) + (5.00f), 2) / (100.00f-(XORRandom(3) == 0 && this.get_string("utility") != "refrigerant" ? XORRandom(10+e_mithril_count/50) : 0));
+	const f32 irradiation = (this.get_string("utility") == "catalyzer" ? 5000.0f : 0.0f) + Maths::Pow((mithril_count * (this.get_string("utility") == "refrigerant" ? 0.15f : 0.5f)) + (e_mithril_count * 4.00f) + (5.00f), 2) / (100.00f-(XORRandom(3) == 0 && this.get_string("utility") != "refrigerant" ? XORRandom(10+e_mithril_count/50) : 0));
 	const f32 max_irradiation = 15000.00f + (this.get_string("utility") == "refrigerant" ? 5000.0f : 0.0f);
 
 	this.set_f32("irradiation", irradiation);
@@ -176,7 +176,7 @@ void onTick(CBlob@ this)
 		}
 	}
 
-	if (irradiation > max_irradiation+(this.get_string("utility") == "catalyzer" ? 2500.0f : 0.0f) || (this.get_bool("sabotage") && this.get_u32("sabotage_time") <= getGameTime()))
+	if (irradiation > max_irradiation+(this.get_string("utility") == "catalyzer" ? 7500.0f : 0.0f) || (this.get_bool("sabotage") && this.get_u32("sabotage_time") <= getGameTime()))
 	{
 		if (this.get_bool("sabotage")) this.add_f32("irradiation", 5000);
 		this.Tag("dead");
@@ -257,7 +257,7 @@ void onTick(CBlob@ this)
 	
 		this.set_u8("boom_end", u8(count)); // Hack
 	
-		if (irradiation / 50.00f > XORRandom(100) && this.get_u32("elec") < this.get_u32("elec_max"))
+		if (irradiation / 50.00f > XORRandom(100)) //&& this.get_u32("elec") < this.get_u32("elec_max"))
 		{	
 			CBlob@ mithril_blob = inv.getItem("mat_mithril");
 			CBlob@ e_mithril_blob = inv.getItem("mat_mithrilenriched");
@@ -265,11 +265,13 @@ void onTick(CBlob@ this)
 			if (e_mithril_blob !is null)
 			{
 				const u32 mithril_quantity = e_mithril_blob.getQuantity();
-				const f32 amount = mithril_count / (this.get_string("utility") == "refrigerant" ? 245.0f : 200.0f)+XORRandom(25);
+				const f32 amount = mithril_count / (this.get_string("utility") == "refrigerant" ? 275.0f : 225.0f)+XORRandom(25);
 			
 				const f32 amount_em = irradiation / 1150.0f;
 				
 				Material::createFor(this, "mat_mithril", Maths::Ceil(amount_em));
+
+				if (irradiation >= max_irradiation*0.75f) Material::createFor(this, "mat_wilmet", XORRandom(Maths::Ceil(amount_em)/(7.0f - (this.get_string("utility") == "catalyzer" ? 3.5f : 0.0f))));
 			}
 		}
 	}
@@ -279,31 +281,29 @@ void onTick(CBlob@ this)
 
 	bool matching = fuel.getName() == "mat_mithrilenriched";
 
-	CBlob@ feeder = getBlobByNetworkID(this.get_u16("consume_id"));
-	if (this.get_u16("consume_id") != 0 && feeder is null)
-	{
-	    this.set_u16("consume_id", 0);
-	}
+	//CBlob@ feeder = getBlobByNetworkID(this.get_u16("consume_id"));
+	//if (this.get_u16("consume_id") != 0 && feeder is null)
+	//{
+	//    this.set_u16("consume_id", 0);
+	//}
 
-	if (matching && elec <= ELECTRICITY_MAX-ELECTRICITY_PROD)
+	if (matching) //&& elec <= ELECTRICITY_MAX-ELECTRICITY_PROD)
 	{
-		this.set_u32("do sound idk", getGameTime()+300);
-
-		u16 diff = ELECTRICITY_MAX - elec;
+		//u16 diff = ELECTRICITY_MAX - elec;
 		u16 quantity = fuel.getQuantity();
 
-		if (diff <= ELECTRICITY_PROD) // set to max if last step will make energy over max value
-		{
-			this.set_u32("elec", ELECTRICITY_MAX);
-		}
-		else
-		{
-			f32 elec_mod = ELECTRICITY_PROD/2 * (Maths::Pow(0.5f+irradiation/max_irradiation, 5));
-			if (this.get_string("utility") == "catalyzer") elec_mod *= 1.5f;
-			this.add_u32("elec", ELECTRICITY_PROD*(0.5f*irradiation/max_irradiation)+elec_mod);
-		}
+		//if (diff <= ELECTRICITY_PROD) // set to max if last step will make energy over max value
+		//{
+		//	this.set_u32("elec", ELECTRICITY_MAX);
+		//}
+		//else
+		//{
+		//	f32 elec_mod = ELECTRICITY_PROD/2 * (Maths::Pow(0.5f+irradiation/max_irradiation, 5));
+		//	if (this.get_string("utility") == "catalyzer") elec_mod *= 1.5f;
+		//	this.add_u32("elec", ELECTRICITY_PROD*(0.5f*irradiation/max_irradiation)+elec_mod);
+		//}
 
-		if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
+		//if (this.get_u32("elec") > this.get_u32("elec_max")) this.set_u32("elec", this.get_u32("elec_max"));
 
 		if (isServer() && XORRandom(2) == 0)
 		{
@@ -336,11 +336,11 @@ void DoExplosion(CBlob@ this)
 		{
 			boom.setPosition(this.getPosition());
 			boom.set_u8("boom_start", 0);
-			boom.set_u8("boom_end", (0 + this.get_f32("irradiation") / 350));
-			boom.set_u8("boom_frequency", 5);
+			boom.set_u8("boom_end", (0 + this.get_f32("irradiation") / 400));
+			boom.set_u8("boom_frequency", 4);
 			boom.set_u32("boom_delay", 0);
 			boom.set_u32("flash_delay", 0);
-			boom.set_f32("mithril_amount", 1);
+			boom.set_f32("mithril_amount", 2);
 			boom.set_f32("flash_distance", 2500);
 			boom.Init();
 		}
@@ -371,7 +371,7 @@ void server_Sync(CBlob@ this)
     if (isServer())
     {
         CBitStream params;
-        params.write_u32(this.get_u32("elec"));
+        //params.write_u32(this.get_u32("elec"));
 		params.write_f32(this.get_f32("heat"));
 		params.write_string(this.get_string("password"));
 		params.write_bool(this.get_bool("sabotage"));
@@ -476,7 +476,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	{
 		if (isClient())
 		{
-			u32 elec;
+			//u32 elec;
 			f32 heat;
 			string password;
 			bool sabotage;
@@ -484,7 +484,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			bool codebreaking;
 			u32 codebreaking_time;
 			string utility;
-            if (!params.saferead_u32(elec)) return;
+            //if (!params.saferead_u32(elec)) return;
 			if (!params.saferead_f32(heat)) return;
 			if (!params.saferead_string(password)) return;
 			if (!params.saferead_bool(sabotage)) return;
@@ -492,7 +492,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			if (!params.saferead_bool(codebreaking)) return;
 			if (!params.saferead_u32(codebreaking_time)) return;
 			if (!params.saferead_string(utility)) return;
-			this.set_u32("elec", elec);
+			//this.set_u32("elec", elec);
 			this.set_f32("heat", heat);
 			this.set_string("password", password);
 			this.set_bool("sabotage", sabotage);

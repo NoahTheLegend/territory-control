@@ -192,7 +192,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 
 void React(CBlob@ this)
 {
-	if (getGameTime() >= this.get_u32("next_react") && this.get_u32("elec") > 150)
+	if (getGameTime() >= this.get_u32("next_react")) //&& this.get_u32("elec") > 150)
 	{
 		CInventory@ inv = this.getInventory();
 		if (inv !is null)
@@ -718,7 +718,7 @@ void React(CBlob@ this)
 		}
 	}
 
-	if (this.get_u32("elec") > 150) this.add_u32("elec", -150);
+	//if (this.get_u32("elec") > 150) this.add_u32("elec", -150);
 	this.set_u32("next_react", getGameTime() + 15);
 }
 
