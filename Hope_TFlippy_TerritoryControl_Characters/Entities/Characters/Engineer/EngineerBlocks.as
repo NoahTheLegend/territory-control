@@ -1052,7 +1052,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
 	}
 	{
-				BuildBlock b(0, "launchpad", "$icon_launchpad$", "Launch a rocket to an asteroid, moon or another planet to get alien technologies and weapons.\nYou can increase rocket efficiency with building modules (optionally): leave certain items in the compartment before crafting\nlast 4 sections before nose.\n\nModules:\nDrill station: increases amount of loot - 10 power mithril drills.\nFuel tanker: allows rocket to reach an exoplanet - 500 fuel.\nDetailed scanner: increases amount of enemies and falling debris from crate - 1 phone.\nWeapon pack: decreases amount of enemies from crate - 8 UPF UZI.");
+		BuildBlock b(0, "launchpad", "$icon_launchpad$", "Launch a rocket to an asteroid, moon or another planet to get alien technologies and weapons.\nYou can increase rocket efficiency with building modules (optionally): leave certain items in the compartment before crafting\nlast 4 sections before nose.\n\nModules:\nDrill station: increases amount of loot - 10 power mithril drills.\nFuel tanker: allows rocket to reach an exoplanet - 500 fuel.\nDetailed scanner: increases amount of enemies and falling debris from crate - 1 phone.\nWeapon pack: decreases amount of enemies from crate - 8 UPF UZI.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 200);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 150);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 50);
