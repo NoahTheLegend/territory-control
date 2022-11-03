@@ -45,4 +45,5 @@ void onInit(CBlob@ this)
 	this.set_string("ProjBlob", "rpggrenade");
 	this.set_Vec2f("ProjOffset", Vec2f(-15, -3));
 	this.Tag("heavy weight");
+	this.Tag("powerful");
 }

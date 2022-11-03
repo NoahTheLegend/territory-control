@@ -46,4 +46,5 @@ void onInit(CBlob@ this)
 	this.Tag("CustomSemiAuto");
 	this.Tag("CustomShotgunReload");
 	this.Tag("pistol");
+	this.Tag("powerful");
 }

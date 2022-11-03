@@ -55,6 +55,8 @@ void onInit(CBlob@ this)
 		laser.setRenderStyle(RenderStyle::additive);
 		laser.SetOffset(Vec2f(-12.5f, 1.5f));
 	}
+
+	this.Tag("powerful");
 }
 
 void onTick(CBlob@ this)

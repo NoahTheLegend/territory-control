@@ -44,6 +44,7 @@ void onInit(CBlob@ this)
 	this.set_string("ProjBlob", "firegas");
 	this.Tag("CustomSoundLoop");
 	this.Tag("medium weight");
+	this.Tag("powerful");
 }
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {

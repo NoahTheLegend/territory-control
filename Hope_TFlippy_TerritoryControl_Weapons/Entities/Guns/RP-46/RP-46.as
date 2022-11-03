@@ -36,4 +36,5 @@ void onInit(CBlob@ this)
 
 	this.set("gun_settings", @settings);
 	this.Tag("medium weight");
+	this.Tag("powerful");
 }

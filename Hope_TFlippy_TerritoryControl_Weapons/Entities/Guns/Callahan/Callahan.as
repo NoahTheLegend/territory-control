@@ -49,6 +49,7 @@ void onInit(CBlob@ this)
 	}
 
 	this.set_f32("scope_zoom", 0.35f);
+	this.Tag("powerful");
 }
 
 const f32 radius = 24.00f;

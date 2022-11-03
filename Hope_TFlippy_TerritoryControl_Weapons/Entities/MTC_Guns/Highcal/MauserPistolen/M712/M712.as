@@ -48,6 +48,7 @@ void onInit(CBlob@ this)
 	sprite.SetEmitSoundVolume(0.800);
 	sprite.SetEmitSoundPaused(false);
 	this.Tag("pistol");
+	this.Tag("powerful");
 }
 
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)

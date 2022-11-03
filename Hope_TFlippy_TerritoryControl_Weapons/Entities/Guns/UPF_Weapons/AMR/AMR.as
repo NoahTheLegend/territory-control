@@ -42,4 +42,5 @@ void onInit(CBlob@ this)
 	this.Tag("heavy weight");
 	this.Tag("place45");
 	this.Tag("sniper");
+	this.Tag("powerful");
 }

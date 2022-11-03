@@ -190,6 +190,11 @@ void onCommand(CRules@ this, u8 cmd, CBitStream @params)
 			
 			if (isClient() && settings !is null)
 			{
+				//Make a small dust for powerful guns
+				if (gunBlob.hasTag("powerful"))
+				{
+					ParticleAnimated("LargeSmoke", gunBlob.getPosition()+Vec2f(gunBlob.getRadius() * (gunBlob.isFacingLeft() ? -1.0f : 1.0f), -1.5f+(XORRandom(11)*0.1f)).RotateBy(angle), Vec2f(0.0f, -0.25f), 0, 0.35f+(XORRandom(21)*0.01f), 2, 0, false);
+				}
 				if (hoomanBlob.isMyPlayer()) // if we are this blob
 				{
 					Recoil@ coil = Recoil(hoomanBlob, settings.G_RECOIL, settings.G_RECOILT, settings.G_BACK_T, settings.G_RANDOMX, settings.G_RANDOMY);

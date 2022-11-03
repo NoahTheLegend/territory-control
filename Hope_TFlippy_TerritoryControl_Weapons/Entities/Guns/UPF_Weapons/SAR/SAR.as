@@ -39,4 +39,5 @@ void onInit(CBlob@ this)
 	//Custom
 	this.Tag("CustomSemiAuto");
 	this.set_u8("CustomKnock", 2);
+	this.Tag("powerful");
 }

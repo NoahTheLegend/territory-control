@@ -41,4 +41,5 @@ void onInit(CBlob@ this)
 	this.Tag("CustomSpread");
 	this.Tag("CustomSoundLoop");
 	this.Tag("heavy weight");
+	this.Tag("powerful");
 }
