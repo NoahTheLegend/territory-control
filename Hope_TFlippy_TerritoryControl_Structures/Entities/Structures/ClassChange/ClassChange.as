@@ -263,15 +263,30 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					// }
 				// }
 			}
-			else if (name.findFirst("transform-") != -1 && callerBlob.getTeamNum() > 6)
+			else if (name.findFirst("transform-") != -1)
 			{
 				string[] spll = name.split("-");
-				if (spll.length == 2)
+				if (spll.length == 2 && callerBlob.getTeamNum() > 6)
 				{
 					CBlob@ blob = server_CreateBlob(spll[1], 250, callerBlob.getPosition());
 					blob.IgnoreCollisionWhileOverlapped(callerBlob);
 					if (callerBlob.getPlayer() !is null) blob.server_SetPlayer(callerBlob.getPlayer());
 					callerBlob.server_Die();
+				}
+			}
+			else
+			{
+				CBlob@ blob = server_CreateBlob(spl[0], callerBlob.getTeamNum(), this.getPosition());
+
+				if (blob is null) return;
+
+				if (!blob.canBePutInInventory(callerBlob))
+				{
+					callerBlob.server_Pickup(blob);
+				}
+				else if (callerBlob.getInventory() !is null && !callerBlob.getInventory().isFull())
+				{
+					callerBlob.server_PutInInventory(blob);
 				}
 			}
 		}
