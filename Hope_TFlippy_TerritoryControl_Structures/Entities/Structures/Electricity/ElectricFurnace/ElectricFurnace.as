@@ -25,7 +25,7 @@ const string[] matNamesResult = {
 };
 
 const int[] matRatio = { 
-	35,
+	30,
 	10,
 	10,
 	30,
@@ -84,7 +84,7 @@ void onTick(CBlob@ this)
 				if (isServer())
 				{
 					CBlob @mat = server_CreateBlob(matNamesResult[i], -1, this.getPosition());
-					mat.server_SetQuantity(4*this.get_u8("multiplier"));
+					mat.server_SetQuantity(3*this.get_u8("multiplier"));
 					mat.Tag("justmade");
 					mat.Tag("from_forge");
 					this.TakeBlob(matNames[i], matRatio[i]*this.get_u8("multiplier"));

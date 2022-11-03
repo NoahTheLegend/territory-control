@@ -92,7 +92,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_forge$", "Forge.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$constructionyard$", "ConstructionYardIcon.png", Vec2f(16, 16), 0, teamnum);
 	AddIconToken("$icon_camp$", "Camp.png", Vec2f(80, 24), 0, teamnum);
-	AddIconToken("$icon_patreonshop$", "Present.png", Vec2f(32, 24), 0, teamnum);
+	AddIconToken("$icon_patreonshop$", "Present.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_nursery$","Nursery.png",Vec2f(40, 32), 5, teamnum);
 	AddIconToken("$icon_library$", "Library.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_workshop$", "Building.png", Vec2f(40, 24), 0);
@@ -519,7 +519,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
-		BuildBlock b(0, "discshop", "$icon_discshop$", "Disc Shop:\n\nBuy your favorite records here!\nRequires electricity.");
+		BuildBlock b(0, "discshop", "$icon_discshop$", "Disc Shop:\n\nBuy your favorite records here!");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 200);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 100);
 		AddRequirement(b.reqs, "coin", "", "Coins", 100);
@@ -598,23 +598,12 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		b.size.Set(16, 16);
 		blocks[2].push_back(b);
 	}
-	//AUTOMATION
 	{
-		BuildBlock b(0, "autoforge", "$icon_autoforge$", "Auto-Forge:\n\nProcesses raw materials and alloys just for you. Has a chance for a double yield.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 200);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 100);
+		BuildBlock b(0, "stonepile", "$icon_stonepile$", "Stone Silo:\n\nAutomatically collects ores from all of your team's mines.");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 300);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 75);
 		b.buildOnGround = true;
 		b.size.Set(24, 32);
-		blocks[2].push_back(b);
-	}
-	{
-		BuildBlock b(0, "inductionfurnace", "$icon_inductionfurnace$", "Industrial Furnace:\n\nA heavy-duty furnace that produces up to 3x more ingots at cost of lower speed. Requires coal to smelt metal.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 30);
-		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 2);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 500);
-		// AddRequirement(b.reqs, "blob", "mat_battery", "Voltron Battery Plus", 50);
-		b.buildOnGround = true;
-		b.size.Set(40, 32);
 		blocks[2].push_back(b);
 	}
 	{
@@ -641,25 +630,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		b.size.Set(16, 16);
 		blocks[2].push_back(b);
 	}
-	//PRODUCTION
-	{
-		BuildBlock b(0, "grinder", "$icon_grinder$", "Grinder:\n\nA dangerous machine capable of destroying almost everything.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 150);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 5);
-		b.buildOnGround = true;
-		b.size.Set(40, 24);
-		blocks[2].push_back(b);
-	}
-	{
-		BuildBlock b(0, "assembler", "$icon_assembler$", "Assembler:\n\nAn elaborate piece of machinery that manufactures items.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
-		b.buildOnGround = true;
-		b.size.Set(40, 24);
-		blocks[2].push_back(b);
-	}
-	//STORAGING
 	{
 		BuildBlock b(0, "fetcher", "$icon_fetcher$", "Fetcher:\n\nFetches specified item from inventories and ground.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 200);
@@ -674,14 +644,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_ironingot","Iron Ingot", 2);
 		b.buildOnGround = true;
 		b.size.Set(32, 16);
-		blocks[2].push_back(b);
-	}
-	{
-		BuildBlock b(0, "stonepile", "$icon_stonepile$", "Stone Silo:\n\nAutomatically collects ores from all of your team's mines.");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 300);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 75);
-		b.buildOnGround = true;
-		b.size.Set(24, 32);
 		blocks[2].push_back(b);
 	}
 	{
@@ -713,13 +675,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
-		blocks[2].push_back(b);
-	}
-	{
-		BuildBlock b(0, "shifter", "$shifter$", "Shifter:\n\nMoves things in a set direction, has a cooldown.");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 50);
-		AddRequirement(b.reqs, "blob", "mat_goldingot", "Gold Ingot", 1);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 4);
 		blocks[2].push_back(b);
 	}
 	{
@@ -762,6 +717,130 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 
 	BuildBlock[] page_3;
 	blocks.push_back(page_3);
+	//PRODUCTION
+	{
+		BuildBlock b(0, "autoforge", "$icon_autoforge$", "Auto-Forge:\n\nProcesses raw materials and alloys just for you. Has a chance for a double yield.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 200);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 100);
+		b.buildOnGround = true;
+		b.size.Set(24, 32);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "inductionfurnace", "$icon_inductionfurnace$", "Industrial Furnace:\n\nA heavy-duty furnace that produces up to 4x more ingots at cost of lower speed. Requires coal to smelt.\n\nHas a multiplier mode that increases output for cost of smelting speed.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 60);
+		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 1500);
+		b.buildOnGround = true;
+		b.size.Set(40, 32);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "electricfurnace", "$icon_electricfurnace$", "Electric furnace:\n\nAn advanced analogue for induction furnace. Smelts ore up to 3x ingots and does not require coal for smelting. Also has toggle mode.\n\nHas a multiplier mode that increases output for cost of smelting speed.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 40);
+		AddRequirement(b.reqs, "blob", "mat_battery", "Voltron Battery Plus", 150);
+		b.buildOnGround = true;
+		b.size.Set(40, 32);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "crusher", "$icon_crusher$", "Crusher\nSmashes rocks into concrete and dirt into sulphur with a lower yield");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 18);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 8);
+		b.buildOnGround = true;
+		b.size.Set(24, 32);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "grinder", "$icon_grinder$", "Grinder:\n\nA dangerous machine capable of destroying almost everything.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 150);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 5);
+		b.buildOnGround = true;
+		b.size.Set(40, 24);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "assembler", "$icon_assembler$", "Assembler:\n\nAn elaborate piece of machinery that manufactures items.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
+		b.buildOnGround = true;
+		b.size.Set(40, 24);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "druglab", "$icon_druglab$", "Chemical Laboratory:\n\nA laboratory used for production of chemicals, ranging from methane to various kinds of drugs.");
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 10);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 30);
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(32, 40);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "chickenassembler", "$icon_chickenassembler$", "UPF Assembly Line:\n\nA reverse-engineered assembly line used to manufacture some of the UPF products.");
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 10);
+		AddRequirement(b.reqs, "blob", "bp_automation_advanced", "Blueprint (Advanced Automation)", 1);
+		b.buildOnGround = true;
+		b.size.Set(56, 24);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "drillrig", "$icon_drillrig$", "Driller Mole:\n\nAn automatic drilling machine that mines resources underneath.");
+		AddRequirement(b.reqs, "blob", "drill", "Drill", 1);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		b.buildOnGround = true;
+		b.size.Set(24, 24);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "chemlab", "$icon_chemlab$", "Chemical Production Machine:\n\nA machine capable of manufacturing basic drugs and chemicals.");
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 40);
+		AddRequirement(b.reqs, "blob", "bp_chemistry", "Blueprint (Chemistry)", 1);
+		b.buildOnGround = true;
+		b.size.Set(48, 24);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "lgenerator", "$lgenerator$", "Liquid fuel generator.\nConverts methane into oil.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 20);
+		b.buildOnGround = true;
+		b.size.Set(28, 16);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "mithrilreactor", "$icon_mithrilreactor$", "Mithril Irradiator:\n\nA small reactor used for mithril enrichment and synthesis using gold.\nBecomes more stable when submerged in deep water.\n$mat_gold$$DEFEND_RIGHT$$mat_mithril_10x$$DEFEND_RIGHT$$mat_mithrilenriched_10x$\n\n\n$RED$Careless usage may result in\nan irradiated crater.$RED$\n");
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 5);
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(24, 24);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "nuclearreactor", "$nuclearreactor$", "Nuclear Reactor:\n\nConverts enriched mithril into default with bigger yield.\nProduces wilmet material on higher temperatures.\n\nHas a control panel with password check. Can be sabotaged.\n\nRequires enriched mithril as fuel, mithril also increases heat.\n\nYou can set up a catalyzer or refrigerant into the utility slot (also remove them with a wrench) to get certain modifications.\n\nExplodes with an insane power when heated up too much.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 150);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 40);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 150);
+		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 1500);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 30);
+
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(64, 48);
+		blocks[3].push_back(b);
+	}
+
 	//{
 	//	BuildBlock b(0, "collector", "$collector$", "Collector:\n\nGathers energy from closest generators and transfers to electric poles. Only one collector can take energy from single generators. Must be put away from other generators to be active.\n\nDistance: 8 blocks\nCan be toggled off");
 	//	AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 2);
@@ -788,15 +867,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	//	b.size.Set(28, 16);
 	//	blocks[3].push_back(b);
 	//}
-	{
-		BuildBlock b(0, "lgenerator", "$lgenerator$", "Liquid fuel generator.\nConverts methane into oil.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 20);
-		b.buildOnGround = true;
-		b.size.Set(28, 16);
-		blocks[3].push_back(b);
-	}
 	//{
 	//	BuildBlock b(0, "beamtowermirror", "$icon_beamtowermirror$", "Solar panel (produces: 10-17; max: 500):\n\nGenerates a small amount of energy during the day.");
 	//	AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
@@ -813,14 +883,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	//	b.size.Set(8, 8);
 	//	blocks[3].push_back(b);
 	//}
-	{
-		BuildBlock b(0, "glider", "$glider$", "Glider:\n\nHolds players and bots above itself if has electricity.");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 1);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 4);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
-		b.size.Set(8, 8);
-		blocks[3].push_back(b);
-	}
 	//{
 	//	BuildBlock b(0, "vbarbedwire", "$vbarbedwire$", "High-voltaged barbed wire:\n\nBurns away flesh on touch, but only if it has electricity!\n\nElectricity amount is hidden to disguise its behavior.");
 	//	AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 8);
@@ -828,99 +890,19 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	//	b.size.Set(8, 8);
 	//	blocks[3].push_back(b);
 	//}
-	{
-		BuildBlock b(0, "ceilinglamp", "$icon_ceilinglamp$", "Ceiling Lamp:\n\nIt's quite bright.\n\nCan be toggled by a Security Station.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 1);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 2);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "nuclearreactor", "$nuclearreactor$", "Nuclear Reactor:\n\nGenerates a huge amount of electricity. Has a control panel with password check. Can be sabotaged.\n\nRequires enriched mithril as fuel, mithril also increases heat. Transforms enriched mithril into regular, with different yield.\n\nYou can set up a catalyzer or refrigerant into the utility slot (Also remove them with a wrench) to get certain modifications.\n\nExplodes with an insane power when heated up too much.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 150);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 40);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 150);
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 1500);
-		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 30);
-
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-		b.buildOnGround = true;
-		b.size.Set(64, 48);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "securitystation", "$icon_securitystation$", "Security Station:\n\nProvides remote control and linking of various security devices, such as blast doors and turrets.\n\nCreates a unique Security Card upon construction, which can be used to limit  control of devices exclusively to this machine.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 4);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 10);
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-		b.buildOnGround = true;
-		b.size.Set(24, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "drillrig", "$icon_drillrig$", "Driller Mole:\n\nAn automatic drilling machine that mines resources underneath.");
-		AddRequirement(b.reqs, "blob", "drill", "Drill", 1);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
-		b.buildOnGround = true;
-		b.size.Set(24, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "crusher", "$icon_crusher$", "Crusher\nSmashes rocks into concrete and dirt into sulphur with a lower yield");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 4);
-		b.buildOnGround = true;
-		b.size.Set(24, 32);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "electricfurnace", "$icon_electricfurnace$", "Electric furnace:\n\nAn advanced analogue for induction furnace. Smelts ore into 4 ingots but requires energy and does not require coal for steel and titanium. Also has toggle mode.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
-		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 16);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 60);
-		b.buildOnGround = true;
-		b.size.Set(40, 32);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "chickenassembler", "$icon_chickenassembler$", "UPF Assembly Line:\n\nA reverse-engineered assembly line used to manufacture some of the UPF products.");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 10);
-		AddRequirement(b.reqs, "blob", "bp_automation_advanced", "Blueprint (Advanced Automation)", 1);
-		b.buildOnGround = true;
-		b.size.Set(56, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "chemlab", "$icon_chemlab$", "Chemical Production Machine:\n\nA machine capable of manufacturing basic drugs and chemicals.");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 40);
-		AddRequirement(b.reqs, "blob", "bp_chemistry", "Blueprint (Chemistry)", 1);
-		b.buildOnGround = true;
-		b.size.Set(48, 24);
-		blocks[3].push_back(b);
-	}
-	{
-		BuildBlock b(0, "beamtower", "$icon_beamtower$", "Solar Death Ray Tower:\n\nSolar energy has never been so much fun!\n\nRequires batteries to shoot!");
-		AddRequirement(b.reqs, "coin", "", "Coins", 1000);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
-		AddRequirement(b.reqs, "blob", "mat_battery", "Battery", 100);
-		AddRequirement(b.reqs, "blob", "bp_energetics", "Blueprint (Energetics)", 1);
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-		b.buildOnGround = true;
-		b.size.Set(24, 96);
-		blocks[3].push_back(b);
-	}
 	
 	BuildBlock[] page_4;
 	blocks.push_back(page_4);
 	{
 		BuildBlock b(0, "woodchest", "$icon_woodchest$", "Wooden Chest:\n\nA regular wooden chest used for storage.\nCan be accessed by anyone.");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 100);
+		b.buildOnGround = true;
+		b.size.Set(16, 16);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "smallsign", "$icon_smallsign$", "Sign:\n\nType '!write -text-' in chat and then use it on the sign. Writing on a piece of paper costs 50 coins.");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 60);
 		b.buildOnGround = true;
 		b.size.Set(16, 16);
 		blocks[4].push_back(b);
@@ -933,10 +915,17 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
 	}
 	{
-		BuildBlock b(0, "smallsign", "$icon_smallsign$", "Sign:\n\nType '!write -text-' in chat and then use it on the sign. Writing on a piece of paper costs 50 coins.");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 60);
+		BuildBlock b(0, "tavern", "$icon_tavern_for_not_peasants$", "Tavern:\n\nA poorly built cozy tavern.\nNeutrals may set their team here, paying you 20 coins for each spawn.");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 350);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 200);
 		b.buildOnGround = true;
-		b.size.Set(16, 16);
+		b.size.Set(56, 32);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "banner", "$icon_banner$", "Banner:\n\nBanner to show off your team's color.");
+		AddRequirement(b.reqs, "coin", "", "Coins", 150);
+		b.size.Set(16, 32);
 		blocks[4].push_back(b);
 	}
 	{	
@@ -949,16 +938,19 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
     }
 	{
-		BuildBlock b(0, "barbedwire", "$barbedwire$", "Barbed Wire:\n\nHurts anyone who passes through it. Good at preventing people from climbing over walls.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 4);
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		BuildBlock b(0, "teamlamp", "$icon_teamlamp$", "Team Lamp:\n\nGlows with your team's spirit.");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 50);
 		blocks[4].push_back(b);
 	}
 	{
-		BuildBlock b(0, "ironlocker", "$icon_ironlocker$", "Personal Locker:\n\nA more secure way to store your items.\nCan be only accessed by the first person to claim it.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 5);
-		b.buildOnGround = true;
-		b.size.Set(16, 24);
+		BuildBlock b(0, "industriallamp", "$icon_industriallamp$", "Industrial Lamp:\n\nA sturdy lamp to ligthen up the mood in your factory.\nActs as a support block.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "ceilinglamp", "$icon_ceilinglamp$", "Ceiling Lamp:\n\nIt's quite bright.\n\nCan be toggled by a Security Station.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 2);
 		blocks[4].push_back(b);
 	}
 	{
@@ -971,32 +963,47 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
 	}
 	{
-		BuildBlock b(0, "industriallamp", "$icon_industriallamp$", "Industrial Lamp:\n\nA sturdy lamp to ligthen up the mood in your factory.\nActs as a support block.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 30);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 1);
-		blocks[4].push_back(b);
-	}
-	{
-		BuildBlock b(0, "teamlamp", "$icon_teamlamp$", "Team Lamp:\n\nGlows with your team's spirit.");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 20);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 1);
-		blocks[4].push_back(b);
-	}
-	{
-		BuildBlock b(0, "metaldetector", "$icon_metaldetector$", "Danger Detector:\n\nScans people passing through it for dangerous items, such as weapons, explosives or ill-tempered animals.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 8);
-		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 1);
-		b.buildOnGround = true;
-		b.size.Set(24, 24);
-		blocks[4].push_back(b);
-	}
-	{
-		BuildBlock b(0, "druglab", "$icon_druglab$", "Chemical Laboratory:\n\nA laboratory used for production of chemicals, ranging from methane to various kinds of drugs.");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 10);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 30);
+		BuildBlock b(0, "barbedwire", "$barbedwire$", "Barbed Wire:\n\nHurts anyone who passes through it. Good at preventing people from climbing over walls.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 4);
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "shifter", "$shifter$", "Shifter:\n\nMoves things in a set direction, has a cooldown.");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 50);
+		AddRequirement(b.reqs, "blob", "mat_goldingot", "Gold Ingot", 1);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 4);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "glider", "$glider$", "Glider:\n\nHolds players and bots above itself.");
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 4);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 10);
+		b.size.Set(8, 8);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "ironlocker", "$icon_ironlocker$", "Personal Locker:\n\nA more secure way to store your items.\nCan be only accessed by the first person to claim it.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 6);
 		b.buildOnGround = true;
-		b.size.Set(32, 40);
+		b.size.Set(16, 24);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "altar", "$icon_altar$", "Altar:\n\nWorship your idols here. Needs to be carved first.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 2000);
+		AddRequirement(b.reqs, "coin", "", "Coins", 250);
+		b.buildOnGround = true;
+		b.size.Set(24, 32);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "1x5blastdoor", "$icon_1x5blastdoor$", "Blast Door:\n\nA large heavy blast door.\n\nCan be only opened by a Security Station.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 20);
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.size.Set(8, 40);
 		blocks[4].push_back(b);
 	}
 	{
@@ -1009,55 +1016,28 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
 	}
 	{
-		BuildBlock b(0, "1x5blastdoor", "$icon_1x5blastdoor$", "Blast Door:\n\nA large heavy blast door.\n\nCan be only opened by a Security Station.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 35);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 5);
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-		b.size.Set(8, 40);
-		blocks[4].push_back(b);
-	}
-	{
-		BuildBlock b(0, "mithrilreactor", "$icon_mithrilreactor$", "Mithril Irradiator:\n\nA small reactor used for mithril enrichment and synthesis using gold.\nBecomes more stable when submerged in deep water.\n$mat_gold$$DEFEND_RIGHT$$mat_mithril_10x$$DEFEND_RIGHT$$mat_mithrilenriched_10x$\n\n\n$RED$Careless usage may result in\nan irradiated crater.$RED$\n");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
-		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 5);
+		BuildBlock b(0, "securitystation", "$icon_securitystation$", "Security Station:\n\nProvides remote control and linking of various security devices, such as blast doors and turrets.\n\nCreates a unique Security Card upon construction, which can be used to limit  control of devices exclusively to this machine.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 10);
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
 		blocks[4].push_back(b);
 	}
 	{
-		BuildBlock b(0, "tavern", "$icon_tavern_for_not_peasants$", "Tavern:\n\nA poorly built cozy tavern.\nNeutrals may set their team here, paying you 20 coins for each spawn.");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 350);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 200);
+		BuildBlock b(0, "metaldetector", "$icon_metaldetector$", "Danger Detector:\n\nScans people passing through it for dangerous items, such as weapons, explosives or ill-tempered animals.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 8);
 		b.buildOnGround = true;
-		b.size.Set(56, 32);
+		b.size.Set(24, 24);
 		blocks[4].push_back(b);
 	}
 	{
-		BuildBlock b(0, "altar", "$icon_altar$", "Altar:\n\nWorship your idols here. Needs to be carved first.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 2000);
-		AddRequirement(b.reqs, "coin", "", "Coins", 250);
+		BuildBlock b(0, "patreonshop", "$icon_patreonshop$", "Gift Shop:\n\nA special souvenir shop!");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 75);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
+		AddRequirement(b.reqs, "blob", "mat_goldingot", "Gold Ingot", 200);
 		b.buildOnGround = true;
-		b.size.Set(24, 32);
-		blocks[4].push_back(b);
-	}
-	{
-		BuildBlock b(0, "banner", "$icon_banner$", "Banner:\n\nBanner to show off your team's color.");
-		AddRequirement(b.reqs, "coin", "", "Coins", 150);
-		b.size.Set(16, 32);
-		blocks[4].push_back(b);
-	}
-	{
-		BuildBlock b(0, "launchpad", "$icon_launchpad$", "Launch a rocket to an asteroid, moon or another planet to get alien technologies and weapons.\nYou can increase rocket efficiency with building modules (optionally): leave certain items in the compartment before crafting\nlast 4 sections before nose.\n\nModules:\nDrill station: increases amount of loot - 10 drills v2\nFuel tanker: allows rocket to reach an exoplanet - 750 fuel.\nDetailed scanner: increases amount of enemies and falling debris from crate - 1 phone.\nWeapon pack: decreases amount of enemies from crate - 16 UPF UZI.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Steel Ingot", 200);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 150);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 50);
-		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 75);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wires", 100);
-		b.buildOnGround = true;
-		b.size.Set(96, 192);
+		b.size.Set(40, 40);
 		blocks[4].push_back(b);
 	}
 	{
@@ -1072,12 +1052,26 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
 	}
 	{
-		BuildBlock b(0, "patreonshop", "$icon_patreonshop$", "Gift Shop:\n\nA special souvenir shop!");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 75);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
-		AddRequirement(b.reqs, "blob", "mat_goldingot", "Gold Ingot", 300);
+				BuildBlock b(0, "launchpad", "$icon_launchpad$", "Launch a rocket to an asteroid, moon or another planet to get alien technologies and weapons.\nYou can increase rocket efficiency with building modules (optionally): leave certain items in the compartment before crafting\nlast 4 sections before nose.\n\nModules:\nDrill station: increases amount of loot - 10 power mithril drills.\nFuel tanker: allows rocket to reach an exoplanet - 500 fuel.\nDetailed scanner: increases amount of enemies and falling debris from crate - 1 phone.\nWeapon pack: decreases amount of enemies from crate - 8 UPF UZI.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 200);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 150);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 50);
+		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 75);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wires", 100);
 		b.buildOnGround = true;
-		b.size.Set(40, 40);
+		b.size.Set(96, 192);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "beamtower", "$icon_beamtower$", "Solar Death Ray Tower:\n\nSolar energy has never been so much fun!\n\nRequires batteries to shoot!");
+		AddRequirement(b.reqs, "coin", "", "Coins", 1000);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
+		AddRequirement(b.reqs, "blob", "mat_battery", "Battery", 100);
+		AddRequirement(b.reqs, "blob", "bp_energetics", "Blueprint (Energetics)", 1);
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(24, 96);
 		blocks[4].push_back(b);
 	}
 }

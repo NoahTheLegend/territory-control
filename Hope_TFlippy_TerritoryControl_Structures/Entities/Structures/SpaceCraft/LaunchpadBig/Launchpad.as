@@ -818,7 +818,7 @@ void onTick(CBlob@ this)
                             }
                         }
                     }
-                    else if (mat_fuel >= 15 && !this.hasTag("has_fuel_tank"))
+                    else if (mat_fuel >= 10 && !this.hasTag("has_fuel_tank"))
                     {
                         this.set_string("module"+(this.get_u8("frameindex")-5), "fueltank");
                         u8 counter = 0;
@@ -827,7 +827,7 @@ void onTick(CBlob@ this)
                         {
                             CBlob@ blob = inv.getItem(i);
                             
-                            if (blob !is null && blob.getName() == "mat_fuel" && counter < 15 && isServer())
+                            if (blob !is null && blob.getName() == "mat_fuel" && counter < 10 && isServer())
                             {
                                 counter++;
                                 blob.Tag("dead");
