@@ -39,7 +39,7 @@ void onTick(CBlob@ this)
             && getGameTime() % 6 == 0 && this.get_u32("fuel_countboots") > 0)
             {
                 if (this.getPlayer() !is null) this.getPlayer().server_setCoins(this.getPlayer().getCoins() + XORRandom(10));
-                if (this.get_u32("fuel_countboots") >= 25) this.set_u32("fuel_countboots", this.get_u32("fuel_countboots") - 15);
+                if (this.get_u32("fuel_countboots") >= 25) this.set_u32("fuel_countboots", this.get_u32("fuel_countboots") - 6+XORRandom(5));
                 else this.set_u32("fuel_countboots", 0);
                 this.getSprite().PlaySound("LotteryTicket_Kaching.ogg", 0.5f, 1.5f);
                 ParticleAnimated("Smoke.png", this.getPosition()+Vec2f(0, 0),
