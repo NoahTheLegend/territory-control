@@ -162,7 +162,7 @@ void onTick(CBlob@ this)
 		this.setVelocity(Vec2f(this.getVelocity().x*0.5, this.getVelocity().y));
 	}
 
-	if (getGameTime()%6==0 && !this.hasTag("l1") && this.get_f32("heat") > 0) this.add_f32("heat", this.isInWater() ? -2.5f : -1.5f);
+	if (getGameTime()%6==0 && !this.hasTag("l1") && this.get_f32("heat") > 0) this.add_f32("heat", this.isInWater() ? -3.5f : -1.5f);
 
 	if (this.hasAttached() || this.getTickSinceCreated() < 30) //driver, seat or gunner, or just created
 	{
