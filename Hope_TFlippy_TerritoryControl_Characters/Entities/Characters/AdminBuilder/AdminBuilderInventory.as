@@ -169,7 +169,7 @@ void MakeBlocksMenu(CInventory@ this, const Vec2f &in INVENTORY_CE)
 
 				button.selectOneOnClick = true;
 
-				if(i == PAGE)
+				if(i == PAGE && button !is null)
 				{
 					button.SetSelected(1);
 				}
