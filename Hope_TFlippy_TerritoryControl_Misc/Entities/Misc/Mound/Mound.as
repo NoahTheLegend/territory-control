@@ -24,11 +24,10 @@ void onInit(CBlob@ this)
 	// this.Tag("npc");
 	this.Tag("flesh");
 	this.Tag("dangerous");
-	this.Tag("map_damage_dirt");
 	
 	this.set_f32("map_damage_ratio", 0.3f);
 	this.set_f32("map_damage_radius", 32.0f);
-	this.set_bool("map_damage_raycast", true);
+	this.set_bool("map_damage_raycast", false);
 	
 	this.SetLight(true);
 	this.SetLightRadius(64.0f);
@@ -49,7 +48,7 @@ void onInit(CBlob@ this)
 	sprite.RewindEmitSound();
 	sprite.SetEmitSound("Mound_Hover_Loop.ogg");
 	sprite.SetEmitSoundSpeed(1);
-	sprite.SetEmitSoundVolume(0.40f);
+	sprite.SetEmitSoundVolume(1.0f);
 	sprite.SetEmitSoundPaused(false);
 }
 
@@ -125,16 +124,13 @@ void onTick(CBlob@ this)
 	}
 	
 	CSprite@ sprite = this.getSprite();
-	if (false && this.isOnGround())
+	if (this.hasTag("dead"))
 	{
-		sprite.SetAnimation("idle");
-	}
-	else
-	{
-		sprite.SetAnimation("floating");
+		sprite.SetAnimation("dead");
 	}
 	
 	sprite.SetEmitSoundSpeed(0.85f + (Maths::Clamp(this.getVelocity().getLength() / 50.00f, 0.00f, 1.00f) * 0.75f));
+	if (this.hasTag("dead")) sprite.SetEmitSoundPaused(true);
 	
 	this.SetFacingLeft(this.getVelocity().x < 0);
 	
@@ -174,7 +170,7 @@ void onTick(CBlob@ this)
 	}
 	else if (this.isKeyPressed(key_action2))
 	{
-		const f32 radius = 5.00f;
+		const f32 radius = 8.00f;
 		
 		Vec2f aimPos = this.getAimPos();
 		
@@ -186,7 +182,7 @@ void onTick(CBlob@ this)
 				CBlob@ b = blobsInRadius[i];
 				if (b !is null)
 				{
-					if (b is this || b.hasTag("invincible")) continue;
+					if (b is this || b.hasTag("invincible") || !b.hasTag("flesh")) continue;
 					
 					Vec2f dir = aimPos - b.getPosition();
 					f32 dist = dir.getLength();
@@ -194,29 +190,28 @@ void onTick(CBlob@ this)
 
 					if (isServer())
 					{
-						if (getGameTime() % 5 == 0) this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 0.50f, Hitters::crush, true);
+						if (getGameTime() % 15 == 0) this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 0.025f, Hitters::crush, true);
 					}
 					
 					b.AddForce((dir * Maths::Min(100.00f, b.getMass()) * (dist / radius)) + Vec2f(0, -sv_gravity));
-					// if (b.getShape().isRotationsAllowed()) 
-					
-					if (!b.hasTag("building") && !b.getShape().isStatic()) b.setAngleDegrees(b.getAngleDegrees() + (20.00f * (1.00f - (b.getHealth() / b.getInitialHealth()))));
+					if (b.getShape().isRotationsAllowed()) 
+						if (!b.hasTag("building") && !b.getShape().isStatic()) b.setAngleDegrees(b.getAngleDegrees() + (20.00f * (1.00f - (b.getHealth() / b.getInitialHealth()))));
 				}
 			}
 		}
 		
-		CMap@ map = getMap();
-		for (int i = 0; i < 2; i++)
-		{
-			map.server_DestroyTile(aimPos + getRandomVelocity(0, XORRandom(48), 360), 0.125f);
-		}
+		//CMap@ map = getMap();
+		//for (int i = 0; i < 2; i++)
+		//{
+		//	map.server_DestroyTile(aimPos + getRandomVelocity(0, XORRandom(48), 360), 0.125f);
+		//}
 	}
 	
-	if (XORRandom(8) == 0) 
+	if (XORRandom(30) == 0) 
 	{	
 		if (isServer())
 		{
-			const f32 radius = 15.00f;
+			const f32 radius = 64.00f;
 		
 			CBlob@[] blobsInRadius;
 			if (this.getMap().getBlobsInRadius(this.getPosition(), radius, @blobsInRadius))
@@ -242,7 +237,7 @@ void onTick(CBlob@ this)
 						
 						if (XORRandom(100) < 100.0f * distMod) 
 						{
-							this.server_Hit(blob, blob.getPosition(), Vec2f(0, 0), 0.05f / counter, HittersTC::radiation, true);
+							this.server_Hit(blob, blob.getPosition(), Vec2f(0, 0), 0.75f / counter, HittersTC::radiation, true);
 						}
 					}
 				}
@@ -289,17 +284,6 @@ void onDie(CBlob@ this)
 	this.getSprite().Gib();
 
 	Explode(this, 96.0f, 24.0f);
-		
-	for (int i = 0; i < 1; i++)
-	{
-		CBlob@ blob = server_CreateBlob("moundscroll", this.getTeamNum(), this.getPosition());
-		
-		if (blob !is null)
-		{
-			blob.server_SetQuantity(1);
-			blob.setVelocity(Vec2f(XORRandom(4) - 2, -2 - XORRandom(4)));
-		}
-	}
 
 	// if (isServer())
 	// {
@@ -322,7 +306,19 @@ void onTick(CBrain@ this)
 	if (!isServer()) return;
 
 	CBlob @blob = this.getBlob();
-	
+
+	if (blob.getHealth() < 3.0f)
+	{
+		blob.getSprite().PlaySound("CowoDie.ogg", 1.0f, 0.5f);
+		blob.Tag("dead");
+
+		if (isServer())
+		{
+			blob.server_SetPlayer(null);
+			blob.server_SetHealth(30.0f);
+		}
+	}
+
 	if (blob.getPlayer() !is null) return;
 	
 	SearchTarget(this, false, true);

@@ -40,7 +40,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
-	this.set_Vec2f("shop menu size", Vec2f(2, 4));
+	this.set_Vec2f("shop menu size", Vec2f(2, 5));
 	this.set_string("shop description", "Witch's Dilapidated Shack");
 	this.set_u8("shop icon", 25);
 
@@ -92,6 +92,18 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "A chemical tip", "$paper$", "tip", "A paper with drug and chemical laboratories tips. Some recipes may need different laboratories.\nNobody knows if the recipe is not a lie, but you gotta try it!");
 		AddRequirement(s.requirements, "coin", "", "Coins", 200);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Dark Magic Scroll", "$moundscroll$", "moundscroll", "An ancient dark magic scroll.\nI offer those so many because uh, i robbered the owner!");
+		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched mithril", 250);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
+		AddRequirement(s.requirements, "blob", "choker", "Green gem", 4);
+		AddRequirement(s.requirements, "coin", "", "Coins", 10000);
+
+		s.customButton = true;
+		s.buttonwidth = 2;
+		s.buttonheight = 1;
 		s.spawnNothing = true;
 	}
 
