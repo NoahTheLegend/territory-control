@@ -28,6 +28,18 @@ void onInit(CBlob@ this)
 	setKnockable(this);
 
 	this.set_u32("disable_gliding", 0);
+
+	this.addCommandID("activatejetpack");
+}
+
+void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
+{
+	if (cmd == this.getCommandID("activatejetpack"))
+	{
+		string v2 = "";
+		if (!params.saferead_string(v2)) return;
+		this.set_bool("jetpack"+v2, true);
+	}
 }
 
 void MakeParticle(CBlob@ this, const Vec2f pos, const string filename)
