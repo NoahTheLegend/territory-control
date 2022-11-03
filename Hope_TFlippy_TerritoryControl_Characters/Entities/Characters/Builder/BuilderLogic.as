@@ -680,7 +680,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 			}
 		}
 	}
-	else if(detached.getName() == "seed")
+	else if(detached.getName() == "seed" && this.isKeyPressed(key_action1))
 	{
 		CBlob@ anotherBlob = this.getInventory().getItem(detached.getName());
 		if(anotherBlob !is null)
