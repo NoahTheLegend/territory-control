@@ -528,7 +528,7 @@ void Vehicle_StandardControls(CBlob@ this, VehicleInfo@ v)
 
 				// DRIVER
 
-				if (ap.name == "DRIVER" && !this.hasTag("immobile"))
+				if ((ap.name == "DRIVER" || ap.name == "ROWER" || ap.name == "SAIL") && !this.hasTag("immobile"))
 				{
 					bool moveUp = false;
 					const f32 angle = this.getAngleDegrees();
