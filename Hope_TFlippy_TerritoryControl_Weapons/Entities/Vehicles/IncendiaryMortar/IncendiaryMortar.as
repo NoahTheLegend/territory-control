@@ -2,7 +2,7 @@
 
 // Mounted Bow logic
 
-const Vec2f arm_offset = Vec2f(-4, -3);
+const Vec2f arm_offset = Vec2f(-4, -2);
 
 void onInit(CBlob@ this)
 {
@@ -19,7 +19,7 @@ void onInit(CBlob@ this)
 	if (!this.get("VehicleInfo", @v)) return;
 
 	Vehicle_SetupWeapon(this, v,
-	                    180, // fire delay (ticks)
+	                    90, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(6.0f, 2.0f), // fire position offset
 	                    "mat_incendiarybomb", // bullet ammo config name
@@ -31,10 +31,20 @@ void onInit(CBlob@ this)
 	// init arm
 	CSprite@ sprite = this.getSprite();
 
-	CSpriteLayer@ arm = sprite.addSpriteLayer("arm", "IncendiaryMortar_Cannon.png", 16, 8);
+	CSpriteLayer@ arm = sprite.addSpriteLayer("arm", "IncendiaryMortar_Cannon.png", 32, 8);
 	if (arm !is null)
 	{
 		arm.SetOffset(arm_offset);
+		sprite.SetRelativeZ(9.0f);
+		arm.SetRelativeZ(10.0f);
+		Animation@ frame = arm.addAnimation("frame", 0, false);
+		if (frame !is null)
+		{
+			frame.AddFrame(0);
+			frame.AddFrame(1);
+			arm.SetAnimation(frame);
+			arm.SetFrameIndex(0);
+		}
 	}
 
 	this.getShape().SetRotationsAllowed(false);
@@ -210,6 +220,17 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)
 {
 	if (attached.hasTag("bomber")) return;
+
+	CSprite@ sprite = this.getSprite();
+	if (sprite !is null && attached.getName() == "gunship")
+	{
+		CSpriteLayer@ l = sprite.getSpriteLayer("arm");
+		if (l !is null)
+		{
+			l.SetFrameIndex(1);
+			sprite.SetVisible(false);
+		}
+	}
 
 	if (attached.getPlayer() !is null && this.hasTag("invincible"))
 	{

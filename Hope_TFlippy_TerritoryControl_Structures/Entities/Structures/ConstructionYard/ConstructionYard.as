@@ -272,7 +272,7 @@ void onInit(CBlob@ this)
 	}
 	*/	
 	{
-		ShopItem@ s = addShopItem(this, "Charge Drill", "$chargedrill$", "chargedrill", "$chargedrill$\n\n\n\n\n" + "A giant drill that is capable to dig giant tunnels.\n You can roll it while driving, press [DOWN] button.\nYou can reverse modes while driving, press [SPACEBAR] button.", false, false);
+		ShopItem@ s = addShopItem(this, "Charge Drill", "$chargedrill$", "chargedrill", "$chargedrill$\n\n\n\n\n" + "A giant drill that is capable to dig giant tunnels.\nYou can roll it while driving, press [DOWN] button.\nYou can reverse modes while driving, press [SPACEBAR] button.", false, false);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 20);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 12);
@@ -281,7 +281,7 @@ void onInit(CBlob@ this)
 
 		//s.crate_icon = 0;
 		s.customButton = true;
-		s.buttonwidth = 6;
+		s.buttonwidth = 4;
 		s.buttonheight = 3;
 	}
 	{
@@ -293,7 +293,18 @@ void onInit(CBlob@ this)
 
 		s.crate_icon = 0;
 		s.customButton = true;
-		s.buttonwidth = 6;
+		s.buttonwidth = 4;
+		s.buttonheight = 3;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Gunship", "$gunshipicon$", "gunship", "$gunshipicon$\n\n\n\n\n\nA massive ship with an incendiary mortar on its nose.", false, true);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 80);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 32);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
+
+		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 4;
 		s.buttonheight = 3;
 	}
 	{
@@ -335,6 +346,7 @@ void addTokens(CBlob@ this)
 	AddIconToken("$icon_cargocontainer$", "CargoContainer.png", Vec2f(64, 24), 0, teamnum);
 	AddIconToken("$icon_minicopter$", "minicopter_icon.png", Vec2f(64, 32), 0, teamnum);
 	AddIconToken("$jourcopicon$", "JourcopIcon.png", Vec2f(80, 40), 0, teamnum);
+	AddIconToken("$gunshipicon$", "GunshipIcon.png", Vec2f(80, 64), 0, teamnum);
 
 	AddIconToken("$uav_icon$", "UAV.png", Vec2f(64, 24), 0, teamnum);
 	AddIconToken("$jetfighter$", "JetFighter.png", Vec2f(80, 32), 0, teamnum);
