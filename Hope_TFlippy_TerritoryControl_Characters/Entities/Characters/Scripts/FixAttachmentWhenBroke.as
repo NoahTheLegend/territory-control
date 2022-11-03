@@ -5,7 +5,7 @@ void onTick(CBlob@ this)
     CBlob@ blob = this.getCarriedBlob();
     if (blob is null)
     {
-        this.set_u32("delayed", getGameTime()+10);
+        this.set_u32("delayed", getGameTime()+3);
         return;
     }
     if (blob.getTickSinceCreated() >= 1 && (blob.getPosition() - this.getPosition()).getLength()-this.getRadius() > 12.0f)
