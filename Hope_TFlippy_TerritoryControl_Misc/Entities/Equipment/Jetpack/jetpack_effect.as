@@ -48,16 +48,13 @@ void onTick(CBlob@ this)
 
 			this.setVelocity(dir * 8.00f);
 
-			Vec2f pos = this.getPosition()+Vec2f(0.0f, 4.0f);
+			Vec2f pos = this.getPosition()+  Vec2f( 0.0f, 4.0f);
+			if (isClient())
+			{
+				MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
 
-			this.set_bool("jetpack", true);
-
-			//if (isClient())
-			//{
-			//	MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
-//
-			//	this.getSprite().PlaySound("/Jetpack_Offblast.ogg");
-			//}
+				this.getSprite().PlaySound("/Jetpack_Offblast.ogg");
+			}
 
 			this.set_u32("nextJetpack", getGameTime() + 90);
 		}
