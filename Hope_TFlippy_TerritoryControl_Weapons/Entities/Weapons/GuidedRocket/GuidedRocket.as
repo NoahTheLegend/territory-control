@@ -27,6 +27,7 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("direction", Vec2f(0, -1));
 
 	this.getShape().SetRotationsAllowed(true);
+	this.Tag("explosive");
 }
 
 void onTick(CBlob@ this)
