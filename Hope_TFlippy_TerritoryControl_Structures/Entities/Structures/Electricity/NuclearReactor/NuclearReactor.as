@@ -272,7 +272,7 @@ void onTick(CBlob@ this)
 				
 				Material::createFor(this, "mat_mithril", Maths::Ceil(amount_em));
 
-				if (irradiation >= max_irradiation*0.75f) Material::createFor(this, "mat_wilmet", XORRandom(Maths::Ceil(amount_em)/(6.5f - (this.get_string("utility") == "catalyzer" ? 3.5f : 0.0f))));
+				if (irradiation >= max_irradiation*0.75f) Material::createFor(this, "mat_wilmet", XORRandom(Maths::Ceil(amount_em)/(6.0f - (this.get_string("utility") == "catalyzer" ? 3.5f : 0.0f))));
 			}
 		}
 	}
