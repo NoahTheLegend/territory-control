@@ -61,7 +61,7 @@ void onTick(CBlob@ this)
 {
 	if (isServer())
 	{
-		if (!this.get_bool("isActive") || this.get_u32("elec") == 0) return;
+		if (!this.get_bool("isActive")) return;
 	
 		CMap@ map = getMap();
 		
