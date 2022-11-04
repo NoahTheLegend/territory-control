@@ -231,7 +231,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
 void onTick(CBlob@ this)
 {
-	if ((!this.get_bool("state") && this.hasTag("togglesupport")) || this.get_u32("elec") == 0) return; // set this to stop structure
+	if ((!this.get_bool("state") && this.hasTag("togglesupport"))) return; //|| this.get_u32("elec") == 0) return; // set this to stop structure
 	int crafting = this.get_u8("crafting");
 
 	AssemblerItem[]@ items = getItems(this);

@@ -24,34 +24,18 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("wire_offset", Vec2f(0, -4));
 }
 
-void onTick(CBlob@ this)
+void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	if (getGameTime()%30==0)
+	if (cmd == this.getCommandID("security_set_state"))
 	{
-		if (this.get_u32("elec") == 0 && this.getTeamNum() <= 6)
-		{
-			this.SetLight(false);
-			this.set_bool("security_state", false);
-		}
-		else 
-		{
-			this.SetLight(true);
-		}
+		bool state = params.read_bool();
+		
+		CSprite@ sprite = this.getSprite();
+		this.SetLight(state);
+		sprite.PlaySound(state ? "Security_TurnOn" : "Security_TurnOff", 0.30f, 1.00f);
+		this.set_bool("security_state", state);
 	}
 }
-
-//void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
-//{
-//	if (cmd == this.getCommandID("security_set_state"))
-//	{
-//		bool state = params.read_bool();
-//		
-//		CSprite@ sprite = this.getSprite();
-//		this.SetLight(state);
-//		sprite.PlaySound(state ? "Security_TurnOn" : "Security_TurnOff", 0.30f, 1.00f);
-//		this.set_bool("security_state", state);
-//	}
-//}
 
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
