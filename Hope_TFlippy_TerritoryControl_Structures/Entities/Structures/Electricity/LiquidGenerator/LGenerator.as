@@ -55,7 +55,7 @@ void onTick(CBlob@ this)
 		else sprite.SetEmitSoundPaused(true);
 	}
 
-	CBlob@ fuel = inv.getItem(0);
+	CBlob@ fuel = inv.getItem("mat_methane");
 	if (fuel is null) return;
 
 	//bool matching = fuel.getName() == "mat_oil" || fuel.getName() == "mat_methane" || fuel.getName() == "mat_fuel";
@@ -110,14 +110,17 @@ void onTick(CBlob@ this)
 			//}
 			//else
 			//{
-				fuel.server_SetQuantity(quantity-4+XORRandom(4));
-			//}
-
-			CBlob@ oil = server_CreateBlob("mat_oil", this.getTeamNum(), this.getPosition());
-			if (oil !is null)
+			if (quantity > 10)
 			{
-				oil.server_SetQuantity(5+XORRandom(6));
-				this.server_PutInInventory(oil);
+				u8 rand = XORRandom(5);
+				fuel.server_SetQuantity(quantity-6+rand);
+			//}
+				CBlob@ oil = server_CreateBlob("mat_oil", this.getTeamNum(), this.getPosition());
+				if (oil !is null)
+				{
+					oil.server_SetQuantity(5+XORRandom(6));
+					this.server_PutInInventory(oil);
+				}
 			}
 		}
 	}
