@@ -34,12 +34,12 @@ const int[] matRatio = {
 };
 
 const int[] coalRatio = {
+	0,
 	1,
 	1,
-	1,
-	1,
-	1,
-	1
+	2,
+	2,
+	2
 };
 
 void onInit(CBlob@ this)
@@ -81,8 +81,10 @@ void onTick(CBlob@ this)
 			{
 				if (isServer())
 				{
+					u8 mod = 4;
+					if (matNames[i] == "mat_gold") mod = 3;
 					CBlob @mat = server_CreateBlob(matNamesResult[i], -1, this.getPosition());
-					mat.server_SetQuantity(4*this.get_u8("multiplier"));
+					mat.server_SetQuantity(mod*this.get_u8("multiplier"));
 					mat.Tag("justmade");
 					mat.Tag("from_forge");
 					this.TakeBlob(matNames[i], matRatio[i]*this.get_u8("multiplier"));
