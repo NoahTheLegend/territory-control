@@ -37,7 +37,7 @@ const int[] coalRatio = {
 	0,
 	1,
 	1,
-	2,
+	1,
 	2,
 	2
 };
