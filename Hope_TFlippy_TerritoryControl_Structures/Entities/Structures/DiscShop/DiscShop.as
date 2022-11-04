@@ -68,11 +68,11 @@ void onTick(CBlob@ this)
 {
 	CSprite@ sprite = this.getSprite();
 	if (sprite is null) return;
-	if (this.get_u32("elec") < 50) 
-	{
-		sprite.SetEmitSoundPaused(true);
-	}
-	else if (this.get_u8("track_id") != 255)
+	//if (this.get_u32("elec") < 50) 
+	//{
+	//	sprite.SetEmitSoundPaused(true);
+	//}
+	if (this.get_u8("track_id") != 255)
 	{
 		sprite.SetEmitSoundPaused(false);
 	}
