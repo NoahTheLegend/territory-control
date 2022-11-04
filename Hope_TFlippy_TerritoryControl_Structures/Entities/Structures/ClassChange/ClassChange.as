@@ -61,8 +61,8 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Advanced Engineer", "$advancedengineertools$", "advancedengineertools", "An engineer with extra hp.");
-		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 20);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 125);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 12);
 		s.spawnNothing = true;
 	}
 	{
