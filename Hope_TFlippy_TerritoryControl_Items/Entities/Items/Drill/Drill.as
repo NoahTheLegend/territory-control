@@ -208,7 +208,7 @@ void onTick(CBlob@ this)
 			sprite.PlaySound("DrillOverheat.ogg");
 		}
 
-		if (holder.getName() != "engineer" && holder.getName() != "advancedengineer" && holder.getName() != "adminbuilder" && holder.getName() != "freak")
+		if (holder.getName() != "engineer" && holder.getName() != "susengineer" && holder.getName() != "advancedengineer" && holder.getName() != "adminbuilder" && holder.getName() != "freak")
 		{
 			if (holder.isMyPlayer() && point.isKeyPressed(key_action1) && getGameTime() % 5 == 0)
 				Sound::Play("NoAmmo.ogg");
