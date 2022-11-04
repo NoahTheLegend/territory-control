@@ -118,6 +118,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		
 		string headname = this.get_string("equipment_head");
 		string torsoname = this.get_string("equipment_torso");
+		string torso2name = this.get_string("equipment2_torso");
 		string bootsname = this.get_string("equipment_boots");
 		
 		if (headname != "" && this.exists(headname+"_health"))
@@ -162,6 +163,55 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			dmg = playerDamage;
 		}
 		if (torsoname != "" && this.exists(torsoname+"_health"))
+		{
+			f32 armorMaxHealth = 100.0f;
+			f32 ratio = 0.0f;
+
+			if (torsoname == "bulletproofvest") armorMaxHealth = 100.0f;
+			else if (torsoname == "keg") armorMaxHealth = 10.0f;
+
+			if (torsoname == "bulletproofvest" && customData != HittersTC::radiation)
+			{
+				switch (customData)
+				{
+					case HittersTC::bullet_low_cal:
+					case HittersTC::shotgun:
+						ratio = 0.75f;
+						break;
+
+					case HittersTC::bullet_high_cal:
+					case HittersTC::railgun_lance:
+						ratio = 0.6f;
+						break;
+
+					default:
+						ratio = 0.35f;
+						break;
+				}
+			}
+			else if (torsoname == "keg" && !isBullet && customData != HittersTC::radiation)
+			{
+				if ((customData == Hitters::fire || customData == Hitters::burn || customData == Hitters::explosion || 
+					customData == Hitters::bomb || customData == Hitters::bomb_arrow) && this.get_f32("keg_explode") == 0.0f)
+				{
+					this.set_f32("keg_explode", getGameTime() + (30.0f * 1.0f));
+					this.SetLightRadius(this.get_f32("explosive_radius") * 0.5f);
+					this.getSprite().PlaySound("/Sparkle.ogg", 1.00f, 1.00f);
+					this.getSprite().PlaySound("MigrantScream1.ogg", 1.00f, this.getSexNum() == 0 ? 1.0f : 2.0f);
+					ratio = 1.0f;
+				}
+				else ratio = 0.45f;
+			}
+			f32 armorHealth = armorMaxHealth - this.get_f32(torsoname+"_health");
+			if (armorHealth < 16.0f) armorHealth = 16.0f;
+			ratio *= armorHealth / armorMaxHealth;
+
+			this.add_f32(torsoname+"_health", (ratio*dmg));
+			f32 playerDamage = Maths::Clamp((1.00f - ratio) * dmg, 0, dmg);
+			dmg = playerDamage;
+		}
+
+		if (torso2name != "" && this.exists(torso2name+"_health"))
 		{
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;

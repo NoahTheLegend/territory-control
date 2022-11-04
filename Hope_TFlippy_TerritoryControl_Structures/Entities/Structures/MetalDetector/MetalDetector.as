@@ -32,7 +32,7 @@ void onTick(CBlob@ this)
 
 				if (team != this.getTeamNum() || team >= 100)
 				{
-					if (isDangerous(blob) || blob.get_string("equipment_torso") == "suicidevest")
+					if (isDangerous(blob) || blob.get_string("equipment_torso") == "suicidevest" || blob.get_string("equipment2_torso") == "suicidevest")
 					{
 						detected = true;
 						break;

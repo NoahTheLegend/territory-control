@@ -167,7 +167,7 @@ void onTick(CSprite@ this)
 		chop.SetVisible(wantsChopLayer);
 		if (wantsChopLayer)
 		{
-			printf("e");
+			//printf("e");
 			f32 choplength = 5.0f;
 
 			chop.animation.frame = chopframe;

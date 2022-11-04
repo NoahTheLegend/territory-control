@@ -75,6 +75,12 @@ void onTick(CBlob@ this)
 		return;
 	}
 
+	if (this.get_string("equipment_torso") != "" && this.get_string("equipment2_torso") != "")
+	{
+		moveVars.walkFactor *= 0.9f;
+		moveVars.jumpFactor *= 0.95f;
+	}
+
 	if (this.hasTag("glued") && this.get_u32("timer") > 1)
 	{
 		moveVars.walkFactor *= 0.4f;
@@ -589,7 +595,7 @@ bool canHit(CBlob@ this, CBlob@ b, Vec2f tpos, bool extra = true)
 		CShape@ b_shape = b.getShape();
 		if(!b.isCollidable() || (b_shape !is null && b_shape.isStatic()))
 		{
-			//maybe we shouldn't hit this..
+			//maybe we shouldn't hit this.
 			//check if we should always hit
 			return BuilderAlwaysHit(b);
 		}
