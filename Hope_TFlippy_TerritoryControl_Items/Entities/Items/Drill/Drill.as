@@ -527,7 +527,7 @@ void onRender(CSprite@ this)
 	Vec2f localPos = localBlob.getPosition();
 
 
-	if (holderBlob.getName() != "engineer" && holderBlob.getName() != "advancedengineer" && holderBlob.getName() != "adminbuilder" && holderBlob.getName() != "freak")
+	if (holderBlob.getName() != "engineer" && holderBlob.getName() != "susengineer" && holderBlob.getName() != "advancedengineer" && holderBlob.getName() != "adminbuilder" && holderBlob.getName() != "freak")
 	{
 		Vec2f pos = holderBlob.getInterpolatedScreenPos() + (blob.getScreenPos() - holderBlob.getScreenPos()) + Vec2f(0, -40);
 		GUI::DrawTextCentered("Only an engineer can use this drill!", pos, SColor(255, 183, 51, 51));
