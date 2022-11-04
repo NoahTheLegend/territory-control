@@ -337,11 +337,11 @@ void DoExplosion(CBlob@ this)
 		{
 			boom.setPosition(this.getPosition());
 			boom.set_u8("boom_start", 0);
-			boom.set_u8("boom_end", (0 + this.get_f32("irradiation") / 400));
+			boom.set_u8("boom_end", (0 + (this.get_f32("irradiation") + (this.get_string("utility") == "catalyzer" ? 5000.0f : 0.0f)) / 300));
 			boom.set_u8("boom_frequency", 4);
 			boom.set_u32("boom_delay", 0);
 			boom.set_u32("flash_delay", 0);
-			boom.set_f32("mithril_amount", 2);
+			boom.set_f32("mithril_amount", 3);
 			boom.set_f32("flash_distance", 2500);
 			boom.Init();
 		}
