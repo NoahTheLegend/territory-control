@@ -53,7 +53,7 @@ void onTick(CSprite@ this)
 void onInit(CBlob@ this)
 {
 	this.set_u8(personality_property, SCARED_BIT | STILL_IDLE_BIT);
-	this.set_f32(target_searchrad_property, 56.0f);
+	this.set_f32(target_searchrad_property, 16.0f);
 
 	this.getBrain().server_SetActive(true);
 
@@ -65,8 +65,8 @@ void onInit(CBlob@ this)
 
 	this.getCurrentScript().tickFrequency = 40;
 
-	if (!this.exists("age"))
-		this.set_u8("age", 0);
+	//if (!this.exists("age"))
+		//this.set_u8("age", 0);
 
 	this.Tag("pushedByDoor");
 }
@@ -86,7 +86,7 @@ void onTick(CBlob@ this)
 			this.SetFacingLeft(false);
 	}
 
-	if (getNet().isServer())
+	/*if (getNet().isServer())
 	{
 		u8 age = this.get_u8("age");
 		if (age < 3)
@@ -103,12 +103,12 @@ void onTick(CBlob@ this)
 		{
 			this.server_Hit(this, this.getPosition(), Vec2f(0, 0), 1.0f, 0, true); //death from old age
 		}
-	}
+	}*/
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {
-	if (damage == 0)
+	/*if (damage == 0)
 		return damage;
 
 	u8 age = this.get_u8("age");
@@ -119,11 +119,11 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 	this.getShape().getConsts().collidable = true;
 	this.server_SetTimeToDie(40);
 
-	CSprite@ sprite = this.getSprite();
+	CSprite@ sprite = this.getSprite();*/
 
 	//sprite.SetAnimation(anims[age][2]);
 
-	sprite.SetFacingLeft(!sprite.isFacingLeft());
+	//sprite.SetFacingLeft(!sprite.isFacingLeft());
 
 	if (hitterBlob !is null && hitterBlob !is this && (customData == Hitters::builder || customData == Hitters::sword))
 	{
@@ -137,6 +137,6 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob !is null && blob.hasTag("flesh"))
 	{
-		if (isServer()) this.server_Hit(blob, this.getPosition(), Vec2f(0, 0), 0.75f, HittersTC::electric, true);
+		if (isServer()) this.server_Hit(blob, this.getPosition(), Vec2f(0, 0), 1.75f, HittersTC::electric, true);
 	}
 }
