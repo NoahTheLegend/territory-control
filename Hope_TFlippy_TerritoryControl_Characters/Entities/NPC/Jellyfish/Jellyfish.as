@@ -33,18 +33,18 @@ void onTick(CSprite@ this)
 		        blob.isKeyPressed(key_down))
 		{
 			//this.SetAnimation(anims[age][0]);
-			blob.SetInventoryIcon("Jellyfish.png", age_frame_index+1, Vec2f(16, 16)); // default anim frames are age_frame_index+0, age_frame_index+1, age_frame_index+2.
+			blob.SetInventoryIcon("Jellyfish.png", age_frame_index+1, Vec2f(32, 32)); // default anim frames are age_frame_index+0, age_frame_index+1, age_frame_index+2.
 		}
 		else
 		{
 			//this.SetAnimation(anims[age][1]);
-			blob.SetInventoryIcon("Jellyfish.png", age_frame_index+0, Vec2f(16, 16)); // idle anim frames are age_frame_index+0.
+			blob.SetInventoryIcon("Jellyfish.png", age_frame_index+0, Vec2f(32, 32)); // idle anim frames are age_frame_index+0.
 		}
 	}
 	else
 	{
 		//this.SetAnimation(anims[age][2]);
-		blob.SetInventoryIcon("Jellyfish.png", age_frame_index+3, Vec2f(16, 16)); // dead anim frames are age_frame_index+3.
+		blob.SetInventoryIcon("Jellyfish.png", age_frame_index+3, Vec2f(32, 32)); // dead anim frames are age_frame_index+3.
 	}
 }
 
