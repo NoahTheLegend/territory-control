@@ -2,7 +2,7 @@
 void onTick(CBlob@ this)
 {
     //if (getGameTime() < this.get_u32("delayed")) return; // immediate pickup triggers the code
-    //CBlob@ blob = this.getCarriedBlob();
+    CBlob@ blob = this.getCarriedBlob();
     //if (blob is null)
     //{
     //    this.set_u32("delayed", getGameTime()+3);
