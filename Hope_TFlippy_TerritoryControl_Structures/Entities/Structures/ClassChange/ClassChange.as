@@ -67,7 +67,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Hazmat Suit", "$icon_hazmat$", "hazmatitem", "A hazardous materials suit giving the wearer protection against fire, toxic gases, radiation and drowning.");
-		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 50);
+		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 75);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.spawnNothing = true;
@@ -82,8 +82,8 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Royal Guard Armor", "$icon_royalarmor$", "royalarmor", "A heavy armor that offers high damage resistance at cost of low mobility. Has a shield which is tough enough to block bullets.");
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
-		AddRequirement(s.requirements, "coin", "", "Coins", 350);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 10);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.spawnNothing = true;
 	}
