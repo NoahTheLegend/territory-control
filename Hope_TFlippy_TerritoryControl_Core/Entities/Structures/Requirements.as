@@ -175,7 +175,7 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 			: (inv2 !is null ? (inv2.getBlob().getPlayer() !is null ? inv2.getBlob() : null) : null)) 
 		: (inv2 !is null ? (inv2.getBlob().getPlayer() !is null ? inv2.getBlob() : null) : null));
 
-	if (playerBlob.getName() == "adminbuilder") return true;
+	if (playerBlob !is null && playerBlob.getName() == "adminbuilder") return true;
 
 	CBlob@[] baseBlobs;
 	
