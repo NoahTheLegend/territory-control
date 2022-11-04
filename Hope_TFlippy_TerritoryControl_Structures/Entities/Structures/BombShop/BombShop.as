@@ -67,7 +67,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "B.D. Bomb (1)", "$mat_bd$", "mat_bd-1", "Evil.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 2000);
-		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 300);
+		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 250);
 		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 1750);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 30);
 		s.customButton = true;
@@ -79,7 +79,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "R.O.F.L.", "$icon_nuke$", "nuke", "A dangerous warhead stuffed in a cart. Since it's heavy, it can be only pushed around or picked up by balloons.");
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 10);
-		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 200);
+		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 175);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100); // Cart!
 		AddRequirement(s.requirements, "coin", "", "Coins", 750);
