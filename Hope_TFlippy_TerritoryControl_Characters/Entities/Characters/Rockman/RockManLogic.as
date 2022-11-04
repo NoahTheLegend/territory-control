@@ -1,6 +1,7 @@
 // Builder logic
 
 #include "Hitters.as";
+#include "HittersTC.as";
 #include "Knocked.as";
 #include "BuilderCommon.as";
 #include "ThrowCommon.as";
@@ -29,6 +30,7 @@ void onInit(CBlob@ this)
 	this.Tag("player");
 	this.Tag("flesh");
 	this.Tag("human");
+	this.Tag("gas immune");
 
 	HitData hitdata;
 	this.set("hitdata", hitdata);
@@ -683,5 +685,14 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 	if(this.hasTag("invincible") || (player !is null && player.freeze)) {
 		return 0;
 	}
+
+	switch (customData)
+	{
+		case HittersTC::electric:
+		case HittersTC::radiation:
+			damage = 0.00f;
+			break;
+	}
+
 	return damage;
 }
