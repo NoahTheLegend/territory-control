@@ -62,15 +62,15 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Mustard Gas", "$icon_mustard$", "mat_mustard-50", "A bottle of a highly poisonous gas. Causes blisters, blindness and lung damage.");
-		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 50);
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		ShopItem@ s = addShopItem(this, "Copper Wire (100)", "$mat_copperwire$", "mat_copperwire-100", "A bundle of copper wires. Kids' favourite toy.");
+		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 50);
 
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Backpack", "$icon_backpack$", "backpack", "A large leather backpack that can be equipped and used as an inventory.\nOccupies the Torso slot");
-		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		ShopItem@ s = addShopItem(this, "Mustard Gas", "$icon_mustard$", "mat_mustard-50", "A bottle of a highly poisonous gas. Causes blisters, blindness and lung damage.");
+		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 50);
+		AddRequirement(s.requirements, "coin", "", "Coins", 100);
 
 		s.spawnNothing = true;
 	}
@@ -152,11 +152,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Money Generating Boots", "$moneygenboots$", "moneygenboots", "Boots that produce money while walking.\nOccupies the boots slot.\nNeeds coal or wood to make money.");
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
-		AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 25);
-		AddRequirement(s.requirements, "blob", "kitten", "Kitten", 2);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		ShopItem@ s = addShopItem(this, "Backpack", "$icon_backpack$", "backpack", "A large leather backpack that can be equipped and used as an inventory.\nOccupies the Torso slot");
+		AddRequirement(s.requirements, "coin", "", "Coins", 150);
 
 		s.spawnNothing = true;
 	}
