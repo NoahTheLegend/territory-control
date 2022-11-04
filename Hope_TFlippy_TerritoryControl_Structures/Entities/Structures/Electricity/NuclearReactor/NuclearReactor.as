@@ -21,6 +21,7 @@ void onInit(CBlob@ this)
 	this.Tag("no fuel hint");
 	this.Tag("builder always hit");
 	this.Tag("generator");
+	this.Tag("extractable");
 
 	this.set_u32("elec_max", ELECTRICITY_MAX);
 	this.set_u16("consume_id", 0);
@@ -265,13 +266,13 @@ void onTick(CBlob@ this)
 			if (e_mithril_blob !is null)
 			{
 				const u32 mithril_quantity = e_mithril_blob.getQuantity();
-				const f32 amount = mithril_count / (this.get_string("utility") == "refrigerant" ? 275.0f : 225.0f)+XORRandom(25);
+				const f32 amount = mithril_count / (this.get_string("utility") == "refrigerant" ? 240.0f : 190.0f)+XORRandom(25);
 			
 				const f32 amount_em = irradiation / 1150.0f;
 				
 				Material::createFor(this, "mat_mithril", Maths::Ceil(amount_em));
 
-				if (irradiation >= max_irradiation*0.75f) Material::createFor(this, "mat_wilmet", XORRandom(Maths::Ceil(amount_em)/(7.0f - (this.get_string("utility") == "catalyzer" ? 3.5f : 0.0f))));
+				if (irradiation >= max_irradiation*0.75f) Material::createFor(this, "mat_wilmet", XORRandom(Maths::Ceil(amount_em)/(6.5f - (this.get_string("utility") == "catalyzer" ? 3.5f : 0.0f))));
 			}
 		}
 	}
