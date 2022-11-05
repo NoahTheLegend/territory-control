@@ -28,7 +28,8 @@ const string[] OffiMaps = {
 	"Sylw_LawrenceSlum",
 	"Tenshi_TC_WellOiledMachine_v2",
 	"Skemonde_TC_Gooby_v3fM",
-	"Skemonde_TC_Morgenland_v3"
+	"Skemonde_TC_Morgenland_v3",
+	"NoahTheLegend_Deadborn.png"
 };
 
 const string[] MemeMaps = {
