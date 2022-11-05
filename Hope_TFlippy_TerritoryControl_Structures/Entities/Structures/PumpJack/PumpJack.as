@@ -113,6 +113,7 @@ void onTick(CBlob@ this)
 CBlob@ FindStorage(u8 team)
 {
 	if (team >= 100) return null;
+	if (XORRandom(4)==0) return null; // 25% chance not to put oil in ur storage
 
 	CBlob@[] blobs;
 	getBlobsByName("oiltank", @blobs);
