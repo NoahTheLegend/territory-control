@@ -182,6 +182,7 @@ const string[] teamBombs =
 	"mat_incendiarybomb",
 	"mat_bunkerbuster",
 	"mat_mininuke",
+	"mat_explonuke",
 	"mat_dirtybomb",
 	"mat_smallbomb",
 	"mat_stunbomb",

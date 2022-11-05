@@ -196,6 +196,7 @@ const string[] loot_explosives =
 { 
 	"mat_smallbomb",
 	"mat_mininuke",
+	"mat_explonuke",
 	"mat_incendiarybomb",
 	"mat_tankshell"
 };

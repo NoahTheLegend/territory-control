@@ -33,11 +33,11 @@ void onDie(CBlob@ this)
 		CBlob@ boom = server_CreateBlobNoInit("nukeexplosion");
 		boom.setPosition(this.getPosition());
 		boom.set_u8("boom_start", 0);
-		boom.set_u8("boom_end", 5);
-		boom.set_f32("mithril_amount", 50);
+		boom.set_u8("boom_end", 8);
+		boom.set_f32("mithril_amount", 0);
 		boom.set_f32("flash_distance", 256);
-		// boom.Tag("no mithril");
-		// boom.Tag("no flash");
+		boom.Tag("no mithril");
+		boom.Tag("no fallout");
 		boom.Init();
 	}
 }
@@ -92,7 +92,7 @@ bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 			{
 				CBlob@ item = inv.getItem(i);
 				if (item is null) continue;
-				if (item.getName() == "mat_mininuke") counter++;
+				if (item.getName() == "mat_explonuke") counter++;
 			}
 			return counter <= 5;
 		}
