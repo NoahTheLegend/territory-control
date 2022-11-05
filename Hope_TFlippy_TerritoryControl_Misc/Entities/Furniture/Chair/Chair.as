@@ -23,16 +23,18 @@ void onInit(CBlob@ this)
 void onTick(CSprite@ this)
 {
 	this.SetZ(0.0f);
-	
+
 	CSpriteLayer@ back = this.getSpriteLayer("back");
 	if (back !is null)
 	{	
 		back.SetRelativeZ(-20);
 	}
-}	
+}
 
 void onTick(CBlob@ this)
 {
+	AttachmentPoint@ ap2 = this.getAttachments().getAttachmentPointByName("PICKUP");
+	if (isServer() && ap2 !is null && ap2.getOccupied() !is null && ap2.getOccupied().getPlayer() is null) this.server_DetachFrom(ap2.getOccupied());
 	AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PILOT");
 	if (ap !is null)
 	{
