@@ -53,6 +53,7 @@ void onInit(CSprite@ this)
 void onInit(CBlob@ this)
 {
 	this.Tag("aerial");
+	this.Tag("vehicle");
 	this.Tag("heavy weight");
 	
 	this.set_u16("controller_blob_netid", 0);
