@@ -68,7 +68,7 @@ void onInit(CBlob@ this)
 	settings.B_GRAV = Vec2f(0, 0.008); //Bullet Gravity
 	settings.B_TTL = 14; //Bullet Time to live
 	settings.B_SPEED = 60; //Bullet speed
-	settings.B_DAMAGE = 1.0f; //Bullet damage
+	settings.B_DAMAGE = 0.75f; //Bullet damage
 	settings.MUZZLE_OFFSET = Vec2f(-2,13);
 	settings.G_RECOIL = 0;
 
