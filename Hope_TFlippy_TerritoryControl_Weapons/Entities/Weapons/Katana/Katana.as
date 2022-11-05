@@ -219,3 +219,9 @@ void onAttach( CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint )
 	// attached.Tag("noShielding");
 }
 
+bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
+{
+	if (blob !is null && blob.isCollidable()) return true;
+	return false;
+}
+
