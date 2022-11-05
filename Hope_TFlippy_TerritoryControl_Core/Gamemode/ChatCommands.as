@@ -249,6 +249,18 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 				player.get_bool("no_ks_sounds") ? player.set_bool("no_ks_sounds", false) : player.set_bool("no_ks_sounds",true);
 				player.Sync("no_ks_sounds", true);
 			}
+			else if (tokens[0] == "!getcarriedlength")
+			{
+				CBlob@ a = player.getBlob();
+				if (a !is null)
+				{
+					CBlob@ b = a.getCarriedBlob();
+					if (b !is null)
+					{
+						printf("length: "+((b.getPosition()-a.getPosition()).getLength()));
+					}
+				}
+			}
 			else if (tokens.length > 1 && tokens[0] == "!write") 
 			{
 				if (getGameTime() > this.get_u32("nextwrite"))
@@ -1005,6 +1017,18 @@ bool onClientProcessChat(CRules@ this,const string& in text_in,string& out text_
 						print("       " + overlap.getName() + " " + overlap.isLadder());
 					}
 				}
+			}
+		}
+	}
+	else if (text_in == "!getcarriedlength")
+	{
+		CBlob@ a = player.getBlob();
+		if (a !is null)
+		{
+			CBlob@ b = a.getCarriedBlob();
+			if (b !is null)
+			{
+				printf("length: "+((b.getPosition()-a.getPosition()).getLength()));
 			}
 		}
 	}
