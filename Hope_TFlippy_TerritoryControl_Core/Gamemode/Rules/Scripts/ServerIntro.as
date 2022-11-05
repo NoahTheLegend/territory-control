@@ -32,7 +32,7 @@ void onRender( CRules@ this )
 	else if (time < endTime2) {
 		text =  "Mod Rules:\n\n"+
 				" - Don't block neutral spawn, only wood or stone can be used but the player should be allowed to leave it.\n\n"+
-				" - Faction grief is not bannable, you are responsible for who you are letting in.\n\n"+
+				" - Faction grief is bannable, but also you are responsible for who you are letting in.\n\n"+
 				" - Don't intentionally lag the server.\n\n"+
 				" - Players genocide and enslavement is permitted.\n\n"+
 				"For more information about server, press TAB and check the links.";
