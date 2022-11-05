@@ -56,7 +56,6 @@ void onTick(CBlob@ this)
 		this.set_string("reload_script", "");
 	}
 
-
 	if (this.isKeyJustPressed(key_action3) && !this.hasTag("exploding"))
 	{
 		CBitStream params;
@@ -87,7 +86,24 @@ void onTick(CBlob@ this)
 			moveVars.jumpFactor *= 1.20f;
 		}
 	
-		if (isServer() && getGameTime() >= this.get_u32("vest_explode")) this.server_Die();
+		if (isServer() && getGameTime() >= this.get_u32("vest_explode"))
+		{
+			CInventory@ inv = this.getInventory();
+			if (inv !is null)
+			{
+				for (u8 i = 0; i < inv.getItemsCount(); i++)
+				{
+					CBlob@ b = inv.getItem(i);
+					if (b !is null && b.hasTag("explosive"))
+					{
+						//b.server_PutOutInventory(this);
+						b.Tag("DoExplode");
+						b.server_Die();
+					}
+				}
+			}
+			this.server_Die();
+		}
 	}
 }
 

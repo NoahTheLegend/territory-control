@@ -128,7 +128,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 		if (caller is null) return;
 		if (caller.get_string("equipment_torso") != "" && cmd == this.getCommandID("equip_torso"))
 			removeTorso(caller, caller.get_string("equipment_torso"));
-		if (caller.get_string("equipment2_torso") != "" && cmd == this.getCommandID("equip2_torso"))
+		else if (caller.get_string("equipment2_torso") != "" && cmd == this.getCommandID("equip2_torso"))
 			remove2Torso(caller, caller.get_string("equipment2_torso"));
 		else if (caller.get_string("equipment_boots") != "" && cmd == this.getCommandID("equip_boots"))
 			removeBoots(caller, caller.get_string("equipment_boots"));
@@ -284,6 +284,7 @@ void add2Torso(CBlob@ playerblob, string torsoname)			//The same stuff as in hea
 
 void removeTorso(CBlob@ playerblob, string torsoname)		//Same stuff with removing again.
 {
+	if (torsoname == "suicidevest" && playerblob.hasTag("exploding")) return;
 	if (torsoname == "parachutepack")
 	{
 		CSpriteLayer@ pack = playerblob.getSprite().getSpriteLayer("pack");
@@ -320,6 +321,7 @@ void removeTorso(CBlob@ playerblob, string torsoname)		//Same stuff with removin
 
 void remove2Torso(CBlob@ playerblob, string torsoname)		//Same stuff with removing again.
 {
+	if (torsoname == "suicidevest" && playerblob.hasTag("exploding")) return;
 	if (torsoname == "parachutepack")
 	{
 		CSpriteLayer@ pack = playerblob.getSprite().getSpriteLayer("pack");
