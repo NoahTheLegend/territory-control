@@ -9,7 +9,7 @@ void onTick(CBlob@ this)
     //    return;
     //}
     //if (blob.getName() == "seed") return; // they are picked automatically
-    if (blob !is null && blob.getTickSinceCreated() >= 1 && (blob.getPosition() - this.getPosition()).getLength()-this.getRadius() > 12.0f)
+    if (blob !is null && blob.getTickSinceCreated() >= 1 && (blob.getPosition() - this.getPosition()).getLength()-this.getRadius() > 9.0f)
     {
         //if (!this.hasTag("broken_attach") || getGameTime()%1800==0)
         //{
@@ -17,9 +17,14 @@ void onTick(CBlob@ this)
         //}
         
         AttachmentPoint@ ap = blob.getAttachments().getAttachmentPointByName("PICKUP");
-        if (ap !is null)
+        if (ap !is null && (this.getPosition()-(this.getPosition()+ap.offset)).getLength() <= 9.00f)
         {
             blob.setPosition(this.getPosition()+ap.offset);
+        }
+        else
+        {
+            ap.offset = Vec2f(0,0);
+            blob.setPosition(this.getPosition());
         }
 
         this.Tag("broken_attach");
