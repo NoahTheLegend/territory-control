@@ -924,6 +924,10 @@ void SyncState(CBlob@ this)
         CBitStream params;
         params.write_u8(this.get_u8("frameindex"));
         params.write_u16(this.get_u32("time_to_arrival"));
+        for (u8 i = 1; i < 5; i++)
+        {
+            params.write_string(this.get_string("module"+i));
+        }
         this.SendCommand(this.getCommandID("sync_state"), params);
     }
 }
@@ -958,13 +962,21 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
         {
             u8 frameindex;
             u32 timeto;
+            string module1, module2, module3, module4;
 
             if (!params.saferead_u8(frameindex)) return;
             if (!params.saferead_u32(timeto)) return;
+            if (!params.saferead_string(module1)) return;
+            if (!params.saferead_string(module2)) return;
+            if (!params.saferead_string(module3)) return;
+            if (!params.saferead_string(module4)) return;
 
             this.set_u8("frameindex", frameindex);
             this.set_u32("time_to_arrival", timeto);
-
+            this.set_string("module1", module1);
+            this.set_string("module2", module1);
+            this.set_string("module3", module1);
+            this.set_string("module4", module1);
         }
     }
     else if (cmd == this.getCommandID("create_rocket"))
