@@ -66,11 +66,6 @@ void onInit(CBlob@ this)
 	getMap().server_AddMovingSector(Vec2f(-28.0f, -64.0f), Vec2f(-12.0f, 0.0f), "ladder", this.getNetworkID());
 	getMap().server_AddMovingSector(Vec2f(-28.0f, -82.0f), Vec2f(-12.0f, 0.0f), "ladder", this.getNetworkID());
 
-	if (isServer())
-	{
-		CBlob@ mortar = server_CreateBlob("incendiarymortar", this.getTeamNum(), this.getPosition());
-	}
-
 	// sprites
 
 	// add head
@@ -102,6 +97,12 @@ void onTick(CBlob@ this)
 			return;
 		}
 		Vehicle_StandardControls(this, v);
+
+		if (isServer() && !this.hasTag("has mortar"))
+		{
+			this.Tag("has mortar");
+			CBlob@ mortar = server_CreateBlob("incendiarymortar", this.getTeamNum(), this.getPosition());
+		}
 	}
 
 	if (time % 60 == 0)
