@@ -120,6 +120,11 @@ void onTick(CBlob@ this)
 	{
 		Vehicle_DontRotateInWater(this);
 	}
+
+	if (!this.isInWater())
+	{
+		this.setVelocity(Vec2f(0, this.getOldVelocity().y));
+	}
 }
 
 void Vehicle_onFire(CBlob@ this, VehicleInfo@ v, CBlob@ bullet, const u8 charge) {}
