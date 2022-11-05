@@ -2,6 +2,7 @@
 #include "CargoAttachmentCommon.as"
 #include "Hitters.as";
 #include "Explosion.as";
+#include "MaterialCommon.as";
 
 const f32 MAX_HEAT = 350.0f;
 
@@ -284,6 +285,14 @@ void onTick(CBlob@ this)
 											this.Sync("heat", true);
 											if (!map.isTileSolid(map.getTile(hi.tileOffset))){ break; }
 											map.server_DestroyTile(hi.hitpos, 0.25, this);
+											if (map.isTileCastle(tile) || map.isTileWood(tile) || map.isTileGold(tile))
+											{
+												Material::fromTile(this, tile, 1.0f);
+											}
+											else
+											{
+												Material::fromTile(this, tile, 0.125f);
+											}
 											if (map.isTileGround(tile) || map.isTileStone(tile) || map.isTileThickStone(tile))
 											{
 												this.set_bool("just hit dirt", true);
