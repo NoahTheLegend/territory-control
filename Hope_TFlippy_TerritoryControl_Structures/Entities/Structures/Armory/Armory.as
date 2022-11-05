@@ -34,12 +34,12 @@ void onInit(CBlob@ this)
 	addTokens(this); //colored shop icons
 
 	this.set_Vec2f("shop offset", Vec2f(0,0));
-	this.set_Vec2f("shop menu size", Vec2f(4, 6));
+	this.set_Vec2f("shop menu size", Vec2f(6, 6));
 	this.set_string("shop description", "Armory");
 	this.set_u8("shop icon", 15);
 
 	{
-		ShopItem@ s = addShopItem(this, "Combat Helmet", "$icon_militaryhelmet$", "militaryhelmet", "A heavy combat helmet.\nCan absorb up to 20 points of damage.\n\nOccupies the Head slot");
+		ShopItem@ s = addShopItem(this, "Combat Helmet", "$icon_militaryhelmet$", "militaryhelmet", "A light combat helmet.\nCheap and practical. Good against all bullets.\n\nOccupies the Head slot");
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 2);
 		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 
@@ -50,6 +50,123 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
 		AddRequirement(s.requirements, "coin", "", "Coins", 35);
 
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Carbon Helmet", "$icon_carbonhelmet$", "carbonhelmet", "A heavy combat helmet.\nVery durable. Good against low caliber bullets and explosions,\nbut worse against high caliber and power rounds.\n\nOccupies the Head slot");
+		AddRequirement(s.requirements, "blob", "mat_carbon", "Carbon", 30);
+		AddRequirement(s.requirements, "coin", "", "Coins", 200);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Carbon Helmet", "$icon_carbonhelmet$", "carbonhelmet", "Repair carbon helmet.");
+		AddRequirement(s.requirements, "blob", "carbonhelmet", "Carbon Helmet", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 175);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Wilmet Helmet", "$icon_wilmethelmet$", "wilmethelmet", "An universal combat helmet.\nModerately durable. Very good against plasma, electricity, radiation,\nbut moderately good against everything else.\n\nOccupies the Head slot");
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 100);
+		AddRequirement(s.requirements, "coin", "", "Coins", 400);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Wilmet Helmet", "$icon_wilmethelmet$", "wilmethelmet", "Repair wilmet helmet.");
+		AddRequirement(s.requirements, "blob", "wilmethelmet", "Wilmet Helmet", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Ballistic Vest", "$icon_bulletproofvest$", "bulletproofvest", "A resilient ballistic armor.\nCheap and practical. Good against all bullets.\n\nOccupies the Torso slot");
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
+		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Vest", "$icon_bulletproofvest$", "bulletproofvest", "Repair ballistic vest.");
+		AddRequirement(s.requirements, "blob", "bulletproofvest", "Ballistic Vest", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Carbon Vest", "$icon_carbonvest$", "carbonvest", "A heavy combat vest.\nVery durable. Good against low caliber bullets and explosions,\nbut worse against high caliber and power rounds.\n\nOccupies the Torso slot");
+		AddRequirement(s.requirements, "blob", "mat_carbon", "Carbon", 50);
+		AddRequirement(s.requirements, "coin", "", "Coins", 200);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Carbon Vest", "$icon_carbonvest$", "carbonvest", "Repair carbon vest.");
+		AddRequirement(s.requirements, "blob", "carbonvest", "Carbon vest", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Wilmet Vest", "$icon_wilmetvest$", "wilmetvest", "An universal combat vest.\nModerately durable. Very good against plasma, electricity, radiation,\nbut moderately good against everything else.\n\nOccupies the Torso slot");
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 100);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Wilmet Vest", "$icon_wilmetvest$", "wilmetvest", "Repair wilmet vest.");
+		AddRequirement(s.requirements, "blob", "wilmetvest", "Wilmet vest", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Combat Boots", "$icon_combatboots$", "combatboots", "A pair of light military boots.\nSlightly protects against all bullets and increases your mobility.\nModerately decreases fall damage.\nIncreases stomp damage.\n\nOccupies the Boots slot");
+		AddRequirement(s.requirements, "coin", "", "Coins", 50);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Boots", "$icon_combatboots$", "combatboots", "Repair combat boots.");
+		AddRequirement(s.requirements, "blob", "combatboots", "Combat Boots", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 35);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Carbon Boots", "$icon_carbonboots$", "carbonboots", "A pair of heavy and sturdy boots.\nSlightly protects you against all bullets and explosions.\nSlightly decreases running speed and fall damage.\n\nOccupies the Boots slot");
+		AddRequirement(s.requirements, "blob", "mat_carbon", "Carbon", 20);
+		AddRequirement(s.requirements, "coin", "", "Coins", 125);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Carbon Boots", "$icon_carbonboots$", "carbonboots", "Repair carbon boots.");
+		AddRequirement(s.requirements, "blob", "carbonboots", "Carbon Boots", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Wilmet Boots", "$icon_wilmetboots$", "wilmetboots", "A pair of alien-tech boots.\nGreatly protects you from fall damage and increases jump height.\nIncreases running speed.\n\nOccupies the Boots slot");
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
+		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Repair Wilmet Boots", "$icon_wilmetboots$", "wilmetboots", "Repair wilmet boots.");
+		AddRequirement(s.requirements, "blob", "wilmetboots", "Combat Boots", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Bushy Helm", "$bush$", "bushyhelm", "Add bush camo to helm.");
+		AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
+	
 		s.spawnNothing = true;
 	}
 	{
@@ -64,46 +181,6 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Night Vision Device", "$nvd$", "nvd", "Repair NVD.");
 		AddRequirement(s.requirements, "blob", "nvd", "Night Vision Device", 1);
 		AddRequirement(s.requirements, "coin", "", "Coins", 75);
-
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Ballistic Vest", "$icon_bulletproofvest$", "bulletproofvest", "A resilient ballistic armor.\nCan absorb up to 25 points of damage.\n\nOccupies the Torso slot");
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
-
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Repair Vest", "$icon_bulletproofvest$", "bulletproofvest", "Repair ballistic vest.");
-		AddRequirement(s.requirements, "blob", "bulletproofvest", "Ballistic Vest", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
-
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Parachute Pack", "$icon_parachute$", "parachutepack", "A piece of fabric to let you fall slowly.\nPress [E] while falling to activate.\n\nOccupies the Torso slot.");
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 80);
-		AddRequirement(s.requirements, "coin", "", "Coins", 125);
-
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Bushy Helm", "$bush$", "bushyhelm", "Add bush camo to helm.");
-		AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
-	
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Combat Boots", "$icon_combatboots$", "combatboots", "A pair of sturdy boots.\nCan absorb up to 10 points of damage.\nIncreases running speed.\nIncreases stomp damage.\n\nOccupies the Boots slot");
-		AddRequirement(s.requirements, "coin", "", "Coins", 50);
-
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Repair Boots", "$icon_combatboots$", "combatboots", "Repair combat boots.");
-		AddRequirement(s.requirements, "blob", "combatboots", "Combat Boots", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 35);
 
 		s.spawnNothing = true;
 	}
@@ -129,6 +206,13 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 25);
 		AddRequirement(s.requirements, "blob", "kitten", "Kitten", 2);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Parachute Pack", "$icon_parachute$", "parachutepack", "A piece of fabric to let you fall slowly.\nPress [E] while falling to activate.\n\nOccupies the Torso slot.");
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 80);
+		AddRequirement(s.requirements, "coin", "", "Coins", 125);
 
 		s.spawnNothing = true;
 	}
@@ -161,19 +245,22 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Rendezook", "$icon_rendezook$", "rendezook", "A replica of a rocket launcher found behind the UPF shop in a trash can.\nDoes not seem to hurt anybody.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 350);
+		ShopItem@ s = addShopItem(this, "Fire Arrow (2)", "$mat_firearrows$", "mat_firearrows-2", descriptions[32], true);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 10);
+		AddRequirement(s.requirements, "coin", "", "Coins", 30);
 
-		s.customButton = true;
-		s.buttonwidth = 2;
-		s.buttonheight = 1;
-		
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Crossbow", "$crossbow$", "crossbow", "A hand-made ranged weapon.\nUses arrows to shoot.\nYou can set arrow type while holding different arrows near it.");
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
-		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+		ShopItem@ s = addShopItem(this, "Water Arrow (2)", "$mat_waterarrows$", "mat_waterarrows-2", descriptions[50], true);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 15);
+		AddRequirement(s.requirements, "coin", "", "Coins", 50);
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Rendezook", "$icon_rendezook$", "rendezook", "A replica of a rocket launcher found behind the UPF shop in a trash can.\nDoes not seem to hurt anybody.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 350);
 
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -193,17 +280,14 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Water Arrow (2)", "$mat_waterarrows$", "mat_waterarrows-2", descriptions[50], true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 10);
-		AddRequirement(s.requirements, "coin", "", "Coins", 20);
+		ShopItem@ s = addShopItem(this, "Crossbow", "$crossbow$", "crossbow", "A hand-made ranged weapon.\nUses arrows to shoot.\nYou can set arrow type while holding different arrows near it.");
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
-		s.spawnNothing = true;
-	}
-	{
-		ShopItem@ s = addShopItem(this, "Fire Arrow (2)", "$mat_firearrows$", "mat_firearrows-2", descriptions[32], true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 10);
-		AddRequirement(s.requirements, "coin", "", "Coins", 30);
-
+		s.customButton = true;
+		s.buttonwidth = 2;
+		s.buttonheight = 1;
+		
 		s.spawnNothing = true;
 	}
 }

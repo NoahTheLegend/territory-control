@@ -130,6 +130,12 @@ void ReloadIcons(CRules@ this)
 	AddIconToken("$icon_militaryhelmet$", "MilitaryHelmet.png", Vec2f(16, 16), 0);
 	AddIconToken("$icon_bulletproofvest$", "Bulletproofvest.png", Vec2f(16, 16), 0);
 	AddIconToken("$icon_combatboots$", "CombatBoots.png", Vec2f(16, 16), 0);
+	AddIconToken("$icon_carbonhelmet$", "CarbonHelmet.png", Vec2f(16, 16), 0);
+	AddIconToken("$icon_carbonvest$", "CarbonVest.png", Vec2f(16, 16), 0);
+	AddIconToken("$icon_carbonboots$", "CarbonBoots.png", Vec2f(16, 16), 0);
+	AddIconToken("$icon_wilmethelmet$", "WilmetHelmet.png", Vec2f(16, 16), 0);
+	AddIconToken("$icon_wilmetvest$", "WilmetVest.png", Vec2f(16, 16), 0);
+	AddIconToken("$icon_wilmetboots$", "WilmetBoots.png", Vec2f(16, 16), 0);
 	AddIconToken("$icon_rendeboots$", "RendeBoots.png", Vec2f(16, 16), 0);
 	AddIconToken("$icon_rendezook$", "Rendezook.png", Vec2f(18, 6), 0);
 	AddIconToken("$icon_parachute$", "ParachutePack.png", Vec2f(16, 16), 0);

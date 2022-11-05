@@ -142,7 +142,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			if (getEquipmentType(item) == "head" && cmd == this.getCommandID("equip_head"))
 			{
 				addHead(caller, eqName);
-				if (eqName == "militaryhelmet" || eqName == "bucket" || eqName == "pumpkin" || 
+				if (eqName == "militaryhelmet" || eqName == "carbonhelmet" || eqName == "wilmethelmet" || eqName == "bucket" || eqName == "pumpkin" || 
 					eqName == "scubagear" || eqName == "minershelmet") 
 					caller.set_f32(eqName+"_health", item.get_f32("health"));
 
@@ -153,19 +153,19 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			else if (getEquipmentType(item) == "torso" && cmd == this.getCommandID("equip_torso"))
 			{
 				addTorso(caller, eqName);
-				if (eqName == "bulletproofvest" || eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));
+				if (eqName == "bulletproofvest" || eqName == "carbonvest" || eqName == "wilmetvest" || eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));
 				item.server_Die();
 			}
 			else if (getEquipmentType(item) == "torso" && cmd == this.getCommandID("equip2_torso"))
 			{
 				add2Torso(caller, eqName);
-				if (eqName == "bulletproofvest" || eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));
+				if (eqName == "bulletproofvest" || eqName == "carbonvest" || eqName == "wilmetvest" || eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));
 				item.server_Die();
 			}
 			else if (getEquipmentType(item) == "boots" && cmd == this.getCommandID("equip_boots"))
 			{
 				addBoots(caller, eqName);
-				if (eqName == "combatboots") caller.set_f32(eqName+"_health", item.get_f32("health"));
+				if (eqName == "combatboots" || eqName == "carbonboots" || eqName == "wilmetboots") caller.set_f32(eqName+"_health", item.get_f32("health"));
 				item.server_Die();
 			}
 			else if (caller.getSprite() !is null && caller.isMyPlayer()) caller.getSprite().PlaySound("NoAmmo.ogg", 1.0f);
@@ -239,7 +239,7 @@ void removeHead(CBlob@ playerblob, string headname)
 			oldeq.set_f32("health", playerblob.get_f32(headname+"_health"));
 			oldeq.getSprite().SetFrameIndex(Maths::Floor(playerblob.get_f32(headname+"_health") / 6.26f));
 		}
-		else if (headname == "bucket" || headname == "pumpkin" || headname == "scubagear" || headname == "minershelmet")
+		else if (headname == "carbonhelmet" || headname == "wilmethelmet" || headname == "bucket" || headname == "pumpkin" || headname == "scubagear" || headname == "minershelmet")
 		{
 			oldeq.set_f32("health", playerblob.get_f32(headname+"_health"));
 		}
@@ -309,7 +309,7 @@ void removeTorso(CBlob@ playerblob, string torsoname)		//Same stuff with removin
 	if (isServer())
 	{
 		CBlob@ oldeq = server_CreateBlob(torsoname, playerblob.getTeamNum(), playerblob.getPosition());
-		if (torsoname == "bulletproofvest" || torsoname == "keg") 
+		if (torsoname == "bulletproofvest" || torsoname == "carbonvest" || torsoname == "wilmetvest" || torsoname == "keg") 
 			oldeq.set_f32("health", playerblob.get_f32(torsoname+"_health"));
 		playerblob.server_PutInInventory(oldeq);
 	}
@@ -345,7 +345,7 @@ void remove2Torso(CBlob@ playerblob, string torsoname)		//Same stuff with removi
 	if (isServer())
 	{
 		CBlob@ oldeq = server_CreateBlob(torsoname, playerblob.getTeamNum(), playerblob.getPosition());
-		if (torsoname == "bulletproofvest" || torsoname == "keg") 
+		if (torsoname == "bulletproofvest" || torsoname == "carbonvest" || torsoname == "wilmetvest" || torsoname == "keg") 
 			oldeq.set_f32("health", playerblob.get_f32(torsoname+"_health"));
 		playerblob.server_PutInInventory(oldeq);
 	}
@@ -374,7 +374,7 @@ void removeBoots(CBlob@ playerblob, string bootsname)		//I think you should alre
 	if (isServer())
 	{
 		CBlob@ oldeq = server_CreateBlob(bootsname, playerblob.getTeamNum(), playerblob.getPosition());
-		if (bootsname == "combatboots") oldeq.set_f32("health", playerblob.get_f32(bootsname+"_health"));
+		if (bootsname == "combatboots" || bootsname == "carbonboots" || bootsname == "wilmetboots") oldeq.set_f32("health", playerblob.get_f32(bootsname+"_health"));
 		playerblob.server_PutInInventory(oldeq);		
 	}
 	playerblob.set_string("equipment_boots", "");
@@ -391,7 +391,7 @@ void onDie(CBlob@ this)
 		string bootsname = this.get_string("equipment_boots");
 		if (headname != "")
 		{
-			if (headname == "bucket" || headname == "pumpkin" || headname == "scubagear" || headname == "minershelmet" || headname == "nvd")
+			if (headname == "carbonhelmet" || headname == "wilmethelmet" || headname == "bucket" || headname == "pumpkin" || headname == "scubagear" || headname == "minershelmet" || headname == "nvd")
 			{
 				CBlob@ item = server_CreateBlob(headname, this.getTeamNum(), this.getPosition());
 				if (item !is null) item.set_f32("health", this.get_f32(headname+"_health"));
@@ -401,7 +401,7 @@ void onDie(CBlob@ this)
 		}
 		if (torsoname != "")
 		{
-			if (torsoname == "bulletproofvest")
+			if (torsoname == "bulletproofvest" || torsoname == "carbonvest" || torsoname == "wilmetvest")
 			{
 				CBlob@ item = server_CreateBlob(torsoname, this.getTeamNum(), this.getPosition());
 				if (item !is null) item.set_f32("health", this.get_f32(torsoname+"_health"));
@@ -412,7 +412,7 @@ void onDie(CBlob@ this)
 		}
 		if (torso2name != "")
 		{
-			if (torsoname == "bulletproofvest")
+			if (torso2name == "bulletproofvest" || torso2name == "carbonvest" || torso2name == "wilmetvest")
 			{
 				CBlob@ item = server_CreateBlob(torso2name, this.getTeamNum(), this.getPosition());
 				if (item !is null) item.set_f32("health", this.get_f32(torsoname+"_health"));
@@ -423,7 +423,7 @@ void onDie(CBlob@ this)
 		}
 		if (bootsname != "")
 		{
-			if (bootsname == "combatboots")
+			if (bootsname == "combatboots" || bootsname == "carbonboots" || bootsname == "wilmetboots")
 			{
 				CBlob@ item = server_CreateBlob(bootsname, this.getTeamNum(), this.getPosition());
 				if (item !is null) item.set_f32("health", this.get_f32(bootsname+"_health"));
