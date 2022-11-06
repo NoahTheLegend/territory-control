@@ -123,18 +123,18 @@ void onInit(CBlob@ this)
 
 void onInit(CSprite@ this)
 {
-	this.RemoveSpriteLayer("tracer");
-	CSpriteLayer@ tracer = this.addSpriteLayer("tracer", "ChargeLance_Tracer.png" , 32, 1, this.getBlob().getTeamNum(), 0);
-
-	if (tracer !is null)
-	{
-		Animation@ anim = tracer.addAnimation("default", 0, false);
-		anim.AddFrame(0);
-		tracer.SetRelativeZ(-2.0f);
-		tracer.SetOffset(arm_offset);
-		tracer.SetVisible(false);
-		tracer.setRenderStyle(RenderStyle::additive);
-	}
+	//this.RemoveSpriteLayer("tracer");
+	//CSpriteLayer@ tracer = this.addSpriteLayer("tracer", "GatlingGun_Tracer.png" , 32, 1, this.getBlob().getTeamNum(), 0);
+//
+	//if (tracer !is null)
+	//{
+	//	Animation@ anim = tracer.addAnimation("default", 0, false);
+	//	anim.AddFrame(0);
+	//	tracer.SetRelativeZ(-2.0f);
+	//	tracer.SetOffset(arm_offset);
+	//	tracer.SetVisible(false);
+	//	tracer.setRenderStyle(RenderStyle::additive);
+	//}
 }
 
 void onTick(CSprite@ this)
