@@ -8,7 +8,7 @@ void onInit(CBlob@ this)
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
 	settings.TOTAL = 3; //Max amount of ammo that can be in a clip
 	settings.FIRE_INTERVAL = 4; //Time in between shots
-	settings.RELOAD_TIME = 20; //Time it takes to reload (in ticks)
+	settings.RELOAD_TIME = 45; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_mithril"; //Ammunition the gun takes
 
 	//Bullet
@@ -17,7 +17,7 @@ void onInit(CBlob@ this)
 	settings.B_GRAV = Vec2f(0, 0.001); //Bullet gravity drop
 	settings.B_SPEED = 90; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
 	settings.B_TTL = 15; //TTL = 'Time To Live' which determines the time the bullet lasts before despawning
-	settings.B_DAMAGE = 4.0f; //1 is 1 heart
+	settings.B_DAMAGE = 2.0f; //1 is 1 heart
 	settings.B_TYPE = HittersTC::plasma; //Type of bullet the gun shoots | hitter
 
 	//Recoil

@@ -12,7 +12,7 @@ void onInit(CBlob@ this)
 	settings.AMMO_BLOB = "mat_mithril"; //Ammunition the gun takes
 
 	//Bullet
-	settings.B_PER_SHOT = 15; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
+	settings.B_PER_SHOT = 10; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
 	settings.B_SPREAD = 0; //the higher the value, the more 'uncontrollable' bullets get
 	settings.B_GRAV = Vec2f(0, 0.001); //Bullet gravity drop
 	settings.B_SPEED = 90; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
@@ -37,6 +37,7 @@ void onInit(CBlob@ this)
 	this.set("gun_settings", @settings);
 
 	//Custom
+	this.set_f32("scope_zoom", 0.35f);
 	this.set_string("CustomBullet", "item_bullet_blaster.png");
 	this.set_string("CustomFlash", "flash_blaster.png");
 	this.set_string("CustomSoundEmpty", "");
