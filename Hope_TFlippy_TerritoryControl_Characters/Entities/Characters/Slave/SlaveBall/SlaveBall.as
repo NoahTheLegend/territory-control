@@ -78,6 +78,7 @@ void DrawLine(CSprite@ this, Vec2f startPos, f32 length, f32 angle, bool flip)
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {
+	if (hitterBlob !is null && hitterBlob.getName() == "slave") return 0.1f;
 	switch (customData)
 	{
 		case Hitters::builder:

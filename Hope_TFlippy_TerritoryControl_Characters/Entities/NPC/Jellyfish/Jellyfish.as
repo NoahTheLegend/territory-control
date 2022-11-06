@@ -69,6 +69,7 @@ void onInit(CBlob@ this)
 		//this.set_u8("age", 0);
 
 	this.Tag("pushedByDoor");
+	this.Tag("medium weight");
 }
 
 void onTick(CBlob@ this)
