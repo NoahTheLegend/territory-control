@@ -77,12 +77,6 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Transmute Copper to Gold", "$mat_gold$", "mat_gold-250", "Transmute 250 Copper Ore into 250 Gold Ore.");
-		AddRequirement(s.requirements, "blob", "mat_copper", "Copper Ore", 250);
-		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 135);
-		s.spawnNothing = true;
-	}
-	{
 		ShopItem@ s = addShopItem(this, "Transmute Gold to Mithril", "$mat_mithril$", "mat_mithril-250", "Transmute 250 Gold Ore into 250 Mithril Ore.");
 		AddRequirement(s.requirements, "blob", "mat_gold", "Gold Ore", 250);
 		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 50);
