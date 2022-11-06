@@ -254,7 +254,7 @@ void BuildTunnelsMenu(CBlob@ this, const u16 callerID)
 	CBlob@[] tunnels;
 	getTunnelsForButtons(this, @tunnels);
 
-	CGridMenu@ menu = CreateGridMenu(getDriver().getScreenCenterPos() + Vec2f(0.0f, 0.0f), this, Vec2f(Maths::Min((tunnels.length) * BUTTON_SIZE, 20), BUTTON_SIZE * (1 + Maths::Floor(tunnels.length / 10))), "Pick tunnel to travel");
+	CGridMenu@ menu = CreateGridMenu(getDriver().getScreenCenterPos() + Vec2f(0.0f, 0.0f), this, Vec2f(Maths::Min((tunnels.length) * BUTTON_SIZE, 20), BUTTON_SIZE * (1 + Maths::Ceil((tunnels.length-1) / 10))), "Pick tunnel to travel");
 	if (menu !is null)
 	{
 		CBitStream exitParams;
