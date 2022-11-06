@@ -54,7 +54,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Carbon Helmet", "$icon_carbonhelmet$", "carbonhelmet", "A heavy combat helmet.\nVery durable. Good against low caliber bullets and explosions,\nbut worse against high caliber and power rounds.\n\nOccupies the Head slot");
-		AddRequirement(s.requirements, "blob", "mat_carbon", "Carbon", 30);
+		AddRequirement(s.requirements, "blob", "mat_carbon", "Carbon", 60);
 		AddRequirement(s.requirements, "coin", "", "Coins", 200);
 
 		s.spawnNothing = true;
@@ -68,7 +68,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Wilmet Helmet", "$icon_wilmethelmet$", "wilmethelmet", "An universal combat helmet.\nModerately durable. Very good against plasma, electricity, radiation,\nbut moderately good against everything else.\n\nOccupies the Head slot");
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 100);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 85);
 		AddRequirement(s.requirements, "coin", "", "Coins", 400);
 
 		s.spawnNothing = true;
@@ -96,7 +96,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Carbon Vest", "$icon_carbonvest$", "carbonvest", "A heavy combat vest.\nVery durable. Good against low caliber bullets and explosions,\nbut worse against high caliber and power rounds.\n\nOccupies the Torso slot");
-		AddRequirement(s.requirements, "blob", "mat_carbon", "Carbon", 50);
+		AddRequirement(s.requirements, "blob", "mat_carbon", "Carbon", 70);
 		AddRequirement(s.requirements, "coin", "", "Coins", 200);
 
 		s.spawnNothing = true;
@@ -110,7 +110,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Wilmet Vest", "$icon_wilmetvest$", "wilmetvest", "An universal combat vest.\nModerately durable. Very good against plasma, electricity, radiation,\nbut moderately good against everything else.\n\nOccupies the Torso slot");
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 100);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 85);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.spawnNothing = true;
@@ -151,7 +151,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Wilmet Boots", "$icon_wilmetboots$", "wilmetboots", "A pair of alien-tech boots.\nGreatly protects you from fall damage and increases jump height.\nIncreases running speed.\n\nOccupies the Boots slot");
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 125);
 		AddRequirement(s.requirements, "coin", "", "Coins", 300);
 
 		s.spawnNothing = true;
