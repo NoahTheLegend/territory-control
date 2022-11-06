@@ -68,20 +68,20 @@ LootItem@[] c_items =
 
 LootItem@[] a_items =
 {
-	LootItem("mat_sulphur", 300, 500, 900),
-	LootItem("mat_wilmet", 10, 30, 750),
+	LootItem("mat_sulphur", 300, 400, 800),
+	LootItem("mat_wilmet", 50, 225, 750),
 	LootItem("mat_lancerod", 10, 50, 600),
-	LootItem("energymatter", 1, 0, 650),
-	LootItem("lifematter", 1, 0, 550),
-	LootItem("mat_mithril", 50, 500, 500),
-	LootItem("mat_plasteel", 5, 75, 350),
-	LootItem("gyromat", 1, 1, 350),
+	LootItem("energymatter", 1, 1, 650),
+	LootItem("lifematter", 1, 1, 550),
+	LootItem("mat_mithril", 100, 500, 500),
+	LootItem("mat_plasteel", 10, 50, 450),
 	LootItem("pheromones", 1, 1, 250),
+	LootItem("ancientmanipulator", 1, 1, 250),
+	LootItem("gyromat", 1, 1, 200),
 	LootItem("zatniktel", 1, 1, 135),
-	LootItem("ancientmanipulator", 1, 1, 50),
-	LootItem("drone", 1, 2, 50),
-	LootItem("scyther", 1, 0, 15),
-	LootItem("cube", 1, 0, 10) //poggers 
+	LootItem("drone", 1, 2, 125),
+	LootItem("scyther", 1, 0, 50),
+	LootItem("cube", 1, 0, 25) //poggers 
 };
 
 void onInit(CBlob@ this)
