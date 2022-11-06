@@ -163,14 +163,14 @@ void onTick(CBlob@ this)
 					f32 dist = dir.getLength();
 					dir.Normalize();
 						
-					b.AddForce((dir * Maths::Min(100.00f, b.getMass()) * (dist / radius)) + Vec2f(0, -sv_gravity * b.getMass() / 30.00f));
+					b.AddForce((dir * Maths::Min(256.00f, b.getMass()) * (dist / radius)) + Vec2f(0, -sv_gravity * b.getMass() / 30.00f));
 				}
 			}
 		}
 	}
 	else if (this.isKeyPressed(key_action2))
 	{
-		const f32 radius = 8.00f;
+		const f32 radius = 16.00f;
 		
 		Vec2f aimPos = this.getAimPos();
 		
@@ -190,10 +190,10 @@ void onTick(CBlob@ this)
 
 					if (isServer())
 					{
-						if (getGameTime() % 15 == 0) this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 0.025f, Hitters::crush, true);
+						if (getGameTime() % 15 == 0) this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 0.075f, Hitters::crush, true);
 					}
 					
-					b.AddForce((dir * Maths::Min(100.00f, b.getMass()) * (dist / radius)) + Vec2f(0, -sv_gravity));
+					b.AddForce((dir * Maths::Min(256.00f, b.getMass()) * (dist / radius)) + Vec2f(0, -sv_gravity));
 					if (b.getShape().isRotationsAllowed()) 
 						if (!b.hasTag("building") && !b.getShape().isStatic()) b.setAngleDegrees(b.getAngleDegrees() + (20.00f * (1.00f - (b.getHealth() / b.getInitialHealth()))));
 				}
