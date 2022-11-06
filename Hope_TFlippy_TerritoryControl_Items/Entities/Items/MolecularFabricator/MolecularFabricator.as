@@ -33,6 +33,7 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("shop menu size", Vec2f(5, 9));
 	this.set_string("shop description", "Molecular Fabricator");
 	this.set_u8("shop icon", 15);
+	this.Tag("heavy weight");
 
 	{
 		ShopItem@ s = addShopItem(this, "Deconstruct 10 Plasteel Sheets", "$icon_matter_0$", "mat_matter-10", "Deconstruct 10 Plasteel Sheets into 10 units of Amazing Technicolor Dust.");

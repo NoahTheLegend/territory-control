@@ -19,7 +19,7 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("shop menu size", Vec2f(4, 4));
 	this.set_string("shop description", "Ancient manipulator");
 	this.set_u8("shop icon", 15);
-
+	this.Tag("heavy weight");
 	
 	{
 		ShopItem@ s = addShopItem(this, "Transmute Stone to Copper", "$mat_iron$", "mat_iron-250", "Transmute 250 Stone into 250 Iron Ore.");
