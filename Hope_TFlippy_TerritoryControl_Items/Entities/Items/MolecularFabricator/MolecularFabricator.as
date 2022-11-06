@@ -111,9 +111,9 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Reconstruct 10 Plasteel Sheets", "$icon_plasteel$", "mat_plasteel-10", "A durable yet lightweight material.");
-		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 10);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 1);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 1);
+		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 25);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);
 		s.spawnNothing = true;
 	}
 	{
