@@ -5,6 +5,6 @@ void onInit(CBlob@ this)
 	if (this.getName() == "suicidevest" || this.getName() == "keg")
 		this.Tag("explosive");
 
-	else if (this.getName() == "bulletproofvest")
+	else if (this.getName() == "bulletproofvest" || this.getName() == "carbonvest" || this.getName() == "wilmetvest")
 		this.Tag("armor");
 }

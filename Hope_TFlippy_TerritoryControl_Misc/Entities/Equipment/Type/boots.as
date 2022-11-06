@@ -4,6 +4,6 @@ void onInit(CBlob@ this)
 
 	this.Tag("boots");
 
-	if (this.getName() == "combatboots")
+	if (this.getName() == "combatboots" || this.getName() == "carbonboots" || this.getName() == "wilmetboots")
 		this.Tag("armor");
 }
