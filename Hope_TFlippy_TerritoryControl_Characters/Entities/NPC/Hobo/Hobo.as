@@ -184,6 +184,14 @@ void onInit(CBlob@ this)
 
 	if (rand.NextRanged(100) < 50)
 	{
+		ShopItem@ s = addShopItem(this, "MACON", "$masonplushie$", "masonplushie", "rage quits");
+		AddRequirement(s.requirements, "coin", "", "Coins", 150 + rand.NextRanged(500));
+		s.spawnNothing = true;
+		this.set_u32("shop_space", this.get_u32("shop_space") + 1);
+	}
+
+	if (rand.NextRanged(100) < 50)
+	{
 		ShopItem@ s = addShopItem(this, "big cuffs", "$shackles$", "shackles", "tie that fool up");
 		AddRequirement(s.requirements, "coin", "", "Coins", 50 + rand.NextRanged(100));
 		s.spawnNothing = true;
