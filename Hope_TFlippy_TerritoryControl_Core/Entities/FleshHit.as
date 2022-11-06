@@ -469,7 +469,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 				{
 					case Hitters::fall:
 					case HittersTC::radiation:
-						ratio = 0.9f;
+						ratio = 0.99f;
 						break;
 
 					default: ratio = 0.15f;
