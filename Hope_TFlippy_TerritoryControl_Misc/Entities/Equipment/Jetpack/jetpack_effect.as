@@ -28,11 +28,11 @@ void UpdateScript(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-	if (this.get_string("reload_script") == "jetpack")
-	{
-		UpdateScript(this);
-		this.set_string("reload_script", "");
-	}
+	//if (this.get_string("reload_script") == "jetpack")
+	//{
+	//	UpdateScript(this);
+	//	this.set_string("reload_script", "");
+	//}
 
 	const bool isknocked = isKnocked(this);
 	u32 tmp = this.get_u32("nextJetpack");
