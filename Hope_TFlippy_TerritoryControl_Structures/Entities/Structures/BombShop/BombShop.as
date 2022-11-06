@@ -77,12 +77,12 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "R.O.F.L.", "$icon_nuke$", "nuke", "A dangerous warhead stuffed in a cart. Since it's heavy, it can be only pushed around or picked up by balloons.");
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 10);
-		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 175);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100); // Cart!
-		AddRequirement(s.requirements, "coin", "", "Coins", 750);
+		ShopItem@ s = addShopItem(this, "R.O.F.L.", "$icon_nuke$", "nuke", "A dangerous warhead stuffed in a cart. Since it's heavy, it can be only pushed around or picked up by vehicles.");
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 100);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250); // Cart!
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.spawnNothing = true;
 	}
