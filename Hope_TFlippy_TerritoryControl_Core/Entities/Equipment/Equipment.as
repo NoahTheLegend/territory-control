@@ -417,10 +417,10 @@ void onDie(CBlob@ this)
 			if (torso2name == "bulletproofvest" || torso2name == "carbonvest" || torso2name == "wilmetvest")
 			{
 				CBlob@ item = server_CreateBlob(torso2name, this.getTeamNum(), this.getPosition());
-				if (item !is null) item.set_f32("health", this.get_f32(torsoname+"_health"));
-				this.RemoveScript(torsoname+"_effect.as");
+				if (item !is null) item.set_f32("health", this.get_f32(torso2name+"_health"));
+				this.RemoveScript(torso2name+"_effect.as");
 			}
-			else if (!this.exists("vest_explode") && torsoname != "keg")
+			else if (!this.exists("vest_explode") && torso2name != "keg")
 				server_CreateBlob(torso2name, this.getTeamNum(), this.getPosition());
 		}
 		if (bootsname != "")
