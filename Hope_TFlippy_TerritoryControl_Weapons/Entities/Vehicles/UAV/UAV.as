@@ -87,6 +87,17 @@ void onInit(CBlob@ this)
 	this.addCommandID("takeAmmo");
 	this.addCommandID("shoot");
 	
+	if (isServer())
+	{
+		CBlob@ blob = server_CreateBlobNoInit("uavcontroller");
+		blob.setPosition(this.getPosition());
+		blob.set_u16("uav_netid", this.getNetworkID());
+		this.set_u16("controller_netid", blob.getNetworkID());
+		this.Sync("controller_netid", true);
+		blob.server_setTeamNum(this.getTeamNum());
+		blob.Init();
+	}
+
 	this.getShape().SetRotationsAllowed(true);
 
 	CSprite@ sprite = this.getSprite();
@@ -384,7 +395,7 @@ void onRender(CSprite@ this)
 	bool mouseOnBlob = (mouseWorld - blob.getPosition()).getLength() < this.getBlob().getRadius();
 	if (blob.isMyPlayer() && mouseOnBlob)
 	{
-		GUI::DrawTextCentered("Left click to shoot.\nRight click to explode.\nSpace bar to get back to your body.", blob.getInterpolatedScreenPos() + Vec2f(0, 60), color_white);
+		GUI::DrawTextCentered("Left click to shoot.\nRight click to explode.\nSpace bar to get back to your body.", blob.getInterpolatedScreenPos() + Vec2f(0, 120), color_white);
 	}
 }
 
@@ -406,7 +417,8 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 				caller.CreateGenericButton("$icon_gatlingammo$", Vec2f(-8, 0), this, 
 					this.getCommandID("addAmmo"), getTranslatedString("Insert Gatling Gun Ammo"), params);
 			}
-			if (!this.get_bool("offblast"))
+			CBlob@ controller = getBlobByNetworkID(this.get_u16("controller_netid"));
+			if (!this.get_bool("offblast") && (controller is null || controller.getName() != "uavcontroller"))
 			{
 				CPlayer@ ply = caller.getPlayer();
 				if (ply !is null)

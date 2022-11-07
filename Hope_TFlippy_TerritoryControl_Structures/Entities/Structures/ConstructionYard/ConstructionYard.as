@@ -237,12 +237,11 @@ void onInit(CBlob@ this)
 		s.buttonheight = 2;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Drone!\n\nRequres batteries to fly.", "$uav_icon$", "uav", "$uav$\n\n\n\nDistancely controlled drone, with a machinegun on its hull." + "", false, true);
+		ShopItem@ s = addShopItem(this, "Drone!\n\nRequres batteries to fly.", "$uav_icon$", "uav", "$uav$\n\n\n\nRemotely controlled drone, with a machinegun on its hull and controller." + "", false, false);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
 		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 30);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
-		s.crate_icon = 0;
 		s.customButton = true;
 		s.buttonwidth = 4;
 		s.buttonheight = 2;
