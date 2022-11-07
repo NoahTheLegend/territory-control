@@ -108,7 +108,7 @@ void onTick(CBlob@ this)
 
 	if (!this.isInWater())
 	{
-		this.setVelocity(Vec2f(0, this.getOldVelocity().y));
+		this.setVelocity(Vec2f(0, this.getVelocity().y));
 	}
 }
 
