@@ -43,7 +43,11 @@ void onTick(CBlob@ this)
 			this.set_u16("sleeper_coins", 0);
 		}
 	}
-	else if (sleeping) SetKnocked(this, 35);
+	else if (sleeping)
+	{
+		SetKnocked(this, 35);
+		this.server_DetachFromAll(); // prevent stuck in a vehicle
+	}
 
 	CSprite@ sprite = this.getSprite();
 	CSpriteLayer@ layer = sprite.getSpriteLayer("zzz");
