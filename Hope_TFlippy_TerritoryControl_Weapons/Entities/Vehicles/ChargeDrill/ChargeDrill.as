@@ -291,7 +291,7 @@ void onTick(CBlob@ this)
 											}
 											else
 											{
-												Material::fromTile(this, tile, 0.125f);
+												Material::fromTile(this, tile, 1.5f);
 											}
 											if (map.isTileGround(tile) || map.isTileStone(tile) || map.isTileThickStone(tile))
 											{

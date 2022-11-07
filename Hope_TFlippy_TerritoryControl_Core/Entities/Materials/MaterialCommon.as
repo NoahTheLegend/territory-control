@@ -243,10 +243,14 @@ void fromTile(CBlob@ this, uint16 &in type, float &in damage)
 	if (map.isTileThickStone(type))
 	{
 		createFor(this, 'mat_stone', 6 * damage);
+		createFor(this, 'mat_iron', 4 * damage);
+		createFor(this, 'mat_copper', 2 * damage);
 	}
 	else if (map.isTileStone(type))
 	{
 		createFor(this, 'mat_stone', 4 * damage);
+		createFor(this, 'mat_iron', 2 * damage);
+		createFor(this, 'mat_copper', 1 * damage);
 	}
 	else if (map.isTileCastle(type))
 	{
