@@ -157,8 +157,8 @@ void onTick(CBlob@ this)
 
 	const bool myplayer = this.isMyPlayer();
 
-	moveVars.walkFactor *= 0.70f;
-	moveVars.jumpFactor *= 0.80f;
+	moveVars.walkFactor *= 0.625f;
+	moveVars.jumpFactor *= 0.75f;
 		
 	//with the code about menus and myplayer you can slash-cancel;
 	//we'll see if knights dmging stuff while in menus is a real issue and go from there
@@ -1132,12 +1132,12 @@ void onHitBlob(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@
 	        && blockAttack(hitBlob, velocity, 0.0f))
 	{
 		this.getSprite().PlaySound("/Stun", 1.0f, this.getSexNum() == 0 ? 1.0f : 2.0f);
-		SetKnocked(this, 30);
+		//SetKnocked(this, 30);
 	}
 
 	if (customData == Hitters::shield)
 	{
-		SetKnocked(hitBlob, 20);
+		//SetKnocked(hitBlob, 20);
 		this.getSprite().PlaySound("/Stun", 1.0f, this.getSexNum() == 0 ? 1.0f : 2.0f);
 	}
 }

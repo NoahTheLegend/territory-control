@@ -19,7 +19,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						isExplosionHitter(customData);
 
 	bool guardHitters = customData == HittersTC::bullet_low_cal || customData == HittersTC::bullet_high_cal || 
-	                    customData == HittersTC::shotgun || customData == Hitters::spikes || isExplosionHitter(customData);
+	                    customData == HittersTC::shotgun || customData == Hitters::spikes;
 
 	//knight hitters
     if (this.getName() == "knight" || this.hasTag("dead") || this is hitterBlob) 
