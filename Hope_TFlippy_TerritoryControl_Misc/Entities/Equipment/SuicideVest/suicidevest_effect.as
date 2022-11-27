@@ -29,6 +29,7 @@ void UpdateScript(CBlob@ this)
 		if (this.getSprite().isFacingLeft())
 			svest.SetFacingLeft(true);
 	}
+	this.addCommandID("vest_explode");
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
@@ -56,10 +57,14 @@ void onTick(CBlob@ this)
 		this.set_string("reload_script", "");
 	}
 
-	if (this.isKeyJustPressed(key_action3) && !this.hasTag("exploding"))
+	CControls@ controls = this.getControls();
+	if (controls !is null)
 	{
-		CBitStream params;
-		this.SendCommand(this.getCommandID("vest_explode"), params);
+		if (controls.isKeyJustPressed(KEY_LSHIFT) && !this.hasTag("exploding"))
+		{
+			CBitStream params;
+			this.SendCommand(this.getCommandID("vest_explode"), params);
+		}
 	}
 	
 	CSpriteLayer@ svest = this.getSprite().getSpriteLayer("suicidevest");

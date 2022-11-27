@@ -34,6 +34,8 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		return;
 	}
 
+	if (caller.hasTag("exploding")) return;
+
 	bool CanChange = true;
 	
 	if(this.exists(req_tag)){

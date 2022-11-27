@@ -202,7 +202,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Suicide Vest", "$icon_suicidevest$", "suicidevest", "An ugly christmas sweater strapped with explosives.\n\nOccupies the Torso slot\nPress [SPACEBAR] to blow yourself up.");
+		ShopItem@ s = addShopItem(this, "Suicide Vest", "$icon_suicidevest$", "suicidevest", "An ugly christmas sweater strapped with explosives.\n\nOccupies the Torso slot\nPress [LEFT SHIFT] to blow yourself up.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 200);
 
 		s.spawnNothing = true;
