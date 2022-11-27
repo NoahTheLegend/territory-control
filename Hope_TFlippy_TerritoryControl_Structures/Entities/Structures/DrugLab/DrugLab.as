@@ -156,6 +156,7 @@ void React(CBlob@ this)
 			const f32 dirt_count = inv.getCount("mat_dirt");
 			const f32 coal_count = inv.getCount("mat_coal");
 			const f32 protopopov_count = inv.getCount("mat_protopopov");
+			const f32 rippiogas_count = inv.getCount("mat_rippio");
 			const f32 ganja_count = inv.getCount("mat_ganja");
 
 			const f32 heat = this.get_f32("heat") + Maths::Pow((mithril_count * 3.00f) + (e_mithril_count * 15.00f), 2) / 20000.00f;
@@ -184,6 +185,7 @@ void React(CBlob@ this)
 			CBlob@ love_blob = inv.getItem("love");
 			CBlob@ grain_blob = inv.getItem("grain");
 			CBlob@ rippio_blob = inv.getItem("rippio");
+			CBlob@ rippiogas_blob = inv.getItem("mat_rippio");
 			CBlob@ ganja_blob = inv.getItem("mat_ganja");
 			CBlob@ ganjapod_blob = inv.getItem("ganjapod");
 
@@ -208,6 +210,7 @@ void React(CBlob@ this)
 			bool hasLove = love_blob !is null;
 			bool hasGrain = grain_blob !is null;
 			bool hasRippio = rippio_blob !is null;
+			bool hasRippioGas = rippiogas_blob !is null;
 			bool hasGanja = ganja_blob !is null;
 			bool hasGanjaPod = ganjapod_blob !is null;
 			// Boof Gas Recipe
@@ -562,6 +565,23 @@ void React(CBlob@ this)
 					ShakeScreen(100.0f, 15, this.getPosition());
 					this.getSprite().PlaySound("DrugLab_Create_Acidic.ogg", 1.00f, 1.00f);
 				}
+			}
+
+			if (heat > 1000 && hasProtopopovBulb && hasRippioGas && rippiogas_count >= 25)
+			{
+				if (isServer())
+				{
+					rippiogas_blob.server_SetQuantity(Maths::Max(rippiogas_blob.getQuantity() - 25, 0));
+					protopopovBulb_blob.server_Die();
+					Material::createFor(this, "mat_love", 15 + XORRandom(11));
+					if (XORRandom(100) < 50)
+					{
+						Material::createFor(this, "love", XORRandom(2)+1);
+					}
+				}
+
+				ShakeScreen(30.0f, 60, this.getPosition());
+				this.getSprite().PlaySound("DrugLab_Create_Creamy.ogg", 1.1f, 0.8f);
 			}
 
 			if (pressure < 25000 && heat > 500 && heat < 2000 && hasAcid && hasMithril && acid_count >= 15 && mithril_count >= 5)
