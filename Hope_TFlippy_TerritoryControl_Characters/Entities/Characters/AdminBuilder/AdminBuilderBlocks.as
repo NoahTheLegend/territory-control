@@ -154,6 +154,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_smallsign$","sign.png",Vec2f(16, 16), 0);
 	AddIconToken("$icon_securitystation$", "SecurityStation.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_ceilinglamp$", "CeilingLamp.png", Vec2f(16, 8), 0);
+	AddIconToken("$icon_gate$", "Gate.png", Vec2f(8, 40), 1, teamnum);
 	AddIconToken("$icon_1x5blastdoor$", "1x5BlastDoor.png", Vec2f(8, 40), 0, teamnum);
 	AddIconToken("$icon_beamtower$", "BeamTower.png", Vec2f(32, 48), 0, teamnum);
 	AddIconToken("$icon_beamtowermirror$", "BeamTowerMirror.png", Vec2f(16, 24), 0);
@@ -998,6 +999,14 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
 	}
 	{
+		BuildBlock b(0, "gate", "$icon_gate$", "Wooden Gate:\n\nHeavy door.\n\nCan be only opened from inside.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 750);
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.size.Set(8, 40);
+		blocks[4].push_back(b);
+	}
+	{
 		BuildBlock b(0, "1x5blastdoor", "$icon_1x5blastdoor$", "Blast Door:\n\nA large heavy blast door.\n\nCan be only opened by a Security Station.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 20);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
@@ -1041,6 +1050,18 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[4].push_back(b);
 	}
 	{
+		BuildBlock b(0, "beamtower", "$icon_beamtower$", "Solar Death Ray Tower:\n\nSolar energy has never been so much fun!\n\nRequires batteries to shoot!");
+		AddRequirement(b.reqs, "coin", "", "Coins", 1000);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
+		AddRequirement(b.reqs, "blob", "mat_battery", "Battery", 100);
+		AddRequirement(b.reqs, "blob", "bp_energetics", "Blueprint (Energetics)", 1);
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(24, 96);
+		blocks[4].push_back(b);
+	}
+	{
 		BuildBlock b(0, "launchpadmini", "$icon_launchpadmini$", "Launch an asteroid harvester...\nTo an asteroid!");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 500);
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 125);
@@ -1060,18 +1081,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wires", 100);
 		b.buildOnGround = true;
 		b.size.Set(96, 192);
-		blocks[4].push_back(b);
-	}
-	{
-		BuildBlock b(0, "beamtower", "$icon_beamtower$", "Solar Death Ray Tower:\n\nSolar energy has never been so much fun!\n\nRequires batteries to shoot!");
-		AddRequirement(b.reqs, "coin", "", "Coins", 1000);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
-		AddRequirement(b.reqs, "blob", "mat_battery", "Battery", 100);
-		AddRequirement(b.reqs, "blob", "bp_energetics", "Blueprint (Energetics)", 1);
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-		b.buildOnGround = true;
-		b.size.Set(24, 96);
 		blocks[4].push_back(b);
 	}
 }
