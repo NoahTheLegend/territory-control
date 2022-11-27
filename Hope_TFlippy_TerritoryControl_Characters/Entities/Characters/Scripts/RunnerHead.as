@@ -201,7 +201,7 @@ void ReloadHead(CSprite@ this)
 		if (ply.getUsername() == "cbryant21")
 		{	
 		
-			head_index = 115;
+			head_index = 36;
 
 		}
 		
@@ -244,6 +244,13 @@ void ReloadHead(CSprite@ this)
 			{
 				head_index = 105;
 			}
+
+			case Deity::mason:
+			{
+				if (ply.getUsername() == "cbryant21")
+					head_index = 115;
+			}
+
 			break;
 		}
 	}
