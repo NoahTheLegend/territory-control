@@ -30,10 +30,10 @@ void onTick(CBlob@ this)
 			
 				if (isClient())
 				{
-					this.getSprite().PlaySound("BadgerPlushie_Squeak" + XORRandom(2) + ".ogg", 0.8f, 0.9f + (XORRandom(100) * 0.002f));
+					this.getSprite().PlaySound("build_wall"+(XORRandom(3) == 0 ? "" : "2")+".ogg", 1.0f, 1.0f);
 				}
 				
-				this.set_u32("next attack", getGameTime() + 10);
+				this.set_u32("next attack", getGameTime() + 5);
 			}
 		}
 	}
