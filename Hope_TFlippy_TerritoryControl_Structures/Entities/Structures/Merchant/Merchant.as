@@ -149,14 +149,15 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 		}
 	}*/
+	u32 oilcost = getRandomCost(@rand, 400, 600);
 	{
-		u32 cost = getRandomCost(@rand, 400, 600);
+		u32 cost = oilcost;
 		ShopItem@ s = addShopItem(this, "Sell Oil Drum (50 l)", "$COIN$", "coin-" + cost, "Sell 50 litres of oil for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "mat_oil", "Oil Drum (50 l)", 50);
 		s.spawnNothing = true;
 	}
 	{
-		u32 cost = getRandomCost(@rand, 1600, 2400);
+		u32 cost = oilcost*4;
 		ShopItem@ s = addShopItem(this, "Sell Oil Drum (200 l)", "$COIN$", "coin-" + cost, "Sell 200 litres of oil for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "mat_oil", "Oil Drum (200 l)", 200);
 		s.spawnNothing = true;
@@ -184,26 +185,28 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "grain", "Grain", 5);
 		s.spawnNothing = true;
 	}
+	u32 pumpkincost = getRandomCost(@rand, 250, 375);
 	{
-		u32 cost = getRandomCost(@rand, 250, 375);
+		u32 cost = pumpkincost;
 		ShopItem@ s = addShopItem(this, "Sell Pumpkin (1)", "$COIN$", "coin-" + cost, "Sell 1 pumpkin for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 1);
 		s.spawnNothing = true;
 	}
 	{
-		u32 cost = getRandomCost(@rand, 1000, 1500);
+		u32 cost = pumpkincost*4;
 		ShopItem@ s = addShopItem(this, "Sell Pumpkin (4)", "$COIN$", "coin-" + cost, "Sell 4 pumpkin for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 4);
 		s.spawnNothing = true;
 	}
+	u32 ganjacost = getRandomCost(@rand, 250, 375);
 	{
-		u32 cost = getRandomCost(@rand, 250, 375);
+		u32 cost = ganjacost;
 		ShopItem@ s = addShopItem(this, "Sell ganja (10)", "$COIN$", "coin-" + cost, "Sell 10 ganja leaves for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 10);
 		s.spawnNothing = true;
 	}
 	{
-		u32 cost = getRandomCost(@rand, 1250, 1875);
+		u32 cost = ganjacost*5
 		ShopItem@ s = addShopItem(this, "Sell ganja (50)", "$COIN$", "coin-" + cost, "Sell 50 ganja leaves for " + cost + " coins.");
 		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 50);
 		s.spawnNothing = true;
