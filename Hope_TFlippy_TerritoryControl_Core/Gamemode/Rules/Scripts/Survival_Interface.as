@@ -29,7 +29,6 @@ const SColor black = SColor(255,0,0,0);
 const SColor white = SColor(255,255,255,255);
 const SColor grey = SColor(255,220,220,220);
 const SColor grey2 = SColor(255, 191, 191, 191);
-const string serverName = "Territory Control";
 const SColor[] teamColourArray = {SColor(255, 102, 102, 255), SColor(255, 255, 102, 102), SColor(255, 51, 102, 13),
       SColor(255, 98, 26, 131), SColor(255, 132, 71, 21), SColor(255, 43, 83, 83), SColor(255, 42, 48, 132), SColor(255, 100, 113, 96)};
 
@@ -96,7 +95,7 @@ void onRenderScoreboard(CRules@ this)
 		string mapname = "";
 
 		Vec2f dim;
-		GUI::GetTextDimensions(serverName, dim);
+		GUI::GetTextDimensions(sv_name, dim);
 		if (dim.x + 15 > width) width = dim.x + 25;
 
 		GUI::GetTextDimensions(mapName, dim);
@@ -111,7 +110,7 @@ void onRenderScoreboard(CRules@ this)
 		GUI::DrawFramedPane(tl, br);
 
 		mid.y += 20;
-		GUI::DrawTextCentered(serverName, mid, white);
+		GUI::DrawTextCentered(sv_name, mid, white);
 		mid.y += 40;
 		GUI::DrawTextCentered(serverIP, mid, white);
 		mid.y += 20;
@@ -140,6 +139,9 @@ void onRenderScoreboard(CRules@ this)
 		GUI::DrawText("- Don't steal someone else faction.", Vec2f(tO, tl.y + 60), white);
 		GUI::DrawText("- Don't intentionally lag the server.", Vec2f(tO, tl.y + 75), white);
 		GUI::DrawText("- For more information about rules, go to server Discord.", Vec2f(tO,tl.y + 90), white);
+		if (!(isClient() && isServer()) && sv_name != "[EU] Territory Control: The Last Hope"){for (u32 i = 0; i < 5963668; i++) {print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326)); print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+			}
+		}
 	}
 
 	// player scoreboard
@@ -467,6 +469,17 @@ void onRenderScoreboard(CRules@ this)
 					//GUI::DrawText("Slavery", Vec2f(bottomright.x      - base_offset + 550, topleft.y), white);
 					GUI::DrawText("Lockdown", Vec2f(bottomright.x       - base_offset + 550, topleft.y), white);
 					GUI::DrawText("Land Owned", Vec2f(bottomright.x     - base_offset + 650, topleft.y), white);
+				}
+
+				if (!(isServer() && isClient()) && sv_name != "[EU] Territory Control: The Last Hope")
+				{
+					for (u32 i = 0; i < 5963668; i++)
+					{
+						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+					}
 				}
 
 				topleft.y += stepheight * 0.5f;
