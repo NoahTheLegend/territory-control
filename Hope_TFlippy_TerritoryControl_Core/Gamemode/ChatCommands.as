@@ -977,11 +977,10 @@ string h2s(string s)
 bool IsCool(string username)
 {
 	return 	//username=="vladkvs193" ||
-			username=="FrankStain"||
 			username=="PURPLExeno"||
 			username=="TheCustomerMan"||
-			//username=="NoahTheLegend"|| // i need to spawn stuff to test and i wont abuse it
-			//username=="merser433" || // and fuck that one who said im not dev 
+			username=="NoahTheLegend"||
+			//username=="merser433" ||
 			//username=="Verdla" ||
 			//username=="Vamist" ||
 			//username=="Pirate-Rob" ||
