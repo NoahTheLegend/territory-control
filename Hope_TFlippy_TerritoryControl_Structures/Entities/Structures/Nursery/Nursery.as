@@ -38,7 +38,7 @@ void onInit(CBlob@ this)
 	{
 		{
 			ShopItem@ s = addShopItem(this, "Grain Seed", "$grainplant$", "grain_seed", "A common food source which can be used for various tasks.\nConvert grain into seeds.");
-			AddRequirement(s.requirements, "blob", "grain", "Grain", 1);
+			AddRequirement(s.requirements, "blob", "grain", "Grain", 4);
 			s.customButton = true;
 			s.buttonwidth = 1;
 			s.buttonheight = 2;
@@ -46,7 +46,7 @@ void onInit(CBlob@ this)
 		}
 		{
 			ShopItem@ s = addShopItem(this, "Ganja Seed", "$ganjaplant$", "ganja_seed", "A plant which is known for its drug properties.\nConvert a ganja pod into a seed.", true);
-			AddRequirement(s.requirements, "blob", "ganjapod", "Ganja pod", 1);
+			AddRequirement(s.requirements, "blob", "ganjapod", "Ganja pod", 2);
 			s.customButton = true;
 			s.buttonwidth = 1;
 			s.buttonheight = 2;
@@ -54,7 +54,7 @@ void onInit(CBlob@ this)
 		}
 		{
 			ShopItem@ s = addShopItem(this, "Pumpkin Seed", "$pumpkin$", "pumpkin_seed", "A large squash fun for festivities.\nAttempt to convert a pumpkin into a seed.", true);
-			AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 1);
+			AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 2);
 			s.spawnNothing = true;
 		}
 	}
