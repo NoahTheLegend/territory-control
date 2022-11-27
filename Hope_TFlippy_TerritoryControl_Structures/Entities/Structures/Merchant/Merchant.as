@@ -209,7 +209,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		u32 cost = getRandomCost(@rand, 160, 240);
+		u32 cost = getRandomCost(@rand, 200, 280);
 		{
 			ShopItem@ s = addShopItem(this, "Sell vodka (1)", "$COIN$", "coin-" + cost, "Sell 1 homemade vodka for " + cost + " coins.");
 			AddRequirement(s.requirements, "blob", "vodka", "Vodka.", 1);

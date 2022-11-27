@@ -4,13 +4,13 @@ void onInit(CBlob@ this)
 {
 	this.SetFacingLeft(XORRandom(2) == 0);
 
-	this.getCurrentScript().tickFrequency = 45;
+	this.getCurrentScript().tickFrequency = 60;
 	this.getSprite().SetZ(10.0f);
 
 	this.Tag("builder always hit");
 	this.Tag("nature");
 	
-	this.set_u8(growth_time, 30);
+	this.set_u8(growth_time, 75);
 	this.set_u8(grown_amount, 8);
 	
 	if (this.hasTag("instant_grow"))
