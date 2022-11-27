@@ -153,9 +153,8 @@ class Bullet
 
                             if (blob.hasTag("flesh") || blob.isCollidable() || blob.hasTag("vehicle"))
                             {
-
                                 if (blob.getTeamNum() == gunBlob.getTeamNum() && !blob.getShape().isStatic() && !blob.hasTag("dead")) continue;
-                                else if (blob.hasTag("weapon") /*|| blob.hasTag("dead")*/ || blob.hasTag("invincible") || 
+                                else if (blob.hasTag("no_bullet_collision") || blob.hasTag("weapon") /*|| blob.hasTag("dead")*/ || blob.hasTag("invincible") || 
                                          blob.hasTag("food")   || blob.hasTag("gas")  || blob.isAttachedTo(hoomanShooter)) continue;
                                 else if (blob.getName() == "iron_halfblock" || blob.getName() == "stone_halfblock") continue;
 

@@ -26,6 +26,8 @@ void onInit(CBlob@ this)
 	this.set_string("shop description", "Mysterious Object's Molecular Fabricator");
 	this.set_u8("shop icon", 15);
 
+	this.Tag("no_bullet_collision");
+
 	this.set_f32("map_damage_ratio", 1.0f);
 	this.set_bool("map_damage_raycast", true);
 	this.set_string("custom_explosion_sound", "KegExplosion.ogg");
