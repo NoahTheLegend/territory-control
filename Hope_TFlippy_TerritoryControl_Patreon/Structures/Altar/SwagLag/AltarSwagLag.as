@@ -35,8 +35,8 @@ void onInit(CBlob@ this)
 	AddIconToken("$icon_swaglag_offering_0$", "AltarSwagLag_Icons.png", Vec2f(24, 24), 0);
 	{
 		ShopItem@ s = addShopItem(this, "Offering of Protopopov", "$icon_swaglag_offering_0$", "offering_protopopov", "Use some mithril and grain to create a Protopopov seed.");
-		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 10);
-		AddRequirement(s.requirements, "blob", "grain", "Grain", 1);
+		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 50);
+		AddRequirement(s.requirements, "blob", "ganjapod", "Ganja pod", 1);
 		s.customButton = true;
 		s.buttonwidth = 1;	
 		s.buttonheight = 1;
