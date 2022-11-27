@@ -10,7 +10,7 @@ void onInit(CBlob@ this)
 	this.Tag("builder always hit");
 	this.Tag("nature");
 	
-	this.set_u8(growth_time, 75);
+	this.set_u8(growth_time, 60);
 	this.set_u8(grown_amount, 8);
 	
 	if (this.hasTag("instant_grow"))
