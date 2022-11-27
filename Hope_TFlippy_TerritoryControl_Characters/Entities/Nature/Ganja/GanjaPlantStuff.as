@@ -24,7 +24,7 @@ void onDie(CBlob@ this)
 				if (seed !is null)
 				{
 					MakeMat(this, this.getPosition() + Vec2f(0, -3), "mat_ganja", Maths::Ceil(10 + XORRandom(6)));
-					seed.setVelocity(Vec2f(XORRandom(6) - 3.0f, XORRandom(6) - 3.0f));
+					//seed.setVelocity(Vec2f(XORRandom(6) - 3.0f, XORRandom(6) - 3.0f));
 					seed.Tag("gas immune");
 				}
 			}
