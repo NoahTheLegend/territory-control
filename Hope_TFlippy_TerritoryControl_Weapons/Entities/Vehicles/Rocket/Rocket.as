@@ -75,6 +75,23 @@ void onTick(CBlob@ this)
 			}
 		}
 	}
+	else
+	{
+		AttachmentPoint@ ap2 = this.getAttachments().getAttachmentPointByName("PICKUP");
+		if (isServer() && ap2 !is null && ap2.getOccupied() !is null && ap2.getOccupied().getPlayer() is null) this.server_DetachFrom(ap2.getOccupied());
+		AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PILOT");
+		if (ap !is null)
+		{
+			if (ap.isKeyJustPressed(key_up))
+			{
+				if (isServer())
+				{
+					CBlob@ pilot = ap.getOccupied();
+					if (pilot !is null)  pilot.server_DetachFrom(this);
+				}
+			}
+		}
+	}
 }
 
 void MakeParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSteam")
