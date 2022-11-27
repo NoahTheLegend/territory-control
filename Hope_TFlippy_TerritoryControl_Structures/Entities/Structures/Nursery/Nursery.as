@@ -61,7 +61,7 @@ void onInit(CBlob@ this)
 	{
 		{
 			ShopItem@ s = addShopItem(this, "A fresh pumpkin Seed", "$seed$", "pumpkin_seed", "A large squash fun for festivities.\nAttempt to convert a pumpkin into a seed.", true);
-			AddRequirement(s.requirements, "coin", "", "Coins", 500);
+			AddRequirement(s.requirements, "coin", "", "Coins", 750);
 			s.spawnNothing = true;
 		}
 		{
