@@ -201,14 +201,14 @@ void onInit(CBlob@ this)
 	u32 ganjacost = getRandomCost(@rand, 250, 375);
 	{
 		u32 cost = ganjacost;
-		ShopItem@ s = addShopItem(this, "Sell ganja (10)", "$COIN$", "coin-" + cost, "Sell 10 ganja leaves for " + cost + " coins.");
-		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 10);
+		ShopItem@ s = addShopItem(this, "Sell ganja (15)", "$COIN$", "coin-" + cost, "Sell 15 ganja leaves for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 15);
 		s.spawnNothing = true;
 	}
 	{
-		u32 cost = ganjacost*5
-		ShopItem@ s = addShopItem(this, "Sell ganja (50)", "$COIN$", "coin-" + cost, "Sell 50 ganja leaves for " + cost + " coins.");
-		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 50);
+		u32 cost = ganjacost*5;
+		ShopItem@ s = addShopItem(this, "Sell ganja (75)", "$COIN$", "coin-" + cost, "Sell 75 ganja leaves for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "mat_ganja", "Ganja", 75);
 		s.spawnNothing = true;
 	}
 	{
