@@ -740,7 +740,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 40);
-		AddRequirement(b.reqs, "blob", "mat_battery", "Voltron Battery Plus", 150);
+		AddRequirement(b.reqs, "blob", "mat_battery", "Voltron Battery Plus", 50);
 		b.buildOnGround = true;
 		b.size.Set(40, 32);
 		blocks[3].push_back(b);

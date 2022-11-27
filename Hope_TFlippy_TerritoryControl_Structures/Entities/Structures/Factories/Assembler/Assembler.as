@@ -242,10 +242,10 @@ void onInit(CBlob@ this)
 	}
 	{
 		AssemblerItem i("mat_battery", 10, "Battery (10)");
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 3);
-		AddRequirement(i.reqs, "blob", "mat_copperingot", "Copper Ingot", 3);
-		AddRequirement(i.reqs, "blob", "mat_mithril", "Mithril", 20);
-		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 50);
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
+		AddRequirement(i.reqs, "blob", "mat_copperingot", "Copper Ingot", 2);
+		AddRequirement(i.reqs, "blob", "mat_mithril", "Mithril", 10);
+		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 25);
 		items.push_back(i);
 	}
 	this.set("items", items);

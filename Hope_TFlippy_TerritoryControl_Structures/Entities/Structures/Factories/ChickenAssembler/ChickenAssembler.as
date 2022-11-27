@@ -144,15 +144,15 @@ void onInit(CBlob@ this)
 		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 24);
 		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 40);
 		AddRequirement(i.reqs, "blob", "mat_copperwire", "Copper Wire", 30);
-		AddRequirement(i.reqs, "blob", "mat_battery", "Voltron Battery Plus", 100);
+		AddRequirement(i.reqs, "blob", "mat_battery", "Voltron Battery Plus", 400);
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("mat_battery", 200, "Voltron Battery Plus (200)");
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
-		AddRequirement(i.reqs, "blob", "mat_copperingot", "Copper Ingot", 1);
-		AddRequirement(i.reqs, "blob", "mat_mithril", "Mithril", 25);
-		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 25);
+		AssemblerItem i("mat_battery", 200, "Voltron Battery Plus (100)");
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(i.reqs, "blob", "mat_copperingot", "Copper Ingot", 10);
+		AddRequirement(i.reqs, "blob", "mat_mithril", "Mithril", 50);
+		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 150);
 		items.push_back(i);
 	}
 
