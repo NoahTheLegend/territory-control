@@ -252,7 +252,22 @@ void onTick(CBlob@ this)
 			}
 			else
 			{
-				CBlob@ crate = server_CreateBlobNoInit("cacrate");
+				CBlob@[] crates;
+				getMap().getBlobsInRadius(this.getPosition(), 64.0f, @crates);
+
+				CBlob@ crate;
+				bool dont_spawn_crate = false;
+				for (u8 i = 0; i < crates.length; i++)
+				{
+					if (crates[i] !is null && crates[i].getName() == "cacrate")
+					{
+						CInventory@ inv = crates[i].getInventory();
+						if (inv.isFull() || inv.getItemsCount() > 8 - item.resultcount) break;
+						dont_spawn_crate = true;
+						@crate = @crates[i];
+					}
+				}
+				if (!dont_spawn_crate) @crate = server_CreateBlobNoInit("cacrate");
 				if (crate !is null)
 				{
 					crate.server_setTeamNum(250);
@@ -264,7 +279,18 @@ void onTick(CBlob@ this)
 					for (uint i = 0; i < item.resultcount; i++)
 					{
 						CBlob@ blob = server_CreateBlob(item.resultname, 250, this.getPosition());
-						crate.server_PutInInventory(blob);
+						if (!crate.server_PutInInventory(blob))
+						{
+							@crate = server_CreateBlobNoInit("cacrate");
+							if (crate !is null)
+							{
+								crate.server_setTeamNum(250);
+								crate.setPosition(this.getPosition());
+								crate.Tag("ignore extractor");
+								crate.Init();
+								crate.setInventoryName(item.title);
+							}
+						}
 					}
 
 					//this.add_u32("elec", -250);
