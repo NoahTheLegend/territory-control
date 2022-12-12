@@ -78,7 +78,7 @@ void onTick(CBlob@ this)
 	else
 	{
 		AttachmentPoint@ ap2 = this.getAttachments().getAttachmentPointByName("PICKUP");
-		if (isServer() && ap2 !is null && ap2.getOccupied() !is null && ap2.getOccupied().getPlayer() is null) this.server_DetachFrom(ap2.getOccupied());
+		if (isServer() && ap2 !is null && ap2.getOccupied() !is null && ap2.getOccupied().isAttached()) this.server_DetachFrom(ap2.getOccupied());
 		AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PILOT");
 		if (ap !is null)
 		{
