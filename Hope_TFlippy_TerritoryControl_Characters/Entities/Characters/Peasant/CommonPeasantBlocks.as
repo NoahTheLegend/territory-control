@@ -46,6 +46,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks)
 	AddIconToken("$icon_banditshack$", "BanditShack.png", Vec2f(40, 32), 0);
 	AddIconToken("$icon_tavern$", "Tavern.png", Vec2f(56, 32), 0);
 	AddIconToken("$bricks_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks);
+	AddIconToken("$bricks_back_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks_back);
 
 	BuildBlock[] page_0;
 	blocks.push_back(page_0);
@@ -129,8 +130,13 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks)
 		blocks[0].push_back(b);
 	}
 	{
-		BuildBlock b(CMap::tile_bricks, "bricks", "$bricks_block$", "Fancy and cheap bricks \n ");
+		BuildBlock b(CMap::tile_bricks, "bricks", "$bricks_block$", "Fancy and cheap bricks.\n");
 		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 5);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_bricks_back, "bricks_back", "$bricks_back_block$", "Fancy and cheap bricks wall.\n");
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 2);
 		blocks[0].push_back(b);
 	}
 

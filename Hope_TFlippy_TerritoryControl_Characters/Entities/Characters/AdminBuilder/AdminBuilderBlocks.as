@@ -319,11 +319,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[0].push_back(b);
 	}
 	{
-		BuildBlock b(0, "iron_halfblock", "$iron_halfblock$", "Iron Half Block:\n\nLets bullets pass through! Unbreakable by peasants.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 2);
-		blocks[0].push_back(b);
-	}
-	{
 		BuildBlock b(0, "iron_platform", "$icon_ironplatform$", "Iron Platform:\n\nReinforced one-way platform. Unbreakable by peasants.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 3);
 		blocks[0].push_back(b);
@@ -366,6 +361,11 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	{
 		BuildBlock b(CMap::tile_bricks, "bricks", "$bricks_block$", "Fancy and cheap bricks \n ");
 		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 5);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_bricks_back, "bricks_back", "$bricks_back_block$", "Fancy and cheap bricks wall.\n");
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 2);
 		blocks[0].push_back(b);
 	}
 	{

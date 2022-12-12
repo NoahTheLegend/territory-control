@@ -115,7 +115,8 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 	    (buildTile == CMap::tile_iron && backtile.type >= CMap::tile_iron_d0 && backtile.type <= CMap::tile_rustyiron_d4) || 																											//iron block
 		(buildTile == CMap::tile_titanium && backtile.type >= CMap::tile_titanium_d0 && backtile.type <= CMap::tile_titanium_d7) || 																											//titanium block
 		(buildTile == CMap::tile_reinforcedconcrete && backtile.type >= CMap::tile_reinforcedconcrete_d0 && backtile.type <= CMap::tile_reinforcedconcrete_d15) ||
-        (buildTile == CMap::tile_bricks && backtile.type >= CMap::tile_bricks_d0 && backtile.type <= CMap::tile_bricks_d4) ||																											//reinforced concrete block
+        (buildTile == CMap::tile_bricks && backtile.type >= CMap::tile_bricks_d0 && backtile.type <= CMap::tile_bricks_d4) ||																										//reinforced concrete block
+		(buildTile == CMap::tile_bricks_back && backtile.type >= CMap::tile_bricks_back_d0 && backtile.type <= CMap::tile_bricks_back_d4) ||
 		(buildTile == CMap::tile_plasteel && backtile.type >= CMap::tile_plasteel_d0 && backtile.type <= CMap::tile_plasteel_d14) ||																									//plasteel block
 		(buildTile == CMap::tile_kudzu && backtile.type == CMap::tile_kudzu_d0))																																						//kudzu block
 	{
@@ -130,18 +131,20 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 			((backtile.type >= CMap::tile_iron && backtile.type <= CMap::tile_rustyiron_d4)																														&& (buildTile == CMap::tile_titanium || buildTile == CMap::tile_reinforcedconcrete || buildTile == CMap::tile_plasteel)) ||
 			(((backtile.type >= CMap::tile_reinforcedconcrete && backtile.type <= CMap::tile_reinforcedconcrete_d15) || (backtile.type >= CMap::tile_plasteel_d0 && backtile.type <= CMap::tile_plasteel_d14))	&& buildTile == CMap::tile_plasteel) ||
 
-			((backtile.type >= CMap::tile_bglass && backtile.type <= CMap::tile_bglass_d0) 																								&& (buildTile == CMap::tile_wood_back || buildTile == CMap::tile_castle_back || buildTile == CMap::tile_bconcrete || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
-			((backtile.type == CMap::tile_wood_back || backtile.type == 207) 																											&& (buildTile == CMap::tile_castle_back || buildTile == CMap::tile_bconcrete || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
-			((backtile.type == CMap::tile_castle_back || (backtile.type >= 76 && backtile.type <= 79)) 																					&& (buildTile == CMap::tile_bconcrete || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
+			((backtile.type >= CMap::tile_bglass && backtile.type <=  CMap::tile_bglass_d0) 																								&& (buildTile == CMap::tile_bricks_back || buildTile == CMap::tile_wood_back || buildTile == CMap::tile_castle_back || buildTile == CMap::tile_bconcrete || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
+			((backtile.type == CMap::tile_wood_back || backtile.type == 207) 																											&& (buildTile == CMap::tile_bricks_back || buildTile == CMap::tile_castle_back || buildTile == CMap::tile_bconcrete || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
+			((backtile.type == CMap::tile_castle_back || (backtile.type >= 76 && backtile.type <= 79)) 																					&& (buildTile == CMap::tile_bricks_back || buildTile == CMap::tile_bconcrete || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
+			((backtile.type >= CMap::tile_bricks_back && backtile.type <= CMap::tile_bricks_back_d4) 																					&& (buildTile == CMap::tile_bconcrete || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
 			((backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4)					 																&& (buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel)) ||
 	    	(((backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel_d0 && backtile.type <= CMap::tile_bplasteel_d14)) 	&& buildTile == CMap::tile_bplasteel))
 	{
 		//replace with more powerfull
 	}
-	else if ((buildTile == CMap::tile_bglass 		&& ((backtile.type >= CMap::tile_bglass && backtile.type <= CMap::tile_bglass_v14) || backtile.type == CMap::tile_wood_back || backtile.type == 207 || backtile.type == CMap::tile_castle_back || (backtile.type >= 76 && backtile.type <= 79) || (backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
-			(buildTile == CMap::tile_wood_back 		&& (backtile.type == CMap::tile_castle_back || (backtile.type >= 76 && backtile.type <= 79) || (backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
-			(buildTile == CMap::tile_castle_back 	&& ((backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
-			(buildTile == CMap::tile_bconcrete	 	&& ((backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_bconcrete_v14) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
+	else if ((buildTile == CMap::tile_bglass 		&& ((backtile.type >= CMap::tile_bglass && backtile.type <= CMap::tile_bglass_v14) || backtile.type == CMap::tile_wood_back || backtile.type == 207 || backtile.type == CMap::tile_castle_back || (backtile.type >= 76 && backtile.type <= 79) || (backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4) || (backtile.type >= CMap::tile_bricks_back && backtile.type <= CMap::tile_bricks_back_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
+			(buildTile == CMap::tile_wood_back 		&& (backtile.type == CMap::tile_castle_back || (backtile.type >= 76 && backtile.type <= 79) || (backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bricks_back && backtile.type <= CMap::tile_bricks_back_d4) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
+			(buildTile == CMap::tile_castle_back 	&& ((backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4) || (backtile.type >= CMap::tile_bricks_back && backtile.type <= CMap::tile_bricks_back_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
+			(buildTile == CMap::tile_bricks_back 	&& ((backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_mossybconcrete_d4) || (backtile.type >= CMap::tile_bricks_back && backtile.type <= CMap::tile_bricks_back_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
+			(buildTile == CMap::tile_bconcrete	 	&& ((backtile.type >= CMap::tile_bconcrete && backtile.type <= CMap::tile_bconcrete_v14) || (backtile.type >= CMap::tile_bricks_back && backtile.type <= CMap::tile_bricks_back_d4) || (backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_d8) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
 			(buildTile == CMap::tile_biron 			&& ((backtile.type >= CMap::tile_biron && backtile.type <= CMap::tile_biron_m) || (backtile.type >= CMap::tile_bplasteel && backtile.type <= CMap::tile_bplasteel_d14))) ||
 			(buildTile == CMap::tile_bplasteel 		&& (backtile.type == CMap::tile_bplasteel_v0)))
 	{
@@ -221,6 +224,7 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 
 		Vec2f middle = p;
 
+		if (buildTile == CMap::tile_bricks_back) return true;
 		if (!(buildTile == CMap::tile_bglass || buildTile == CMap::tile_biron || buildTile == CMap::tile_bplasteel) && !isLadder && (isDummyTile ? true : (buildSolid || isSpikes)) && map.getSectorAtPosition(middle, "no build") !is null)
 		{
 			return false;

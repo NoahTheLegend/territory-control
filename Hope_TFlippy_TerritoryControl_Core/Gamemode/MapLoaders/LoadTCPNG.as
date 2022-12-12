@@ -722,6 +722,7 @@ const SColor c_grass = SColor(0xff8bd21a);
 
 const SColor c_glass = SColor(0xffbde6ed);
 const SColor c_bricks = SColor(0xff98482f);
+const SColor c_bbricks = SColor(0xee71422a);
 const SColor c_titanium = SColor(0xff767f92);
 const SColor c_iron = SColor(0xff879092);
 const SColor c_rustyiron = SColor(0xff928987);
@@ -1052,6 +1053,31 @@ void CalculateMinimapColour(CMap@ this, u32 offset, TileType type, SColor &out c
 			case CMap::tile_bricks_d3:
 			case CMap::tile_bricks_d4:
 				col = c_bricks;
+			break;
+
+			// BRICKS
+			case CMap::tile_bricks_back:
+			case CMap::tile_bricks_back_v0:
+			case CMap::tile_bricks_back_v1:
+			case CMap::tile_bricks_back_v2:
+			case CMap::tile_bricks_back_v3:
+			case CMap::tile_bricks_back_v4:
+			case CMap::tile_bricks_back_v5:
+			case CMap::tile_bricks_back_v6:
+			case CMap::tile_bricks_back_v7:
+			case CMap::tile_bricks_back_v8:
+			case CMap::tile_bricks_back_v9:
+			case CMap::tile_bricks_back_v10:
+			case CMap::tile_bricks_back_v11:
+			case CMap::tile_bricks_back_v12:
+			case CMap::tile_bricks_back_v13:
+			case CMap::tile_bricks_back_v14:
+			case CMap::tile_bricks_back_d0:
+			case CMap::tile_bricks_back_d1:
+			case CMap::tile_bricks_back_d2:
+			case CMap::tile_bricks_back_d3:
+			case CMap::tile_bricks_back_d4:
+				col = c_bbricks;
 			break;
 
 			//TITANIUM
@@ -1660,6 +1686,54 @@ TileType server_onTileHit(CMap@ map, f32 damage, u32 index, TileType oldTileType
 				return CMap::tile_empty;
 			}
 
+			case CMap::tile_bricks_back:
+			case CMap::tile_bricks_back_v0:
+			case CMap::tile_bricks_back_v1:
+			case CMap::tile_bricks_back_v2:
+			case CMap::tile_bricks_back_v3:
+			case CMap::tile_bricks_back_v4:
+			case CMap::tile_bricks_back_v5:
+			case CMap::tile_bricks_back_v6:
+			case CMap::tile_bricks_back_v7:
+			case CMap::tile_bricks_back_v8:
+			case CMap::tile_bricks_back_v9:
+			case CMap::tile_bricks_back_v10:
+			case CMap::tile_bricks_back_v11:
+			case CMap::tile_bricks_back_v12:
+			case CMap::tile_bricks_back_v13:
+			case CMap::tile_bricks_back_v14:
+			case CMap::tile_bricks_back_f14:
+			{
+				Vec2f pos = map.getTileWorldPosition(index);
+
+				map.server_SetTile(pos, CMap::tile_bricks_back_d0);
+				map.AddTileFlag(index, Tile::BACKGROUND | Tile::WATER_PASSES | Tile::LIGHT_PASSES);
+				map.RemoveTileFlag(index, Tile::LIGHT_SOURCE | Tile::SOLID | Tile::COLLISION);
+
+				for (u8 i = 0; i < 4; i++)
+				{
+					bricks_back_Update(map, map.getTileWorldPosition(index) + directions[i]);
+				}
+				return CMap::tile_bricks_back_d0;
+			}
+
+			case CMap::tile_bricks_back_d0:
+			case CMap::tile_bricks_back_d1:
+			case CMap::tile_bricks_back_d2:
+				return oldTileType + 1;
+
+			case CMap::tile_bricks_back_d3:
+			{
+				if (isClient())
+				{
+					Vec2f pos = map.getTileWorldPosition(index);
+			
+					Sound::Play("dig_dirt" + (1 + XORRandom(3)), pos, 1.5, 0.65f);
+					Sound::Play("destroy_wall.ogg", map.getTileWorldPosition(index), 1.0f, 0.80f);
+				}
+				return CMap::tile_empty;
+			}
+
 			case CMap::tile_titanium:
 			case CMap::tile_titanium_v0:
 			case CMap::tile_titanium_v1:
@@ -2026,6 +2100,8 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 				OnBKudzuTileHit(map, index);	
 			else if (tile_old >= CMap::tile_bricks && tile_old <= CMap::tile_bricks_d4)
 				OnBricksTileDestroyed(map, index);
+			else if (tile_old >= CMap::tile_bricks_back && tile_old <= CMap::tile_bricks_back+CMap::tile_bricks_back_d4)
+				OnBricksBackTileDestroyed(map, index);
 			else if (tile_old >= CMap::tile_titanium && tile_old <= CMap::tile_titanium_d7)
 				OnTitaniumTileDestroyed(map, index);
 
@@ -2110,6 +2186,43 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
 				map.RemoveTileFlag(index, Tile::WATER_PASSES | Tile::LIGHT_SOURCE | Tile::LIGHT_PASSES);
 				OnBricksTileHit(map, index);
+				break;
+			}
+
+			case CMap::tile_bricks_back:
+			{
+				Vec2f pos = map.getTileWorldPosition(index);
+				bricks_back_SetTile(map, pos);
+				map.AddTileFlag(index, Tile::BACKGROUND | Tile::WATER_PASSES | Tile::LIGHT_PASSES);
+				map.RemoveTileFlag(index, Tile::LIGHT_SOURCE | Tile::SOLID | Tile::COLLISION);
+
+				if (isClient()) Sound::Play("build_wall.ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
+				break;
+			}
+			case CMap::tile_bricks_back_v0:
+			case CMap::tile_bricks_back_v1:
+			case CMap::tile_bricks_back_v2:
+			case CMap::tile_bricks_back_v3:
+			case CMap::tile_bricks_back_v4:
+			case CMap::tile_bricks_back_v5:
+			case CMap::tile_bricks_back_v6:
+			case CMap::tile_bricks_back_v7:
+			case CMap::tile_bricks_back_v8:
+			case CMap::tile_bricks_back_v9:
+			case CMap::tile_bricks_back_v10:
+			case CMap::tile_bricks_back_v11:
+			case CMap::tile_bricks_back_v12:
+			case CMap::tile_bricks_back_v13:
+			case CMap::tile_bricks_back_v14:
+			case CMap::tile_bricks_back_f14:
+			case CMap::tile_bricks_back_d0:
+			case CMap::tile_bricks_back_d1:
+			case CMap::tile_bricks_back_d2:
+			case CMap::tile_bricks_back_d3:
+			{
+				map.AddTileFlag(index, Tile::BACKGROUND | Tile::WATER_PASSES | Tile::LIGHT_PASSES);
+				map.RemoveTileFlag(index, Tile::LIGHT_SOURCE | Tile::SOLID | Tile::COLLISION);
+				OnBricksBackTileHit(map, index);
 				break;
 			}
 
@@ -3262,6 +3375,26 @@ void OnBricksTileHit(CMap@ map, u32 index)
 	}
 }
 
+void OnBricksBackTileHit(CMap@ map, u32 index)
+{
+	map.AddTileFlag(index, Tile::BACKGROUND | Tile::WATER_PASSES | Tile::LIGHT_PASSES);
+	map.RemoveTileFlag(index, Tile::LIGHT_SOURCE | Tile::SOLID | Tile::COLLISION);
+
+	if (isClient())
+	{
+		Vec2f pos = map.getTileWorldPosition(index);
+		for (int i = 0; i < 3; i++)
+		{
+			Vec2f vel = getRandomVelocity( 0.6f, 2.0f, 180.0f);
+			vel.y = -Maths::Abs(vel.y)+Maths::Abs(vel.x)/4.0f-2.0f-float(XORRandom(100))/100.0f;
+			SColor color = (XORRandom(10) % 2 == 1) ? SColor(255, 57, 51, 47)
+			: SColor(255, 110, 100, 93);
+			ParticlePixel(pos+Vec2f(4, 0), vel, color, true);
+		}
+		Sound::Play("PickStone" + (1 + XORRandom(3)), pos, 1.0f, 1.0f);
+	}
+}
+
 void OnTitaniumTileHit(CMap@ map, u32 index)
 {
 	map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
@@ -3279,25 +3412,6 @@ void OnTitaniumTileHit(CMap@ map, u32 index)
 			ParticlePixel(pos+Vec2f(4, 0), vel, color, true);
 		}
 		Sound::Play("dig_stone.ogg", pos, 0.8f, 0.89+(XORRandom(30)/100));
-	}
-}
-
-void OnBbricksTileHit(CMap@ map, u32 index)
-{
-	map.AddTileFlag(index, Tile::BACKGROUND | Tile::LIGHT_PASSES | Tile::WATER_PASSES);
-
-	if (isClient())
-	{
-		Vec2f pos = map.getTileWorldPosition(index);
-		for (int i = 0; i < 3; i++)
-		{
-			Vec2f vel = getRandomVelocity( 0.6f, 2.0f, 180.0f);
-			vel.y = -Maths::Abs(vel.y)+Maths::Abs(vel.x)/4.0f-2.0f-float(XORRandom(100))/100.0f;
-			SColor color = (XORRandom(10) % 2 == 1) ? SColor(255, 57, 51, 47)
-			: SColor(255, 110, 100, 93);
-			ParticlePixel(pos+Vec2f(4, 0), vel, color, true);
-		}
-		Sound::Play("PickStone" + (1 + XORRandom(3)), pos, 1.0f, 1.0f);
 	}
 }
 
@@ -3353,6 +3467,60 @@ bool isbricksTile(CMap@ map, Vec2f pos)
 {
 	u16 tile = map.getTile(pos).type;
 	return tile >= CMap::tile_bricks && tile <= CMap::tile_bricks_v14;
+}
+
+void OnBricksBackTileDestroyed(CMap@ map, u32 index)
+{
+	if (isClient())
+	{
+		Vec2f pos = map.getTileWorldPosition(index);
+		for (int i = 0; i < 15; i++)
+		{
+			Vec2f vel = getRandomVelocity( 0.6f, 2.0f, 180.0f);
+			vel.y = -Maths::Abs(vel.y)+Maths::Abs(vel.x)/4.0f-2.0f-float(XORRandom(100))/100.0f;
+			SColor color = (XORRandom(10) % 2 == 1) ? SColor(255, 57, 51, 47)
+			: SColor(255, 110, 100, 93);
+			ParticlePixel(pos+Vec2f(4, 0), vel, color, true);
+		}
+		ParticleAnimated("Smoke.png", pos+Vec2f(4, 0),
+		Vec2f(0, 0), 0.0f, 1.0f, 3, 0.0f, false);
+		Sound::Play("destroy_wall.ogg", pos, 1.0f, 1.0f);
+	}
+}
+
+void bricks_back_SetTile(CMap@ map, Vec2f pos)
+{
+	map.SetTile(map.getTileOffset(pos), CMap::tile_bricks_back + bricks_back_GetMask(map, pos));
+
+	for (u8 i = 0; i < 4; i++)
+	{
+		bricks_back_Update(map, pos + directions[i]);
+	}
+}
+
+u8 bricks_back_GetMask(CMap@ map, Vec2f pos)
+{
+	u8 mask = 0;
+
+	for (u8 i = 0; i < 4; i++)
+	{
+		if (isbricksbackTile(map, pos + directions[i])) mask |= 1 << i;
+	}
+
+	return mask;
+}
+
+void bricks_back_Update(CMap@ map, Vec2f pos)
+{
+	u16 tile = map.getTile(pos).type;
+	if (isbricksbackTile(map, pos))
+		map.SetTile(map.getTileOffset(pos),CMap::tile_bricks_back+bricks_back_GetMask(map,pos));
+}
+
+bool isbricksbackTile(CMap@ map, Vec2f pos)
+{
+	u16 tile = map.getTile(pos).type;
+	return tile >= CMap::tile_bricks_back && tile <= CMap::tile_bricks_back_v14;
 }
 
 void OnTitaniumTileDestroyed(CMap@ map, u32 index)

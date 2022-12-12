@@ -62,6 +62,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$concrete_triangle$", "ConcreteTriangle.png", Vec2f(8, 8), 0);
 	AddIconToken("$iron_triangle$", "IronTriangle.png", Vec2f(8, 8), 0);
 	AddIconToken("$stone_halfblock$", "StoneHalfBlock.png", Vec2f(8, 8), 0);
+	AddIconToken("$bricks_back_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks_back);
 	AddIconToken("$iron_halfblock$", "IronHalfBlock.png", Vec2f(8, 8), 0);
 	AddIconToken("$icon_ironplatform$", "IronPlatform.png", Vec2f(8, 8), 0);
 	AddIconToken("$icon_ironladder$", "IronLadder_Icon.png", Vec2f(16, 16), 0, teamnum);
@@ -319,11 +320,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[0].push_back(b);
 	}
 	{
-		BuildBlock b(0, "iron_halfblock", "$iron_halfblock$", "Iron Half Block:\n\nLets bullets pass through! Unbreakable by peasants.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 2);
-		blocks[0].push_back(b);
-	}
-	{
 		BuildBlock b(0, "iron_platform", "$icon_ironplatform$", "Iron Platform:\n\nReinforced one-way platform. Unbreakable by peasants.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 3);
 		blocks[0].push_back(b);
@@ -366,6 +362,11 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	{
 		BuildBlock b(CMap::tile_bricks, "bricks", "$bricks_block$", "Fancy and cheap bricks \n ");
 		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 5);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_bricks_back, "bricks_back", "$bricks_back_block$", "Fancy and cheap bricks wall.\n");
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 2);
 		blocks[0].push_back(b);
 	}
 	{
