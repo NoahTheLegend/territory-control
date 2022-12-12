@@ -123,7 +123,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Zapthrottle Gas Extractor", "$icon_gasextractor$", "gasextractor", "A handheld air pump commonly used for cleaning, martial arts and gas cloud extraction.\n\n[LMB]: Pull\n[RMB]: Push");
+		ShopItem@ s = addShopItem(this, "Zapthrottle Gas Extractor", "$icon_gasextractor$", "gasextractor", "A handheld air pump commonly used for cleaning, martial arts and gas cloud extraction.\nThrows a beam of water if carrier has a filled bucket in inventory. Can put out fire and cool meteors.\n\n[LMB]: Pull\n[RMB]: Push");
 		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold Ingot", 2);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 1);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 80);
