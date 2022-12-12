@@ -104,6 +104,12 @@ void onTick(CBlob@ this)
 	}
 }
 
+bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
+{
+	if (blob !is null && blob.hasTag("flesh")) return false;
+	return true;
+}
+
 void onDetach(CBlob@ this,CBlob@ detached,AttachmentPoint@ attachedPoint)
 {
 	detached.Untag("noLMB");

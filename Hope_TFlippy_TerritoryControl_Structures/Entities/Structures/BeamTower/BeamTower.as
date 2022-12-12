@@ -124,7 +124,7 @@ void Shoot(CBlob@ this, f32 power, Vec2f dir)
 					CBlob@ blob = hitInfo.blob;
 					if (blob !is null)
 					{
-						if (!blob.hasTag("invincible") && !blob.hasTag("no beamtower damage") && !blob.hasTag("platform"))
+						if (!blob.hasTag("invincible") && !blob.hasTag("no beamtower damage"))
 						{
 							if (isServer())
 							{

@@ -12,6 +12,8 @@ void onInit(CBlob@ this)
 	CShape@ shape = this.getShape();
 	shape.AddPlatformDirection(Vec2f(0, -1), 89, false);
 	shape.SetRotationsAllowed(false);
+
+	this.Tag("no beamtower damage");
 	
 	this.server_setTeamNum(-1); //allow anyone to break them
 

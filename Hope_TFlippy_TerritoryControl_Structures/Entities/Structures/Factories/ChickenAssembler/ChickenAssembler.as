@@ -148,7 +148,7 @@ void onInit(CBlob@ this)
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("mat_battery", 200, "Voltron Battery Plus (100)");
+		AssemblerItem i("mat_battery", 100, "Voltron Battery Plus (100)");
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 10);
 		AddRequirement(i.reqs, "blob", "mat_copperingot", "Copper Ingot", 10);
 		AddRequirement(i.reqs, "blob", "mat_mithril", "Mithril", 50);
