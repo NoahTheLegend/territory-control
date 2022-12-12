@@ -21,6 +21,8 @@ void onInit(CBlob@ this)
 	this.set_u8("deity_id", Deity::ivan);
 	this.Tag("colourful");
 
+	this.addCommandID("turn_sounds");
+
 	CSprite@ sprite = this.getSprite();
 	sprite.SetEmitSound("Ivan_Music.ogg");
 	sprite.SetEmitSoundVolume(0.4f);
@@ -92,6 +94,11 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (caller is null) return;
+ 	CBitStream params;
+	params.write_u16(caller.getNetworkID());
+	caller.CreateGenericButton(27, Vec2f(0, -10), this, this.getCommandID("turn_sounds"), "Turn sounds off/onn", params);
+	
 	if (this.hasTag("colourful"))
 		caller.CreateGenericButton(27, Vec2f(10, 0), this, ToggleButton, "STOP THE RAVE");
 	else
@@ -199,7 +206,20 @@ void onTick(CBlob@ this)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	if (cmd == this.getCommandID("shop made item"))
+	if (cmd == this.getCommandID("turn_sounds"))
+	{
+
+		u16 caller;
+		if (params.saferead_netid(caller))
+		{
+			CBlob@ b = getBlobByNetworkID(caller);
+			if (isClient() && b.isMyPlayer() && this.getSprite() !is null)
+			{
+				this.getSprite().SetEmitSoundPaused(!this.getSprite().getEmitSoundPaused());
+			}
+		}
+	}
+	else if (cmd == this.getCommandID("shop made item"))
 	{
 		u16 caller, item;
 		if (params.saferead_netid(caller) && params.saferead_netid(item))

@@ -8,6 +8,8 @@ void onInit(CBlob@ this)
 	this.set_u8("deity_id", Deity::mason);
 	this.set_Vec2f("shop menu size", Vec2f(4, 2));
 
+	this.addCommandID("turn_sounds");
+
 	this.SetLight(true);
 	this.SetLightRadius(64.0f);
 	this.SetLightColor(SColor(255, 255, 180, 0));
@@ -53,6 +55,14 @@ void onInit(CBlob@ this)
 		s.buttonwidth = 2;
 		s.buttonheight = 1;	
 	}
+}
+
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
+{
+	if (caller is null) return;
+ 	CBitStream params;
+	params.write_u16(caller.getNetworkID());
+	caller.CreateGenericButton(27, Vec2f(0, -10), this, this.getCommandID("turn_sounds"), "Turn sounds off/on", params);
 }
 
 void onTick(CSprite@ this)
@@ -138,7 +148,19 @@ void makeParticle(Vec2f pos)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	if (cmd == this.getCommandID("shop made item"))
+	if (cmd == this.getCommandID("turn_sounds"))
+	{
+		u16 caller;
+		if (params.saferead_netid(caller))
+		{
+			CBlob@ b = getBlobByNetworkID(caller);
+			if (isClient() && b.isMyPlayer() && this.getSprite() !is null)
+			{
+				this.getSprite().SetEmitSoundPaused(!this.getSprite().getEmitSoundPaused());
+			}
+		}
+	}
+	else if (cmd == this.getCommandID("shop made item"))
 	{
 		u16 caller, item;
 		if (params.saferead_netid(caller) && params.saferead_netid(item))
