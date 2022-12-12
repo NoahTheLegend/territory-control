@@ -69,7 +69,7 @@ void PackerMenu(CBlob@ this, CBlob@ caller)
 				CInventory@ inv = this.getInventory();
 				if (inv !is null)
 				{
-					if (inv.getItem(0).getQuantity() <= 1) button1.SetEnabled(false);
+					if (inv.getItem(0) !is null && inv.getItem(0).getQuantity() <= 1) button1.SetEnabled(false);
 				}
 			}
 		}
