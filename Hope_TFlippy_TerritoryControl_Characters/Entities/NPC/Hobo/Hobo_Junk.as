@@ -1,6 +1,6 @@
 //Rock logic
 
-#include "/Entities/Common/Attacks/Hitters.as";
+#include "Hitters.as";;
 
 // defines amount of damage as well as maximum separate hits
 // - in terms of this's health. see config

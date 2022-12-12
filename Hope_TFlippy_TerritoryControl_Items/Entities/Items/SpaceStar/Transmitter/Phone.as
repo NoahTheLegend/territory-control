@@ -208,6 +208,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					CBlob@ b = server_CreateBlobNoInit("bombardment");
 					b.server_setTeamNum(250);
 					b.setPosition(this.getPosition());
+
+					client_AddToChat("" + ownerPlayer.getCharacterName() + " has called an artillery strike!", SColor(255, 255, 100, 0));
 					
 					b.set_u8("max shots fired", parseInt(spl[2]));
 					b.set_u32("delay between shells", 30);

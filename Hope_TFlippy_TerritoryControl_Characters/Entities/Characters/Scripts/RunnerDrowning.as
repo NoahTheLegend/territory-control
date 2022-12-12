@@ -1,6 +1,6 @@
 //drowning for all characters
 
-#include "/Entities/Common/Attacks/Hitters.as"
+#include "Hitters.as";
 
 //config vars
 

@@ -203,7 +203,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				this.set_string("shop_owner", callerPlayer.getUsername());
 			}
 			Sound::Play("ChickenMarket_Purchase.ogg");
-			client_AddToChat("" + callerPlayer.getCharacterName() + " has become the UPF Department Store Partnership Card co-leader and from now on will receive 20 percent of its sales!\nAlso allows them to order artillery barrages.", SColor(255, 255, 100, 0));
+			client_AddToChat("" + callerPlayer.getCharacterName() + " has become the UPF Department Store Partnership Card co-leader and from now will receive 20 percent of its sales!\nAlso allows them to order artillery barrages.", SColor(255, 255, 100, 0));
 		}
 
 		if (isServer())

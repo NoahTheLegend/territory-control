@@ -1,5 +1,5 @@
 
-#include "/Entities/Common/Attacks/Hitters.as";
+#include "Hitters.as";;
 #include "Knocked.as"
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
