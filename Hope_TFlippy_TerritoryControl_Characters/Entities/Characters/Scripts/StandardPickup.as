@@ -182,7 +182,7 @@ f32 getPriorityPickupScale(CBlob@ this, CBlob@ b, f32 scale)
 	// exploding stuff + crates unpacking + blueprints
 	{
 		u32 unpackTime = b.get_u32("unpack time");
-		if (b.hasTag("exploding") || b.hasTag("blueprint") || name == "fraggrenade" || name == "dynamite" || unpackTime > gameTime)
+		if (b.getName() == "mat_mithril" || b.getName() == "mat_mithrilenriched" || b.hasTag("exploding") || b.hasTag("blueprint") || name == "fraggrenade" || name == "dynamite" || unpackTime > gameTime)
 		{
 			scale *= 0.1f;
 		}
