@@ -201,7 +201,7 @@ void ReloadHead(CSprite@ this)
 		if (ply.getUsername() == "Bohdanu")
 		{	
 		
-			head_index = 113;
+			head_index = 123;
 		}
 		
 		if (ply.getUsername() == "cbryant21")
