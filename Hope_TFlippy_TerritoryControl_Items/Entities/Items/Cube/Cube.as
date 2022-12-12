@@ -68,6 +68,20 @@ void onTick(CBlob@ this)
 		camY = Maths::Cos(getGameTime() / 45.0f) * 0.5f * (dist);
 		camZ = Maths::Sin(getGameTime() / 35.0f) * 0.5f * (dist);
 
+		if (XORRandom(60) == 0) camX *= 2;
+		else if (XORRandom(60) == 0) camY *= 1.75;
+		else if (XORRandom(60) == 0) camZ *= 1.75;
+
+		if (XORRandom(1250) == 0)
+		{
+			this.set_u32("rotate", getGameTime()+10*30);
+		}
+
+		if (this.get_u32("rotate") >= getGameTime())
+		{
+			camZ = 180;
+		}
+
 		CCamera@ cam = getCamera();
 		cam.setRotation(camX, camY, camZ);
 
