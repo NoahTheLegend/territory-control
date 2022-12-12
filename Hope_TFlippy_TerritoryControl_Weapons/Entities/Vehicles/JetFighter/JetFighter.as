@@ -155,6 +155,7 @@ void onTick(CBlob@ this)
 								const f32 v = this.get_f32("velocity");
 								Vec2f d = this.get_Vec2f("direction");
 								CBlob@ dropped = server_CreateBlob(item.getName(), this.getTeamNum(), this.getPosition());
+								dropped.setAngleDegrees(this.getVelocity().x * -3.7f);
 								dropped.server_SetQuantity(1);
 								dropped.setVelocity(this.getVelocity()-Vec2f(0, this.getVelocity().y*0.4));
 								dropped.AddForce(Vec2f(0, 20.0f));
@@ -230,7 +231,7 @@ void Shoot(CBlob@ this)
 		
 	if (isClient())
 	{
-		DrawLine(this.getSprite(), startPos, length / 32, angleOffset, this.isFacingLeft());
+		//DrawLine(this.getSprite(), startPos, length / 32, angleOffset, this.isFacingLeft());
 		this.getSprite().PlaySound("GatlingGun-Shoot0", 1.00f, 1.00f);
 		
 		// Vec2f mousePos = getControls().getMouseScreenPos();
@@ -277,17 +278,15 @@ void DrawLine(CSprite@ this, Vec2f startPos, f32 length, f32 angle, bool flip)
 {
 	CSpriteLayer@ tracer = this.getSpriteLayer("tracer");
 	
-	tracer.SetVisible(true);
-	
-	tracer.ResetTransform();
-	tracer.ScaleBy(Vec2f(length, 1.0f));
-	tracer.TranslateBy(Vec2f(length * 16.0f, 0.0f));
-	tracer.RotateBy(angle + (flip ? 180 : 0), Vec2f());
-}
+	if (tracer !is null)
+	{
+		tracer.SetVisible(true);
 
-void onTick(CSprite@ this)
-{
-	if ((this.getBlob().get_u32("fireDelay") - (shootDelay - 1)) < getGameTime()) this.getSpriteLayer("tracer").SetVisible(false);
+		tracer.ResetTransform();
+		tracer.ScaleBy(Vec2f(length, 1.0f));
+		tracer.TranslateBy(Vec2f(length * 16.0f, 0.0f));
+		tracer.RotateBy(angle + (flip ? 180 : 0), Vec2f());
+	}
 }
 
 void onDie(CBlob@ this)
@@ -538,6 +537,6 @@ void onRender(CSprite@ this)
 		
 		GUI::SetFont("menu");
 		GUI::DrawTextCentered("This vehicle requires fuel to fly!", Vec2f(pos.x, pos.y + 85 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
-		GUI::DrawTextCentered("(Oil)", Vec2f(pos.x, pos.y + 105 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
+		GUI::DrawTextCentered("(Oil or Fuel)", Vec2f(pos.x, pos.y + 105 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
 	}
 }
