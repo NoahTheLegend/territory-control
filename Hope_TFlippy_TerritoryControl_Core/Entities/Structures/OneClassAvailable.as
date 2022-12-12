@@ -65,14 +65,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (this.hasTag("dead")) return;
 
-	CBitStream stream = params;
-
 	u16 id = params.read_u16();
 	CBlob@ caller = getBlobByNetworkID(id);
 	if (caller !is null)
 		if (caller.hasTag("exploding")) return;
-
-	onRespawnCommand(this, cmd, stream);
+	
+	onRespawnCommand(this, cmd, params);
 
 	if (this.hasTag("kill on use"))
 	{
