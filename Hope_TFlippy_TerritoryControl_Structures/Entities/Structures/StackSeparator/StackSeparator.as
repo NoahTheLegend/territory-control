@@ -64,6 +64,14 @@ void PackerMenu(CBlob@ this, CBlob@ caller)
 			CGridButton@ button50 = menu.AddButton("$icon_50%$", "Pick 50%", this.getCommandID("pick_50"), Vec2f(1, 1), params);
 			CGridButton@ button25 = menu.AddButton("$icon_25%$", "Pick 25%", this.getCommandID("pick_25"), Vec2f(1, 1), params);
 			CGridButton@ button1 = menu.AddButton("$icon_1$", "Pick only 1 item", this.getCommandID("pick_1"), Vec2f(1, 1), params);
+			if (button1 !is null)
+			{
+				CInventory@ inv = this.getInventory();
+				if (inv !is null)
+				{
+					if (inv.getItem(0).getQuantity() <= 1) button1.SetEnabled(false);
+				}
+			}
 		}
 	}
 }
