@@ -424,7 +424,7 @@ void onTick(CBlob@ this)
 					attackarc *= 0.9f;
 				}
 
-				DoAttack(this, 1.5f, attackAngle, attackarc, Hitters::sword, delta, knight);
+				DoAttack(this, 0.95f, attackAngle, attackarc, Hitters::sword, delta, knight);
 			}
 			else if (delta >= 9)
 			{
