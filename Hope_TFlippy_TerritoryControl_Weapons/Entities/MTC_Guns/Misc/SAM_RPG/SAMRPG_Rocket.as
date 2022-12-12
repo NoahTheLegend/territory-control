@@ -64,20 +64,27 @@ void onTick(CBlob@ this)
 			u32 index = 0;
 			const Vec2f mypos = this.getPosition();
 			Vec2f target;
-			if (blobs.length > 0)
+			CBlob@[] airblobs;
+
+			for (int i = 0; i < blobs.length; i++)
 			{
-				for (int i = 0; i < blobs.length; i++)
+				if (blobs[i].getTeamNum() == this.getTeamNum() || blobs[i] is this) continue;
+				if (!blobs[i].hasTag("aerial")) continue;
+				airblobs.push_back(blobs[i]);
+			}
+
+			if (airblobs.length > 0)
+			{
+				for (int i = 0; i < airblobs.length; i++)
 				{
-					if (blobs[i].getTeamNum() == this.getTeamNum() || blobs[i] is this) continue;
-					if (!blobs[i].hasTag("aerial")) continue;
-					f32 bdist = (blobs[i].getPosition() - mypos).Length();
+					f32 bdist = (airblobs[i].getPosition() - mypos).Length();
 					if (bdist < distance)
 					{
 						distance = bdist;
 						index = i;
 					}
 				}
-				target = blobs[index].getPosition();
+				target = airblobs[index].getPosition();
 				dir = -(target - mypos);
 				dir.Normalize();
 			}
