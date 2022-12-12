@@ -362,7 +362,7 @@ namespace CMap
 		tile_bricks_back_d3,
 		tile_bricks_back_d4,
 
-		tile_titanium = 832,
+		tile_titanium = tile_kudzu_back_f14 + 80,
 		tile_titanium_v0,
 		tile_titanium_v1,
 		tile_titanium_v2,
