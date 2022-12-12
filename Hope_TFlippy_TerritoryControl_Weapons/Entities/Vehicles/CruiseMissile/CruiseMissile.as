@@ -20,6 +20,8 @@ void onInit(CBlob@ this)
 	this.set_u16("controller_blob_netid", 0);
 	this.set_u16("controller_player_netid", 0);
 
+	this.Tag("grapplable");
+
 	this.getShape().SetRotationsAllowed(true);
 }
 
@@ -285,7 +287,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 
 		this.Tag("aerial");
 		this.Tag("projectile");
-		this.Tag("offblast");
 
 		this.set_u32("no_explosion_timer", getGameTime() + 10);
 		this.set_u32("fuel_timer", getGameTime() + fuel_timer_max);

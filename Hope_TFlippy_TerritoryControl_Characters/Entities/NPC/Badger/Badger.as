@@ -48,6 +48,8 @@ void onInit(CBlob@ this)
 
 	this.set_f32("bite damage", 0.05f);
 
+	this.Tag("grapplable");
+
 	//brain
 	this.set_u8(personality_property, DEFAULT_PERSONALITY);
 	this.set_u8("random move freq", 5);

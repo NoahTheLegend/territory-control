@@ -60,6 +60,8 @@ void onInit(CBlob@ this)
 	this.set_f32("swimspeed", 0.5f);
 	this.set_f32("swimforce", 0.1f);
 
+	this.Tag("grapplable");
+
 	this.Tag("flesh");
 	this.Tag("builder always hit");
 

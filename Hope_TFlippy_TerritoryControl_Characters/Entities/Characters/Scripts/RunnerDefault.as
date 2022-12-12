@@ -12,6 +12,8 @@ void onInit(CBlob@ this)
 	this.getCurrentScript().removeIfTag = "dead";
 	this.Tag("medium weight");
 
+	this.Tag("grapplable");
+
 	//default player minimap dot - not for migrants
 	if (this.getName() != "migrant")
 	{

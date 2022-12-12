@@ -7,6 +7,7 @@ void onInit(CBlob@ this)
 
 	this.maxQuantity = 3;
 	this.Tag("explosive");
+	this.Tag("grapplable");
 }
 
 void DoExplosion(CBlob@ this, Vec2f velocity)

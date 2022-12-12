@@ -39,4 +39,5 @@ void onInit(CBlob@ this)
 	//Custom
 	this.Tag("CustomSemiAuto");
 	this.Tag("pistol");
+	this.Tag("grapplable");
 }

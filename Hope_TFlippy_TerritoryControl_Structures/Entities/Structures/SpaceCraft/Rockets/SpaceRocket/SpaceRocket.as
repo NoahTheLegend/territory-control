@@ -18,6 +18,8 @@ void onInit(CBlob@ this)
     this.set_u32("preptimer", 0);
 	this.set_u8("state", 0);
 
+	this.Tag("grapplable");
+
     this.getShape().SetRotationsAllowed(false);
 
     CSprite@ sprite = this.getSprite();

@@ -84,7 +84,7 @@ void ManageGrapple(CBlob@ this, ArcherInfo@ archer)
 			sprite.SetEmitSoundPaused(true);
 			sprite.PlaySound("PopIn.ogg");
 		}
-		else if (canSend(this)) //otherwise grapple
+		else if (true) //otherwise grapple // test
 		{
 			archer.grappling = true;
 			archer.grapple_id = 0xffff;
@@ -263,7 +263,7 @@ void ManageGrapple(CBlob@ this, ArcherInfo@ archer)
 				}
 
 				if (b !is null)
-					b.AddForce(-force * (b.getMass() / this.getMass()));
+					b.AddForce(-force * (this.getMass() / b.getMass()));
 
 			}
 		}
@@ -685,7 +685,7 @@ bool checkGrappleStep(CBlob@ this, ArcherInfo@ archer, CMap@ map, const f32 dist
 
 				return true;
 			}
-			else if (b.isCollidable() && b.getShape().isStatic() && !b.hasTag("ignore_arrow"))
+			else if (b.hasTag("grapplable") || (b.isCollidable() && b.getShape().isStatic() && !b.hasTag("ignore_arrow")))
 			{
 				//TODO: Maybe figure out a way to grapple moving blobs
 				//		without massive desync + forces :)

@@ -7,6 +7,7 @@ void onInit(CBlob@ this)
 {
 	this.Tag("usable by anyone");
 	this.Tag("heavy weight");
+	this.Tag("grapplable");
 
 	this.addCommandID("offblast");
 

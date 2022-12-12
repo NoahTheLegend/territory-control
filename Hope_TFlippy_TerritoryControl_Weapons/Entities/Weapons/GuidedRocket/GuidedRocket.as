@@ -26,6 +26,8 @@ void onInit(CBlob@ this)
 	this.set_f32("velocity", 10.0f);
 	this.set_Vec2f("direction", Vec2f(0, -1));
 
+	this.Tag("grapplable");
+
 	this.getShape().SetRotationsAllowed(true);
 	this.Tag("explosive");
 }

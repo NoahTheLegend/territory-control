@@ -12,6 +12,8 @@ void onInit(CBlob@ this)
 	              true  // inventory access
 	             );
 	VehicleInfo@ v;
+
+	this.Tag("grapplable");
 	
 	if (!this.get("VehicleInfo", @v))
 	{
