@@ -25,6 +25,11 @@ void onInit(CBlob@ this)
 	}
 }
 
+bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
+{
+	return !blob.hasTag("flesh") && !blob.hasTag("dead") && !blob.hasTag("vehicle") && blob.isCollidable() && blob.getName() != "treecapitator";
+}
+
 void onTick(CBlob@ this)
 {
 	// print("" + this.getDamageOwnerPlayer().getUsername());
