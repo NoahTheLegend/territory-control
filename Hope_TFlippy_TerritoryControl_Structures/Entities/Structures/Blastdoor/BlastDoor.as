@@ -4,11 +4,15 @@
 #include "FireCommon.as"
 #include "MapFlags.as"
 #include "DoorCommon.as"
-
 #include "CustomBlocks.as";
 
 void onInit(CBlob@ this)
 {
+	this.addCommandID("security_set_state");
+	this.addCommandID("security_set_link");
+	this.addCommandID("static_off");
+	this.addCommandID("static_on");
+
 	this.getShape().SetRotationsAllowed(false);
 	this.getSprite().getConsts().accurateLighting = true;
 	

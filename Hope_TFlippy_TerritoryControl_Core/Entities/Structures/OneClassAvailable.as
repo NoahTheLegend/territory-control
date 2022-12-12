@@ -46,6 +46,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	if (canChangeClass(this, caller) && caller.getName() != cfg && CanChange)
 	{
 		CBitStream params;
+		params.write_u16(caller.getNetworkID());
 		write_classchange(params, caller.getNetworkID(), cfg);
 
 		CButton@ button = caller.CreateGenericButton(
@@ -64,7 +65,14 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (this.hasTag("dead")) return;
 
-	onRespawnCommand(this, cmd, params);
+	CBitStream stream = params;
+
+	u16 id = params.read_u16();
+	CBlob@ caller = getBlobByNetworkID(id);
+	if (caller !is null)
+		if (caller.hasTag("exploding")) return;
+
+	onRespawnCommand(this, cmd, stream);
 
 	if (this.hasTag("kill on use"))
 	{
