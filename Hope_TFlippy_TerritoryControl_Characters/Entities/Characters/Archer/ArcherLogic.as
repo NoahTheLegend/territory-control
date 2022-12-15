@@ -263,7 +263,7 @@ void ManageGrapple(CBlob@ this, ArcherInfo@ archer)
 				}
 
 				if (b !is null && this !is null)
-					b.AddForce(-force * (this.getMass() / b.getMass()));
+					b.AddForce(-force * (this.getMass() / (0.01f+b.getMass())));
 
 			}
 		}
