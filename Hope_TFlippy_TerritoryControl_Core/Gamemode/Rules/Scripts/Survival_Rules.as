@@ -66,18 +66,40 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		return;
 	}
 
-	u32 hardwareID = player.server_getHWID();
-	int result = blacklist.find(hardwareID);
-	if (result >= 0)
+	int localtime = Time_Local();
+	int regtime = player.getRegistrationTime();
+
+	int reg_month = Time_Month(regtime);
+	int reg_day = Time_MonthDate(regtime);
+	int reg_year = Time_Year(regtime);
+
+	int loc_month = Time_Month(localtime);
+	int loc_day = Time_MonthDate(localtime);
+	int loc_year = Time_Year(localtime);
+
+	string[] exclusive_players = {
+		"",
+		""
+	}; // Add exceptions here
+
+	bool fin = loc_month > 2 ? (reg_month >= loc_month-1 && reg_year == loc_year) : (reg_month >= loc_month+10 && reg_year >= loc_year-1);
+
+	if (fin) // Ban people registered last 2 months
 	{
-		//BanPlayer(player, -1);
-		printf("Tried: Permabanned Player: " + player.getUsername() + " IP: " + player.server_getIP() + " ID:" + player.server_getHWID());
+		bool ban = true;;
+		for (u16 i = 0; i < exclusive_players.length; i++)
+		{
+			if (player.getUsername() == exclusive_players[i]) ban = false;
+		}
+		if (ban)
+		{
+			BanPlayer(player, 60*5);
+		}
 	}
+
 
 	string playerName = player.getUsername().split('~')[0];//Part one of a fix for slave rejoining
 	//print("onNewPlayerJoin");
-
-
 
 	players.list.push_back(CTFPlayerInfo(playerName, 0, ""));
 	//Will change later 			\/	change to hash
