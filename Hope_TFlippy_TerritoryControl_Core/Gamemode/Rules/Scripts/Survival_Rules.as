@@ -86,14 +86,21 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 
 	if (fin) // Ban people registered last 2 months
 	{
-		bool ban = true;;
+		bool ban = true;
 		for (u16 i = 0; i < exclusive_players.length; i++)
 		{
 			if (player.getUsername() == exclusive_players[i]) ban = false;
 		}
 		if (ban)
 		{
-			BanPlayer(player, 60*5);
+			printf("|");
+			printf("|");
+			printf("|");
+			printf("BANNING PLAYER WITH TOO YOUNG ACCOUNT AGE: "+player.getUsername());
+			printf("|");
+			printf("|");
+			printf("|");
+			BanPlayer(player, 60*10);
 		}
 	}
 
