@@ -107,7 +107,8 @@ void DoExplosion(CBlob@ this)
 	this.set_f32("map_damage_radius", (40.0f + random) * modifier);
 	this.set_f32("map_damage_ratio", 0.25f);
 
-	Explode(this, 10.0f + random, 5.0f);
+
+	if (!this.isInInventory()) Explode(this, 10.0f + random, 5.0f);
 
 	for (int i = 0; i < 4 * modifier; i++)
 	{

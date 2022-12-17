@@ -298,7 +298,10 @@ void onTick(CBlob@ this)
 
 				f32 y  = map.getLandYAtX(x / 8) * 8;
 
-				CBlob@ blob = server_CreateBlob("falloutgas", -1, Vec2f(x, y));
+				if (isServer())
+				{
+					CBlob@ blob = server_CreateBlob("falloutgas", -1, Vec2f(x, y));
+				}
 			}
 
 			if (poison_counter == 10)
