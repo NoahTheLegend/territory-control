@@ -254,6 +254,7 @@ void ManageGrapple(CBlob@ this, ArcherInfo@ archer)
 					}
 				}
 
+				if (b is null || b.isAttached() || b.isInInventory()) return;
 				this.AddForce(force);
 				Vec2f target = (this.getPosition() + offset);
 				if (!map.rayCastSolid(this.getPosition(), target) &&

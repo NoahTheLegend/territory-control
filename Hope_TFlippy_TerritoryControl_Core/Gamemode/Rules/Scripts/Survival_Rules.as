@@ -100,7 +100,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 			printf("|");
 			printf("|");
 			printf("|");
-			BanPlayer(player, 60*10);
+			BanPlayer(player, 60*100);
 		}
 	}
 
