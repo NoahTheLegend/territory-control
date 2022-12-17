@@ -20,7 +20,7 @@ bool hasTech(CBlob@ this, const string &in name)
 			break;
 	}
 
-	if (player !is null && player.getBlob() !is null)
+	if (player !is null && player.getBlob() !is null && player.getBlob().getInventory() !is null)
 	{
 		return hasRequirements_Tech(player.getBlob().getInventory(), reqs, missing);
 	}
