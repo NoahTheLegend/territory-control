@@ -213,7 +213,7 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 	{
 		bool isLadder = false;
 		bool isSpikes = false;
-		bool isDummyTile = (buildTile > 255 && buildTile < 384) || (buildTile >= 800 && buildTile <= 824);
+		bool isDummyTile = (buildTile > 255 && buildTile < 384) || (buildTile >= 800 && buildTile <= 848);
 
 		if (blob !is null)
 		{

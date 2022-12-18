@@ -2,6 +2,7 @@
 #include "Survival_Structs.as";
 #include "Requirements_Tech.as"
 #include "DeityCommon.as"
+#include "SmartStorageHelpers.as" 
 
 string getButtonRequirementsText(CBitStream& inout bs,bool missing)
 {
@@ -178,6 +179,8 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 	if (playerBlob !is null && playerBlob.getName() == "adminbuilder") return true;
 
 	CBlob@[] baseBlobs;
+	CBlob@[] smartStorageBlobs;
+	CBlob@[] factionBases;
 	
 	bool storageEnabled = false;
 	
@@ -198,6 +201,33 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 				const bool faction_storage_enabled = team_data.storage_enabled;
 				
 				storageEnabled = upkeep_ratio <= UPKEEP_RATIO_PENALTY_STORAGE && faction_storage_enabled;
+			}
+			if (storageEnabled)
+			{
+				getBlobsByTag("smart_storage", @smartStorageBlobs);
+				for (u8 i = 0; i< smartStorageBlobs.length; i++)
+				{
+					if (smartStorageBlobs[i].getTeamNum() != playerTeam)
+					{
+						smartStorageBlobs.erase(i);
+						i--;
+					}
+				}
+				bool canPass = false;
+				getBlobsByTag("faction_base", @factionBases);
+				for (u8 i = 0; i < factionBases.length; i++)
+				{
+					if (factionBases[i].getTeamNum() != playerTeam) continue;
+					if (playerBlob.getDistanceTo(factionBases[i]) < 500.0f)
+					{
+						canPass = true;
+						break;
+					}
+				}
+				if (!canPass)
+				{
+					smartStorageBlobs.clear();
+				}
 			}
 		}
 
@@ -246,6 +276,11 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 							sum += baseBlobs[i].get_u32("compactor_quantity");
 						}
 					}
+				}
+				for (u8 i = 0; i< smartStorageBlobs.length; i++)
+				{
+					sum += smartStorageCheck(smartStorageBlobs[i],blobName);
+					sum += smartStorageBlobs[i].getBlobCount(blobName);
 				}
 			}
 			
@@ -393,7 +428,7 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 			: (inv2 !is null ? (inv2.getBlob().getPlayer() !is null ? inv2.getBlob() : null) : null)) 
 		: (inv2 !is null ? (inv2.getBlob().getPlayer() !is null ? inv2.getBlob() : null) : null));
 
-	CBlob@[] baseBlobs;
+	CBlob@[] smartStorageBlobs;
 	
 	bool storageEnabled = false;
 
@@ -419,12 +454,12 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 
 		if (storageEnabled)
 		{
-			getBlobsByTag("remote_storage", @baseBlobs);
-			for (int i = 0; i < baseBlobs.length; i++)
+			getBlobsByTag("smart_storage", @smartStorageBlobs);
+			for (u8 i = 0; i < smartStorageBlobs.length; i++)
 			{
-				if (baseBlobs[i].getTeamNum() != playerTeam)
+				if (smartStorageBlobs[i].getTeamNum() != playerTeam)
 				{
-					baseBlobs.erase(i);
+					smartStorageBlobs.erase(i);
 					i--;
 				}
 			}
@@ -458,23 +493,25 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 
 			if (storageEnabled)
 			{
-				for (int i = 0; i < baseBlobs.length; i++)
+				for (u8 i = 0; i < smartStorageBlobs.length; i++)
+				{
+					if (taken >= quantity)
+					{
+						break;
+					}
+					u32 hold = Maths::Min(smartStorageCheck(smartStorageBlobs[i], blobName), quantity - taken);
+					smartStorageTake(smartStorageBlobs[i], blobName, quantity - taken);
+					taken += hold;
+				}
+				for (u8 i = 0; i < smartStorageBlobs.length; i++)
 				{
 					if (taken >= quantity)
 					{
 						break;
 					}
 					u16 hold = taken;
-					taken += Maths::Min(baseBlobs[i].getBlobCount(blobName), quantity - taken);
-					baseBlobs[i].TakeBlob(blobName, quantity - hold);
-					if(baseBlobs[i].exists("compactor_resource")){
-						if(baseBlobs[i].get_string("compactor_resource") == blobName){
-							int dif = Maths::Min(baseBlobs[i].get_u32("compactor_quantity"), quantity - taken);
-							taken += dif;
-							baseBlobs[i].sub_u32("compactor_quantity",dif);
-							baseBlobs[i].Sync("compactor_quantity",true);
-						}
-					}
+					taken += Maths::Min(smartStorageBlobs[i].getBlobCount(blobName), quantity - taken);
+					smartStorageBlobs[i].TakeBlob(blobName, quantity - hold);
 				}
 			}
 		}
