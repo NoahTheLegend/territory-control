@@ -11,7 +11,7 @@ const string shiny_layer = "shiny bit";
 
 void onInit(CSprite@ this)
 {
-	addRunnerTextures(this, "exosuit", "Exosuit");
+	addRunnerTextures(this, "robosuit", "Robosuit");
 
 	// add blade
 	this.RemoveSpriteLayer("chop");
@@ -43,7 +43,7 @@ void onInit(CSprite@ this)
 
 void onPlayerInfoChanged(CSprite@ this)
 {
-	ensureCorrectRunnerTexture(this, "exosuit", "Exosuit");
+	ensureCorrectRunnerTexture(this, "robosuit", "Robosuit");
 }
 
 void onTick(CSprite@ this)

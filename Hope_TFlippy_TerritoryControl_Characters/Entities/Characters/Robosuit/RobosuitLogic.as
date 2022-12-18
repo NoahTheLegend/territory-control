@@ -70,31 +70,19 @@ void onInit(CBlob@ this)
 	this.set_u32("next warp", 0);
 	// this.set_u32("last hit", 0);
 
-	this.set_u8("override head", 100);
+	this.set_u8("override head", 124);
 
 	this.set_Vec2f("inventory offset", Vec2f(0.0f, 0.0f));
 
-	this.getSprite().PlaySound("Exosuit_Equip.ogg", 1, 1);
+	this.getSprite().PlaySound("scyther-intro.ogg", 0.25, 0.75f);
 
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 
 	this.SetLight(false);
-	this.SetLightRadius(64.0f);
-	this.SetLightColor(SColor(255, 10, 250, 200));
+	this.SetLightRadius(16.0f);
+	this.SetLightColor(SColor(255, 255, 155, 55));
 
 	this.set_u32("timer", 0);
-}
-
-void onInit(CSprite@ this)
-{
-	this.RemoveSpriteLayer("ghost");
-	CSpriteLayer@ ghost = this.addSpriteLayer("ghost", "Exosuit_Ghost.png", 64, 24, this.getBlob().getTeamNum(), 0);
-
-	if (ghost !is null)
-	{
-		ghost.SetRelativeZ(-1.0f);
-		ghost.SetVisible(false);
-	}
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -106,17 +94,6 @@ void onTick(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
 	u32 time = getGameTime();
-
-	if ((blob.get_u32("next warp") - 59) < time)
-	{
-		CSpriteLayer@ ghost = this.getSpriteLayer("ghost");
-
-		this.setRenderStyle(RenderStyle::normal);
-		//ghost.SetOffset(Vec2f(this.isFacingLeft() ? 16 : 48, 0.0f));
-		ghost.SetVisible(false);
-	}
-
-	if (blob.isKeyPressed(key_action1) && !blob.hasTag("noLMB")) this.setRenderStyle(RenderStyle::outline_front);
 
 	// this.setRenderStyle(blob.get_u32("last hit") + 10 > time ? RenderStyle::additive : RenderStyle::normal);
 
@@ -145,7 +122,6 @@ void onTick(CBlob@ this)
 		moveVars.jumpFactor *= 0.5f;
 	}
 
-
 	u8 knocked = getKnocked(this);
 
 	if (this.isInInventory()) return;
@@ -153,7 +129,7 @@ void onTick(CBlob@ this)
 	if (!this.get("moveVars", @moveVars)) return;
 
 	u32 time = getGameTime();
-	if (isServer() && time % 5 == 0)
+	if (isServer() && time % 30 == 0)
 	{
 		f32 maxHealth = this.getInitialHealth();
 		if (this.getHealth() < maxHealth)
@@ -182,8 +158,8 @@ void onTick(CBlob@ this)
 		}
 	}
 
-	moveVars.walkFactor *= 1.25f;
-	moveVars.jumpFactor *= 1.50f;
+	moveVars.walkFactor *= 1.15f;
+	moveVars.jumpFactor *= 1.25f;
 
 	this.SetLight(pressed_a1);
 
@@ -198,60 +174,62 @@ void onTick(CBlob@ this)
 		return;
 	}
 
-	if (!pressed_a1 && pressed_a2 && this.get_u32("next warp") < time)
+	if (pressed_a2 && getMap() !is null && this.get_u32("next_ability") < getGameTime())
 	{
-		Vec2f aimDir = pos - aimpos;
-		aimDir.Normalize();
+		Vec2f thisPos = this.getPosition();
+		Vec2f blobPos;
 
-		HitInfo@[] hitInfos;
-		Vec2f hitPos;
-
-		map.rayCastSolid(pos, pos + (aimDir * -96.0f), hitPos);
-
-		f32 length = (hitPos - pos).Length();
-		f32 angle =	-aimDir.Angle() + 180;
-
-		this.setPosition(hitPos);
-		this.setVelocity(-aimDir * (length / 12.0f));
-
-		if (isClient())
+		CBlob@[] blobs;
+		f32 radius = 92.0f;
+		getMap().getBlobsInRadius(this.getPosition(), radius, @blobs);
+		u16 zaps_amount;
+		
+		for (u16 i = 0; i < blobs.length; i++)
 		{
-			this.getSprite().PlaySound("Exosuit_Teleport.ogg", 1.0f, 1.0f);
-			this.getSprite().setRenderStyle(RenderStyle::additive);
+			zaps_amount++;
+			CBlob@ b = blobs[i];
+			if (b is null || b.hasTag("dead") || !b.hasTag("flesh") || b is this) continue;
+			
+			blobPos = b.getPosition();
+			f32 mod = (radius/3) * ((92.0f-(thisPos - blobPos).Length()) / (radius/30));
+			Vec2f dir = blobPos - thisPos;
+			f32 dist = Maths::Abs(dir.Length());
+			dir.Normalize();
 
-			DrawGhost(this.getSprite(), 0, pos, length / 96, angle, this.isFacingLeft());
-			ShakeScreen(64, 32, this.getPosition());
-		}
+			b.AddForce(Vec2f(1, 0).RotateBy(-dir.Angle()) * mod);
 
-		if (isServer())
-		{
-			map.server_DestroyTile(hitPos, 32.0f);
-			map.server_DestroyTile(hitPos + aimDir * -8, 16.0f);
-			map.server_DestroyTile(hitPos + aimDir * -16, 8.0f);
-			map.server_DestroyTile(hitPos + aimDir * -24, 4.0f);
-			map.server_DestroyTile(hitPos + aimDir * -32, 2.0f);
-			map.server_DestroyTile(hitPos + aimDir * -40, 1.0f);
-
-			if (map.getHitInfosFromRay(pos, angle, length, this, @hitInfos))
+			if (isClient())
 			{
-				for (int i = 0; i < hitInfos.length; i++)
-				{
-					if (hitInfos[i].blob !is null)
-					{
-						CBlob@ blob = hitInfos[i].blob;
+				bool flip = this.isFacingLeft();
 
-						if ((blob.isCollidable() || blob.hasTag("flesh")) && blob.getTeamNum() != this.getTeamNum()) 
-						{
-							this.server_Hit(blob, hitInfos[i].hitpos, Vec2f(0,0), 4.0f, Hitters::crush);
-							SetKnocked(blob, length * 0.5f);
-							blob.setVelocity(blob.getVelocity() + (-aimDir * (length / 12.0f)));
-						}
-					}
+				CSpriteLayer@ zap = this.getSprite().addSpriteLayer("zap"+i, "Zapper_Lightning.png", 128, 12);
+				if (zap !is null)
+				{
+					zap.ResetTransform();
+					zap.SetFrameIndex(0);
+					zap.ScaleBy(Vec2f(dist / 128.0f - 0.1f, 1.0f));
+					zap.TranslateBy(Vec2f((dist / 2), 2.0f));
+					zap.RotateBy(-dir.Angle(), Vec2f());
+					zap.SetVisible(true);
 				}
 			}
 		}
 
-		this.set_u32("next warp", time + 60);
+		this.getSprite().PlaySound("Exosuit_Teleport.ogg", 1.0f, 0.75f+(XORRandom(15)*0.01f));
+
+		this.set_u16("zaps_amount", zaps_amount);
+		this.set_u32("next_ability", getGameTime()+225);
+	}
+	if (getGameTime() >= this.get_u32("next_ability")-223)
+	{
+		if (this.get_u16("zaps_amount") > 1000) this.set_u16("zaps_amount", 0);
+		for (u16 i = 0; i < this.get_u16("zaps_amount"); i++)
+		{
+			CSpriteLayer@ l = this.getSprite().getSpriteLayer("zap"+i);
+			if (l !is null) l.SetVisible(false);
+			this.getSprite().RemoveSpriteLayer("zap"+i);
+		}
+		this.set_u16("zaps_amount", 0);
 	}
 }
 
@@ -290,8 +268,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 		case Hitters::stab:
 		case Hitters::sword:
-		case Hitters::fall:
-			damage *= 0.40f;
+			damage *= 0.25f;
 			break;
 
 		case Hitters::explosion:
@@ -299,18 +276,19 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		case Hitters::mine:
 		case Hitters::mine_special:
 		case Hitters::bomb:
-			damage *= 0.80f;
+		case Hitters::fall:
+			damage *= 0.85f;
 			this.getSprite().PlaySound("Exosuit_Hit.ogg", 1, 1);
 			break;
 
 		case Hitters::arrow:
-			damage *= 0.45f; 
+			damage *= 0.1f; 
 			break;
 
 		case Hitters::burn:
 		case Hitters::fire:
 		case HittersTC::radiation:
-			damage = 0.00f;
+			damage = 0.15f;
 			break;
 
 		case HittersTC::electric:
@@ -318,8 +296,8 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			break;
 
 		default:
-			damage *= 0.40f;
-			this.getSprite().PlaySound("Exosuit_Hit.ogg", 1, 1);
+			damage *= 0.6f;
+			this.getSprite().PlaySound("Exosuit_Hit.ogg", 1.0f, 0.85f);
 			break;
 	}
 
@@ -334,51 +312,28 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			case HittersTC::hammer:
 			case Hitters::crush:
 			case Hitters::fall:
-				damage_received = damage * 0.50f;
+				damage_received = damage * 0.75f;
 				break;
 
 			case Hitters::spikes:
 			case Hitters::builder:
 			case Hitters::arrow:
-				damage_received = damage * 0.25f;
+				damage_received = damage * 0.4f;
 				break;
 
 			case HittersTC::bullet_high_cal:
 			case HittersTC::electric:
-				damage_received = damage * 0.10f;
+				damage_received = damage * 0.3f;
 				break;
 
 			case HittersTC::shotgun:
 			case HittersTC::bullet_low_cal:
-				damage_received = damage * 0.05f;
+				damage_received = damage * 0.15f;
 				break;
 
 			default:
-				damage_received = 0.00f;
+				damage_received = 0.05f;
 				break;
-		}
-
-		damage_reflected = Maths::Min(damage - damage_received, Maths::Max(this.getHealth(), 0));
-
-		// print("base " + damage);
-		// print("received " + damage_received);
-		// print("reflecting " + damage_reflected);
-
-		hitterBlob.setVelocity(hitterBlob.getVelocity() - (velocity * damage_reflected * 1.25f));
-		this.setVelocity(this.getVelocity() + (velocity * damage_reflected * 1.25f));
-
-		SetKnocked(hitterBlob, 30.0f * damage_reflected);
-		SetKnocked(this, 30.0f * damage_reflected);
-
-		if (isServer() && !recursionPrevent)
-		{
-			this.server_Hit(hitterBlob, worldPoint, velocity, damage_reflected, customData);
-		}
-
-		if (isClient())
-		{
-			this.getSprite().PlaySound("Exosuit_Deflect.ogg", 1, 1);
-			if (this.isMyPlayer()) SetScreenFlash(100, 255, 255, 255);
 		}
 
 		return damage_received;
@@ -391,5 +346,5 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 void onDie(CBlob@ this)
 {
-	if (isServer()) server_CreateBlob("exosuititem", this.getTeamNum(), this.getPosition());
+	if (isServer()) server_CreateBlob("robosuititem", this.getTeamNum(), this.getPosition());
 }
