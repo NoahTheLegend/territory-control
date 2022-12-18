@@ -284,6 +284,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 		CPlayer@ ply = getPlayerByNetworkId(player_netid);
 
 		if (this.hasTag("offblast")) return;
+		this.Tag("offblast");
 
 		this.Tag("aerial");
 		this.Tag("projectile");
