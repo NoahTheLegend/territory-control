@@ -22,6 +22,20 @@ void onInit(CBlob@ this)
 			if (b is this) continue;
 			b.server_Die();
 		}
+
+		for (u8 i = 0; i < getPlayersCount(); i++)
+		{
+			if (getPlayer(i) !is null && getPlayer(i).getBlob() !is null)
+			{
+				if (getPlayer(i).getBlob().getName() == "peasant")
+				{
+					CBlob@ b = getPlayer(i).getBlob();
+					CBlob@ newBlob = server_CreateBlob("amogus", b.getTeamNum(), b.getPosition());
+					newBlob.server_SetPlayer(getPlayer(i));
+					b.server_Die();
+				}
+			}
+		}
 	}
 
 	if (isClient())
