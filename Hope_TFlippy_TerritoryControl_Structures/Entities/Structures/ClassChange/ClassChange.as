@@ -34,7 +34,7 @@ void onInit(CBlob@ this)
 	addTokens(this); //colored shop icons
 
 	this.set_Vec2f("shop offset", Vec2f(0,0));
-	this.set_Vec2f("shop menu size", Vec2f(4, 3));
+	this.set_Vec2f("shop menu size", Vec2f(5, 3));
 	this.set_string("shop description", "Wardrobe");
 	this.set_u8("shop icon", 15);
 
@@ -65,6 +65,11 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 12);
 		s.spawnNothing = true;
 	}
+	{
+	    ShopItem@ s = addShopItem(this, "In development", "$pheromones$", "pheromones", "Empty button");
+		AddRequirement(s.requirements, "blob", "adminbuilder", "Placeholder", 1);
+		s.spawnNothing = true;
+    }
 	{
 		ShopItem@ s = addShopItem(this, "Hazmat Suit", "$icon_hazmat$", "hazmatitem", "A hazardous materials suit giving the wearer protection against fire, toxic gases, radiation and drowning.");
 		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 75);
@@ -98,6 +103,15 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
+		ShopItem@ s = addShopItem(this, "Robotic suit", "$robosuititem$", "robosuititem", "A reproduced with human tech exosuit prototype.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 100);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 200);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper wire", 400);
+		AddRequirement(s.requirements, "blob", "mat_battery", "Battery", 500);
+		s.spawnNothing = true;
+	}
+	{
 		ShopItem@ s = addShopItem(this, "Transform into a scout chicken", "$icon_scoutchicken$", "transform-scoutchicken", "Get into scout chicken corpse and have a free small weaponpack.\n\nOnly for neutrals.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 4000);
 		AddRequirement(s.requirements, "blob", "scoutchicken", "Corpse of a scout chicken.", 1);
@@ -126,6 +140,11 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
+	{
+	    ShopItem@ s = addShopItem(this, "In development.", "$pheromones$", "pheromones", "Empty button");
+		AddRequirement(s.requirements, "blob", "adminbuilder", "Placeholder.", 1);
+		s.spawnNothing = true;
+    }
 }
 
 void onChangeTeam(CBlob@ this, const int oldTeam)
