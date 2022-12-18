@@ -128,7 +128,7 @@ CBlob@ GetAmmoBlob(CBlob@ this)
 		CBlob@ item = inv.getItem(i);
 		if (item !is null)
 		{
-			if (item.hasTag("forcefeedable"))
+			if (item.hasTag("forcefeedable") && item.hasTag("dartguninjectable"))
 			{
 				return item;
 			}

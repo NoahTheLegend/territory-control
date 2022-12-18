@@ -417,8 +417,8 @@ void onInit(CBlob@ this)
 		if (rand.NextRanged(100) < 50)
 		{
 			u32 cost = getRandomCost(@rand, 1000, 1500);
-			ShopItem@ s = addShopItem(this, "sell rippio", "$COIN$", "coin-" + cost, "ill take this fucker shit off yer hands fer " + cost + " coins.");
-			AddRequirement(s.requirements, "blob", "rippio", "Rippio", 1);
+			ShopItem@ s = addShopItem(this, "sell rippio pill", "$COIN$", "coin-" + cost, "ill take this fucker shit off yer hands fer " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "rippiopill", "Rippio pill", 1);
 			s.spawnNothing = true;
 			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
 		}
@@ -426,8 +426,8 @@ void onInit(CBlob@ this)
 		if (rand.NextRanged(100) < 50)
 		{
 			u32 cost = getRandomCost(@rand, 500, 800);
-			ShopItem@ s = addShopItem(this, "sell stim", "$COIN$", "coin-" + cost, "ill take this hedgehog shit off yer hands fer " + cost + " coins.");
-			AddRequirement(s.requirements, "blob", "stim", "Stim", 1);
+			ShopItem@ s = addShopItem(this, "sell stim pill", "$COIN$", "coin-" + cost, "ill take this hedgehog shit off yer hands fer " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "stimpill", "Stim pill", 1);
 			s.spawnNothing = true;
 			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
 		}
@@ -435,8 +435,8 @@ void onInit(CBlob@ this)
 		if (rand.NextRanged(100) < 50)
 		{
 			u32 cost = getRandomCost(@rand, 500, 750);
-			ShopItem@ s = addShopItem(this, "sell paxilon", "$COIN$", "coin-" + cost, "ill take this sleepy shit off yer hands fer " + cost + " coins.");
-			AddRequirement(s.requirements, "blob", "paxilon", "Paxilon", 1);
+			ShopItem@ s = addShopItem(this, "sell paxilonpill", "$COIN$", "coin-" + cost, "ill take this sleepy shit off yer hands fer " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "paxilonpill", "Paxilon pill", 1);
 			s.spawnNothing = true;
 			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
 		}

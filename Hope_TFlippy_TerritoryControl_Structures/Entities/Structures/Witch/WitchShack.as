@@ -265,7 +265,7 @@ const string[] tips = {
 	"Methane and Acid = [pressure > 1000 | heat > 300 | Meat]",
 	"Fuel, Acid and Dirt = [pressure > 10000 | pressure < 50000 | heat > 1000 | Oil]",
 	"Domino, MithrilEnriched and Fuel = [pressure > 25000 | heat > 1500 | Mithril >= 50 | Acid >= 25]",
-	"Stim, Dirst and Mustard = [pressure > 25000 | heat > 400 | hasSulphur | Sulphur >= 50 | Acid >= 50]",
+	"Stim, Dirt and Mustard = [pressure > 25000 | heat > 400 | hasSulphur | Sulphur >= 50 | Acid >= 50]",
 	"Poot, Bobomax and Oil = [pressure > 40000 | heat > 700 | Acid > 25 | Methane >= 25 | MithrilEnriched >= 5 | Meat >= 10]",
 	"Bobongo, Methane and Fusk (very small chance) = [heat > 500 | Dirt >= 50 | Meat > 15 | Acid >= 25]",
 	"Sulphur = [pressure < 50000 | heat > 100 | Dirt | Acid]",
@@ -280,7 +280,11 @@ const string[] tips = {
 	"Gae gas = [pressure < 100000 | heat >= 500 | Love | Mustard >= 50]",
 	"Love = [pressure < 50000 | heat >= 1200 | Rippio | Acid >= 25]",
 	"Steroid = [heat > 2000 | Fiks | Domino | Stim]",
-	"Carbon - coal, heat >= 1k, pressure >= 200k"
+	"Carbon - coal, heat >= 1k, pressure >= 200k",
+	"Enriched mithril = pressure > 25000 | heat > 2000 | Mithril | Acid >= 25 | Meat",
+	"Enriched mithril = pressure > 25000 | heat > 1500 | Mithril | Acid >= 25",
+	"Sturd = Fiks | Pumpkin >= 2 | Mithril > 25",
+	"Polymorphine = heat >= 1000 | Enriched mithril >= 15 | Steroid | Boof >= 25"
 };
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)

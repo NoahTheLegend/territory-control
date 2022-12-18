@@ -1,15 +1,13 @@
+
 void onInit(CBlob@ this)
 {
 	this.getShape().SetRotationsAllowed(true);
 	this.addCommandID("consume");
 	this.Tag("hopperable");
-	if (this.getName() != "stimpill")
-	{
-		this.Tag("syringe");
-		this.Tag("forcefeed_always");
-	}
+
+	this.Tag("syringe");
+	this.Tag("forcefeed_always");
 	this.set_string("forcefeed_text", "Inject "+this.getInventoryName()+"!");
-	this.Tag("dartguninjectable");
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
@@ -24,16 +22,14 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	if (cmd == this.getCommandID("consume"))
 	{
 		int rnd = XORRandom(2);
-		if (this.getName() != "stimpill")this.getSprite().PlaySound("Syringe_Injection_"+rnd+".ogg", 2.00f, 1.00f);
-		else this.getSprite().PlaySound("Eat.ogg", 2.00f, 1.00f);
-		this.getSprite().PlaySound("uguu.ogg", 1.00f, 1.25f);
+		this.getSprite().PlaySound("Syringe_Injection_"+rnd+".ogg", 2.00f, 1.00f);
 
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
 		if (caller !is null)
 		{
-			if (!caller.hasScript("Stimed.as")) caller.AddScript("Stimed.as");
-			caller.add_f32("stimed", 1);
-			
+			if (!caller.hasScript("Polymorphine_Effect.as")) caller.AddScript("Polymorphine_Effect.as");
+			caller.add_f32("polymorphine_effect", 2.00f);
+
 			if (isServer())
 			{
 				this.server_Die();
@@ -41,3 +37,4 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		}
 	}
 }
+

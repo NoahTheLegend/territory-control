@@ -3,7 +3,6 @@ void onInit(CBlob@ this)
 	this.getShape().SetRotationsAllowed(true);
 	this.addCommandID("consume");
 	this.Tag("hopperable");
-	this.Tag("dartguninjectable");
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
@@ -18,13 +17,13 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	if (cmd == this.getCommandID("consume"))
 	{
 		// this.getSprite().PlaySound("Huuu.ogg", 1.0f, 1.5f);
-		this.getSprite().PlaySound("Eat.ogg", 1.00f, 1.00f);
+		this.getSprite().PlaySound("Eat.ogg", 1.00f, 1.15f);
 
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
 		if (caller !is null)
 		{
-			if (!caller.hasScript("Fiksed.as")) caller.AddScript("Fiksed.as");
-			caller.add_f32("fiksed", 2.00f);
+			if (!caller.hasScript("Sturded.as")) caller.AddScript("Sturded.as");
+			caller.add_f32("sturded", 1.50f);
 
 			if (isServer())
 			{

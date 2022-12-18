@@ -21,6 +21,8 @@ const string[] scriptnames =
 	"Rippioed.as",
 	"Schisked.as",
 	"Stimed.as",
+	"Polymorphine_Effect.as",
+	"Sturded.as",
 	"Mustardeffect.as",
 	"Pigger_Pregnant.as"
 };
