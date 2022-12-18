@@ -221,3 +221,10 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 // VehicleCommon.as
 void Vehicle_onFire(CBlob@ this, VehicleInfo@ v, CBlob@ bullet, const u8 charge) {}
 bool Vehicle_canFire(CBlob@ this, VehicleInfo@ v, bool isActionPressed, bool wasActionPressed, u8 &out chargeValue) {return false;}
+
+
+f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
+{
+	if (hitterBlob !is null && hitterBlob.getName() == "tankshell") return damage * 4;
+	return damage;
+}
