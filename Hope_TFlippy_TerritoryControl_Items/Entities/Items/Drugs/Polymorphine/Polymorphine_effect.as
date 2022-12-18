@@ -46,7 +46,12 @@ const string[] randomBlobs = {
 
 void onTick(CBlob@ this)
 {
-	if (this.hasTag("dead") || !this.hasTag("flesh") || this.hasScript("Fiksed.as")) this.getCurrentScript().runFlags |= Script::remove_after_this;
+	if (this.hasTag("dead") || !this.hasTag("flesh") || this.hasScript("Fiksed.as"))
+	{
+		CSprite@ sprite = this.getSprite();
+		if (sprite !is null) sprite.SetEmitSoundPaused(true);
+		this.getCurrentScript().runFlags |= Script::remove_after_this;
+	}
 
 	CSprite@ sprite = this.getSprite();
 	if (sprite !is null)
