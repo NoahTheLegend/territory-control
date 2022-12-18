@@ -115,7 +115,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 							const u16 blobMaxQuantity = Maths::Max(blob.getMaxQuantity(), 1);
 							if (!blob.hasTag("drug"))
 							{
-								u32 quantity = blobMaxQuantity == 1 ? 1 : cur_quantity%(blobMaxQuantity/2);
+								u32 quantity = blobMaxQuantity == 1 ? 1 : blobMaxQuantity;
 								if (quantity == 0) quantity = blobMaxQuantity/2;
 
 								blob.server_SetQuantity(quantity);

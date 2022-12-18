@@ -168,7 +168,6 @@ void onTick(CBlob@ this)
 								const f32 v = this.get_f32("velocity");
 								Vec2f d = this.get_Vec2f("direction");
 								CBlob@ dropped = server_CreateBlob(item.getName(), this.getTeamNum(), this.getPosition());
-								dropped.setAngleDegrees(this.getVelocity().x * -4.7f);
 								dropped.server_SetQuantity(1);
 								dropped.setVelocity(this.getVelocity()-Vec2f(0, this.getVelocity().y*0.4));
 								dropped.AddForce(Vec2f(0, 20.0f));
@@ -176,6 +175,7 @@ void onTick(CBlob@ this)
 								dropped.IgnoreCollisionWhileOverlapped(this);
 								dropped.SetDamageOwnerPlayer(pilot.getPlayer());
 								dropped.Tag("no pickup");
+								dropped.Tag("change rotation");
 
 								if (quantity > 0)
 								{
