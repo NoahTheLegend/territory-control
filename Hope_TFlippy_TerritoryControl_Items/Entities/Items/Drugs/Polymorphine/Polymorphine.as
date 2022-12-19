@@ -30,7 +30,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (caller !is null)
 		{
 			if (!caller.hasScript("Polymorphine_Effect.as")) caller.AddScript("Polymorphine_Effect.as");
-			caller.add_f32("polymorphine_effect", 2.00f);
+			caller.get_f32("polymorphine_effect") == 0 ? caller.add_f32("polymorphine_effect", 2.00f) : caller.add_f32("polymorphine_effect", -1.50f);
 
 			if (isServer())
 			{

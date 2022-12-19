@@ -53,10 +53,10 @@ void onTick(CBlob@ this)
 				if (value == 0)
 				{
 					if (!blob.hasScript("Polymorphine_Effect.as")) blob.AddScript("Polymorphine_Effect.as");
-					value = 1.00f;
+					value = 2.00f;
 				}
 				
-				blob.set_f32("polymorphine_effect", value + 0.01f);
+				blob.set_f32("polymorphine_effect", value - 0.005f);
 			}
 		}
 	}

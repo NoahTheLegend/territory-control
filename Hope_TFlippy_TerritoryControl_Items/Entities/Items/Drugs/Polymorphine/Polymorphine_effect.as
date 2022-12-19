@@ -69,7 +69,7 @@ void onTick(CBlob@ this)
 		if (isServer() && !this.hasTag("transformed"))
 		{
 			string blobName = randomBlobs[XORRandom(randomBlobs.length)];
-			if (this.hasTag("human") && this.getConfig() != blobName)
+			if (this.getConfig() != blobName)
 			{
 				CBlob@ blob = server_CreateBlob(blobName, this.getTeamNum(), this.getPosition());
 				if (this.getPlayer() !is null) 

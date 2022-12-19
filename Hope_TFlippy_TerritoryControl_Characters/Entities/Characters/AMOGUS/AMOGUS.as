@@ -25,7 +25,7 @@ void onInit(CBlob@ this)
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
 {
-	if (player !is null) player.SetScoreboardVars("", 0, Vec2f(16, 16));
+	if (player !is null) player.SetScoreboardVars("AmogusPlushie.png", 0, Vec2f(16, 16));
 }
 
 void onTick(CBlob@ this)
