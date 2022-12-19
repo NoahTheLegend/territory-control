@@ -8,6 +8,8 @@ void onInit(CBlob@ this)
 	this.Tag("syringe");
 	this.Tag("forcefeed_always");
 	this.set_string("forcefeed_text", "Inject "+this.getInventoryName()+"!");
+
+	this.Tag("dartguninjectable");
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)

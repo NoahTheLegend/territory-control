@@ -47,7 +47,7 @@ void onTick(CBlob@ this)
 				if (getGameTime() >= this.get_u32("nextShoot"))
 				{
 					CBlob@ ammoBlob = GetAmmoBlob(this);
-					if (ammoBlob !is null)
+					if (ammoBlob !is null && ammoBlob.hasTag("dartguninjectable"))
 					{
 						Vec2f aimDir = holder.getAimPos() - this.getPosition();
 						aimDir.Normalize();
