@@ -202,61 +202,54 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 				
 				storageEnabled = upkeep_ratio <= UPKEEP_RATIO_PENALTY_STORAGE && faction_storage_enabled;
 			}
+			
+			
 			if (storageEnabled)
 			{
+				bool canPass = false;
+				
+				getBlobsByTag("remote_storage", @baseBlobs);
+				for (int i = 0; i < baseBlobs.length; i++)
+				{
+					if (baseBlobs[i].getTeamNum() != playerTeam)
+					{
+						baseBlobs.erase(i);
+						i--;
+						continue;
+					}
+					if(!canPass){
+						if ((baseBlobs[i].getPosition() - playerBlob.getPosition()).Length() < 250.0f)
+						{
+							canPass = true;
+						}
+					}
+				}							
+				
+				//smart storage check
 				getBlobsByTag("smart_storage", @smartStorageBlobs);
-				for (u8 i = 0; i< smartStorageBlobs.length; i++)
+				for (int i = 0; i < smartStorageBlobs.length; i++)
 				{
 					if (smartStorageBlobs[i].getTeamNum() != playerTeam)
 					{
 						smartStorageBlobs.erase(i);
 						i--;
+						continue;
 					}
-				}
-				bool canPass = false;
-				getBlobsByTag("faction_base", @factionBases);
-				for (u8 i = 0; i < factionBases.length; i++)
-				{
-					if (factionBases[i].getTeamNum() != playerTeam) continue;
-					if (playerBlob.getDistanceTo(factionBases[i]) < 500.0f)
-					{
-						canPass = true;
-						break;
+					if(!canPass){
+						if ((smartStorageBlobs[i].getPosition() - playerBlob.getPosition()).Length() < 250.0f)
+						{
+							canPass = true;
+						}
 					}
-				}
+				}							
 				if (!canPass)
 				{
-					smartStorageBlobs.clear();
-				}
-			}
-		}
-
-		if (storageEnabled)
-		{
-			getBlobsByTag("remote_storage", @baseBlobs);
-			for (int i = 0; i < baseBlobs.length; i++)
-			{
-				if (baseBlobs[i].getTeamNum() != playerTeam)
-				{
-					baseBlobs.erase(i);
-					i--;
-				}
-			}
-			bool canPass = false;
-			for (int i = 0; i < baseBlobs.length; i++)
-			{
-				if ((baseBlobs[i].getPosition() - playerBlob.getPosition()).Length() < 250.0f)
-				{
-					canPass = true;
-					break;
+					baseBlobs.clear();
 				}
 			}
 			
-			if (!canPass)
-			{
-				baseBlobs.clear();
-			}
 		}
+
 	}
 
 	while (!bs.isBufferEnd()) 
@@ -429,6 +422,7 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 		: (inv2 !is null ? (inv2.getBlob().getPlayer() !is null ? inv2.getBlob() : null) : null));
 
 	CBlob@[] smartStorageBlobs;
+	CBlob@[] baseBlobs;
 	
 	bool storageEnabled = false;
 
@@ -463,6 +457,17 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 					i--;
 				}
 			}
+			getBlobsByTag("remote_storage", @baseBlobs);
+			for (int i = 0; i < baseBlobs.length; i++)
+			{
+				if (baseBlobs[i].getTeamNum() != playerTeam)
+				{
+					baseBlobs.erase(i);
+					i--;
+				}
+			}
+			
+			
 		}
 	}
 
@@ -499,20 +504,38 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 					{
 						break;
 					}
-					u32 hold = Maths::Min(smartStorageCheck(smartStorageBlobs[i], blobName), quantity - taken);
-					smartStorageTake(smartStorageBlobs[i], blobName, quantity - taken);
-					taken += hold;
+					u16 hold = taken;
+					taken += Maths::Min(smartStorageCheck(smartStorageBlobs[i], blobName), quantity - taken);
+					smartStorageTake(smartStorageBlobs[i], blobName, quantity - hold);
+					if (taken >= quantity)
+					{
+						break;
+					}
+					hold = taken;
+					taken += Maths::Min(smartStorageBlobs[i].getBlobCount(blobName), quantity - taken);
+					smartStorageBlobs[i].TakeBlob(blobName, quantity - hold);
+					
 				}
-				for (u8 i = 0; i < smartStorageBlobs.length; i++)
+				
+				for (int i = 0; i < baseBlobs.length; i++)
 				{
 					if (taken >= quantity)
 					{
 						break;
 					}
 					u16 hold = taken;
-					taken += Maths::Min(smartStorageBlobs[i].getBlobCount(blobName), quantity - taken);
-					smartStorageBlobs[i].TakeBlob(blobName, quantity - hold);
+					taken += Maths::Min(baseBlobs[i].getBlobCount(blobName), quantity - taken);
+					baseBlobs[i].TakeBlob(blobName, quantity - hold);
+					if(baseBlobs[i].exists("compactor_resource")){
+						if(baseBlobs[i].get_string("compactor_resource") == blobName){
+							int dif = Maths::Min(baseBlobs[i].get_u32("compactor_quantity"), quantity - taken);
+							taken += dif;
+							baseBlobs[i].sub_u32("compactor_quantity",dif);
+							baseBlobs[i].Sync("compactor_quantity",true);
+						}
+					}
 				}
+				
 			}
 		}
 		else if (req == "coin") 
