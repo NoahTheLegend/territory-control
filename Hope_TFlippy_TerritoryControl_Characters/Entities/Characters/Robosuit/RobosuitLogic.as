@@ -312,23 +312,23 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			case HittersTC::hammer:
 			case Hitters::crush:
 			case Hitters::fall:
-				damage_received = damage * 0.75f;
+				damage_received = damage * 0.85f;
 				break;
 
 			case Hitters::spikes:
 			case Hitters::builder:
 			case Hitters::arrow:
-				damage_received = damage * 0.4f;
+				damage_received = damage * 0.65f;
 				break;
 
 			case HittersTC::bullet_high_cal:
 			case HittersTC::electric:
-				damage_received = damage * 0.3f;
+				damage_received = damage * 0.65f;
 				break;
 
 			case HittersTC::shotgun:
 			case HittersTC::bullet_low_cal:
-				damage_received = damage * 0.15f;
+				damage_received = damage * 0.35f;
 				break;
 
 			default:
