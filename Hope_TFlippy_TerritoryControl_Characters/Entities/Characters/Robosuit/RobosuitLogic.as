@@ -129,7 +129,7 @@ void onTick(CBlob@ this)
 	if (!this.get("moveVars", @moveVars)) return;
 
 	u32 time = getGameTime();
-	if (isServer() && time % 30 == 0)
+	if (isServer() && time % 90 == 0)
 	{
 		f32 maxHealth = this.getInitialHealth();
 		if (this.getHealth() < maxHealth)
@@ -268,7 +268,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 		case Hitters::stab:
 		case Hitters::sword:
-			damage *= 0.25f;
+			damage *= 0.75f;
 			break;
 
 		case Hitters::explosion:
