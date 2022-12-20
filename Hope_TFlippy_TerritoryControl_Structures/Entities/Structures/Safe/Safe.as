@@ -19,14 +19,9 @@ void onInit(CBlob@ this)
 	this.addCommandID("sv_setowner");
 	this.addCommandID("sv_store");
 	this.addCommandID("clear_owners");
-	this.addCommandID("open_addmenu");
 	this.addCommandID("server_sync");
 	this.addCommandID("sync_to_server");
-
-	for (u8 i = 0; i < 35; i++)
-	{
-		this.addCommandID("add_owner_"+i);
-	}
+	this.addCommandID("add_owner");
 
 	HarvestBlobMat[] mats = {};
 	mats.push_back(HarvestBlobMat(4.0f, "mat_ironingot"));
@@ -60,6 +55,10 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 
 	if (this.getMap().rayCastSolid(caller.getPosition(), this.getPosition())) return;
 	
+	CBlob@ blob = caller.getCarriedBlob();
+	bool is_paper;
+	if (blob !is null && blobName == "paper") is_paper = true;
+
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
 
@@ -96,64 +95,12 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 			}
 		}
 		CButton@ button = caller.CreateGenericButton(5, Vec2f(-10, 0), this, this.getCommandID("open_addmenu"), "Add an owner", params);
-		CButton@ button1 = caller.CreateGenericButton(9, Vec2f(10, 0), this, this.getCommandID("clear_owners"), "Clear all owners", params);
 	}
-}
-
-void AddMenu(CBlob@ this, CBlob@ caller)
-{
-	string[] empty = {};
-	string[] temp_usernames = {};
-	if (this.get("temp_usernames", temp_usernames)) temp_usernames = empty;
-	if (caller !is null && caller.isMyPlayer())
+	if (caller.getPlayer().getUsername() == this.get_string("Owner"))
 	{
-		CBitStream params;
-		params.write_u16(caller.getNetworkID());
-
-		Vec2f grid = Vec2f(Maths::Max(getPlayersCount(), 0),1);
-		if (getPlayersCount() > 10) grid = Vec2f(Maths::Max(getPlayersCount()/2, 0), 2);
-		else if (getPlayersCount() > 20) grid = Vec2f(Maths::Max(getPlayersCount()/3, 0), 3);
-
-		CGridMenu@ menu = CreateGridMenu(getDriver().getScreenCenterPos() + Vec2f(0.0f, 0.0f), this, grid, "Add an owner");
-		string usernames = "";
-		string owners = this.get_string("Owners");
-
-		CBitStream stream;
-		for (u16 i = 0; i < getPlayersCount(); i++)
-		{
-			CPlayer@ p = getPlayer(i);
-			if (p is null) continue;
-			temp_usernames.push_back(p.getUsername());
-			usernames += p.getUsername()+"_";
-		}
-		
-		//printf(usernames);
-		stream.write_string(usernames);
-		
-		if (menu !is null)
-		{
-			menu.deleteAfterClick = true;
-			for (u16 i = 0; i < getPlayersCount(); i++)
-			{
-				CPlayer@ p = getPlayer(i);
-				if (p is null) continue;
-				bool already_owner = false;
-				if (p.getUsername() == this.get_string("Owner")) already_owner = true;
-
-				string[] spl = owners.split("_");
-				for (u16 j = 0; j < spl.length; j++)
-				{
-					if (p.getUsername() == spl[j]) already_owner = true;
-				}
-
-				CGridButton@ button = menu.AddButton("$icon_paper$", p.getUsername(), this.getCommandID("add_owner_"+i), Vec2f(1, 1), stream);
-				if (already_owner && button !is null)
-				{
-					button.SetEnabled(false);
-				}
-			}
-			this.set("temp_usernames", temp_usernames);
-		}
+		CButton@ button1 = caller.CreateGenericButton(9, Vec2f(10, 0), this, this.getCommandID("clear_owners"), "Clear all owners", params);
+		CButton@ button2 = caller.CreateGenericButton(9, Vec2f(0, 10), this, this.getCommandID("add_owner"), "Add an owner (insert paper with username)", params);
+		if (!is_paper && button2 !is null) button2.SetEnabled(false);
 	}
 }
 
@@ -168,45 +115,20 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		this.set_string("Owner", owner);
 		this.set_string("Owners", owners);
 	}
-	if (cmd == this.getCommandID("open_addmenu"))
+	if (cmd == this.getCommandID("add_owner"))
 	{
 		u16 callerid;
+		u16 blobid;
 		if (!params.saferead_u16(callerid)) return;
+		if (!params.saferead_u16(blobid)) return;
 		CBlob@ caller = getBlobByNetworkID(callerid);
 		if (caller is null) return;
+		CBlob@ carried = caller.getCarriedBlob();
+		if (carried is null || carried.getName() != "paper") return;
 
-		AddMenu(this, caller);
-	}
-	else if (cmd >= this.getCommandID("add_owner_0") && cmd <= this.getCommandID("add_owner_34"))
-	{
-		string usernames;
-		if (!params.saferead_string(usernames)) return;
-		string[] temp_usernames = {};
-		string owners = this.get_string("Owners");
+		string text = carried.get_string("text");
+		this.set_string("Owners", this.get_string("Owners")+text+"_");
 		
-		if (!this.get("temp_usernames", temp_usernames)) return;
-
-		for (u16 i = 0; i < getPlayersCount(); i++)
-		{
-			if (this.getCommandID("add_owner_"+i) == cmd)
-			{
-				//printf(""+temp_usernames[i]);
-				if (temp_usernames.length <= i) continue;
-				CPlayer@ p = getPlayer(i);
-				if (p is null) return; // not needed to iterate further
-				//printf("puser "+p.getUsername());
-				//printf("temp "+temp_usernames[i]);
-				if (p.getUsername() == temp_usernames[i]) // make sure this is a correct player
-				{
-					this.set_string("Owners", owners+p.getUsername()+"_");
-					CBitStream stream;
-					stream.write_string(this.get_string("Owners"));
-					this.SendCommand(this.getCommandID("sync_to_server"), stream);
-					//printf(""+this.get_string("Owners"));
-					return;
-				}
-			}
-		}
 	}
 	else if (cmd == this.getCommandID("clear_owners"))
 	{
