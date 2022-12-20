@@ -57,7 +57,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	
 	CBlob@ blob = caller.getCarriedBlob();
 	bool is_paper;
-	if (blob !is null && blobName == "paper") is_paper = true;
+	if (blob !is null && blob.getName() == "paper") is_paper = true;
 
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
@@ -94,12 +94,11 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 				CButton@ buttonOwner = caller.CreateGenericButton(28, Vec2f(0, -10), this, this.getCommandID("sv_store"), "Store", params);
 			}
 		}
-		CButton@ button = caller.CreateGenericButton(5, Vec2f(-10, 0), this, this.getCommandID("open_addmenu"), "Add an owner", params);
 	}
 	if (caller.getPlayer().getUsername() == this.get_string("Owner"))
 	{
 		CButton@ button1 = caller.CreateGenericButton(9, Vec2f(10, 0), this, this.getCommandID("clear_owners"), "Clear all owners", params);
-		CButton@ button2 = caller.CreateGenericButton(9, Vec2f(0, 10), this, this.getCommandID("add_owner"), "Add an owner (insert paper with username)", params);
+		CButton@ button2 = caller.CreateGenericButton(11, Vec2f(-10, 0), this, this.getCommandID("add_owner"), "Add an owner (insert paper with username)", params);
 		if (!is_paper && button2 !is null) button2.SetEnabled(false);
 	}
 }
@@ -118,9 +117,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	if (cmd == this.getCommandID("add_owner"))
 	{
 		u16 callerid;
-		u16 blobid;
 		if (!params.saferead_u16(callerid)) return;
-		if (!params.saferead_u16(blobid)) return;
 		CBlob@ caller = getBlobByNetworkID(callerid);
 		if (caller is null) return;
 		CBlob@ carried = caller.getCarriedBlob();
@@ -128,7 +125,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 		string text = carried.get_string("text");
 		this.set_string("Owners", this.get_string("Owners")+text+"_");
-		
+		if (isServer()) carried.server_Die();
 	}
 	else if (cmd == this.getCommandID("clear_owners"))
 	{
