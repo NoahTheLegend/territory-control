@@ -211,7 +211,7 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 				getBlobsByTag("remote_storage", @baseBlobs);
 				for (int i = 0; i < baseBlobs.length; i++)
 				{
-					if (baseBlobs[i].getTeamNum() != playerTeam)
+					if (baseBlobs[i].getName() != "safe" && baseBlobs[i].getTeamNum() != playerTeam)
 					{
 						baseBlobs.erase(i);
 						i--;
@@ -249,7 +249,7 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 			}
 			
 		}
-		else
+
 		{
 			CBlob@[] baseBoobs;
 			getBlobsByName("safe", @baseBoobs);
@@ -470,7 +470,7 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 				storageEnabled = upkeep_ratio <= UPKEEP_RATIO_PENALTY_STORAGE && faction_storage_enabled;
 			}
 		}
-		else
+
 		{
 			CBlob@[] baseBoobs;
 			getBlobsByName("safe", @baseBoobs);
@@ -511,7 +511,7 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 			getBlobsByTag("remote_storage", @baseBlobs);
 			for (int i = 0; i < baseBlobs.length; i++)
 			{
-				if (baseBlobs[i].getTeamNum() != playerTeam)
+				if (baseBlobs[i].getName() != "safe" && baseBlobs[i].getTeamNum() != playerTeam)
 				{
 					baseBlobs.erase(i);
 					i--;
