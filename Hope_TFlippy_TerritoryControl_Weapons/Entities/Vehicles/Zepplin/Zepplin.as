@@ -142,8 +142,6 @@ void onTick(CSprite@ this)
 	CBlob@ blob = this.getBlob();
 	blob.setAngleDegrees(blob.getVelocity().x * 4);
 	
-	if ((this.getBlob().get_u32("fireDelay") - (shootDelay - 1)) < getGameTime()) this.getSpriteLayer("tracer").SetVisible(false);
-	
 	CSpriteLayer@ arm = this.getSpriteLayer("arm");
 	if (arm.isAnimationEnded())
 	{
@@ -320,7 +318,7 @@ void Vehicle_onFire(CBlob@ this, VehicleInfo@ v, CBlob@ bullet, const u8 _unused
 		
 	if (isClient())
 	{
-		DrawLine(this.getSprite(), startPos, length / 32, angle, this.isFacingLeft());
+		//DrawLine(this.getSprite(), startPos, length / 32, angle, this.isFacingLeft());
 		ShakeScreen(64, 32, hitPos);	
 		
 		for (int i = 0; i < 4; i++)
@@ -394,17 +392,17 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	}
 }
 
-void DrawLine(CSprite@ this, Vec2f startPos, f32 length, f32 angle, bool flip)
-{
-	CSpriteLayer@ tracer = this.getSpriteLayer("tracer");
-	
-	tracer.SetVisible(true);
-	
-	tracer.ResetTransform();
-	tracer.ScaleBy(Vec2f(length, 1.0f));
-	tracer.TranslateBy(Vec2f(length * 16.0f, 0.0f));
-	tracer.RotateBy(angle + (flip ? 180 : 0), Vec2f());
-}
+//void DrawLine(CSprite@ this, Vec2f startPos, f32 length, f32 angle, bool flip)
+//{
+//	CSpriteLayer@ tracer = this.getSpriteLayer("tracer");
+//	
+//	tracer.SetVisible(true);
+//	
+//	tracer.ResetTransform();
+//	tracer.ScaleBy(Vec2f(length, 1.0f));
+//	tracer.TranslateBy(Vec2f(length * 16.0f, 0.0f));
+//	tracer.RotateBy(angle + (flip ? 180 : 0), Vec2f());
+//}
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
