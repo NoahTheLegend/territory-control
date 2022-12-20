@@ -218,7 +218,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			string owners = params.read_string();
 			this.set_string("Owners", owners);
-			CBitStream@ stream;
+			CBitStream stream;
 			stream.write_string(this.get_string("Owner"));
 			stream.write_string(this.get_string("Owners"));
 			this.SendCommand(this.getCommandID("server_sync"));
