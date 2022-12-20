@@ -4,7 +4,7 @@
 
 void onInit(CBlob@ this)
 {
-    this.add_u32("fuel_countboots", 0);
+    this.set_u32("fuel_countboots", 0);
     this.addCommandID("load_fuelboots");
 }
 
@@ -32,11 +32,10 @@ void onTick(CBlob@ this)
 {
     if (this !is null)
     {
-        if (this.get_u32("fuel_countboots") > 100000) this.set_u32("fuel_countboots", 0);
         if (this.isOnGround() && !this.isOnLadder())
         {
             if ((this.getVelocity().x > 0 || -(this.getVelocity().x) > 0)
-            && getGameTime() % 6 == 0 && this.get_u32("fuel_countboots") > 0)
+            && getGameTime() % 6 == 0 && this.get_u32("fuel_countboots") > 25)
             {
                 if (this.getPlayer() !is null) this.getPlayer().server_setCoins(this.getPlayer().getCoins() + XORRandom(15));
                 if (this.get_u32("fuel_countboots") >= 25) this.set_u32("fuel_countboots", this.get_u32("fuel_countboots") - 6+XORRandom(5));

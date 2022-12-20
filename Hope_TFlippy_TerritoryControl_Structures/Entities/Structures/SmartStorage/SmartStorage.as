@@ -31,7 +31,7 @@ void GetButtonsFor( CBlob@ this, CBlob@ caller )
 				{
 					CBitStream params;
 					params.write_u16(caller.getNetworkID());
-					caller.CreateGenericButton(28, Vec2f(0, 4), this, this.getCommandID("sv_store"), "Store", params);
+					caller.CreateGenericButton(28, Vec2f(0, -10), this, this.getCommandID("sv_store"), "Store", params);
 				}
 			}
 		}

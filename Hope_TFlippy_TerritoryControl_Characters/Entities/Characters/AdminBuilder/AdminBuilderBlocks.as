@@ -148,6 +148,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$barbedwire$", "BarbedWire.png", Vec2f(16, 16), 0);
 	AddIconToken("$icon_teamlamp$", "TeamLamp.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_industriallamp$", "IndustrialLamp.png", Vec2f(8, 8), 0, teamnum);
+	AddIconToken("$icon_safe$", "Safe.png", Vec2f(32, 32), 0, teamnum);
 	AddIconToken("$icon_drillrig$", "DrillRig.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_siren$", "Siren.png", Vec2f(24, 32), 0, teamnum);
 	AddIconToken("$icon_textsign$", "TextSign_Large.png", Vec2f(64, 16), 0, teamnum);
@@ -841,6 +842,13 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(64, 48);
+		blocks[3].push_back(b);
+	}
+	{
+		BuildBlock b(0, "safe", "$icon_safe$", "Safe");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		b.buildOnGround = true;
+		b.size.Set(32, 32);
 		blocks[3].push_back(b);
 	}
 	{
