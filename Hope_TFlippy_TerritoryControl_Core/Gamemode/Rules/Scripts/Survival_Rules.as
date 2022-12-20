@@ -197,7 +197,6 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		player.server_setCoins(500);
 	}
 
-	printf("Player connected. Username:" + player.getUsername() + " CharacterName:" + player.getCharacterName() + " ID:" + player.server_getHWID() + " IP:" + player.server_getIP());
 	// player.server_setCoins(150);
 }
 

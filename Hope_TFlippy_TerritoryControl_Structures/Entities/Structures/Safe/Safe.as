@@ -139,9 +139,9 @@ void AddMenu(CBlob@ this, CBlob@ caller)
 				if (p.getUsername() == this.get_string("Owner")) already_owner = true;
 
 				string[] spl = owners.split("_");
-				for (u16 i = 0; i < spl.length; i++)
+				for (u16 j = 0; j < spl.length; j++)
 				{
-					if (p.getUsername() == spl[i]) already_owner = true;
+					if (p.getUsername() == spl[j]) already_owner = true;
 				}
 
 				CGridButton@ button = menu.AddButton("$icon_paper$", p.getUsername(), this.getCommandID("add_owner_"+i), Vec2f(1, 1), stream);

@@ -249,8 +249,33 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 			}
 			
 		}
+		else
+		{
+			CBlob@[] baseBoobs;
+			getBlobsByName("safe", @baseBoobs);
 
-	}
+			for (u16 i = 0; i < baseBoobs.length; i++)
+			{
+				if (baseBoobs[i] !is null
+				&& (baseBoobs[i].getPosition() - playerBlob.getPosition()).Length() < 250.0f)
+				{
+					string[] spl = baseBoobs[i].get_string("Owners").split("_");
+					for (u16 j = 0; j < spl.length; j++)
+					{
+						if (playerBlob.getPlayer() !is null)
+						{
+							if (playerBlob.getPlayer().getUsername() == spl[i] || playerBlob.getPlayer().getUsername() == baseBoobs[i].get_string("Owner"))
+							{	
+								baseBlobs.push_back(baseBoobs[i]);
+								storageEnabled = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}	
 
 	while (!bs.isBufferEnd()) 
 	{
@@ -443,6 +468,32 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 				const bool faction_storage_enabled = team_data.storage_enabled;
 				
 				storageEnabled = upkeep_ratio <= UPKEEP_RATIO_PENALTY_STORAGE && faction_storage_enabled;
+			}
+		}
+		else
+		{
+			CBlob@[] baseBoobs;
+			getBlobsByName("safe", @baseBoobs);
+
+			for (u16 i = 0; i < baseBoobs.length; i++)
+			{
+				if (baseBoobs[i] !is null
+				&& (baseBoobs[i].getPosition() - playerBlob.getPosition()).Length() < 250.0f)
+				{
+					string[] spl = baseBoobs[i].get_string("Owners").split("_");
+					for (u16 j = 0; j < spl.length; j++)
+					{
+						if (playerBlob.getPlayer() !is null)
+						{
+							if (playerBlob.getPlayer().getUsername() == spl[i] || playerBlob.getPlayer().getUsername() == baseBoobs[i].get_string("Owner"))
+							{
+								baseBlobs.push_back(baseBoobs[i]);
+								storageEnabled = true;
+								break;
+							}
+						}
+					}
+				}
 			}
 		}
 
