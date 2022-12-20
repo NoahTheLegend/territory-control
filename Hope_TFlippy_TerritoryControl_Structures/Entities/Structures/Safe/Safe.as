@@ -73,9 +73,6 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 			break;
 		}
 	}
-
-	printf("has_access? "+has_access);
-	printf("Owners "+this.get_string("Owners"));
 	
 	if (caller.getPlayer() is null) return; 
 	
@@ -299,5 +296,16 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
 	if (forBlob.getPlayer() is null) return false;
 
-	return forBlob.getPlayer().getUsername() == this.get_string("Owner");
+	bool has_access = false;
+	string[] spl = this.get_string("Owners").split("_");
+	for (u16 i = 0; i < spl.length; i++)
+	{
+		if (caller.getPlayer() !is null && caller.getPlayer().getUsername() == spl[i])
+		{
+			has_access = true;
+			break;
+		}
+	}
+
+	return has_access || forBlob.getPlayer().getUsername() == this.get_string("Owner");
 }
