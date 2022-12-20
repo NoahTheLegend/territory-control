@@ -125,7 +125,8 @@ void AddMenu(CBlob@ this, CBlob@ caller)
 			temp_usernames.push_back(p.getUsername());
 			usernames += p.getUsername()+"_";
 		}
-		//printf(usernames);
+		
+		printf(usernames);
 		stream.write_string(usernames);
 		
 		if (menu !is null)
@@ -188,16 +189,16 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			if (this.getCommandID("add_owner_"+i) == cmd)
 			{
-				//printf(""+temp_usernames[i]);
+				printf(""+temp_usernames[i]);
 				if (temp_usernames.length <= i) continue;
 				CPlayer@ p = getPlayer(i);
 				if (p is null) return; // not needed to iterate further
-				//printf("puser "+p.getUsername());
-				//printf("temp "+temp_usernames[i]);
+				printf("puser "+p.getUsername());
+				printf("temp "+temp_usernames[i]);
 				if (p.getUsername() == temp_usernames[i]) // make sure this is a correct player
 				{
 					this.set_string("Owners", owners+p.getUsername()+"_");
-					//printf(""+this.get_string("Owners"));
+					printf(""+this.get_string("Owners"));
 					return;
 				}
 			}
