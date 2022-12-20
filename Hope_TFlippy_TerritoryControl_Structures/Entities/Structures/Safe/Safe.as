@@ -300,7 +300,7 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 	string[] spl = this.get_string("Owners").split("_");
 	for (u16 i = 0; i < spl.length; i++)
 	{
-		if (caller.getPlayer() !is null && caller.getPlayer().getUsername() == spl[i])
+		if (forBlob.getPlayer() !is null && forBlob.getPlayer().getUsername() == spl[i])
 		{
 			has_access = true;
 			break;
