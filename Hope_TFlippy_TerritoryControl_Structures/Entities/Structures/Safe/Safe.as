@@ -21,6 +21,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("clear_owners");
 	this.addCommandID("open_addmenu");
 	this.addCommandID("server_sync");
+	this.addCommandID("sync_to_server");
 
 	for (u8 i = 0; i < 35; i++)
 	{
