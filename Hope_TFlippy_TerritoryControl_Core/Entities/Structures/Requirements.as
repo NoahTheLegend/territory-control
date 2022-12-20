@@ -264,7 +264,7 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 					{
 						if (playerBlob.getPlayer() !is null)
 						{
-							if (playerBlob.getPlayer().getUsername() == spl[i] || playerBlob.getPlayer().getUsername() == baseBoobs[i].get_string("Owner"))
+							if (playerBlob.getPlayer().getUsername() == spl[j] || playerBlob.getPlayer().getUsername() == baseBoobs[i].get_string("Owner"))
 							{	
 								baseBlobs.push_back(baseBoobs[i]);
 								storageEnabled = true;
