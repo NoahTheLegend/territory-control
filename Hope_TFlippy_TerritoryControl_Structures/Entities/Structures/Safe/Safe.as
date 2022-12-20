@@ -73,6 +73,9 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 			break;
 		}
 	}
+
+	printf("has_access? "+has_access);
+	printf("Owners "+this.get_string("Owners"));
 	
 	if (caller.getPlayer() is null) return; 
 	
@@ -218,10 +221,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			string owners = params.read_string();
 			this.set_string("Owners", owners);
-			CBitStream stream;
-			stream.write_string(this.get_string("Owner"));
-			stream.write_string(this.get_string("Owners"));
-			this.SendCommand(this.getCommandID("server_sync"));
+			this.Sync("Owners", true);
 		}
 		else if (cmd == this.getCommandID("sv_setowner"))
 		{
