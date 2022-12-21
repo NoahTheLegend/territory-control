@@ -20,6 +20,7 @@ void onTick(CBlob@ this)
 {
 	this.Tag("invincible");
 	this.Tag("invincibilityByVehicle");
+	this.Tag("gas immune");
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
