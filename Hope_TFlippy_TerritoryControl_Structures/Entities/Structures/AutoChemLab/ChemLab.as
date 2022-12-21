@@ -762,13 +762,13 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Creamy.ogg", 1.00f, 1.00f);
 			}
 			// Polymorphine recipe
-			if (heat >= 1000 && hasMithrilEnriched && e_mithril_count >= 15 && hasSteroid && mat_boof_count >= 25)
+			if (heat >= 1000 && hasMithrilEnriched && e_mithril_count >= 10 && hasSteroid && mat_boof_count >= 25)
 			{
 				if (isServer())
 				{
 					steroid_blob.server_Die();
 					mat_boof.server_SetQuantity(Maths::Max(mat_boof.getQuantity() - (25-XORRandom(11)), 0));
-					e_mithril_blob.server_SetQuantity(Maths::Max(e_mithril_blob.getQuantity() - 15, 0));
+					e_mithril_blob.server_SetQuantity(Maths::Max(e_mithril_blob.getQuantity() - 10, 0));
 
 					Material::createFor(this, "polymorphine", 1);
 					Material::createFor(this, "mat_polymorphine", 10+XORRandom(11));

@@ -25,6 +25,8 @@ void onInit(CBlob@ this)
 
 const string[] randomBlobs = {
 	"pus",
+	"jellyfish",
+	"fishy",
 	"drone",
 	"peasant",
 	"builder",

@@ -21,6 +21,7 @@ void onInit(CBlob@ this)
 	this.Tag("map_damage_dirt");
 	this.Tag("aerial");
 	this.Tag("projectile");
+	this.Tag("change_rotation");
 	
 	this.getShape().SetRotationsAllowed(true);
 	
@@ -51,7 +52,7 @@ void onTick(CBlob@ this)
 			MakeParticle(this, -dir, XORRandom(100) < 30 ? ("SmallSmoke" + (1 + XORRandom(2))) : "SmallExplosion" + (1 + XORRandom(3)));
 		}
 		
-		this.setAngleDegrees(-this.getVelocity().Angle() + 90);
+		this.setAngleDegrees(-this.getVelocity().Angle() + 90.1);
 		
 		// Not as hardcore shitcode anymore, but still shitcode
 		if (this.getTickSinceCreated() > 30)
@@ -102,11 +103,11 @@ void onTick(CBlob@ this)
 						MakeParticle(this, -dir, XORRandom(100) < 30 ? ("SmallSmoke" + (1 + XORRandom(2))) : "SmallExplosion" + (1 + XORRandom(3)));
 					}
 
-					this.setAngleDegrees(-this.getVelocity().Angle() + 90);
+					this.setAngleDegrees(-this.getVelocity().Angle() + 90.1);
 				}
 				else
 				{
-					this.setAngleDegrees(-this.getVelocity().Angle() + 90);
+					this.setAngleDegrees(-this.getVelocity().Angle() + 90.1);
 					this.getSprite().SetEmitSoundPaused(true);
 				}
 			}
@@ -124,7 +125,7 @@ void onTick(CBlob@ this)
 		nDir.Normalize();
 		this.SetFacingLeft(false);
 		this.set_f32("velocity", Maths::Min(this.get_f32("velocity") + 0.2f, 15.0f));
-		this.setAngleDegrees(-nDir.getAngleDegrees() + 90);
+		this.setAngleDegrees(-nDir.getAngleDegrees() + 90.1);
 		this.setVelocity(-nDir * this.get_f32("velocity"));
 		this.set_Vec2f("direction", nDir);
 		if(isClient())
@@ -203,7 +204,7 @@ void onDie(CBlob@ this)
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
-	if (solid && this.get_u32("no_explosion_timer") < getGameTime()) this.server_Die();
+	if (solid) this.server_Die();
 }
 
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)

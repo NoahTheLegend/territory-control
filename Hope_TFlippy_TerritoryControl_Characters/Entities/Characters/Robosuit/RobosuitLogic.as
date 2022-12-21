@@ -65,7 +65,6 @@ void onInit(CBlob@ this)
 	this.Tag("flesh");
 	this.Tag("human");
 	this.Tag("gas immune");
-	this.Tag("no beamtower damage");
 
 	this.set_u32("next warp", 0);
 	// this.set_u32("last hit", 0);

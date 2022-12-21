@@ -259,7 +259,7 @@ void React(CBlob@ this)
 					dangermeat_blob.server_SetQuantity(Maths::Max(dangermeat_blob.getQuantity() - 45, 0));
 
 					Material::createFor(this, "goobypill", 2 + XORRandom(2));
-					if (XORRandom(4) == 0) Material::createFor(this, "gooby", 1 + XORRandom(2));
+					if (XORRandom(100) < 33) Material::createFor(this, "gooby", 1 + XORRandom(2));
 				}
 
 				ShakeScreen(20.0f, 30, this.getPosition());
@@ -473,7 +473,7 @@ void React(CBlob@ this)
 					sulphur_blob.server_SetQuantity(Maths::Max(sulphur_blob.getQuantity() - 50, 0));
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 25, 0));
 					Material::createFor(this, "stimpill", 4 + XORRandom(3));
-					if (XORRandom(2) == 1) Material::createFor(this, "stim", 1 + XORRandom(2));
+					if (XORRandom(100) < 50) Material::createFor(this, "stim", 1 + XORRandom(2));
 					Material::createFor(this, "mat_dirt", XORRandom(15));
 					Material::createFor(this, "mat_mustard", 5 + XORRandom(15));
 				}
@@ -514,7 +514,7 @@ void React(CBlob@ this)
 					if (XORRandom(100) < 5)
 					{
 						Material::createFor(this, "fuskpill", 2 + XORRandom(2));
-						if (XORRandom(3) == 1) Material::createFor(this, "fusk", 1);
+						if (XORRandom(100) < 33) Material::createFor(this, "fusk", 1);
 					}
 				}
 
@@ -566,7 +566,7 @@ void React(CBlob@ this)
 						stim.server_Die();
 
 						Material::createFor(this, "rippiopill", 2 + XORRandom(2));
-						if (XORRandom(2) == 1) Material::createFor(this, "rippio", 1 + XORRandom(2));
+						if (XORRandom(100) < 50) Material::createFor(this, "rippio", 1 + XORRandom(2));
 						//Material::createFor(this, "mat_rippio", 15 + XORRandom(35));
 
 						if (XORRandom(100) < 30)
@@ -673,7 +673,7 @@ void React(CBlob@ this)
 						Material::createFor(this, "paxilonpill", 2 + XORRandom(2));
 						//Material::createFor(this, "mat_paxilon", 15 + XORRandom(35));
 
-						if (XORRandom(100) < 3)
+						if (XORRandom(100) < 5)
 						{
 							Material::createFor(this, "fuskpill", 2 + XORRandom(2));
 						}
@@ -742,13 +742,13 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Creamy.ogg", 1.00f, 1.00f);
 			}
 			// Polymorphine recipe
-			if (heat >= 1000 && hasMithrilEnriched && e_mithril_count >= 15 && hasSteroid && mat_boof_count >= 25)
+			if (heat >= 1000 && hasMithrilEnriched && e_mithril_count >= 10 && hasSteroid && mat_boof_count >= 25)
 			{
 				if (isServer())
 				{
 					steroid_blob.server_Die();
 					mat_boof.server_SetQuantity(Maths::Max(mat_boof.getQuantity() - (25-XORRandom(11)), 0));
-					e_mithril_blob.server_SetQuantity(Maths::Max(e_mithril_blob.getQuantity() - 15, 0));
+					e_mithril_blob.server_SetQuantity(Maths::Max(e_mithril_blob.getQuantity() - 10, 0));
 
 					Material::createFor(this, "polymorphine", 1 + (XORRandom(4) == 0 ? 1 : 0));
 					if (XORRandom(6) == 0)

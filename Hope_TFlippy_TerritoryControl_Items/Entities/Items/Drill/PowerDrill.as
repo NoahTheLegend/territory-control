@@ -55,7 +55,7 @@ void onInit(CBlob@ this)
 	AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PICKUP");
 	if (ap !is null)
 	{
-		ap.SetKeysToTake(key_action1 | key_action2 | key_action3);
+		ap.SetKeysToTake(key_action1);
 	}
 
 	this.set_u32("hittime", 0);
