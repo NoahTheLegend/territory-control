@@ -188,7 +188,7 @@ void Blend(CBlob@ this, CBlob@ blob)
 			{
 				u32 quantity = blob.getQuantity();
 
-				f32 goldq = (0.04f + XORRandom(20.0)/1000.0);
+				f32 goldq = (0.035f + XORRandom(20.0)/1000.0);
 
 				MakeMat(this, this.getPosition(), "mat_stone", 		quantity * 0.50f + XORRandom(quantity * 0.25f));
 				MakeMat(this, this.getPosition(), "mat_iron", 		XORRandom(quantity * 0.09f));

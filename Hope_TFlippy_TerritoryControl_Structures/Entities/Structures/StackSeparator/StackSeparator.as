@@ -191,6 +191,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				CInventory@ inv = this.getInventory();
 				if (inv !is null)
 				{
+					if (inv.getItem(0) is null || inv.getItem(0).getQuantity() <= 1) return;
+
 					CBlob@ item = inv.getItem(0);
 					if (item !is null)
 					{
