@@ -64,9 +64,48 @@ void onInit(CBlob@ this)
 
 	this.Tag("ignore extractor");
 	this.Tag("builder always hit");
+	this.set_string("Owner", "");
+
+	this.addCommandID("sv_setowner");
 }
 
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
+{
+	if (this.getMap().rayCastSolid(caller.getPosition(), this.getPosition())) return;
+	
+	CBitStream params;
+	params.write_u16(caller.getNetworkID());
+	
+	if (caller.getPlayer() is null) return; 
+	
+	if (caller.isOverlapping(this) && this.get_string("Owner") == "")
+	{	
+		CButton@ buttonOwner = caller.CreateGenericButton(9, Vec2f(0, -8), this, this.getCommandID("sv_setowner"), "Claim", params);
+	}
+}
 
+void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
+{
+	if (isServer())
+	{
+		if (cmd == this.getCommandID("sv_setowner"))
+		{
+			if (this.get_string("Owner") != "") return;
+		
+			CBlob@ caller = getBlobByNetworkID(params.read_u16());
+			if (caller is null) return;
+			
+			CPlayer@ player = caller.getPlayer();
+			if (player is null) return;
+			
+			this.set_string("Owner", player.getUsername());
+			this.server_setTeamNum(player.getTeamNum());
+			this.Sync("Owner", true);
+
+			// print("Set owner to " + this.get_string("Owner") + "; Team: " + this.getTeamNum());
+		}
+	}
+}
 
 void onTick(CBlob@ this)
 {
@@ -81,7 +120,7 @@ void onTick(CBlob@ this)
 			for (uint i = 0; i < blobs.length; i++)
 			{
 				CBlob@ b = blobs[i];
-				if (b.getInventory() !is null && b.hasTag("player") && b.getTeamNum() == this.getTeamNum()) {
+				if (b.getInventory() !is null && b.hasTag("player") && (b.getTeamNum() == this.getTeamNum() || (b.getPlayer() !is null && b.getPlayer().getUsername() == this.get_string("Owner")))) {
 
 					if (b.getInventory().getItemsCount() > 0)
 					{
