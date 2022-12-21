@@ -220,7 +220,7 @@ void onTick(CBlob@ this)
 					if (carried is null)
 					{
 						CBlob@ blob = getMap().getBlobAtPosition(this.getAimPos());
-						if (blob !is null && blob !is this && !blob.hasTag("dead") && blob.hasTag("human") && this.getDistanceTo(blob) < 32.00f && !getMap().rayCastSolid(this.getPosition(), blob.getPosition())) 
+						if (blob !is null && blob !is this && !blob.hasTag("dead") && blob.hasTag("flesh") && this.getDistanceTo(blob) < 32.00f && !getMap().rayCastSolid(this.getPosition(), blob.getPosition())) 
 						{
 							if (client)
 							{
