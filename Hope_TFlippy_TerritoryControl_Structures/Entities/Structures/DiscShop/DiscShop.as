@@ -150,10 +150,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (isServer())
 		{
 			CPlayer@ ply = callerBlob.getPlayer();
-			if (ply !is null)
-			{
-				tcpr("[PBI] " + ply.getUsername() + " has purchased " + name);
-			}
 		
 			string[] spl = name.split("-");
 
@@ -186,21 +182,20 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				CBlob@ blob =server_CreateBlobNoInit("musicdisc");
 
 				if (blob is null) return;
+				blob.setPosition(this.getPosition());
 			
-				if (!blob.hasTag("vehicle"))
+				if (!blob.canBePutInInventory(callerBlob))
 				{
-					if (!blob.canBePutInInventory(callerBlob))
-					{
-						callerBlob.server_Pickup(blob);
-					}
-					else if (callerBlob.getInventory() !is null && !callerBlob.getInventory().isFull())
-					{
-						callerBlob.server_PutInInventory(blob);
-					}
-					blob.server_setTeamNum(-1);
-					blob.set_u8("track_id", u8(parseInt(spl[0])));
-					blob.Init();	
+					callerBlob.server_Pickup(blob);
 				}
+				else if (callerBlob.getInventory() !is null && !callerBlob.getInventory().isFull())
+				{
+					callerBlob.server_PutInInventory(blob);
+				}
+
+				blob.server_setTeamNum(-1);
+				blob.set_u8("track_id", u8(parseInt(spl[0])));
+				blob.Init();	
 			}
 		}
 	}
