@@ -34,19 +34,3 @@ void onTick(CBlob@ this)
 	// print("" + true_level);
 	// print("" + (1.00f / (level)));
 }
-
-f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
-{
-	f32 true_level = this.get_f32("sturded");
-	f32 level = 1.00f + true_level;
-
-	if (level > 1)
-	{
-		if (customData == Hitters::fall)
-		{
-			damage /= 1.5f+true_level;
-		}
-	}
-
-	return damage;
-}

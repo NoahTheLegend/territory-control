@@ -20,8 +20,19 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point
 	f32 vely = this.getOldVelocity().y;
 
 	if (vely < 0 || Maths::Abs(normal.x) > Maths::Abs(normal.y) * 2) { return; }
-
 	f32 damage = FallDamageAmount(vely);
+
+	if (this.hasScript("Sturded.as"))
+	{
+		f32 true_level = this.get_f32("sturded");
+		f32 level = 1.00f + true_level;
+
+		if (level > 1)
+		{
+			damage /= 1.5f+true_level;
+		}
+	}
+
 	if (damage != 0.0f) //interesting value
 	{
 		bool doknockdown = true;
