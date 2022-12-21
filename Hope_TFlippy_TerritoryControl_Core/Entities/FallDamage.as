@@ -29,7 +29,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point
 
 		if (level > 1)
 		{
-			damage /= 1.5f+true_level;
+			damage /= 1.5f+true_level/2;
 		}
 	}
 
