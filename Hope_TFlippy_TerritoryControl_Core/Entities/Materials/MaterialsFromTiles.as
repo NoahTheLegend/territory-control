@@ -77,9 +77,8 @@ void onHitMap(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, u8 cust
 			else if (map.isTileGround(tile))
 			{
 				// MakeMat(this, worldPoint, "mat_sand", 2 * multiplier);
-				MakeMat(this, worldPoint, "mat_dirt", (1 + XORRandom(3)) * multiplier);
-				if (depth < 0.80f && XORRandom(100) < 10) MakeMat(this, worldPoint, "mat_copper", (1 + XORRandom(2)) * multiplier);
-				if (depth < 0.35f && XORRandom(100) < 60 * (1 - depth)) MakeMat(this, worldPoint, "mat_sulphur", (1 + XORRandom(5)) * multiplier * (1.3f - depth));
+				MakeMat(this, worldPoint, "mat_dirt", (4 + XORRandom(6)) * multiplier);
+				if (depth < 0.35f && XORRandom(100) < 60 * (1 - depth)) MakeMat(this, worldPoint, "mat_sulphur", (3 + XORRandom(8)) * multiplier * (1.3f - depth));
 			}
 			else if (tile >= CMap::tile_matter && tile <= CMap::tile_matter_d2)
 			{

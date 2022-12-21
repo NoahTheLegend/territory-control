@@ -382,7 +382,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(CMap::tile_ground, "ground_block", "$ground_block$", "Dirt:\n\nFairly resistant to explosions.\nMay be only placed on dirt backgrounds or damaged dirt.");
-		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 10);
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
 		blocks[0].push_back(b);
 	}
 	
