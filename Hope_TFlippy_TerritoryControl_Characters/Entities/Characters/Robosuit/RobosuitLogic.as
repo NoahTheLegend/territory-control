@@ -86,7 +86,7 @@ void onInit(CBlob@ this)
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
 {
-	if (player !is null) player.SetScoreboardVars("ScoreboardIcons.png", 28, Vec2f(16, 16));
+	if (player !is null) player.SetScoreboardVars("ScoreboardIcons.png", 24, Vec2f(16, 16));
 }
 
 void onTick(CSprite@ this)
