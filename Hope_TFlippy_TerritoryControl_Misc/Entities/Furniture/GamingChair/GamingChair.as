@@ -46,6 +46,11 @@ void onTick(CBlob@ this)
 				if (pilot !is null)  pilot.server_DetachFrom(this);
 			}
 		}
+		if (ap.getOccupied() !is null)
+		{
+			if (ap.getOccupied().getAimPos().x < this.getPosition().x) this.SetFacingLeft(true);
+			else this.SetFacingLeft(false);
+		}
 	}
 }
 
