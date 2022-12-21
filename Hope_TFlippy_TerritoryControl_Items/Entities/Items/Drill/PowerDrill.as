@@ -334,7 +334,7 @@ void onTick(CBlob@ this)
 								{
 									//tile destroyed last hit
 
-									if (tile >= 800 && tile <= 824 && XORRandom(6) != 0)
+									if (tile >= 848 && tile <= 864 && XORRandom(7) != 0)
 									{
 										sprite.PlaySound("metal_stone.ogg", 1.0f, 1.1f);
 										sparks(hi.hitpos, attackVel.Angle(), 1.0f);
