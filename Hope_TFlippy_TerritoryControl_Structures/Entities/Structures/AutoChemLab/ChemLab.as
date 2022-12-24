@@ -827,6 +827,7 @@ void onTick(CBlob@ this)
 		const f32 fuel_count = inv.getCount("mat_fuel");
 		const f32 acid_count = inv.getCount("mat_acid");
 		const f32 methane_count = inv.getCount("mat_methane");
+		const f32 mustard_count = inv.getCount("mat_mustard");
 		bool hasRefrigerant = inv.getItem("refrigerant") !is null;
 
 		const f32 heat = this.get_f32("heat") + (hasRefrigerant ? Maths::Pow((mithril_count * 3.00f) + (e_mithril_count * 15.00f), 2) / 20000.00f : 0);
