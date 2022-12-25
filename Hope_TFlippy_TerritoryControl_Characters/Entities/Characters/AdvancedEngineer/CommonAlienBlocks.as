@@ -572,7 +572,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 25);
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 30);
 		b.buildOnGround = true;
-		b.size.Set(16, 16);
+		b.size.Set(16, 8);
 		blocks[2].push_back(b);
 	}
 	//AUTOMATION

@@ -58,7 +58,7 @@ void onInit(CBlob@ this)
 	this.Tag("builder always hit");
 	this.addCommandID("use");
 
-	this.inventoryButtonPos = Vec2f(0, 16);
+	this.inventoryButtonPos = Vec2f(16, 0);
 }
 
 void onTick(CBlob@ this)
