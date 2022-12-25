@@ -257,7 +257,12 @@ void removeHead(CBlob@ playerblob, string headname)
 	{
 		if (playerblob.isMyPlayer())
 		{
-			getMap().CreateSkyGradient("skygradient.png");
+			if (getBlobByName("info_dead") !is null)
+				getMap().CreateSkyGradient("Dead_skygradient.png");	
+			else if (getBlobByName("info_magmacore") !is null)
+				getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+			else
+				getMap().CreateSkyGradient("skygradient.png");	
 			playerblob.set_bool("nvd_state", false);
 			SetScreenFlash(65, 0, 255, 0, 0.1);
 		}

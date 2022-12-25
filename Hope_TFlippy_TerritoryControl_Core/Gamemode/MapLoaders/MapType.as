@@ -6,6 +6,7 @@ namespace MapType
 		desert,
 		jungle,
 		arctic,
-		dead
+		dead,
+		magmacore
 	}
 }

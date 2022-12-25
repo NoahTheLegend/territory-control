@@ -28,9 +28,14 @@ void onInit(CBlob@ this)
 void onDie(CBlob@ this)
 {
 	if (isClient() && this.isMyPlayer())
-	{	
-		getMap().CreateSkyGradient("skygradient.png");
-	}
+		{
+			if (getBlobByName("info_dead") !is null)
+				getMap().CreateSkyGradient("Dead_skygradient.png");	
+			else if (getBlobByName("info_magmacore") !is null)
+				getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+			else
+				getMap().CreateSkyGradient("skygradient.png");	
+		}
 }
 
 void onTick(CBlob@ this)

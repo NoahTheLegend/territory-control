@@ -63,8 +63,13 @@ void onTick(CBlob@ this)
 				{
 					SetScreenFlash(255, 100, 0, 0, 0.50f);
 					ShakeScreen2(200.0f, 30.0f, this.getPosition());
-				
-					getMap().CreateSkyGradient("skygradient_poot.png");
+
+						if (getBlobByName("info_dead") !is null)
+							getMap().CreateSkyGradient("Dead_skygradient.png");	
+						else if (getBlobByName("info_magmacore") !is null)
+							getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+						else
+							getMap().CreateSkyGradient("skygradient.png");	
 				}
 				
 				CSprite@ sprite = this.getSprite();

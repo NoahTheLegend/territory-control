@@ -104,7 +104,8 @@ void onReload(CRules@ this)
 void onTick(CRules@ this)
 {
 	CBlob@ b = getBlobByName("info_dead");
-	if (b !is null) return;
+	CBlob@ b1 = getBlobByName("info_magmacore");
+	if (b !is null || b1 !is null) return;
 	if (CLEAR_WIDTH_POS == 0) // Required here because map is null in onInit and onRestart
 	{
 		CLEAR_WIDTH_POS = (getMap().tilemapwidth * 8) + PADDING;

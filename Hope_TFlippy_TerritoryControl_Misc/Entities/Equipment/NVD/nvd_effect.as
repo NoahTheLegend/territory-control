@@ -71,7 +71,15 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
             CSprite@ sprite = this.getSprite();
 		    if (!blob.get_bool("nvd_state"))
             {
-                if (this.isMyPlayer()) getMap().CreateSkyGradient("skygradient.png");
+                if (isClient() && this.isMyPlayer())
+		{
+			if (getBlobByName("info_dead") !is null)
+				getMap().CreateSkyGradient("Dead_skygradient.png");	
+			else if (getBlobByName("info_magmacore") !is null)
+				getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+			else
+				getMap().CreateSkyGradient("skygradient.png");	
+		}
                 blob.Tag("NoFlash");
                 if (this.isMyPlayer()) SetScreenFlash(65, 0, 255, 0, 0.1);
                 if (sprite !is null) sprite.PlaySound("nvd.ogg", 1.5f, 2.0f);
@@ -157,7 +165,15 @@ void onDie(CBlob@ this)
         if (this.isMyPlayer())
         {
             SetScreenFlash(65, 0, 255, 0, 1);
-            if (this.getMap() !is null) this.getMap().CreateSkyGradient("skygradient.png");
+            
+		{
+			if (getBlobByName("info_dead") !is null)
+				getMap().CreateSkyGradient("Dead_skygradient.png");	
+			else if (getBlobByName("info_magmacore") !is null)
+				getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+			else
+				getMap().CreateSkyGradient("skygradient.png");	
+		}
         }
     }
     this.RemoveScript("nvd_effect.as");

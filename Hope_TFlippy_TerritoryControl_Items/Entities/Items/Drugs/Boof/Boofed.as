@@ -12,7 +12,15 @@ void onInit(CBlob@ this)
 
 void onDie(CBlob@ this)
 {
-	if (isClient() && this.isMyPlayer()) getMap().CreateSkyGradient("skygradient.png");
+	if (isClient() && this.isMyPlayer())
+		{
+			if (getBlobByName("info_dead") !is null)
+				getMap().CreateSkyGradient("Dead_skygradient.png");	
+			else if (getBlobByName("info_magmacore") !is null)
+				getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+			else
+				getMap().CreateSkyGradient("skygradient.png");	
+		}
 }
 
 void onTick(CBlob@ this)
@@ -25,7 +33,15 @@ void onTick(CBlob@ this)
 	if (true_level <= 0)
 	{
 		this.Untag("custom_camera");
-		if (isClient() && this.isMyPlayer()) getMap().CreateSkyGradient("skygradient.png");
+		if (isClient() && this.isMyPlayer())
+		{
+			if (getBlobByName("info_dead") !is null)
+				getMap().CreateSkyGradient("Dead_skygradient.png");	
+			else if (getBlobByName("info_magmacore") !is null)
+				getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+			else
+				getMap().CreateSkyGradient("skygradient.png");	
+		}
 		this.getCurrentScript().runFlags |= Script::remove_after_this;
 	}
 	else
