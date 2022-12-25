@@ -267,7 +267,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 		case Hitters::stab:
 		case Hitters::sword:
-			damage *= 0.75f;
+			damage *= 0.85f;
 			break;
 
 		case Hitters::explosion:
@@ -276,7 +276,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		case Hitters::mine_special:
 		case Hitters::bomb:
 		case Hitters::fall:
-			damage *= 0.85f;
+			damage *= 0.95f;
 			this.getSprite().PlaySound("Exosuit_Hit.ogg", 1, 1);
 			break;
 
@@ -287,7 +287,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		case Hitters::burn:
 		case Hitters::fire:
 		case HittersTC::radiation:
-			damage = 0.15f;
+			damage = 0.5f;
 			break;
 
 		case HittersTC::electric:
@@ -295,7 +295,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			break;
 
 		default:
-			damage *= 0.6f;
+			damage *= 0.875f;
 			this.getSprite().PlaySound("Exosuit_Hit.ogg", 1.0f, 0.85f);
 			break;
 	}
