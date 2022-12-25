@@ -88,10 +88,6 @@ void onHitMap(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, u8 cust
 			{
 				MakeMat(this, worldPoint, "mat_concrete", 3);
 			}
-			else if (tile >= CMap::tile_iron && tile <= CMap::tile_iron_d4)
-			{
-				MakeMat(this, worldPoint, "mat_iron", 1);
-			}
 			else if (tile >= CMap::tile_kudzu && tile <= CMap::tile_kudzu_d0)
 			{
 				MakeMat(this, worldPoint, "mat_wood", 1);
