@@ -2,7 +2,7 @@
 //made by Pankov
 // Mounted Bow logic
 
-const Vec2f arm_offset = Vec2f(-5, -20);
+const Vec2f arm_offset = Vec2f(-36, -14);
 
 void onInit(CBlob@ this)
 {
@@ -10,7 +10,7 @@ void onInit(CBlob@ this)
 	this.Tag("turret");
 
 	Vehicle_Setup(this,
-	              0.0f, // move speed
+	              50.0f, // move speed
 	              0.1f,  // turn speed
 	              Vec2f(0.0f, 0.0f), // jump out velocity
 	              false  // inventory access
@@ -20,7 +20,7 @@ void onInit(CBlob@ this)
 	if (!this.get("VehicleInfo", @v)) return;
 
 	Vehicle_SetupWeapon(this, v,
-	                    60, // fire delay (ticks)
+	                    75, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(50.0f, 2.0f), // fire position offset
 	                    "mat_tankshell", // bullet ammo config name
@@ -31,15 +31,21 @@ void onInit(CBlob@ this)
 	v.charge = 400;
 	// init arm
 
-	this.getShape().SetRotationsAllowed(false);
-	this.set_string("autograb blob", "material_tankshell");
+	this.getShape().SetRotationsAllowed(true);
+	this.set_string("autograb blob", "mat_tankshell");
+
+		Vehicle_SetupGroundSound(this, v, "WoodenWheelsRolling",  // movement sound
+	                         1.0f, // movement sound volume modifier   0.0f = no manipulation
+	                         1.0f // movement sound pitch modifier     0.0f = no manipulation
+	                        );
+	Vehicle_addWheel(this, v, "WoodenWheels.png", 16, 16, 0, Vec2f(-16.0f, 6.0f));
 
 	this.getCurrentScript().runFlags |= Script::tick_hasattached;
 
 	// auto-load on creation
 	if (isServer())
 	{
-		CBlob@ ammo = server_CreateBlob("material_tankshell");
+		CBlob@ ammo = server_CreateBlob("mat_tankshell");
 		if (ammo !is null)
 		{
 			if (!this.server_PutInInventory(ammo)) ammo.server_Die();
@@ -87,7 +93,7 @@ f32 getAimAngle(CBlob@ this, VehicleInfo@ v)
 	if (gunner !is null && gunner.getOccupied() !is null)
 	{
 		gunner.offsetZ = 5.0f;
-		Vec2f aim_vec = gunner.getPosition() + Vec2f(0,-16) - gunner.getAimPos();
+		Vec2f aim_vec = gunner.getPosition() + Vec2f(16,0) - gunner.getAimPos();
 
 		if (this.isAttached())
 		{
@@ -101,7 +107,7 @@ f32 getAimAngle(CBlob@ this, VehicleInfo@ v)
 				if (aim_vec.x > 0) aim_vec.x = -aim_vec.x;
 
 				targetAngle = (-(aim_vec).getAngle() + 180.0f);
-				targetAngle = Maths::Max(-50.0f, Maths::Min(targetAngle, 55.0f));
+				targetAngle = Maths::Max(-35.0f, Maths::Min(targetAngle, 35.0f));
 
 				if (angle >= targetAngle-1 && angle <= targetAngle+1) return angle;
 				else if (angle > targetAngle) angle--;
@@ -134,9 +140,9 @@ void onTick(CBlob@ this)
 
 			arm.ResetTransform();
 			arm.SetFacingLeft(facing_left);
-			arm.SetRelativeZ(1.0f);
+			arm.SetRelativeZ(50.0f);
 			arm.SetOffset(arm_offset);
-			arm.RotateBy(rotation, Vec2f(facing_left ? -4.0f : 4.0f, 0.0f));
+			arm.RotateBy(rotation*1.2f, Vec2f(facing_left ? -16.0f : 16.0f, 0.0f));
 		}
 
 		Vehicle_StandardControls(this, v);
@@ -177,8 +183,8 @@ void Vehicle_onFire(CBlob@ this, VehicleInfo@ v, CBlob@ bullet, const u8 _unused
 		Vec2f vel = Vec2f((30.0f + (XORRandom(40) / 1000.0f) * 2.0f ) * (this.isFacingLeft() ? -1 : 1), 0.0f).RotateBy(angle);
 		bullet.setVelocity(vel);
 
-		Vec2f offset = Vec2f((this.isFacingLeft() ? -1 : 1) * 30, -18);
-		offset.RotateBy(angle*0.9f);
+		Vec2f offset = Vec2f((this.isFacingLeft() ? -1 : 1) * 68, -14);
+		offset.RotateBy(angle);
 		bullet.setPosition(this.getPosition() + offset);
 
 		bullet.server_SetTimeToDie(-1);

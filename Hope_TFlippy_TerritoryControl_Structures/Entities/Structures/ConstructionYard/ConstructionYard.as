@@ -27,6 +27,7 @@ void onInit(CBlob@ this)
 	AddIconToken("$icon_incendiarymortar$", "IncendiaryMortar_Icon.png", Vec2f(24, 24), 0);
 	AddIconToken("$icon_howitzer$", "Icon_Vehicles.png", Vec2f(24, 24), 4);
 	AddIconToken("$icon_zeppelin$", "Zepplin.png", Vec2f(181, 90), 0);
+	AddIconToken("$icon_autocannon$", "AutocannonIcon.png", Vec2f(96, 48), 0);
 
 	AddIconToken("$mat_ironingot$", "Material_IronIngot.png", Vec2f(16, 16), 1);
 	AddIconToken("$antiair", "AntiAC_top.png", Vec2f(32, 16), 3);
@@ -128,13 +129,14 @@ void onInit(CBlob@ this)
 		s.buttonheight = 2;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Mortar", "$icon_mortar$", "mortar", "Mortar combat!", false, true);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 12);
-		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+		ShopItem@ s = addShopItem(this, "Autocannon", "$icon_autocannon$", "autocannon", "A slow and sturdy wooden monstrosity.", false, true);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 1000);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
-		s.crate_icon = 3;
+		s.crate_icon = 11;
 		s.customButton = true;
-		s.buttonwidth = 2;
+		s.buttonwidth = 4;
 		s.buttonheight = 2;
 	}
 	{
@@ -144,7 +146,7 @@ void onInit(CBlob@ this)
 
 		s.crate_icon = 13;
 		s.customButton = true;
-		s.buttonwidth = 4;
+		s.buttonwidth = 3;
 		s.buttonheight = 4;
 	}
 	{
@@ -156,16 +158,15 @@ void onInit(CBlob@ this)
 
 		s.crate_icon = 13;
 		s.customButton = true;
-		s.buttonwidth = 4;
+		s.buttonwidth = 3;
 		s.buttonheight = 4;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Howitzer", "$icon_howitzer$", "howitzer", "Mortar's bigger brother.", false, true);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 175);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		ShopItem@ s = addShopItem(this, "Mortar", "$icon_mortar$", "mortar", "Mortar combat!", false, true);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 12);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
-		s.crate_icon = 12;
+		s.crate_icon = 3;
 		s.customButton = true;
 		s.buttonwidth = 2;
 		s.buttonheight = 2;
@@ -177,6 +178,17 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "coin", "", "Coins", 350);
 
 		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 2;
+		s.buttonheight = 2;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Howitzer", "$icon_howitzer$", "howitzer", "Mortar's bigger brother.", false, true);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 175);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+
+		s.crate_icon = 12;
 		s.customButton = true;
 		s.buttonwidth = 2;
 		s.buttonheight = 2;
@@ -296,7 +308,7 @@ void onInit(CBlob@ this)
 		s.buttonheight = 3;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Gunship", "$gunshipicon$", "gunship", "$gunshipicon$\n\n\n\n\n\nA massive ship with an incendiary mortar on its nose.", false, true);
+		ShopItem@ s = addShopItem(this, "Gunship", "$gunshipicon$", "gunship", "$gunshipicon$\n\n\n\n\n\n\n\nA massive ship with an incendiary mortar on its nose.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 80);
 		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 32);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
