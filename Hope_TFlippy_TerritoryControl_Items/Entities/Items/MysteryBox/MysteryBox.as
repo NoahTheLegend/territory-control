@@ -16,6 +16,7 @@ LootItem@[] c_items =
 	LootItem("landfish", 1, 1, 450),
 	LootItem("cowo", 0, 1, 55),
 	LootItem("chicken", 1, 2, 125),
+	LootItem("rope", 1, 0, 150),
 	LootItem("mat_mithril", 0, 100, 250),
 	LootItem("lantern", 1, 1, 500),
 	LootItem("bomb", 1, 2, 675),

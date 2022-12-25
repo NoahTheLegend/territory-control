@@ -65,6 +65,7 @@ bool canBePickedUp( CBlob@ this, CBlob@ byBlob )
 	if (this.get("RopeSettings", @ropeSettings))
 	{
 		if (this.hasTag("tail") && getBlobByNetworkID(ropeSettings.hookedid) !is null) has_hooked = true;
+		else if (!this.hasTag("tail") && getBlobByNetworkID(ropeSettings.leaderid) !is null) has_hooked = true;
 	}
     return !this.hasTag("segment") && !has_hooked;
 }
