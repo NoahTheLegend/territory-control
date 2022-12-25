@@ -12,10 +12,13 @@ void onDie(CBlob@ this)
 	{
 		if (this.hasTag("has pod"))
 		{
-			CBlob@ pod = server_CreateBlob("ganjapod", this.getTeamNum(), this.getPosition() + Vec2f(0, -12));
-			if (pod !is null)
+			if (XORRandom(3)==0)
 			{
-				pod.setVelocity(Vec2f(XORRandom(3) - 2.5f, XORRandom(3) - 2.5f));
+				CBlob@ pod = server_CreateBlob("ganjapod", this.getTeamNum(), this.getPosition() + Vec2f(0, -12));
+				if (pod !is null)
+				{
+					pod.setVelocity(Vec2f(XORRandom(3) - 2.5f, XORRandom(3) - 2.5f));
+				}
 			}
 				
 			for (int i = 0; i < 1 + XORRandom(1); i++)
