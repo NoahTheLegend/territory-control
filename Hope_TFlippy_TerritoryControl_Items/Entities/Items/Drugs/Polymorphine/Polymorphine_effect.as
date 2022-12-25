@@ -48,7 +48,7 @@ const string[] randomBlobs = {
 
 void onTick(CBlob@ this)
 {
-	if (this.hasTag("dead") || !this.hasTag("flesh") || this.hasScript("Fiksed.as"))
+	if (this.hasTag("dead") || !this.hasTag("flesh"))
 	{
 		CSprite@ sprite = this.getSprite();
 		if (sprite !is null) sprite.SetEmitSoundPaused(true);
