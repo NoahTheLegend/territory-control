@@ -57,6 +57,11 @@ void onTick(CRules@ this)
 						}
 					}
 					break;
+
+					case MapType::magmacore:
+					{
+						break;
+					}
 					
 					case MapType::normal:
 					case MapType::jungle:
