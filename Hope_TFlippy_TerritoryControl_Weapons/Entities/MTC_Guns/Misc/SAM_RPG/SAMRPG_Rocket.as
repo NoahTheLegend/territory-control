@@ -152,7 +152,7 @@ void DoExplosion(CBlob@ this)
 	
 	if (this.hasTag("dead")) return;
 
-	f32 random = XORRandom(16);
+	f32 random = XORRandom(8);
 	f32 modifier = 1 + Maths::Log(this.getQuantity());
 	f32 angle = -this.get_f32("bomb angle");
 	// print("Modifier: " + modifier + "; Quantity: " + this.getQuantity());
@@ -160,7 +160,7 @@ void DoExplosion(CBlob@ this)
 	this.set_f32("map_damage_radius", (30.0f + random) * modifier);
 	this.set_f32("map_damage_ratio", 1.5f);
 	
-	Explode(this, 32.0f + random, 35.0f);
+	Explode(this, 24.0f + random, 35.0f);
 	
 	for (int i = 0; i < 4 * modifier; i++) 
 	{
