@@ -830,7 +830,7 @@ void onTick(CBlob@ this)
 		const f32 mustard_count = inv.getCount("mat_mustard");
 		bool hasRefrigerant = inv.getItem("refrigerant") !is null;
 
-		const f32 heat = this.get_f32("heat") + (hasRefrigerant ? Maths::Pow((mithril_count * 3.00f) + (e_mithril_count * 15.00f), 2) / 20000.00f : 0);
+		const f32 heat = this.get_f32("heat") + (!hasRefrigerant ? Maths::Pow((mithril_count * 3.00f) + (e_mithril_count * 15.00f), 2) / 20000.00f : 0);
 		const f32 pressure = Maths::Pow(1000 + (methane_count * 75) + (fuel_count * 100) + (acid_count * 75) + (mustard_count * 25), Maths::Max(1, 1.00f + (heat * 0.0002f)));
 
 		//this.setInventoryName(this.get_string("inventory_name") + "\n\nPressure: " + Maths::Round(pressure) + " / " + max_pressure + "\nHeat: " + heat);
