@@ -151,7 +151,7 @@ class Bullet
                         {
                             //print(blob.getName() + '\n'+blob.getName().getHash()); //useful for debugging new tiles to hit
 
-                            if (blob.hasTag("flesh") || blob.isCollidable() || blob.hasTag("vehicle"))
+                            if (blob.hasTag("flesh") || blob.isCollidable() || blob.hasTag("vehicle") || blob.hasTag("bullet_collision"))
                             {
                                 if (blob.getTeamNum() == gunBlob.getTeamNum() && !blob.getShape().isStatic() && !blob.hasTag("dead")) continue;
                                 else if (blob.hasTag("no_bullet_collision") || blob.hasTag("weapon") /*|| blob.hasTag("dead")*/ || blob.hasTag("invincible") || 

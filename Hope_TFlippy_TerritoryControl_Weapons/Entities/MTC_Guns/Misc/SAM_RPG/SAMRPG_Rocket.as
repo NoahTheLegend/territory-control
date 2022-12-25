@@ -22,6 +22,7 @@ void onInit(CBlob@ this)
 	this.Tag("aerial");
 	this.Tag("projectile");
 	this.Tag("change_rotation");
+	this.Tag("bullet_collision");
 	
 	this.getShape().SetRotationsAllowed(true);
 	

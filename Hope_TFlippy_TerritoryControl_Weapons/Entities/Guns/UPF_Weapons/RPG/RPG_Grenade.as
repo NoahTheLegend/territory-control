@@ -21,6 +21,7 @@ void onInit(CBlob@ this)
 	this.Tag("map_damage_dirt");
 	this.Tag("aerial");
 	this.Tag("projectile");
+	this.Tag("bullet_collision");
 	
 	this.getShape().SetRotationsAllowed(true);
 	

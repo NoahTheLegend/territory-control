@@ -27,6 +27,7 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("direction", Vec2f(0, -1));
 
 	this.Tag("grapplable");
+	this.Tag("bullet_collision");
 
 	this.getShape().SetRotationsAllowed(true);
 	this.Tag("explosive");

@@ -15,6 +15,7 @@ void onInit(CBlob@ this)
 	this.Tag("aerial");
 	this.Tag("projectile");
 	this.Tag("explosive");
+	this.Tag("bullet_collision");
 	
 	this.set_f32("bomb angle", 90);
 	
