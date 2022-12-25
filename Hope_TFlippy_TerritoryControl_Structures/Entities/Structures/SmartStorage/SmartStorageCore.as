@@ -1,59 +1,6 @@
 // Script by DarkSlayer
 #include "SmartStorageHelpers.as";
 
-// custom list of items that can be stored in smart storage
-const string[] factionStorageMats =
-{
-	"mat_copperingot",
-	"mat_ironingot",
-	"mat_steelingot",
-	"mat_goldingot",
-	"mat_mithrilingot",
-	"mat_titaniumingot",
-	"mat_wood",
-	"mat_stone",
-	"mat_plasteel",
-	"mat_concrete",
-	"mat_dirt",
-	"mat_sulphur",
-	"mat_copperwire",
-	"mat_iron",
-	"mat_copper",
-	"mat_titanium",
-	"mat_gold",
-	"mat_coal",
-	"mat_carbon",
-	"mat_mithril",
-	"mat_mithrilenriched",
-	"mat_wilmet",
-	"mat_matter",
-	"mat_meat",
-	"mat_battery",
-	"mat_sammissile",
-	"domino",
-	"fiks",
-	"foodcan",
-	"pumpkin",
-	"grain",
-	"ganjapod",
-	"mat_ganja",
-	"vodka",
-	"mat_acid",
-	"mat_oil",
-	"mat_methane",
-	"mat_fuel",
-	"drill",
-	"mat_stonks",
-	"mat_smallrocket",
-	"mat_grenade",
-	"mat_pistolammo",
-	"mat_rifleammo",
-	"mat_gatlingammo",
-	"mat_shotgunammo",
-	"mat_banditammo",
-	"mat_sniperammo"
-};
-
 void onInit(CBlob@ this)
 {
 	// this.Tag("smart_storage"); // Tag if you want this to be used for team storage
@@ -121,22 +68,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 								blob.server_SetQuantity(quantity);
 								caller.server_PutInInventory(blob);
 								smartStorageTake(this, blobName, quantity);
-
-								if ((cur_quantity - quantity)%blobMaxQuantity == 0)
-								{
-									this.sub_u16("smart_storage_quantity", 1);
-									this.Sync("smart_storage_quantity", true);
-								}
 							}
 							else
 							{
 								caller.server_PutInInventory(blob);
 								smartStorageTake(this, blobName, 1);
-								if ((cur_quantity - 1) % blobMaxQuantity == 0)
-								{
-									this.sub_u16("smart_storage_quantity", 1);
-									this.Sync("smart_storage_quantity", true);
-								}
 							}
 						}
 					}

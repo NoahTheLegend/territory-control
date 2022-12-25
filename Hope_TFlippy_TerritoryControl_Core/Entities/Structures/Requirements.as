@@ -558,6 +558,7 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 					u16 hold = taken;
 					taken += Maths::Min(smartStorageCheck(smartStorageBlobs[i], blobName), quantity - taken);
 					smartStorageTake(smartStorageBlobs[i], blobName, quantity - hold);
+					
 					if (taken >= quantity)
 					{
 						break;
@@ -565,7 +566,6 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 					hold = taken;
 					taken += Maths::Min(smartStorageBlobs[i].getBlobCount(blobName), quantity - taken);
 					smartStorageBlobs[i].TakeBlob(blobName, quantity - hold);
-					
 				}
 				
 				for (int i = 0; i < baseBlobs.length; i++)
