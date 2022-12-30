@@ -80,7 +80,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	string[] exclusive_players = {
 		"leonleonidis",
 		"kimak0vskiy",
-		"prettyprinces".
+		"prettyprinces",
 		""
 	}; // Add exceptions here
 
