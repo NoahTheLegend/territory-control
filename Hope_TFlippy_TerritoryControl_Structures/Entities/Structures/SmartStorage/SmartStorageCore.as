@@ -46,7 +46,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 	if (cmd == this.getCommandID("compactor_withdraw"))
 	{
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
-		string blobName = factionStorageMats[params.read_u8()];
+		const string blobName = factionStorageMats[params.read_u8()];
 		if (caller !is null && this.get_u16("smart_storage_quantity") > 0)
 		{
 			if (!caller.getInventory().isFull())
@@ -59,7 +59,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 						CBlob@ blob = server_CreateBlob(blobName, -1, this.getPosition());
 						if (blob !is null)
 						{
-							u16 blobMaxQuantity = Maths::Max(blob.getMaxQuantity(), 1);
+							const u16 blobMaxQuantity = Maths::Max(blob.getMaxQuantity(), 1);
 							if (!blob.hasTag("drug"))
 							{
 								u32 quantity = blobMaxQuantity == 1 ? 1 : cur_quantity%(blobMaxQuantity);
