@@ -79,7 +79,8 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 
 	string[] exclusive_players = {
 		"leonleonidis",
-		""
+		"kimak0vskiy",
+		"prettyprinces"
 	}; // Add exceptions here
 
 	bool fin = loc_month > 2 ? (reg_month >= loc_month-1 && reg_year == loc_year) : (reg_month >= loc_month+10 && reg_year >= loc_year-1);
