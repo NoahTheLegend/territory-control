@@ -77,7 +77,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	int loc_day = Time_MonthDate(localtime);
 	int loc_year = Time_Year(localtime);
 
-	string[] exclusive_players = {
+	/*string[] exclusive_players = {
 		"leonleonidis",
 		"kimak0vskiy",
 		"prettyprinces",
@@ -85,17 +85,20 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		"whyyouhateme",
 		"Soldzo"
 	}; // Add exceptions here
-
+    */
+	
 	bool fin = loc_month > 2 ? (reg_month >= loc_month-1 && reg_year == loc_year) : (reg_month >= loc_month+10 && reg_year >= loc_year-1);
-
+	
 	if (fin) // Ban people registered last 2 months
 	{
-		bool ban = true;
-		for (u16 i = 0; i < exclusive_players.length; i++)
-		{
-			if (player.getUsername() == exclusive_players[i]) ban = false;
-		}
-		if (ban)
+		CSecurity@ security = getSecurity();
+		bool newban = security.checkAccess_Feature(player, "newban");
+		//in security folder inside normal.cfg add newban; to end of features=
+		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
+		
+		print("new player less than 2 months checkAccess_Feature:" + newban);
+		
+		if(newban)
 		{
 			printf("|");
 			printf("|");
@@ -106,6 +109,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 			printf("|");
 			BanPlayer(player, 60*100);
 		}
+		
 	}
 
 
