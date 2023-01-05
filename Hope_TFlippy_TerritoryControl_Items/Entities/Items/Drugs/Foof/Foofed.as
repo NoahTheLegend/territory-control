@@ -4,7 +4,7 @@
 #include "HittersTC.as";
 #include "MakeDustParticle.as";
 
-const f32 max_time = 3.00f;
+const f32 max_time = 2.00f;
 
 void onInit(CBlob@ this)
 {
@@ -24,14 +24,14 @@ void onTick(CBlob@ this)
 	}
 	else
 	{
-		this.set_f32("foofed", Maths::Max(0, this.get_f32("foofed") - (0.001f)));
+		this.set_f32("foofed", Maths::Max(0, this.get_f32("foofed") - (0.0025f)));
 	}
 }
 
-void onHitBlob(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitBlob, u8 customData)
-{
-	if (hitBlob !is this) MegaHit(this, worldPoint, velocity, damage, hitBlob, customData);
-}
+//void onHitBlob(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitBlob, u8 customData)
+//{
+//	if (hitBlob !is this) MegaHit(this, worldPoint, velocity, damage, hitBlob, customData);
+//}
 
 void onHitMap(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, u8 customData)
 {
@@ -46,6 +46,7 @@ void MegaHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ h
 	
 	f32 true_level = this.get_f32("foofed");		
 	f32 level = 1.00f + true_level;
+	if (level >= 10.0f) level = 10.0f;
 
 	// print("" + level);
 	
