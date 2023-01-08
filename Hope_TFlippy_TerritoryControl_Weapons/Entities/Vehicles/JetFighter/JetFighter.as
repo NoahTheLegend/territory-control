@@ -121,27 +121,35 @@ void onTick(CBlob@ this)
 			if (!this.hasTag("disable bomber drop") && ap_pilot.isKeyPressed(key_action3) && this.get_u32("lastDropTime") < getGameTime()) 
 			{
 				CInventory@ inv = this.getInventory();
-				if (inv !is null) 
+				if (inv !is null)
 				{
+					CBlob@ item;
+					for (u8 i = 0; i < inv.getItemsCount(); i++)
+					{
+						if (inv.getItem(i) !is null && inv.getItem(i).getName() != "gyromat")
+						{
+							@item = @inv.getItem(i);
+						}
+					}
+					if (item is null) return;
 					u32 itemCount = inv.getItemsCount();
-					
-					if (isClient()) 
+
+					if (isClient())
 					{
 						if (itemCount > 0)
 						{ 
 							this.getSprite().PlaySound("bridge_open", 1.0f, 1.0f);
 						}
-						else if (pilot.isMyPlayer())
+						else if (pilot !is null && pilot.isMyPlayer())
 						{
 							Sound::Play("NoAmmo");
 						}
 					}
-					
-					if (itemCount > 0) 
+
+					if (isServer())
 					{
-						if (isServer()) 
+						if (itemCount > 0)
 						{
-							CBlob@ item = inv.getItem(0);
 							u32 quantity = item.getQuantity();
 
 							if (item.maxQuantity>8)
@@ -176,7 +184,7 @@ void onTick(CBlob@ this)
 						}
 					}
 					
-					this.set_u32("lastDropTime",getGameTime() + 4);
+					this.set_u32("lastDropTime",getGameTime() + 10);
 				}
 			}
 		}		

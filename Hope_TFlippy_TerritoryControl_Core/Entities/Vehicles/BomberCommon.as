@@ -225,6 +225,15 @@ void BomberHandling(CBlob@ this, VehicleInfo@ v)
 			CInventory@ inv = this.getInventory();
 			if (inv !is null)
 			{
+				CBlob@ item;
+				for (u8 i = 0; i < inv.getItemsCount(); i++)
+				{
+					if (inv.getItem(i) !is null && inv.getItem(i).getName() != "gyromat")
+					{
+						@item = @inv.getItem(i);
+					}
+				}
+				if (item is null) return;
 				u32 itemCount = inv.getItemsCount();
 
 				if (isClient())
@@ -243,7 +252,6 @@ void BomberHandling(CBlob@ this, VehicleInfo@ v)
 				{
 					if (itemCount > 0)
 					{
-						CBlob@ item = inv.getItem(0);
 						u32 quantity = item.getQuantity();
 
 						if (item.maxQuantity > 8)
