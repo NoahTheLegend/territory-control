@@ -20,7 +20,7 @@ void onInit(CBlob@ this)
 	if (!this.get("VehicleInfo", @v)) return;
 
 	Vehicle_SetupWeapon(this, v,
-	                    75, // fire delay (ticks)
+	                    45, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(50.0f, 2.0f), // fire position offset
 	                    "mat_tankshell", // bullet ammo config name
