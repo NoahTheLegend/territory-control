@@ -101,33 +101,9 @@ void onRespawnCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						// copy health and inventory
 						// make sack
 						CInventory @inv = caller.getInventory();
-
 						if (inv !is null)
 						{
-							if (this.hasTag("change class drop inventory"))
-							{
-								while (inv.getItemsCount() > 0)
-								{
-									CBlob @item = inv.getItem(0);
-									caller.server_PutOutInventory(item);
-								}
-							}
-							else if (this.hasTag("change class store inventory"))
-							{
-								if (this.getInventory() !is null)
-								{
-									caller.MoveInventoryTo(this);
-								}
-								else // find a storage
-								{
-									PutInvInStorage(caller);
-								}
-							}
-							else
-							{
-								// keep inventory if possible
-								caller.MoveInventoryTo(newBlob);
-							}
+							caller.MoveInventoryTo(newBlob);
 						}
 
 						// set health to be same ratio

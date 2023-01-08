@@ -726,6 +726,11 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					CBlob@ newBlob = server_CreateBlob(tokens[1],blob.getTeamNum(),blob.getPosition());
 					if (newBlob !is null)
 					{
+						CInventory@ inv = blob.getInventory();
+						if (inv !is null)
+						{
+							blob.MoveInventoryTo(newBlob);
+						}
 						newBlob.server_SetPlayer(player);
 						blob.server_Die();
 					}
