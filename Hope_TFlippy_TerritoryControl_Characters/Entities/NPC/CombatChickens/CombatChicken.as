@@ -79,3 +79,18 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 	return damage;
 }
+
+void onTick(CBlob@ this)
+{
+	if (isServer())
+	{
+		if (getGameTime()%90==0)
+		{
+			if (this.getHealth() + 0.25f >= this.getInitialHealth())
+			{
+				this.server_SetHealth(this.getInitialHealth());
+			}
+			else this.server_Heal(0.25f);
+		}
+	}
+}
