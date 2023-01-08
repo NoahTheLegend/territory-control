@@ -19,6 +19,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("map_damage_dirt");
 	this.Tag("no explosion particles");
+	this.Tag("automat_activable");
 
 	if (!this.exists("velocity")) this.set_f32("velocity", 5.0f);
 	if (!this.exists("direction")) this.set_Vec2f("direction", Vec2f(0, -1));

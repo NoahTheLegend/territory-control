@@ -27,6 +27,7 @@ void onInit(CBlob@ this)
 	this.Tag("map_destroy_ground");
 	this.Tag("no explosion particles");
 	this.Tag("heavy weight");
+	this.Tag("automat_activable");
 
 	this.set_string("custom_explosion_sound", "");
 	if (!this.exists("split_chance")) this.set_f32("split_chance", 1.00f);

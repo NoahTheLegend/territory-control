@@ -25,6 +25,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("map_damage_dirt");
 	this.Tag("no explosion particles");
+	this.Tag("automat_activable");
 
 	this.set_string("custom_explosion_sound", "Firework_Boom" + XORRandom(3));
 
