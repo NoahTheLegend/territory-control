@@ -74,12 +74,13 @@ void onTick(CBlob@ this)
 
 		if (XORRandom(1250) == 0)
 		{
+			this.set_u8("rand", XORRandom(3));
 			this.set_u32("rotate", getGameTime()+10*30);
 		}
 
 		if (this.get_u32("rotate") >= getGameTime())
 		{
-			camZ = 180;
+			camZ = 90 + (this.get_u8("rand")*90);
 		}
 
 		CCamera@ cam = getCamera();
