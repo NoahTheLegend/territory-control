@@ -51,6 +51,19 @@ void onTick(CBlob@ this)
 			else if (scriptname == "Crak_Effect.as" || scriptname == "Rippioed.as" || 
 			         scriptname == "Pooted.as" || scriptname == "Gooby_Effect.as")
 			{
+				this.set_f32("crak_effect", 0.00f);
+				if (!this.hasTag("remove_crak"))
+				{
+					this.set_f32("crak_effect", 0.00f);
+					this.Tag("remove_crak");
+					this.Tag("no_transform");
+					return;
+				}
+				else
+				{
+					this.set_f32("crak_effect", 0.00f);
+					this.Untag("remove_crak");
+				}
 				this.getSprite().SetEmitSoundPaused(true);
 
 				// Reset player angle

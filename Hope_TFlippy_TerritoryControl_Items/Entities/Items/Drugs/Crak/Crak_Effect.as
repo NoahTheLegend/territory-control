@@ -25,6 +25,10 @@ void onInit(CBlob@ this)
 	Animation@ animation_build = sprite.getAnimation("build");
 	if (animation_build !is null) animation_build.time = 1;
 	
+	this.set_u8("last_charge", this.get_u8("charge_increment"));
+	this.set_u32("last_delay", this.get_u32("build delay"));
+	this.set_f32("last_voice", this.get_f32("voice pitch"));
+
 	this.set_u8("charge_increment", 5);
 	this.set_u32("build delay", 1);
 	this.set_f32("voice pitch", 1.60f);
@@ -45,7 +49,7 @@ void onTick(CBlob@ this)
 	
 	if (true_level <= 0.00f)
 	{
-		if (isServer() && !this.hasTag("transformed"))
+		if (isServer() && !this.hasTag("transformed") && !this.hasTag("no_transform"))
 		{
 			if (this.hasTag("human") && this.getConfig() != "hobo")
 			{
@@ -66,6 +70,24 @@ void onTick(CBlob@ this)
 			this.Tag("transformed");
 			this.server_Die();
 		}
+		else if (this.hasTag("no_transform"))
+		{
+			CSprite@ sprite = this.getSprite();
+			Animation@ animation_run = sprite.getAnimation("run");
+			if (animation_run !is null) animation_run.time = 3;
+
+			Animation@ animation_strike = sprite.getAnimation("strike");
+			if (animation_strike !is null) animation_strike.time = 2;
+
+			Animation@ animation_build = sprite.getAnimation("build");
+			if (animation_build !is null) animation_build.time = 2;
+			
+			this.set_u8("charge_increment", this.get_u8("last_charge"));
+			this.set_u32("build delay", this.get_u32("last_delay"));
+			this.set_f32("voice pitch", this.get_f32("last_voice"));
+
+			this.Untag("no_transform");
+		}
 	
 		if (isClient() && this.isMyPlayer())
 		{
@@ -77,6 +99,13 @@ void onTick(CBlob@ this)
 				getMap().CreateSkyGradient("skygradient.png");	
 		}
 		this.getCurrentScript().runFlags |= Script::remove_after_this;
+
+		RunnerMoveVars@ moveVars;
+		if (this.get("moveVars", @moveVars))
+		{
+			moveVars.walkFactor = 1.0f;
+			moveVars.jumpFactor = 1.00f;
+		}	
 	}
 	else
 	{
