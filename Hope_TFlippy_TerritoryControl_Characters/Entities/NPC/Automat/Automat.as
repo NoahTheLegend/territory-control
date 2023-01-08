@@ -79,6 +79,33 @@ void onTick(CBlob@ this)
 							}
 						}
 					}
+					else if (getGameTime()%30==0)
+					{
+						CBitStream params;
+						params.write_u16(this.getNetworkID());
+						carried.SendCommand(carried.getCommandID("offblast"), params);
+						if (isServer())
+						{
+							carried.server_DetachFromAll();
+						}
+					}
+				}
+			}
+			else if (ap !is null && ap.getOccupied() is null && isServer())
+			{
+				CInventory@ inv = this.getInventory();
+				if (inv !is null)
+				{
+					for (u8 i = 0; i < inv.getItemsCount(); i++)
+					{
+						CBlob@ item = inv.getItem(i);
+						if (item.hasTag("automat_activable"))
+						{
+							this.server_PutOutInventory(item);
+							this.server_AttachTo(item, "PICKUP");
+							break;
+						}
+					}
 				}
 			}
 

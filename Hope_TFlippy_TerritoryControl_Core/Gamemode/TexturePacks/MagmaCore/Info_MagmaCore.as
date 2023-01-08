@@ -33,7 +33,7 @@ void onInit(CBlob@ this)
 		map.CreateSky(color_white, Vec2f(1.0f, 1.0f), 200, "Sprites/Back/cloud", 0);
 		map.CreateSkyGradient("MagmaCore_skygradient.png"); // override sky color with gradient
 
-		map.AddBackground("MagmaCore_Backgroundtrees.png", Vec2f(0.0f, -64.0f), Vec2f(0.2f, 0.2f), color_white);
+		map.AddBackground("MagmaCore_Backgroundtrees.png", Vec2f(0.0f, 32.0f), Vec2f(0.2f, 0.2f), color_white);
 		map.AddBackground("MagmaCore_BackgroundPlains.png", Vec2f(0.0f, -18.0f), Vec2f(0.3f, 0.3f), color_white);
 		map.AddBackground("MagmaCore_BackgroundIsland.png", Vec2f(0.0f, 0.0f), Vec2f(0.5f, 0.5f), color_white);
 

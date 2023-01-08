@@ -20,6 +20,7 @@ void onInit(CBlob@ this)
 	this.Tag("map_damage_dirt");
 	this.set_string("custom_explosion_sound", "Missile_Explode.ogg");
 	this.Tag("medium weight");
+	this.Tag("automat_activable");
 
 	this.set_u32("no_explosion_timer", 0);
 	this.set_u32("fuel_timer", 0);

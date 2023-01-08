@@ -5,6 +5,7 @@ const string pig_name = "piglet";
 
 void onTick(CRules@ this)
 {
+	if (isClient() && isServer()) return;
 	if (getGameTime() % 29 != 0) return;
 	if (XORRandom(2) == 0) return;
 

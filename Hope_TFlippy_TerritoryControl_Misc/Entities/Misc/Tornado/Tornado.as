@@ -39,8 +39,7 @@ void onInit(CBlob@ this)
 	// this.SetLightColor(SColor(255, 255, 255, 255));
 	// this.SetLightRadius(1024.5f);
 	
-	this.Tag("map_damage_dirt");
-	this.set_f32("map_damage_radius", 16);
+	this.set_f32("map_damage_radius", 0);
 	// this.set_f32("map_damage_ratio", 0.25f);
 	this.set_bool("map_damage_raycast", true);
 	this.set_string("custom_explosion_sound", "");
@@ -49,7 +48,8 @@ void onInit(CBlob@ this)
 	sprite.SetEmitSound("FireWave_EarRape.ogg");
 	sprite.SetEmitSoundPaused(false);
 	sprite.SetEmitSoundVolume(0.5f);
-	
+	sprite.SetEmitSoundSpeed(0.93f+(XORRandom(8)*0.01f));
+	this.set_bool("move left", XORRandom(2) == 0 ? true : false);
 	
 	this.getCurrentScript().tickFrequency = 1;
 	if (isServer()) this.server_SetTimeToDie(30 + XORRandom(60));
@@ -112,8 +112,9 @@ void onTick(CBlob@ this)
 	}
 	
 	if (client) ShakeScreen(64, 32, pos);
-	
-	this.setPosition(pos + Vec2f(XORRandom(13) - 6, 0));
+	if (XORRandom(150) == 0) this.set_bool("move left", !this.get_bool("move left"));
+
+	this.setPosition(pos + (Vec2f(this.get_bool("move left") ? -0.5f - (XORRandom(4)*0.25f): 0.5f + (XORRandom(4)*0.25f), 0)));
 }
 
 void makeSteamParticle(CBlob@ this, Vec2f pos, const string filename = "SmallSteam")
