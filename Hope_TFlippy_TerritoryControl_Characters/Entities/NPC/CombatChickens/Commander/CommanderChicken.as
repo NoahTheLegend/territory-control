@@ -243,9 +243,15 @@ void onTick(CBlob@ this)
 						stream.write_u16(base.getNetworkID());
 						this.SendCommand(this.getCommandID("commander_order_recon_squad"), stream);
 
-						for (int i = 0; i < 4; i++)
+						for (int i = 0; i < 5; i++)
 						{
-							CBlob@ blob = server_MakeCrateOnParachute(XORRandom(2) == 0 ? "soldierchicken" : "scoutchicken", "SpaceStar Ordering Recon Squad", 0, 250, Vec2f(initial_position_x + (64 - XORRandom(128)), XORRandom(32)));
+							CBlob@ blob = server_MakeCrateOnParachute(XORRandom(2) == 0 ? "soldierchicken" : "scoutchicken", "SpaceStar Ordering Recon Squad", 0, 250, Vec2f(initial_position_x + (256.0f - XORRandom(512)), XORRandom(32)));
+							if (XORRandom(20) == 0)
+							{
+								CBlob@ blob1 = server_MakeCrateOnParachute("heavychicken", "SpaceStar Ordering Recon Squad", 0, 250, Vec2f(initial_position_x + (256.0f - XORRandom(512)), XORRandom(32)));
+								blob1.Tag("unpack on land");
+								blob1.Tag("destroy on touch");
+							}
 							blob.Tag("unpack on land");
 							blob.Tag("destroy on touch");
 						}

@@ -373,7 +373,7 @@ void ManageBow(CBlob@ this, ArcherInfo@ archer, RunnerMoveVars@ moveVars)
 		}
 
 	}
-	else if (this.isKeyPressed(key_action1))
+	else if (this.isKeyPressed(key_action1) && this.getTickSinceCreated() >= 65)
 	{
 		moveVars.walkFactor *= 0.75f;
 		moveVars.canVault = false;
