@@ -1397,7 +1397,6 @@ bool onMapTileCollapse(CMap@ map, u32 offset)
 
 TileType server_onTileHit(CMap@ map, f32 damage, u32 index, TileType oldTileType)
 {
-	Vec2f pos = map.getTileWorldPosition(index);
 	if(map.getTile(index).type > 255)
 	{
 		switch(oldTileType)
@@ -2044,35 +2043,30 @@ TileType server_onTileHit(CMap@ map, f32 damage, u32 index, TileType oldTileType
 			case CMap::tile_goldingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_goldingot_d1:
-				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_mithrilingot:
 			case CMap::tile_mithrilingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_mithrilingot_d1:
-				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_copperingot:
 			case CMap::tile_copperingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_copperingot_d1:
-				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_steelingot:
 			case CMap::tile_steelingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_steelingot_d1:
-				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_ironingot:
 			case CMap::tile_ironingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_ironingot_d1:
-				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 		}
 	}
