@@ -74,7 +74,7 @@ void onTick(CMovement@ this)
 				{
 					blob.Tag(fallscreamtag);
 					if (blob.hasTag("stealth")) return;
-					Sound::Play("man_scream.ogg", pos);
+					Sound::Play("man_scream.ogg", pos, 1.0f, blob.get_f32("voice pitch"));
 				}
 			}
 		}
