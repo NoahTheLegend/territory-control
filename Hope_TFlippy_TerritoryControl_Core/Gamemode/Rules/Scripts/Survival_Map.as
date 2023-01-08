@@ -2,8 +2,8 @@
 #include "MapType.as";
 
 const string[] OffiMaps = {
-    "Xeno_TC_AncientTemple",
     "Xeno_Plains&Hills",
+	"Xeno_TC_Graveyard",
 	"TFlippy_TC_Reign",
 	"TFlippy_TC_Mesa",
 	"TFlippy_TC_Bobox",
@@ -27,6 +27,8 @@ const string[] OffiMaps = {
 	"JmD_TC_Poultry_v6",
 	"Sylw_LawrenceSlum",
 	"Tenshi_TC_WellOiledMachine_v2",
+	"Goldy_TC_Basement_v2",
+	"Goldy_TC_Sewers_v2",
 	"Skemonde_TC_Gooby_v3fM",
 	"Skemonde_TC_Morgenland_v3",
 	"NoahTheLegend_Deadborn.png"
@@ -45,13 +47,14 @@ const string[] MemeMaps = {
 	//"Imbalol_TC_Joker2",
 	"TFlippy_UncleBen_v5",
 	"WorldsCollide",
+	"Goldy_TC_Hollows",
 	//"Xeno_TC_BlackMarket",
+	"Xeno_TC_AncientTemple",
 	"Vamistorio_TC_IkoPit_v2"
 };
 
 const string[] OldMaps = {
 	"Ginger_TC_Pirates",
-	"Goldy_TC_Sewers_v2",
 	"Imbalol_TC_ChickenKingdom_v2",
 	"Imbalol_TC_OilRig",
 	"Imbalol_TC_UPFCargo",
@@ -61,7 +64,7 @@ const string[] OldMaps = {
 	"Goldy_TC_Netherland_v2", //a bit unstable
 	"TFlippy_TC_Nostalgia",
 	"Goldy_TC_Propesko",
-	"Xeno_TC_Graveyard",
+	"Xeno_TC_AncientTemple",
 	"TFlippy_TC_Skynet",
 	"TFlippy_THD_TC_Kagtorio",
 	"Ginger_Tenshi_TC_Extinction",
