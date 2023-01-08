@@ -1397,6 +1397,7 @@ bool onMapTileCollapse(CMap@ map, u32 offset)
 
 TileType server_onTileHit(CMap@ map, f32 damage, u32 index, TileType oldTileType)
 {
+	Vec2f pos = map.getTileWorldPosition(index);
 	if(map.getTile(index).type > 255)
 	{
 		switch(oldTileType)
@@ -2043,30 +2044,35 @@ TileType server_onTileHit(CMap@ map, f32 damage, u32 index, TileType oldTileType
 			case CMap::tile_goldingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_goldingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_mithrilingot:
 			case CMap::tile_mithrilingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_mithrilingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_copperingot:
 			case CMap::tile_copperingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_copperingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_steelingot:
 			case CMap::tile_steelingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_steelingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 
 			case CMap::tile_ironingot:
 			case CMap::tile_ironingot_d0:
 				return oldTileType + 1;
 			case CMap::tile_ironingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				return CMap::tile_empty;
 		}
 	}
@@ -2076,6 +2082,7 @@ TileType server_onTileHit(CMap@ map, f32 damage, u32 index, TileType oldTileType
 void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 {
 	if (tile_new == CMap::tile_ground && isClient()) Sound::Play("dig_dirt" + (1 + XORRandom(3)) + ".ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
+	Vec2f pos = map.getTileWorldPosition(index);
 
 	switch(tile_new)
 	{
@@ -2807,9 +2814,12 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 			{
 				map.RemoveTileFlag( index, Tile::WATER_PASSES);
 				if (isClient()) Sound::Play("build_wall.ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
+				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
+				break;
 			}
 			case CMap::tile_goldingot_d0:
 			case CMap::tile_goldingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.966f);
 				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
 				break;
 
@@ -2817,9 +2827,12 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 			{
 				map.RemoveTileFlag( index, Tile::WATER_PASSES);
 				if (isClient()) Sound::Play("build_wall.ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
+				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
+				break;
 			}
 			case CMap::tile_mithrilingot_d0:
 			case CMap::tile_mithrilingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 1.025f);
 				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
 				break;
 
@@ -2827,9 +2840,12 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 			{
 				map.RemoveTileFlag( index, Tile::WATER_PASSES);
 				if (isClient()) Sound::Play("build_wall.ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
+				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
+				break;
 			}
 			case CMap::tile_copperingot_d0:
 			case CMap::tile_copperingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.933f);
 				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
 				break;
 			
@@ -2837,9 +2853,12 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 			{
 				map.RemoveTileFlag( index, Tile::WATER_PASSES);
 				if (isClient()) Sound::Play("build_wall.ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
+				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
+				break;
 			}
 			case CMap::tile_steelingot_d0:
 			case CMap::tile_steelingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.9f);
 				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
 				break;
 			
@@ -2847,9 +2866,12 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 			{
 				map.RemoveTileFlag( index, Tile::WATER_PASSES);
 				if (isClient()) Sound::Play("build_wall.ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
+				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
+				break;
 			}
 			case CMap::tile_ironingot_d0:
 			case CMap::tile_ironingot_d1:
+				Sound::Play("dig_stone.ogg", pos, 1.0f, 0.925f);
 				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);
 				break;
 		}
