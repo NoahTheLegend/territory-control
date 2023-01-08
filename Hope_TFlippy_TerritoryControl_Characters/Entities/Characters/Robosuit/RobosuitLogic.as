@@ -196,6 +196,7 @@ void onTick(CBlob@ this)
 			dir.Normalize();
 
 			b.AddForce(Vec2f(1, 0).RotateBy(-dir.Angle()) * mod);
+			SetKnocked(b, 15);
 
 			if (isClient())
 			{
