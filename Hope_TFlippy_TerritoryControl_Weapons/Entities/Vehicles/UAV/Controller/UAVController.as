@@ -7,6 +7,10 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
+	if (this.getTickSinceCreated() == 10)
+	{
+		this.setInventoryName(this.getInventoryName()+" #"+this.get_u16("uav_netid"));
+	}
 	if (this.isAttached())
 	{
 		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");

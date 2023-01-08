@@ -66,6 +66,8 @@ void onInit(CBlob@ this)
 
 	GunSettings settings = GunSettings();
 
+	this.setInventoryName(this.getInventoryName()+" #"+this.getNetworkID());
+
 	settings.B_GRAV = Vec2f(0, 0.008); //Bullet Gravity
 	settings.B_TTL = 14; //Bullet Time to live
 	settings.B_SPEED = 60; //Bullet speed
@@ -170,6 +172,7 @@ void onTick(CBlob@ this)
 		{
 			if (!this.isOnGround()) this.setVelocity(Vec2f(this.getVelocity().x, 0.1f));
 			this.Untag("hasEnergy");
+			if (sprite !is null) sprite.SetEmitSoundPaused(true);
 			return;
 		}
 	}
