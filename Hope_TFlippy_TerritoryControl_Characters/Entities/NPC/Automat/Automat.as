@@ -56,6 +56,31 @@ void onTick(CBlob@ this)
 		{
 			const f32 distance = (target.getPosition() - this.getPosition()).Length();
 			const bool visibleTarget = isVisible(this, target);
+			AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PICKUP");
+			if (ap !is null && ap.getOccupied() !is null)
+			{
+				CBlob@ carried = ap.getOccupied();
+				if (carried.hasTag("automat_activable"))
+				{
+					if (carried.getName() == "claymoreremote")
+					{
+						if (carried.getDamageOwnerPlayer() !is null)
+						{
+							CPlayer@ p = carried.getDamageOwnerPlayer();
+							if (p !is null && p.getBlob() !is null)
+							{
+								CBitStream params;
+								params.write_u16(p.getBlob().getNetworkID());
+								carried.SendCommand(carried.getCommandID("detonate"), params);
+								if (isServer())
+								{
+									carried.server_DetachFromAll();
+								}
+							}
+						}
+					}
+				}
+			}
 
 			if (visibleTarget && distance < max_distance && !target.hasTag("dead"))
 			{
