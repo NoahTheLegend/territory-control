@@ -255,7 +255,7 @@ void onTick(CBlob@ this)
 
     this.setInventoryName(matsneeded);
 
-    if (getGameTime()%30==0)
+    if (getGameTime()%30==0 && isServer())
     {
         string matsneeded;
 
@@ -278,16 +278,16 @@ void onTick(CBlob@ this)
 
                     if (count < quantity)
                     {
-                        if (isServer()) item.server_SetQuantity(quantity-count);
+                        item.server_SetQuantity(quantity-count);
                         this.set_u16(invname, 0);
                     }
                     else
                     {
                         this.set_u16(invname, count - quantity);
                         item.Tag("dead");
-                        if (isServer()) item.server_Die();
+                        item.server_Die();
                     }
-                    if (isServer() && quantity == 0) item.server_Die();
+                    if (quantity == 0) item.server_Die();
 
                     //printf(invname+" materials left: "+count);
                 }
@@ -309,6 +309,11 @@ void onTick(CBlob@ this)
             //this.add_u32("elec", -2500);
             //this.Sync("elec", true);
             //printf(""+this.get_u8("frameindex"));
+        }
+
+        for (u8 i = 0; i < matNames.length; i++)
+        {
+            SyncCommand(this, matNames[i], this.get_u16(matNames[i]));
         }
     }
 }
