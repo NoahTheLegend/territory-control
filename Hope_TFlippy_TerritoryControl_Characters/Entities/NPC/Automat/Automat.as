@@ -90,6 +90,15 @@ void onTick(CBlob@ this)
 						}
 					}
 				}
+				else if (carried.hasTag("mat_gas"))
+				{
+					if (isServer())
+					{
+						carried.server_DetachFromAll();
+					}
+					Vec2f dir = (target.getPosition()-this.getPosition());
+					carried.setVelocity(dir/1.5);
+				}
 			}
 			else if (ap !is null && ap.getOccupied() is null && isServer())
 			{
