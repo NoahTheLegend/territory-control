@@ -173,6 +173,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_mithrilreactor$", "MithrilReactor.png", Vec2f(24, 24), 0);
 	AddIconToken("$icon_banner$","ClanBanner.png",Vec2f(16, 32), 0, teamnum);
 	AddIconToken("$icon_druglab$","DrugLab.png",Vec2f(32, 40), 0);
+	AddIconToken("$icon_liquificator$","DrugLiquificator.png",Vec2f(24, 32), 0);
 	AddIconToken("$icon_altar$", "Altar.png", Vec2f(24, 32), 0, teamnum);
 	AddIconToken("$icon_tavern_for_not_peasants$", "Vodka.png", Vec2f(8, 16), 0, teamnum);
     AddIconToken("$bannerchicken$", "BannerChicken.png", Vec2f(16, 32), 0, teamnum);
@@ -645,13 +646,10 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[2].push_back(b);
 	}
 	{
-		BuildBlock b(0, "smartstorage", "$smartstorage$", "Smart storage:\n\nAn advanced storage for storing multiple amount of different items.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 40);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 100);
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 500);
-		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-
+		BuildBlock b(0, "drillrig", "$icon_drillrig$", "Driller Mole:\n\nAn automatic drilling machine that mines resources underneath.");
+		AddRequirement(b.reqs, "blob", "drill", "Drill", 1);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
 		blocks[2].push_back(b);
@@ -710,14 +708,16 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[2].push_back(b);
 	}
 	{
-		BuildBlock b(0, "drillrig", "$icon_drillrig$", "Driller Mole:\n\nAn automatic drilling machine that mines resources underneath.");
-		AddRequirement(b.reqs, "blob", "drill", "Drill", 1);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		BuildBlock b(0, "liquificator", "$icon_liquificator$", "Drug Liquificator:\n\nConverts various solid drugs into liquified to syringes, and liquified drugs to gases.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 6);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
 		b.buildOnGround = true;
-		b.size.Set(24, 24);
+		b.size.Set(24, 32);
 		blocks[2].push_back(b);
 	}
+	
 
 	//{
 	//	BuildBlock b(0, "collector", "$collector$", "Collector:\n\nGathers energy from closest generators and transfers to electric poles. Only one collector can take energy from single generators. Must be put away from other generators to be active.\n\nDistance: 8 blocks\nCan be toggled off");
