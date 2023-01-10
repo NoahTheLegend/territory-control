@@ -47,18 +47,54 @@ void onTick(CMovement@ this)
 	if (!blob.get("vars", @vars))
 		return;
 
-	const bool left = blob.isKeyPressed(key_left);
-	const bool right = blob.isKeyPressed(key_right);
+	bool left = blob.isKeyPressed(key_left);
+	bool right = blob.isKeyPressed(key_right);
 	bool up = blob.isKeyPressed(key_up);
+	bool ride = false;
+
+	if (blob.hasTag("tameable"))
+	{
+		AttachmentPoint@ ap = blob.getAttachments().getAttachmentPointByName("SADDLE");
+    	if (ap !is null && ap.getOccupied() !is null)
+    	{
+    	    CBlob@ saddle = ap.getOccupied();
+    	    //saddle.SetFacingLeft(blob.isFacingLeft());
+    	    AttachmentPoint@ pilot = saddle.getAttachments().getAttachmentPointByName("PILOT");
+    	    if (pilot !is null && pilot.getOccupied() !is null)
+    	    {
+    	        CBlob@ pilotblob = pilot.getOccupied();
+
+				left = pilotblob.isKeyPressed(key_left);
+				right = pilotblob.isKeyPressed(key_right);
+				up = pilotblob.isKeyPressed(key_down);
+				
+    	        //blob.setKeyPressed(key_left, pilotblob.isKeyPressed(key_left));
+    	        //blob.setKeyPressed(key_right, pilotblob.isKeyPressed(key_right));
+    	        //blob.setKeyPressed(key_up, pilotblob.isKeyPressed(key_down));
+				//if (left) saddle.SetFacingLeft(true); // TODO: fix constant rotating loop
+				//else if (right) saddle.SetFacingLeft(false);
+
+				if (blob.getName() != "bison") ride = true;
+    	    }
+    	}
+	}
+
+	//AttachmentPoint@ ap = blob.getAttachments().getAttachmentPointByName("SADDLE");
+	//if (ap !is null && ap.getOccupied() !is null && ap.getOccupied().getName() == "saddle")
+	//{
+	//	left = false;
+	//	right = false;
+	//	up = false;
+	//}
 
 	Vec2f vel = blob.getVelocity();
 	if (left)
 	{
-		blob.AddForce(Vec2f(-1.0f * vars.walkForce.x, vars.walkForce.y));
+		blob.AddForce(Vec2f((ride ? -1.5f : -1.0f) * vars.walkForce.x, vars.walkForce.y));
 	}
 	if (right)
 	{
-		blob.AddForce(Vec2f(1.0f * vars.walkForce.x, vars.walkForce.y));
+		blob.AddForce(Vec2f((ride ? 1.5f : 1.0f) * vars.walkForce.x, vars.walkForce.y));
 	}
 
 	// jump at target
@@ -77,7 +113,8 @@ void onTick(CMovement@ this)
 	}
 
 	// jump if blocked
-
+	f32 mody = 1.0f;
+	if (blob.getName() == "piglet") mody = 3.5f;
 	if (left || right || up)
 	{
 		Vec2f pos = blob.getPosition();
@@ -88,7 +125,7 @@ void onTick(CMovement@ this)
 		   )
 		{
 			f32 mod = blob.isInWater() ? 0.23f : 1.0f;
-			blob.AddForce(Vec2f(mod * vars.jumpForce.x, mod * vars.jumpForce.y));
+			blob.AddForce(Vec2f(mod * vars.jumpForce.x, mod * vars.jumpForce.y * (ride ? 1.5f : 1.0f) * mody));
 		}
 	}
 
