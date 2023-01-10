@@ -43,17 +43,17 @@ void onInit(CBlob@ this)
 
 	this.getCurrentScript().tickFrequency = 1;
 
-	if (isServer())
-	{
-		for (u8 i = 0; i < getPlayersCount(); i++)
-		{
-			CPlayer@ p = getPlayer(i);
-			if (p !is null)
-			{
-				printf("PRINTING PLAYER INFO:\nUSERNAME: "+p.getUsername()+"\nCHARACTERNAME: "+p.getCharacterName()+"\nIP: "+p.server_getIP()+"\nAGE: "+p.getRegistrationTime());
-			}
-		}
-	}
+	//if (isServer())
+	//{
+	//	for (u8 i = 0; i < getPlayersCount(); i++)
+	//	{
+	//		CPlayer@ p = getPlayer(i);
+	//		if (p !is null)
+	//		{
+	//			printf("PRINTING PLAYER INFO:\nUSERNAME: "+p.getUsername()+"\nCHARACTERNAME: "+p.getCharacterName()+"\nIP: "+p.server_getIP()+"\nAGE: "+p.getRegistrationTime());
+	//		}
+	//	}
+	//}
 }
 
 void DoExplosion(CBlob@ this)
