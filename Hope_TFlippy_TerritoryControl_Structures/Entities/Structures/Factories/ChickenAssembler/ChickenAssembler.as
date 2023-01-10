@@ -262,7 +262,7 @@ void onTick(CBlob@ this)
 					if (crates[i] !is null && crates[i].getName() == "cacrate")
 					{
 						CInventory@ inv = crates[i].getInventory();
-						if (inv.isFull() || inv.getItemsCount() > 8 - item.resultcount) break;
+						if (inv.isFull() || inv.getItemsCount() > 9 - (item.resultname == "mat_battery" ? Maths::Floor(item.resultcount/50) : item.resultcount)) break;
 						dont_spawn_crate = true;
 						@crate = @crates[i];
 					}
@@ -274,7 +274,7 @@ void onTick(CBlob@ this)
 					crate.setPosition(this.getPosition());
 					crate.Tag("ignore extractor");
 					crate.Init();
-					crate.setInventoryName(item.title);
+					crate.setInventoryName("UPF Assembly Crate");
 					
 					for (uint i = 0; i < item.resultcount; i++)
 					{
