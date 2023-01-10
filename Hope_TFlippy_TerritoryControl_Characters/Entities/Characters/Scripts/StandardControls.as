@@ -368,7 +368,7 @@ void ManageCamera(CBlob@ this)
 	f32 scope_zoom = 0.00f;
 
 	CBlob@ carried = this.getCarriedBlob();
-	if (carried !is null && carried.exists("scope_zoom") && (this.isKeyPressed(key_action2) || carried.getName() == "binoculars"))
+	if (carried !is null && carried.exists("scope_zoom"))
 	{
 		if (carried.get_f32("scope_zoom") != 0.00f) binoculars = true;
 		scope_zoom = carried.get_f32("scope_zoom");
