@@ -1,61 +1,54 @@
-// Script by DarkSlayer
+// Script by brewskidafixer
 #include "SmartStorageHelpers.as";
 
+const u8 MaxItems = 20;
 void onInit(CBlob@ this)
 {
-	// this.Tag("smart_storage"); // Tag if you want this to be used for team storage
-	this.set_u16("smart_storage_quantity", 0); // amount of blobs/stacks NOT blob quantity
-	this.addCommandID("compactor_withdraw");
-	this.addCommandID("sv_store");
-	this.addCommandID("faction_upgrade");
-	if (!this.exists("capacity")) this.set_u16("capacity", 50);
-	this.set_bool("storage_cache", this.getName() == "storage"); 
+	string[] itemsArray;
+	this.set("itemsArray", @itemsArray);
+	this.set_u8("itemsnum",0);
+	this.addCommandID("sv_withdraw");
+	this.addCommandID("sv_delete");
+	//this.addCommandID("sv_store");
 }
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob !is null)
 	{
-		if (this.exists("Storage_"+blob.getName())) smartStorageAdd(this, blob);
+		//print("SS onCollision " +blob.getName()+ " :" +this.get_u32("SS_"+blob.getName()));
+		if (this.get_u32("SS_"+blob.getName())>0) smartStorageAdd(this, blob);
 		else if (canPickup(this, blob))
 		{
-			if (canStoreBlob(this, blob)) smartStorageAdd(this, blob);
+			smartStorageAdd(this, blob);
 		}
 	}
 }
 
 bool canPickup(CBlob@ this, CBlob@ blob)
 {
-	if (this.get_u16("smart_storage_quantity") == this.get_u16("capacity")) return false;
-	return !blob.isAttached() && (blob.hasTag("ammo") || (!blob.hasTag("dead") && (blob.hasTag("material") || blob.hasTag("hopperable") || blob.hasTag("drug")) && !blob.hasTag("weapon")));
+	if (this.get_u8("itemsnum") >= MaxItems) return false;
+	return !blob.isAttached() && !blob.hasTag("dead") && !blob.hasTag("weapon") && (blob.hasTag("ammo") || blob.hasTag("material") || blob.hasTag("hopperable") || blob.hasTag("drug"));
 }
 
-bool canStoreBlob(CBlob@ this, CBlob@ blob)
-{
-	string blobName = blob.getName();
-	if (this.exists("Storage_"+blobName)) return true;
-	for (u8 i = 0; i < factionStorageMats.length; i++)
-	{
-		if (factionStorageMats[i] == blobName) return true;
-	}
-	return false;
-}
+
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
-	if (cmd == this.getCommandID("compactor_withdraw"))
+	if (cmd == this.getCommandID("sv_withdraw"))
 	{
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
-		string blobName = factionStorageMats[params.read_u8()];
-		if (caller !is null && this.get_u16("smart_storage_quantity") > 0)
+		string blobName = params.read_string();
+		if (caller !is null && this.get_u8("itemsnum") > 0)
 		{
 			if (!caller.getInventory().isFull())
 			{
 				if (isServer()) 
 				{
-					u32 cur_quantity = this.get_u32("Storage_"+blobName);
-					if (cur_quantity > 0)
+					u32 cur_quantity = this.get_u32("SS_"+blobName);
+					if (cur_quantity > 1)
 					{
+						cur_quantity = cur_quantity - 1; //remove offset
 						CBlob@ blob = server_CreateBlob(blobName, -1, this.getPosition());
 						if (blob !is null)
 						{
@@ -76,11 +69,38 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 							}
 						}
 					}
+					
+					
 				}
 			}
 		}
 	}
-	else if (cmd == this.getCommandID("sv_store"))
+	else if (cmd == this.getCommandID("sv_delete"))
+	{
+		CBlob@ caller = getBlobByNetworkID(params.read_u16());
+		string blobName = params.read_string();
+		string[]@ itemsArray;
+		if(this.get("itemsArray", @itemsArray))
+		{	
+			//string blobName =itemsArray[itemtoremove];
+			for (u8 i = 0; i < itemsArray.length(); i++)
+			{
+				if(itemsArray[i]==blobName){
+					//print("SS deleteing item "+blobName+":"+i+"/"+itemsArray.length());
+					this.set_u32("SS_"+blobName,0);
+					itemsArray.removeAt(i);
+					this.set_u8("itemsnum",itemsArray.length());
+					this.set("itemsArray", @itemsArray);
+					this.Sync("SS_"+blobName, true);
+					this.Sync("itemsArray", true);
+					this.Sync("itemsnum", true);
+					break;
+				}
+			}
+			
+		}
+	}
+	/*else if (cmd == this.getCommandID("sv_store"))
 	{
 		if (isServer())
 		{
@@ -110,7 +130,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 						{
 							if (canPickup(this, item))
 							{
-								if (this.exists("Storage_"+item.getName()))
+								if (this.exists("SS_"+item.getName()))
 								{
 									smartStorageAdd(this, item);
 									continue;
@@ -131,116 +151,112 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 				}
 			}
 		}
-	}
-	else if (cmd == this.getCommandID("faction_upgrade"))
-	{
-		if (isServer())
-		{
-			CBlob@ blob = getBlobByNetworkID(params.read_u16());
-			if (blob !is null)
-			{
-				if (this.get_u16("smart_storage_quantity") > 0)
-				{
-					for (u8 i = 0; i < factionStorageMats.length; i++)
-					{
-						blob.set_u32("Storage_"+factionStorageMats[i], this.get_u32("Storage_"+factionStorageMats[i]));
-					}
-					blob.set_u16("smart_storage_quantity", this.get_u16("smart_storage_quantity"));
-				}
-			}
-		}
-	}
+	}*/
 }
 
 void smartStorageAdd(CBlob@ this, CBlob@ blob)
 {
+	//print("smartStorageAdd start");
 	if (isServer())
 	{
 		string blobName = blob.getName();
-		u16 storage_quantity = this.get_u16("smart_storage_quantity");
 		u16 blobQuantity = blob.getQuantity();
-		u16 blobMaxQuantity = blob.getMaxQuantity();
-
-		if (!this.exists("Storage_"+blobName)) this.set_u32("Storage_"+blobName, 0);
-		u32 cur_quantity = this.get_u32("Storage_"+blobName);
-
-		if (storage_quantity < this.get_u16("capacity"))
-		{
-			if (cur_quantity > 0)
-			{
-				u16 amount = cur_quantity % blobMaxQuantity;
-				if (blobQuantity > amount) this.add_u16("smart_storage_quantity", 1);
-
-				this.add_u32("Storage_"+blobName, blobQuantity);
-			}
-			else
-			{
-				this.set_u32("Storage_"+blobName, blobQuantity);
-				this.add_u16("smart_storage_quantity", 1);
-			}
-			this.Sync("Storage_"+blobName, true);
-			this.Sync("smart_storage_quantity", true);
-			if (this.get_bool("storage_cache"))
-			{
-				CBitStream params;
-				params.write_u16(blob.getNetworkID());
-				this.SendCommand(this.getCommandID("update_storagelayers"), params);
-			}
-			blob.Tag("dead");
-			blob.server_Die();
+		//check blobQuantity > 0
+		if(blobQuantity<1){
+			//print("blobQuantity:" + blobQuantity);
+			return;
 		}
-		else if (cur_quantity > 0)
+		
+		//check if blobexists
+		u32 cur_quantity = 0;
+		if (this.exists("SS_"+blobName)) 
 		{
-			u16 amount = cur_quantity % blobMaxQuantity;
-			if (amount > 0)
+			cur_quantity = this.get_u32("SS_"+blobName);
+		} 
+	
+		//if cur_quantity = 0; then adding item to item list (0 = disabled)
+		if(cur_quantity == 0)
+		{
+			//check if at maxitems
+			if(this.get_u8("itemsnum") >= MaxItems){
+				//print("at maxitems "+this.get_u8("itemsnum"));
+				return;
+			}
+			//
+			string[]@ itemsArray;
+			if(this.get("itemsArray", @itemsArray))
 			{
-				amount = Maths::Min(blobMaxQuantity - amount, blobQuantity);
-				this.add_u32("Storage_"+blobName, amount);
-				this.Sync("Storage_"+blobName, true);
-				
-				if (amount < blobQuantity) blob.server_SetQuantity(blobQuantity - amount);
-				else
-				{
-					blob.Tag("dead");
-					blob.server_Die();
-				}
+				//itemsArray.insertLast(blob.getName());
+				itemsArray.push_back(blob.getName());
+				this.add_u8("itemsnum",1);
+				this.set("itemsArray", @itemsArray);
+				this.Sync("itemsArray", true);
+				this.Sync("itemsnum", true);
+				//+1 is used as offset as 0 means disabled
+				this.set_u32("SS_"+blobName,blobQuantity+1);
 			}
 		}
-	}
-	if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
+		else{
+			//increase storage of item by blobQuantity
+			this.add_u32("SS_"+blobName,blobQuantity);
+			
+		}
+		this.Sync("SS_"+blobName, true);
+		blob.Tag("dead");
+		blob.server_Die();
+	}	
+	if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");	
+	
+	
+	
 }
 
 void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 {
 	if (forBlob !is null)
 	{
-		u8 listLength = factionStorageMats.length;
-		u8 tempListLength = 0;
-		for (u8 i = 0; i < listLength; i++) if (this.get_u32("Storage_"+factionStorageMats[i]) > 0) tempListLength++;
-		const u8 inv_posx = this.getInventory().getInventorySlots().x;
-		const u8 scale = tempListLength/inv_posx;
+		//u8 listLength = factionStorageMats.length;
+		u8 itemslength = this.get_u8("itemsnum");
+		//print("SS itemslength" + itemslength);
+		if( itemslength == 0) return;
+		u8 inv_posx = this.getInventory().getInventorySlots().x;
+		u8 scale = itemslength/inv_posx;
 		Vec2f pos(gridmenu.getUpperLeftPosition().x + 0.5f * (gridmenu.getLowerRightPosition().x - gridmenu.getUpperLeftPosition().x),// - 156.0f,
               gridmenu.getUpperLeftPosition().y - 72 - (24 * scale));
-		CGridMenu@ menu = CreateGridMenu(pos, this, Vec2f(inv_posx, 1 + scale), "\n(Secondary Storage)\nCapacity: ("+this.get_u16("smart_storage_quantity")+" / "+this.get_u16("capacity")+")");
+		CGridMenu@ menu = CreateGridMenu(pos, this, Vec2f(inv_posx, 1 + scale), "\n(Secondary Storage)\nItems: (" + itemslength + " / " + MaxItems + ")");
 		if (menu !is null)
 		{
+			//print("SS menu");
 			menu.deleteAfterClick = false;
 			u32 cur_quantity;
-			for (u8 i = 0; i < listLength; i++)
+			string[]@ itemsArray;
+			if(this.get("itemsArray", @itemsArray))
 			{
-				string blobName = factionStorageMats[i];
-				cur_quantity = this.get_u32("Storage_"+blobName);
-				if (cur_quantity <= 0) continue;
-				CBitStream params;
-				params.write_u16(forBlob.getNetworkID());
-				params.write_u8(i);
-				if (blobName.findFirst("ammo") != -1)
+				//print("SS got itemsArray");
+				for (u8 i = 0; i < itemsArray.length(); i++)
 				{
-					CGridButton @but = menu.AddButton("$"+blobName.replace("mat" , "icon")+"$", "\nResource Total:\n("+cur_quantity+")", this.getCommandID("compactor_withdraw"), params);
-				}
-				else
-				{
-					CGridButton @but = menu.AddButton("$"+blobName+"$", "\nResource Total:\n("+cur_quantity+")", this.getCommandID("compactor_withdraw"), params);
+					string blobName = itemsArray[i];
+					cur_quantity = this.get_u32("SS_"+blobName);
+					CBitStream params;
+					params.write_u16(forBlob.getNetworkID());
+					params.write_string(blobName);
+					
+					/*if (blobName.findFirst("ammo") != -1)
+					{
+						CGridButton @but = menu.AddButton("$"+blobName.replace("mat" , "icon")+"$", "\nResource Total:\n("+cur_quantity+")", this.getCommandID("sv_withdraw"), params);
+					}else
+					*/
+					
+					if (cur_quantity > 1)
+					{
+						cur_quantity--;
+						CGridButton @but = menu.AddButton("$"+blobName+"$", "\nResource Total:\n("+cur_quantity+")", this.getCommandID("sv_withdraw"), params);
+					}
+					else if (cur_quantity == 1)
+					{
+						CGridButton @but = menu.AddButton("$"+blobName+"$", "\nRemove Resource", this.getCommandID("sv_delete"), params);
+					}
+					
 				}
 			}
 		}
@@ -249,21 +265,25 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 
 void onDie(CBlob@ this)
 {
-	if (this.hasTag("upgrading")) return;
-	u16 overall_quantity = this.get_u16("smart_storage_quantity");
-	if (isServer() && overall_quantity > 0)
+	if (isServer() )
 	{
 		u32 cur_quantity;
-		for (u8 i = 0; i < factionStorageMats.length; i++)
+		string[]@ itemsArray;
+		if(this.get("itemsArray", @itemsArray))
 		{
-			cur_quantity = this.get_u32("Storage_"+factionStorageMats[i]);
-			if (cur_quantity > 0)
+				
+			for (u8 i = 0; i < itemsArray.length(); i++)
 			{
-				CBlob@ blob = server_CreateBlob(factionStorageMats[i], -1, this.getPosition());
-				if (blob !is null)
+				cur_quantity = this.get_u32("SS_"+itemsArray[i]);
+				if (cur_quantity > 1)
 				{
-					u32 quantity = Maths::Min(cur_quantity, blob.getMaxQuantity()*4);
-					blob.server_SetQuantity(quantity);
+					cur_quantity--; //remove offset
+					CBlob@ blob = server_CreateBlob(itemsArray[i], -1, this.getPosition());
+					if (blob !is null)
+					{
+						u32 quantity = Maths::Min(cur_quantity, blob.getMaxQuantity()*4);
+						blob.server_SetQuantity(quantity);
+					}
 				}
 			}
 		}
