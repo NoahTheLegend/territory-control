@@ -56,8 +56,6 @@ void onTick(CBrain@ this)
 {
 	CBlob@ blob = this.getBlob();
 	if (getKnocked(blob) > 0) return;
-	
-	
 
 	u8 delay = blob.get_u8(delay_property);
 	if (delay > 0) delay--;
@@ -69,6 +67,14 @@ void onTick(CBrain@ this)
 		terpos.y += blob.getRadius();
 		blob.set_Vec2f(terr_pos_property, terpos);
 		//	printf("set territory " + blob.getPosition().x + " " + blob.getPosition().y );
+	}
+
+	AttachmentPoint@ ap = blob.getAttachments().getAttachmentPointByName("SADDLE");
+	if (ap !is null && ap.getOccupied() !is null && ap.getOccupied().getName() == "saddle")
+	{
+		AttachmentPoint@ saddle = ap.getOccupied().getAttachments().getAttachmentPointByName("PILOT");
+		if (saddle !is null && saddle.getOccupied() !is null)
+			return;
 	}
 
 	if (delay == 0)

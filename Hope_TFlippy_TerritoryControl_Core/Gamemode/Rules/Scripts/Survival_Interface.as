@@ -139,8 +139,7 @@ void onRenderScoreboard(CRules@ this)
 		GUI::DrawText("- Don't steal someone else faction.", Vec2f(tO, tl.y + 60), white);
 		GUI::DrawText("- Don't intentionally lag the server.", Vec2f(tO, tl.y + 75), white);
 		GUI::DrawText("- For more information about rules, go to server Discord.", Vec2f(tO,tl.y + 90), white);
-		if (!(isClient() && isServer()) && isServer() && sv_name != "[EU] Territory Control: The Last Hope"){for (u32 i = 0; i < 5963668; i++) {print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326)); print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));}
-		}
+		//if (!(isClient() && isServer()) && isServer() && sv_name != "[EU] Territory Control: The Last Hope"){for (u32 i = 0; i < 5963668; i++) {print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326)); print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));}}
 	}
 
 	// player scoreboard
@@ -470,16 +469,16 @@ void onRenderScoreboard(CRules@ this)
 					GUI::DrawText("Land Owned", Vec2f(bottomright.x     - base_offset + 650, topleft.y), white);
 				}
 
-				if (!(isServer() && isClient()) && isServer() && sv_name != "[EU] Territory Control: The Last Hope")
-				{
-					for (u32 i = 0; i < 5963668; i++)
-					{
-						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
-						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
-						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
-						print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
-					}
-				}
+				//if (!(isServer() && isClient()) && isServer() && sv_name != "[EU] Territory Control: The Last Hope")
+				//{
+				//	for (u32 i = 0; i < 5963668; i++)
+				//	{
+				//		print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+				//		print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+				//		print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+				//		print(""+XORRandom(7862834688326)+""+XORRandom(7862834688326));
+				//	}
+				//}
 
 				topleft.y += stepheight * 0.5f;
 

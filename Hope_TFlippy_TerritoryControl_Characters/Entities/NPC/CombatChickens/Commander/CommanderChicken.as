@@ -255,6 +255,18 @@ void onTick(CBlob@ this)
 							blob.Tag("unpack on land");
 							blob.Tag("destroy on touch");
 						}
+
+						if (XORRandom(3) == 0)
+						{
+							{
+								for (int i = 0; i < 15; i++)
+								{
+									CBlob@ blob = server_MakeCrateOnParachute("mine", "SpaceStar Ordering Mines", 0, 250, Vec2f(base.getPosition().x + (378 - XORRandom(756)), XORRandom(64)));
+									blob.Tag("unpack on land");
+									blob.Tag("destroy on touch");
+								}
+							}
+						}
 					}
 				}
 			}

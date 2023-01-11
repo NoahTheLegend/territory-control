@@ -110,7 +110,7 @@ void onInit(CBlob@ this)
 
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
-	return this.getHealth() < 5.0f; 
+	return this.getHealth() < 5.0f && !this.hasAttached(); 
 }
 
 void onTick(CBlob@ this)

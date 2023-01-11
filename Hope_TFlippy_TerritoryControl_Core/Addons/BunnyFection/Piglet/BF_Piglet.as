@@ -123,9 +123,9 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 	return damage;
 }
 
-bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
+bool canBePickedUp( CBlob@ this, CBlob@ byBlob )
 {
-	return true;
+	return !this.hasAttached();
 }
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)

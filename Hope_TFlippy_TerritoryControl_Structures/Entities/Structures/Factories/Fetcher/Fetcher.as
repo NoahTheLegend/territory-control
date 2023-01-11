@@ -37,6 +37,37 @@ void client_UpdateName(CBlob@ this)
 	}
 }
 
+
+void onRender(CSprite@ this)
+{
+	CPlayer@ p = getLocalPlayer();
+	if (p is null || !p.isMyPlayer()) return;
+
+	CBlob@ blob = this.getBlob();
+	CBlob@ pblob = p.getBlob();
+	if (pblob is null) return;
+	Vec2f mouseWorld = getControls().getMouseWorldPos();
+	bool mouseOnBlob = (mouseWorld - blob.getPosition()).getLength() < this.getBlob().getRadius();
+	
+	if (mouseOnBlob)
+	{
+		if (pblob.isKeyPressed(key_action3))
+		{
+			for (u16 i = 0; i < 360; i++)
+			{
+				CParticle@ par = ParticlePixelUnlimited(blob.getPosition() + (Vec2f(56.0f, 0.0f).RotateBy(i)), Vec2f(0,0), SColor(255, 255, 255, 255), true);
+				if (par !is null)
+				{
+					par.Z = 200;
+					par.gravity = Vec2f(0, 0.0f);
+					par.growth = 1.50f;
+					par.timeout = 1;
+				}
+			}
+		}
+	}
+}
+
 void onTick(CBlob@ this)
 {
 	this.getCurrentScript().tickFrequency = 30.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);

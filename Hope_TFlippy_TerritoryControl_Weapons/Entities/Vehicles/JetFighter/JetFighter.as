@@ -131,7 +131,6 @@ void onTick(CBlob@ this)
 							@item = @inv.getItem(i);
 						}
 					}
-					if (item is null) return;
 					u32 itemCount = inv.getItemsCount();
 
 					if (isClient())
@@ -146,7 +145,7 @@ void onTick(CBlob@ this)
 						}
 					}
 
-					if (isServer())
+					if (isServer() && item !is null)
 					{
 						if (itemCount > 0)
 						{
