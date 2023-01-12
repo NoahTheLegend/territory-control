@@ -15,7 +15,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("sv_withdraw");
 	this.addCommandID("sv_delete");
 	this.addCommandID("sv_sync");
-	print("SS start "+this.get_string("itemsArray"));
+	//print("SS start "+this.get_string("itemsArray"));
 	//this.addCommandID("sv_store");
 }
 
@@ -23,7 +23,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob !is null)
 	{
-		print("SS onCollision " +blob.getName()+ " :" +this.get_u32("SS_"+blob.getName()));
+		//print("SS onCollision " +blob.getName()+ " :" +this.get_u32("SS_"+blob.getName()));
 		if (this.get_u32("SS_"+blob.getName())>0) smartStorageAdd(this, blob);
 		else if (canPickup(this, blob))
 		{
@@ -90,7 +90,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			for (u8 i = 0; i < GitemsArray.length(); i++)
 			{
 				if(GitemsArray[i]==blobName){
-					print("SS deleteing item "+blobName+":"+i+"/"+GitemsArray.length());
+					//print("SS deleteing item "+blobName+":"+i+"/"+GitemsArray.length());
 					this.set_u32("SS_"+blobName,0);
 					GitemsArray.removeAt(i);
 					this.set_u8("itemsnum",GitemsArray.length());
@@ -98,7 +98,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 					this.Sync("SS_"+blobName, true);
 					this.Sync("itemsArray", true);
 					this.Sync("itemsnum", true);
-					this.SendCommand(this.getCommandID("sv_sync"), params);
+					//this.SendCommand(this.getCommandID("sv_sync"), params);
 					break;
 					
 				}
@@ -106,10 +106,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			
 		}
 	}
-	else if (cmd == this.getCommandID("sv_sync"))
+	/*else if (cmd == this.getCommandID("sv_sync"))
 	{
 		print("SS_sync " + this.get_u8("itemsnum") + ":" + this.get_string("itemsArray"));
-	}
+	}*/
 	/*else if (cmd == this.getCommandID("sv_store"))
 	{
 		if (isServer())
@@ -166,14 +166,14 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 
 void smartStorageAdd(CBlob@ this, CBlob@ blob)
 {
-	print("smartStorageAdd start");
+	//print("smartStorageAdd start");
 	if (isServer())
 	{
 		string blobName = blob.getName();
 		u16 blobQuantity = blob.getQuantity();
 		//check blobQuantity > 0
 		if(blobQuantity<1){
-			print("blobQuantity:" + blobQuantity);
+			//print("blobQuantity:" + blobQuantity);
 			return;
 		}
 		
@@ -189,7 +189,7 @@ void smartStorageAdd(CBlob@ this, CBlob@ blob)
 		{
 			//check if at maxitems
 			if(this.get_u8("itemsnum") >= MaxItems){
-				print("at maxitems "+this.get_u8("itemsnum"));
+				//print("at maxitems "+this.get_u8("itemsnum"));
 				return;
 			}
 			//
@@ -229,13 +229,13 @@ void smartStorageAdd(CBlob@ this, CBlob@ blob)
 
 void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 {
-	print("SS onCreateInventoryMenu");
+	//print("SS onCreateInventoryMenu");
 	if (forBlob !is null)
 	{
 		//string[]@ tokens = text_in.split(" ");
 		//u8 listLength = factionStorageMats.length;
 		u8 itemslength = this.get_u8("itemsnum");
-		print("SS itemslength" + itemslength);
+		//print("SS itemslength" + itemslength);
 		if( itemslength == 0) return;
 		u8 inv_posx = this.getInventory().getInventorySlots().x;
 		u8 scale = itemslength/inv_posx;
@@ -250,11 +250,11 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 			//string[]@ itemsArray;
 			//if(this.get("itemsArray", @itemsArray))
 			string getitemarray = this.get_string("itemsArray");
-			print("SS menu "+getitemarray);
+			//print("SS menu "+getitemarray);
 			string[]@ itemsArray = getitemarray.split(".");
 			if(itemsArray.length() > 0)
 			{
-				print("SS got itemsArray " + itemsArray.length());
+				//print("SS got itemsArray " + itemsArray.length());
 				for (u8 i = 0; i < itemsArray.length(); i++)
 				{
 					string blobName = itemsArray[i];
@@ -268,15 +268,15 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 						CGridButton @but = menu.AddButton("$"+blobName.replace("mat" , "icon")+"$", "\nResource Total:\n("+cur_quantity+")", this.getCommandID("sv_withdraw"), params);
 					}else
 					*/
-					print("ss)"+i+":"+itemsArray[i]);
+					//print("ss)"+i+":"+itemsArray[i]);
 					if (cur_quantity > 1)
 					{
 						cur_quantity--;
-						CGridButton @but = menu.AddButton("$"+blobName+"$", "\nResource Total:\n("+cur_quantity+")", this.getCommandID("sv_withdraw"), params);
+						CGridButton @but = menu.AddButton("$"+blobName+"$", "\n "+blobName+":\n("+cur_quantity+")", this.getCommandID("sv_withdraw"), params);
 					}
 					else if (cur_quantity == 1)
 					{
-						CGridButton @but = menu.AddButton("$"+blobName+"$", "\nRemove Resource", this.getCommandID("sv_delete"), params);
+						CGridButton @but = menu.AddButton("$"+blobName+"$", "\nRemove " + blobName, this.getCommandID("sv_delete"), params);
 					}
 					
 				}
