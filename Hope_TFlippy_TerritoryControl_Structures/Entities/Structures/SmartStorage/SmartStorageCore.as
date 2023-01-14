@@ -2,28 +2,35 @@
 #include "SmartStorageHelpers.as";
 
 const u8 MaxItems = 20;
-string[] GitemsArray;
-bool Gsynced = false;
+//string[] GitemsArray; //this same global array for all instances of script
+//bool Gsynced = false;
 void onInit(CBlob@ this)
 {
 	
 	//string[] itemsArray;
 	//this.set("itemsArray", @itemsArray);
-	if (isServer()) Gsynced = true;
+	//if (isServer()) Gsynced = true;
+	
+	
 	this.set_string("itemsArray", "");
 	this.set_u8("itemsnum",0);
 	this.addCommandID("sv_withdraw");
 	this.addCommandID("sv_delete");
-	this.addCommandID("sv_sync");
-	//print("SS start "+this.get_string("itemsArray"));
+	//this.addCommandID("sv_sync");
+	print("SS start "+this.get_string("itemsArray"));
 	//this.addCommandID("sv_store");
+	
+	string[] GitemsArray;
+	this.set("GitemsArray",@GitemsArray);
+	
+	
 }
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob !is null)
 	{
-		//print("SS onCollision " +blob.getName()+ " :" +this.get_u32("SS_"+blob.getName()));
+		print("SS onCollision " +blob.getName()+ " :" +this.get_u32("SS_"+blob.getName()));
 		if (this.get_u32("SS_"+blob.getName())>0) smartStorageAdd(this, blob);
 		else if (canPickup(this, blob))
 		{
@@ -87,10 +94,13 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
 		string blobName = params.read_string();
 		if (isServer()){
+			
+			string[] @GitemsArray;
+			this.get("GitemsArray",@GitemsArray);
 			for (u8 i = 0; i < GitemsArray.length(); i++)
 			{
 				if(GitemsArray[i]==blobName){
-					//print("SS deleteing item "+blobName+":"+i+"/"+GitemsArray.length());
+					print("SS deleteing item "+blobName+":"+i+"/"+GitemsArray.length());
 					this.set_u32("SS_"+blobName,0);
 					GitemsArray.removeAt(i);
 					this.set_u8("itemsnum",GitemsArray.length());
@@ -98,6 +108,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 					this.Sync("SS_"+blobName, true);
 					this.Sync("itemsArray", true);
 					this.Sync("itemsnum", true);
+					//this.Sync("GitemsArray", true);
 					//this.SendCommand(this.getCommandID("sv_sync"), params);
 					break;
 					
@@ -166,7 +177,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 
 void smartStorageAdd(CBlob@ this, CBlob@ blob)
 {
-	//print("smartStorageAdd start");
+	print("smartStorageAdd start");
 	if (isServer())
 	{
 		string blobName = blob.getName();
@@ -197,13 +208,18 @@ void smartStorageAdd(CBlob@ this, CBlob@ blob)
 			//if(this.get("itemsArray", @itemsArray))
 			
 			//itemsArray.insertLast(blob.getName());
+			string[] @GitemsArray;
+			this.get("GitemsArray",@GitemsArray);
 			GitemsArray.push_back(blob.getName());
 			this.add_u8("itemsnum",1);
+			print("smartStorageAdd array:" + join(GitemsArray,"."));
 			this.set_string("itemsArray", join(GitemsArray,"."));
 			this.Sync("itemsArray", true);
 			this.Sync("itemsnum", true);
 			//+1 is used as offset as 0 means disabled
 			this.set_u32("SS_"+blobName,blobQuantity+1);
+			//this.set("GitemsArray",@GitemsArray);
+			//this.Sync("GitemsArray", true);
 		
 		}
 		else{
@@ -234,6 +250,10 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 	{
 		//string[]@ tokens = text_in.split(" ");
 		//u8 listLength = factionStorageMats.length;
+		//string[] @GitemsArray;
+		//this.get("GitemsArray",@GitemsArray);
+		//print("GitemsArray("+GitemsArray.length()+"): " + join(GitemsArray,"."));
+		
 		u8 itemslength = this.get_u8("itemsnum");
 		//print("SS itemslength" + itemslength);
 		if( itemslength == 0) return;
@@ -250,7 +270,7 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 			//string[]@ itemsArray;
 			//if(this.get("itemsArray", @itemsArray))
 			string getitemarray = this.get_string("itemsArray");
-			//print("SS menu "+getitemarray);
+			print("SS menu "+getitemarray);
 			string[]@ itemsArray = getitemarray.split(".");
 			if(itemsArray.length() > 0)
 			{
@@ -293,7 +313,8 @@ void onDie(CBlob@ this)
 		//string[]@ itemsArray;
 		//if(this.get("itemsArray", @itemsArray))
 		//{
-				
+			string[] @GitemsArray;
+			this.get("GitemsArray",@GitemsArray);	
 			for (u8 i = 0; i < GitemsArray.length(); i++)
 			{
 				cur_quantity = this.get_u32("SS_"+GitemsArray[i]);
