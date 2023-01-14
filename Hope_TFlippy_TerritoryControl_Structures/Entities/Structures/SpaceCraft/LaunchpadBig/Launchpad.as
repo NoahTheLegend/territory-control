@@ -90,6 +90,7 @@ void onInit(CSprite@ this)
         {
             CBlob@ blob = server_CreateBlob("scanner_ghost");
             blob.setPosition(this.getBlob().getPosition()+Vec2f(34, 80));
+            this.getBlob().set_netid("scanner", blob.getNetworkID());
         }
 	}
     Animation@ ranim = this.addAnimation("building", 0, false);
@@ -721,7 +722,7 @@ void onTick(CBlob@ this)
 
     this.setInventoryName(matsneeded);
 
-    if (getGameTime()%30==0)
+    if (getGameTime()%30==0 && isServer())
     {
         string matsneeded;
 
@@ -810,13 +811,14 @@ void onTick(CBlob@ this)
                         for (u8 i = 0; i < inv.getItemsCount(); i++)
                         {
                             CBlob@ blob = inv.getItem(i);
-                            if (blob !is null && blob.getName() == "powerdrill" && counter < 10 && isServer())
+                            if (blob !is null && blob.getName() == "powerdrill" && counter < 10)
                             {
                                 counter++;
                                 blob.Tag("dead");
                                 blob.server_Die();
                             }
                         }
+                        this.Sync("module"+(this.get_u8("frameindex")-5), true);
                     }
                     else if (mat_fuel >= 10 && !this.hasTag("has_fuel_tank"))
                     {
@@ -827,7 +829,7 @@ void onTick(CBlob@ this)
                         {
                             CBlob@ blob = inv.getItem(i);
                             
-                            if (blob !is null && blob.getName() == "mat_fuel" && counter < 10 && isServer())
+                            if (blob !is null && blob.getName() == "mat_fuel" && counter < 10)
                             {
                                 counter++;
                                 blob.Tag("dead");
@@ -835,6 +837,7 @@ void onTick(CBlob@ this)
                             }
                         }
                         this.Tag("has_fuel_tank");
+                        this.Sync("module"+(this.get_u8("frameindex")-5), true);
                     }
                     else if (phone >= 1)
                     {
@@ -845,13 +848,14 @@ void onTick(CBlob@ this)
                         {
                             CBlob@ blob = inv.getItem(i);
 
-                            if (blob !is null && blob.getName() == "phone" && counter < 1 && isServer())
+                            if (blob !is null && blob.getName() == "phone" && counter < 1)
                             {
                                 counter++;
                                 blob.Tag("dead");
                                 blob.server_Die();
                             }
                         }
+                        this.Sync("module"+(this.get_u8("frameindex")-5), true);
                     }
                     else if (uzi >= 8)
                     {
@@ -862,13 +866,14 @@ void onTick(CBlob@ this)
                         {
                             CBlob@ blob = inv.getItem(i);
                             
-                            if (blob !is null && blob.getName() == "uzi" && counter < 16 && isServer())
+                            if (blob !is null && blob.getName() == "uzi" && counter < 16)
                             {
                                 counter++;
                                 blob.Tag("dead");
                                 blob.server_Die();
                             }
                         } 
+                        this.Sync("module"+(this.get_u8("frameindex")-5), true);
                     }
                 }
             }
@@ -879,6 +884,10 @@ void onTick(CBlob@ this)
             //this.add_u32("elec", -5000);
             //this.Sync("elec", true);
             //printf(""+this.get_u8("frameindex"));
+        }
+        for (u8 i = 0; i < matNames.length; i++)
+        {
+            SyncCommand(this, matNames[i], this.get_u16(matNames[i]));
         }
     }
 }
@@ -1017,4 +1026,13 @@ void onRocketReturn(CBlob@ this)
     this.set_u32("time_to_arrival", 0);
     this.set_u32("max_time", 0);
     this.Tag("update");
+}
+
+void onDie(CBlob@ this)
+{
+    CBlob@ scanner = getBlobByNetworkID(this.get_netid("scanner"));
+    if (scanner !is null)
+    {
+        scanner.server_Die();
+    }
 }
