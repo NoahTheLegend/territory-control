@@ -2,21 +2,28 @@
 #include "SmartStorageHelpers.as";
 
 const u8 MaxItems = 20;
-string[] GitemsArray;
-bool Gsynced = false;
+//string[] GitemsArray; //this same global array for all instances of script
+//bool Gsynced = false;
 void onInit(CBlob@ this)
 {
 	
 	//string[] itemsArray;
 	//this.set("itemsArray", @itemsArray);
-	if (isServer()) Gsynced = true;
+	//if (isServer()) Gsynced = true;
+	
+	
 	this.set_string("itemsArray", "");
 	this.set_u8("itemsnum",0);
 	this.addCommandID("sv_withdraw");
 	this.addCommandID("sv_delete");
-	this.addCommandID("sv_sync");
+	//this.addCommandID("sv_sync");
 	//print("SS start "+this.get_string("itemsArray"));
 	//this.addCommandID("sv_store");
+	
+	string[] GitemsArray;
+	this.set("GitemsArray",@GitemsArray);
+	
+	
 }
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
@@ -87,6 +94,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
 		string blobName = params.read_string();
 		if (isServer()){
+			
+			string[] @GitemsArray;
+			this.get("GitemsArray",@GitemsArray);
 			for (u8 i = 0; i < GitemsArray.length(); i++)
 			{
 				if(GitemsArray[i]==blobName){
@@ -98,6 +108,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 					this.Sync("SS_"+blobName, true);
 					this.Sync("itemsArray", true);
 					this.Sync("itemsnum", true);
+					//this.Sync("GitemsArray", true);
 					//this.SendCommand(this.getCommandID("sv_sync"), params);
 					break;
 					
@@ -108,7 +119,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 	}
 	/*else if (cmd == this.getCommandID("sv_sync"))
 	{
-		print("SS_sync " + this.get_u8("itemsnum") + ":" + this.get_string("itemsArray"));
+		//print("SS_sync " + this.get_u8("itemsnum") + ":" + this.get_string("itemsArray"));
 	}*/
 	/*else if (cmd == this.getCommandID("sv_store"))
 	{
@@ -197,13 +208,18 @@ void smartStorageAdd(CBlob@ this, CBlob@ blob)
 			//if(this.get("itemsArray", @itemsArray))
 			
 			//itemsArray.insertLast(blob.getName());
+			string[] @GitemsArray;
+			this.get("GitemsArray",@GitemsArray);
 			GitemsArray.push_back(blob.getName());
 			this.add_u8("itemsnum",1);
+			//print("smartStorageAdd array:" + join(GitemsArray,"."));
 			this.set_string("itemsArray", join(GitemsArray,"."));
 			this.Sync("itemsArray", true);
 			this.Sync("itemsnum", true);
 			//+1 is used as offset as 0 means disabled
 			this.set_u32("SS_"+blobName,blobQuantity+1);
+			//this.set("GitemsArray",@GitemsArray);
+			//this.Sync("GitemsArray", true);
 		
 		}
 		else{
@@ -234,6 +250,10 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 	{
 		//string[]@ tokens = text_in.split(" ");
 		//u8 listLength = factionStorageMats.length;
+		//string[] @GitemsArray;
+		//this.get("GitemsArray",@GitemsArray);
+		//print("GitemsArray("+GitemsArray.length()+"): " + join(GitemsArray,"."));
+		
 		u8 itemslength = this.get_u8("itemsnum");
 		//print("SS itemslength" + itemslength);
 		if( itemslength == 0) return;
@@ -293,7 +313,8 @@ void onDie(CBlob@ this)
 		//string[]@ itemsArray;
 		//if(this.get("itemsArray", @itemsArray))
 		//{
-				
+			string[] @GitemsArray;
+			this.get("GitemsArray",@GitemsArray);	
 			for (u8 i = 0; i < GitemsArray.length(); i++)
 			{
 				cur_quantity = this.get_u32("SS_"+GitemsArray[i]);
