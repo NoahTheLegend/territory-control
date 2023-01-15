@@ -1,3 +1,41 @@
+//by noahthelegend and brewskidafixer
+
+//class for data storage
+class DrugResults {
+
+	string inName;
+	u8 inAmount;
+	string outName;
+	u8 outAmount;
+	
+	DrugResults(string inName, u8 inAmount, string outName,	u8 outAmount){
+		this.inName= inName;
+		this.inAmount =inAmount;
+		this.outName =outName;
+		this.outAmount =outAmount;
+	}
+	
+	string tostring(){
+		return (inName + ":" + inAmount + "->" + outName + ":" + outAmount);
+	}
+};
+
+DrugResults[] DResults = {
+	DrugResults("stimpill",2,"stim",1),
+	DrugResults("fuskpill",2,"fusk",1),
+	DrugResults("fusk",3,"mat_fusk",10),
+	DrugResults("rippiopill",2,"rippio",1),
+	DrugResults("rippio",2,"mat_rippio",25),
+	DrugResults("goobypill",2,"gooby",1),
+	DrugResults("paxilonpill",2,"paxilon",1),
+	DrugResults("paxilon",2,"mat_paxilon",20),
+	DrugResults("love",2,"mat_love",15),
+	DrugResults("boof",2,"mat_boof",25),
+	DrugResults("mat_ganja",8,"tea",1),
+	DrugResults("mat_protopopov",1,"mat_acid",50)
+};
+
+
 void onInit(CBlob@ this)
 {
 	this.getShape().getConsts().mapCollisions = false;
@@ -14,6 +52,12 @@ void onInit(CBlob@ this)
 		sprite.SetEmitSoundSpeed(0.6f);
 		sprite.SetEmitSoundPaused(false);
 	}
+	
+	//test print
+	//for(u16 i=0; i<DResults.length;i++){
+	//	print (i + ")" + DResults[i].tostring());
+	//}
+	
 }
 
 void onInit(CSprite@ this)
@@ -34,95 +78,41 @@ void onInit(CSprite@ this)
 	}
 }
 
-const string[] matNames = { 
-	"stimpill-2",
-	"fuskpill-2",
-	"fusk-3",
-	"rippiopill-2",
-	"rippio-2",
-	"goobypill-2",
-	"paxilonpill-2",
-	"paxilon-2",
-	"love-2",
-	"boof-2",
-	"mat_ganja-8",
-	"mat_protopopov-1"
-};
-
-const string[] resultNames = { 
-	"stim-1",
-	"fusk-1",
-	"mat_fusk-10",
-	"rippio-1",
-	"mat_rippio-25",
-	"gooby-1",
-	"paxilon-1",
-	"mat_paxilon-20",
-	"mat_love-15",
-	"mat_boof-25",
-	"tea-1",
-	"mat_acid-50"
-};
 
 void onTick(CBlob@ this)
 {
 	CInventory@ inv = this.getInventory();
 	if (inv is null) return;
 
-	for (u16 i = 0; i < matNames.length; i++)
+	DrugResults@ R;
+	for (u16 i = 0; i < DResults.length; i++)
 	{
-		string[] spl = matNames[i].split("-");
-		string[] res_spl = resultNames[i].split("-");
-		string name;
-		u16 req_amount;
-		string result;
-		u16 res_amount;
-		if (spl.length > 1 && res_spl.length > 1)
-		{
-			name = spl[0];
-			req_amount = parseInt(spl[1]);
-			result = res_spl[0];
-			res_amount = parseInt(res_spl[1]);
-		}
-		else continue;
-
-		CBlob@ item = inv.getItem(name);
+		@R = @DResults[i];
+		CBlob@ item = inv.getItem(R.inName);
 		if (item is null) continue;
-		u16 count = inv.getCount(name);
+		u16 count = inv.getCount(R.inName);
 		
-		if (count < req_amount) continue;
+		if (count < R.inAmount) continue;
 
-		if (isClient())
+		
+		if (isServer())
+		{
+			CBlob@ invBlob = inv.getBlob();
+			invBlob.TakeBlob(R.inName, R.inAmount);
+
+			CBlob@ res = server_CreateBlob(R.outName, this.getTeamNum(), this.getPosition()+Vec2f(0,12.0f));
+			if (res !is null)
+			{
+				res.server_SetQuantity(R.outAmount);
+				res.Tag("justmade");
+				//dont put back in inventory as it can process again
+				//this.server_PutInInventory(res);
+			}
+		}
+		else if (isClient())
 		{
 			this.getSprite().PlaySound("DrugLab_Create_Creamy.ogg", 1.00f, 1.10f);
 			this.getSprite().PlaySound("DrugLab_Create_Acidic.ogg", 0.65f, 1.25f);
-		}
-		if (isServer())
-		{
-			for (u8 j = 0; j < req_amount; j++)
-			{
-				CBlob@ take = inv.getItem(name);
-				if (take !is null) 
-				{
-					if (take.getQuantity() > 1 && (take.getQuantity() - req_amount) > 0)
-					{
-						take.server_SetQuantity(take.getQuantity() - req_amount);
-						break;
-					}
-					else
-					{
-						this.server_PutOutInventory(take); // otherwise first slot blob doesnt get killed
-						take.server_Die();
-					}
-				}
-			}
-
-			CBlob@ res = server_CreateBlob(result, this.getTeamNum(), this.getPosition()+Vec2f(0,12.0f));
-			if (res !is null)
-			{
-				res.server_SetQuantity(res_amount);
-				this.server_PutInInventory(res);
-			}
 		}
 	}
 }
@@ -131,14 +121,15 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob is null) return;
 	
-	if (!blob.isAttached())
-	{
-		string name;
-		for (u16 i = 0; i < matNames.length; i++)
+	if(blob.hasTag("justmade")){
+		blob.Untag("justmade");
+		return;
+	}
+	
+	if((blob.hasTag("material") || blob.hasTag("hopperable") || blob.hasTag("drug")) && !blob.isAttached()){
+		for (u16 i = 0; i < DResults.length; i++)
 		{
-			string[] spl = matNames[i].split("-");
-			name = spl[0];
-			if (name != blob.getName()) continue;
+			if (DResults[i].inName != blob.getName()) continue;
 			if (isServer()) this.server_PutInInventory(blob);
 			if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
 		}

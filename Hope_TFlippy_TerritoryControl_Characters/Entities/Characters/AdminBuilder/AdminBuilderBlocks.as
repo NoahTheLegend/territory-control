@@ -62,6 +62,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$concrete_triangle$", "ConcreteTriangle.png", Vec2f(8, 8), 0);
 	AddIconToken("$iron_triangle$", "IronTriangle.png", Vec2f(8, 8), 0);
 	AddIconToken("$stone_halfblock$", "StoneHalfBlock.png", Vec2f(8, 8), 0);
+	AddIconToken("$bricks_back_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks_back);
 	AddIconToken("$iron_halfblock$", "IronHalfBlock.png", Vec2f(8, 8), 0);
 	AddIconToken("$icon_ironplatform$", "IronPlatform.png", Vec2f(8, 8), 0);
 	AddIconToken("$icon_ironladder$", "IronLadder_Icon.png", Vec2f(16, 16), 0, teamnum);
@@ -155,14 +156,15 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_smallsign$","sign.png",Vec2f(16, 16), 0);
 	AddIconToken("$icon_securitystation$", "SecurityStation.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_ceilinglamp$", "CeilingLamp.png", Vec2f(16, 8), 0);
-	AddIconToken("$icon_gate$", "Gate.png", Vec2f(8, 40), 1, teamnum);
 	AddIconToken("$icon_1x5blastdoor$", "1x5BlastDoor.png", Vec2f(8, 40), 0, teamnum);
+	AddIconToken("$icon_gate$", "Gate.png", Vec2f(8, 40), 1, teamnum);
 	AddIconToken("$icon_beamtower$", "BeamTower.png", Vec2f(32, 48), 0, teamnum);
 	AddIconToken("$icon_beamtowermirror$", "BeamTowerMirror.png", Vec2f(16, 24), 0);
 	AddIconToken("$icon_metaldetector$", "MetalDetector.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_mithrilreactor$", "MithrilReactor.png", Vec2f(24, 24), 0);
 	AddIconToken("$icon_banner$","ClanBanner.png",Vec2f(16, 32), 0, teamnum);
 	AddIconToken("$icon_druglab$","DrugLab.png",Vec2f(32, 40), 0);
+	AddIconToken("$icon_liquificator$","DrugLiquificator.png",Vec2f(24, 32), 0);
 	AddIconToken("$icon_altar$", "Altar.png", Vec2f(24, 32), 0, teamnum);
 	AddIconToken("$icon_tavern_for_not_peasants$", "Vodka.png", Vec2f(8, 16), 0, teamnum);
     AddIconToken("$bannerchicken$", "BannerChicken.png", Vec2f(16, 32), 0, teamnum);
@@ -336,27 +338,27 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(CMap::tile_goldingot, "goldingot", "$goldingot_block$", "Mostly decorative block made from gold ingots \n ");
-		AddRequirement(b.reqs, "blob", "mat_goldingot", "Gold Ingots", 15);
+		AddRequirement(b.reqs, "blob", "mat_goldingot", "Gold Ingots", 3);
 		blocks[0].push_back(b);
 	}
 	{
 		BuildBlock b(CMap::tile_mithrilingot, "mithrilingot", "$mithrilingot_block$", "Mostly decorative block made from mithril ingots \n ");
-		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingots", 15);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingots", 3);
 		blocks[0].push_back(b);
 	}
 	{
 		BuildBlock b(CMap::tile_copperingot, "copperingot", "$copperingot_block$", "Mostly decorative block made from copper ingots \n ");
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingots", 15);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingots", 3);
 		blocks[0].push_back(b);
 	}
 	{
 		BuildBlock b(CMap::tile_steelingot, "steelingot", "$steelingot_block$", "Mostly decorative block made from steel ingots \n ");
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingots", 15);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingots", 3);
 		blocks[0].push_back(b);
 	}
 	{
 		BuildBlock b(CMap::tile_ironingot, "ironingot", "$ironingot_block$", "Mostly decorative block made from iron ingots \n ");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 15);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingots", 3);
 		blocks[0].push_back(b);
 	}
 	{
@@ -381,7 +383,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(CMap::tile_ground, "ground_block", "$ground_block$", "Dirt:\n\nFairly resistant to explosions.\nMay be only placed on dirt backgrounds or damaged dirt.");
-		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 10);
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
 		blocks[0].push_back(b);
 	}
 	
@@ -656,6 +658,18 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[2].push_back(b);
 	}
 	{
+		BuildBlock b(0, "smartstorage", "$smartstorage$", "Smart storage:\n\nAn advanced storage for storing multiple amount of different items.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 40);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 100);
+		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 500);
+
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(24, 24);
+		blocks[2].push_back(b);
+	}
+	{
 		BuildBlock b(0, "rhoppacker", "$icon_rhoppacker$", "Hoppacker:\n\nA safe machine capable of storing and packing items into a crate.");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 100);
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
@@ -792,12 +806,10 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[3].push_back(b);
 	}
 	{
-		BuildBlock b(0, "smartstorage", "$smartstorage$", "Smart storage:\n\nAn advanced storage for storing multiple amount of different items.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 40);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 100);
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 500);
-
+		BuildBlock b(0, "drillrig", "$icon_drillrig$", "Driller Mole:\n\nAn automatic drilling machine that mines resources underneath.");
+		AddRequirement(b.reqs, "blob", "drill", "Drill", 1);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
 		blocks[3].push_back(b);
@@ -845,21 +857,24 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[3].push_back(b);
 	}
 	{
-		BuildBlock b(0, "safe", "$icon_safe$", "Safe");
+		BuildBlock b(0, "safe", "$icon_safe$", "Steel safe:\n\nHas personal access with share option (insert paper with username). Also being provided as remote storage for neutrals.");
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		b.buildOnGround = true;
 		b.size.Set(32, 32);
 		blocks[3].push_back(b);
 	}
 	{
-		BuildBlock b(0, "drillrig", "$icon_drillrig$", "Driller Mole:\n\nAn automatic drilling machine that mines resources underneath.");
-		AddRequirement(b.reqs, "blob", "drill", "Drill", 1);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		BuildBlock b(0, "liquificator", "$icon_liquificator$", "Drug Liquificator:\n\nConverts various solid drugs into liquified to syringes, and liquified drugs to gases.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
+		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 6);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
 		b.buildOnGround = true;
-		b.size.Set(24, 24);
+		b.size.Set(24, 32);
 		blocks[3].push_back(b);
 	}
+	
 
 	//{
 	//	BuildBlock b(0, "collector", "$collector$", "Collector:\n\nGathers energy from closest generators and transfers to electric poles. Only one collector can take energy from single generators. Must be put away from other generators to be active.\n\nDistance: 8 blocks\nCan be toggled off");
