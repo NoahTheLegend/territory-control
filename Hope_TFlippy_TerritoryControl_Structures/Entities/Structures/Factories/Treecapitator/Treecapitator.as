@@ -1,5 +1,6 @@
 ﻿#include "Hitters.as"
 #include "TreeCommon.as"
+#include "MakeSeed.as";
 
 void onInit(CBlob @ this)
 {
@@ -58,12 +59,24 @@ void onTick(CBlob@ this)
 				{
 					this.server_PutInInventory(b);
 				}
+				else if (b.hasTag("has bulb"))
+				{
+					b.Untag("has bulb");
+					
+					CBlob@ bulb = server_CreateBlob("protopopovbulb", this.getTeamNum(), b.getPosition() + Vec2f(0, -3));
+					CBlob@ seed = server_MakeSeed(b.getPosition(), "protopopov_plant");
+					b.server_Die();
+					if (seed !is null)
+					{	
+					seed.Tag("gas immune");
+					}
+				}
 				else if (bname == "pumpkin_plant" || bname == "ganja_plant" || bname == "grain_plant" )
 				{
 					if (b.hasTag("has pumpkin") || b.hasTag("has pod") || b.hasTag("has grain"))
 					{
 						this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 0.5f, Hitters::saw);
-						this.server_Hit(this, this.getPosition(), Vec2f(0,0), 0.25f, Hitters::saw); // slightly break structure
+						//this.server_Hit(this, this.getPosition(), Vec2f(0,0), 0.25f, Hitters::saw); // slightly break structure
 					}
 				}
 				else if (!b.getShape().isStatic())
