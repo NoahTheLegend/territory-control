@@ -6,7 +6,7 @@ void onInit(CBlob@ this)
 	this.getShape().getConsts().mapCollisions = false;
 	this.getShape().SetOffset(Vec2f(-1.0,-3.0));
 	
-	this.set_u16("capacity", 100);
+	//this.set_u16("capacity", 100);
 	this.Tag("smart_storage");
 	this.Tag("builder always hit");
 	this.Tag("remote_storage");
@@ -20,7 +20,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor( CBlob@ this, CBlob@ caller )
 {
-	if (caller !is null)
+	/*if (caller !is null)
 	{
 		if ((this.getTeamNum() == caller.getTeamNum() || this.getTeamNum() > 6) && caller.isOverlapping(this))
 		{
@@ -35,7 +35,7 @@ void GetButtonsFor( CBlob@ this, CBlob@ caller )
 				}
 			}
 		}
-	}
+	}*/
 }
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
