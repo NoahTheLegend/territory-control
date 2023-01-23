@@ -178,8 +178,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					while (inv.getItemsCount() > 0)
 					{
 						CBlob@ item = inv.getItem(0);
-						caller.server_PutOutInventory(item);
-						this.server_PutInInventory(item);
+						if (!this.server_PutInInventory(item))
+						{
+							caller.server_PutInInventory(item);
+							break;
+						}
 					}
 				}
 			}
