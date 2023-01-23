@@ -49,9 +49,33 @@ void onTick(CBlob@ this)
 	
 	if (true_level <= 0.00f)
 	{
-		if (isServer() && !this.hasTag("transformed") && !this.hasTag("no_transform"))
+		if(this.hasTag("remove_crak"))
+		{
+		
+			CSprite@ sprite = this.getSprite();
+			Animation@ animation_run = sprite.getAnimation("run");
+			if (animation_run !is null) animation_run.time = 3;
+
+			Animation@ animation_strike = sprite.getAnimation("strike");
+			if (animation_strike !is null) animation_strike.time = 2;
+
+			Animation@ animation_build = sprite.getAnimation("build");
+			if (animation_build !is null) animation_build.time = 2;
+			
+			this.set_u8("charge_increment", this.get_u8("last_charge"));
+			this.set_u32("build delay", this.get_u32("last_delay"));
+			this.set_f32("voice pitch", this.get_f32("last_voice"));
+
+			this.Untag("remove_crak");
+		}
+		else if (isServer() && !this.hasTag("transformed"))
 		{
 			if (this.hasTag("human") && this.getConfig() != "hobo")
+			{
+				CBlob@ blob = server_CreateBlob("hobo", this.getTeamNum(), this.getPosition());
+				if (this.getPlayer() !is null) blob.server_SetPlayer(this.getPlayer());
+			}
+			else if (this.getConfig() == "piglet")
 			{
 				CBlob@ blob = server_CreateBlob("hobo", this.getTeamNum(), this.getPosition());
 				if (this.getPlayer() !is null) blob.server_SetPlayer(this.getPlayer());
@@ -70,24 +94,7 @@ void onTick(CBlob@ this)
 			this.Tag("transformed");
 			this.server_Die();
 		}
-		else if (this.hasTag("no_transform"))
-		{
-			CSprite@ sprite = this.getSprite();
-			Animation@ animation_run = sprite.getAnimation("run");
-			if (animation_run !is null) animation_run.time = 3;
-
-			Animation@ animation_strike = sprite.getAnimation("strike");
-			if (animation_strike !is null) animation_strike.time = 2;
-
-			Animation@ animation_build = sprite.getAnimation("build");
-			if (animation_build !is null) animation_build.time = 2;
-			
-			this.set_u8("charge_increment", this.get_u8("last_charge"));
-			this.set_u32("build delay", this.get_u32("last_delay"));
-			this.set_f32("voice pitch", this.get_f32("last_voice"));
-
-			this.Untag("no_transform");
-		}
+		
 	
 		if (isClient() && this.isMyPlayer())
 		{
