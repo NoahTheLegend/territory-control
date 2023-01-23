@@ -89,7 +89,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	
 	//time is sec(60) * min(60) * hours(24)* daysfrom 1970-jan-01
 	// 1 day = 86400  and  30 days = 2592000
-	if ((localtime - regtime)>=2592000) // Ban people registered last 30days
+	if ((localtime - regtime)<=2592000) // Ban people registered last 30days
 	{
 		CSecurity@ security = getSecurity();
 		bool newban = security.checkAccess_Feature(player, "newban");
