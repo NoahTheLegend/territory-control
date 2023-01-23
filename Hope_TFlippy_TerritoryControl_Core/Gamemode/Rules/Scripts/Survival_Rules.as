@@ -87,17 +87,16 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	}; // Add exceptions here
     */
 	
-	bool fin = loc_month > 2 ? (reg_month >= loc_month-1 && reg_year == loc_year) : (reg_month >= loc_month+10 && reg_year >= loc_year-1);
-	
-	if (fin) // Ban people registered last 2 months
+	//time is sec(60) * min(60) * hours(24)* daysfrom 1970-jan-01
+	// 1 day = 86400  and  30 days = 2592000
+	if ((localtime - regtime)>=2592000) // Ban people registered last 30days
 	{
 		CSecurity@ security = getSecurity();
 		bool newban = security.checkAccess_Feature(player, "newban");
 		//in security folder inside normal.cfg add newban; to end of features=
 		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
 		
-		print("new player less than 2 months checkAccess_Feature:" + newban);
-		
+		printf("new player Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + newban);
 		if(newban)
 		{
 			printf("|");

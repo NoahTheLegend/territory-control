@@ -3,6 +3,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("consume");
 	this.Tag("hopperable");
 	this.Tag("forcefeed_always");
+	this.Tag("dartguninjectable");
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)

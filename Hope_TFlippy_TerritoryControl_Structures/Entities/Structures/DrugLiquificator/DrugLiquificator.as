@@ -20,7 +20,7 @@ class DrugResults {
 	}
 };
 
-DrugResults[] DResults = {
+DrugResults[] NDrugResults = {
 	DrugResults("stimpill",2,"stim",1),
 	DrugResults("fuskpill",2,"fusk",1),
 	DrugResults("fusk",3,"mat_fusk",10),
@@ -32,8 +32,26 @@ DrugResults[] DResults = {
 	DrugResults("love",2,"mat_love",15),
 	DrugResults("boof",2,"mat_boof",25),
 	DrugResults("mat_ganja",8,"tea",1),
-	DrugResults("mat_protopopov",1,"mat_acid",50)
+	DrugResults("mat_protopopov",1,"mat_acid",50),
+	DrugResults("crak",2,"mat_crak",25)
 };
+//reversed result
+DrugResults[] RDrugResults = {
+	DrugResults("stim",1,"stimpill",2),
+	DrugResults("fusk",1,"fuskpill",2),
+	DrugResults("mat_fusk",10,"fusk",3),
+	DrugResults("rippio",1,"rippiopill",2),
+	DrugResults("mat_rippio",25,"rippio",2),
+	DrugResults("gooby",1,"goobypill",2),
+	DrugResults("paxilon",1,"paxilonpill",2),
+	DrugResults("mat_paxilon",20,"paxilon",2),
+	DrugResults("mat_love",15,"love",2),
+	DrugResults("mat_boof",25,"boof",2),
+	DrugResults("tea",1,"mat_ganja",8),
+	DrugResults("mat_acid",50,"mat_protopopov",1),
+	DrugResults("mat_crak",25,"crak",2)
+};
+
 
 
 void onInit(CBlob@ this)
@@ -42,7 +60,9 @@ void onInit(CBlob@ this)
 	this.getCurrentScript().tickFrequency = 90;
 
 	this.Tag("builder always hit");
-
+	this.addCommandID("setnormal");//set normal recipes
+	this.addCommandID("setrev");//set reversed recipes
+	this.set_bool("isReversed",false);
 
 	CSprite@ sprite = this.getSprite();
 	if (sprite !is null)
@@ -79,11 +99,39 @@ void onInit(CSprite@ this)
 }
 
 
+void GetButtonsFor( CBlob@ this, CBlob@ caller )
+{
+	if(this.get_bool("isReversed")){
+		CButton@ button = caller.CreateGenericButton(18, Vec2f(0, 0), this, this.getCommandID("setnormal"), "normal recipe");
+	}else{
+		CButton@ button = caller.CreateGenericButton(17, Vec2f(0, 0), this, this.getCommandID("setrev"), "reverse recipe");
+	}
+	
+
+}
+
+void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
+{
+	if (cmd == this.getCommandID("setnormal"))
+	{
+			this.set_bool("isReversed",false);
+			this.Sync("isReversed",true);
+	}
+	if (cmd == this.getCommandID("setrev"))
+	{
+			this.set_bool("isReversed",true);
+			this.Sync("isReversed",true);
+	}
+	
+}
+
+
 void onTick(CBlob@ this)
 {
 	CInventory@ inv = this.getInventory();
 	if (inv is null) return;
 
+	DrugResults[]@ DResults = this.get_bool("isReversed") ? @RDrugResults : @NDrugResults ;
 	DrugResults@ R;
 	for (u16 i = 0; i < DResults.length; i++)
 	{
@@ -103,8 +151,9 @@ void onTick(CBlob@ this)
 			CBlob@ res = server_CreateBlob(R.outName, this.getTeamNum(), this.getPosition()+Vec2f(0,12.0f));
 			if (res !is null)
 			{
+				//res.Tag("justmade");
 				res.server_SetQuantity(R.outAmount);
-				res.Tag("justmade");
+				
 				//dont put back in inventory as it can process again
 				//this.server_PutInInventory(res);
 			}
@@ -121,17 +170,23 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob is null) return;
 	
-	if(blob.hasTag("justmade")){
+	/*if(blob.hasTag("justmade")){
 		blob.Untag("justmade");
+		return;
+	}*/
+	if(blob.getTickSinceCreated()<=10){
 		return;
 	}
 	
 	if((blob.hasTag("material") || blob.hasTag("hopperable") || blob.hasTag("drug")) && !blob.isAttached()){
+		DrugResults[]@ DResults = this.get_bool("isReversed") ? @RDrugResults : @NDrugResults ;
 		for (u16 i = 0; i < DResults.length; i++)
 		{
-			if (DResults[i].inName != blob.getName()) continue;
-			if (isServer()) this.server_PutInInventory(blob);
-			if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
+			if (DResults[i].inName == blob.getName()){
+				if (isServer()) this.server_PutInInventory(blob);
+				if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
+				break;
+			}
 		}
 	}
 }
