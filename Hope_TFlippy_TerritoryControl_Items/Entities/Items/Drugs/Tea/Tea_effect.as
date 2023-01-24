@@ -70,7 +70,8 @@ void onTick(CBlob@ this)
 		this.set_f32("Gooby_Effect", 0.00f);
 		this.setAngleRadians(0.0f);
 		this.getSprite().SetEmitSoundPaused(true);
-		this.RemoveScript("Rippioed.as");
+		this.untag("no_suicide");
+		this.RemoveScript("Gooby_Effect.as");
 	}
 	if (this.hasScript("Rippioed.as"))
 	{

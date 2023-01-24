@@ -33,7 +33,8 @@ DrugResults[] NDrugResults = {
 	DrugResults("boof",2,"mat_boof",25),
 	DrugResults("mat_ganja",8,"tea",1),
 	DrugResults("mat_protopopov",1,"mat_acid",50),
-	DrugResults("crak",2,"mat_crak",25)
+	DrugResults("crak",2,"mat_crak",25),
+	DrugResults("polymorphine",2,"mat_polymorphine",25)
 };
 //reversed result
 DrugResults[] RDrugResults = {
@@ -49,7 +50,8 @@ DrugResults[] RDrugResults = {
 	DrugResults("mat_boof",25,"boof",2),
 	DrugResults("tea",1,"mat_ganja",8),
 	DrugResults("mat_acid",50,"mat_protopopov",1),
-	DrugResults("mat_crak",25,"crak",2)
+	DrugResults("mat_crak",25,"crak",2),
+	DrugResults("mat_polymorphine",25,"polymorphine",2)
 };
 
 
