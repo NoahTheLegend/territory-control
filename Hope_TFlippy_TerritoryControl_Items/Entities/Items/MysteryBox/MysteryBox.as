@@ -61,6 +61,7 @@ LootItem@[] c_items =
 	LootItem("puntgun", 1, 1, 225),
 	LootItem("juggernauthammer", 1, 1, 50),
 	LootItem("gyromat", 1, 1, 500),
+	LootItem("saddle", 1, 1, 800),
 	LootItem("bp_chemistry", 1, 1, 175),
 	LootItem("hobo", 1, 1, 122),
 	LootItem("illegalgunpart", 1, 1, 122),

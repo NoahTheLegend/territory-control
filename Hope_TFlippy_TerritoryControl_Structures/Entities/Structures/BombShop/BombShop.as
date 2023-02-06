@@ -146,7 +146,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "L.O.L. Warhead (1)", "$icon_mininuke$", "mat_mininuke-1", "A miniature nuclear warhead. Can be used as L.O.L. Warhead Launcher ammunition. Detonates upon impact.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);
-		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 40);
+		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 30);
 
 		s.spawnNothing = true;
 	}
@@ -183,7 +183,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "K.E.K. Warhead (1)", "$icon_kek$", "mat_explonuke-1", "$kek$\n\n\n\n\nCan be launched with L.O.L. warhead launcher.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 		AddRequirement(s.requirements, "blob", "mat_explodium", "Explodium", 5);
 		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 250);
 
