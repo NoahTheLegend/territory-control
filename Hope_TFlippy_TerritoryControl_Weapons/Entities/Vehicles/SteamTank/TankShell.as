@@ -145,7 +145,7 @@ void DoExplosion(CBlob@ this)
 	this.set_f32("map_damage_radius", 32.0f);
 	this.set_f32("map_damage_ratio", 0.25f);
 
-	Explode(this, 64.0f, 2.5f);
+	Explode(this, 64.0f, 4.0f);
 
 	for (int i = 0; i < XORRandom(4); i++) 
 	{

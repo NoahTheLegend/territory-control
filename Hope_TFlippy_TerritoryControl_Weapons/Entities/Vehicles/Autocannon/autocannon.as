@@ -10,7 +10,7 @@ void onInit(CBlob@ this)
 	this.Tag("turret");
 
 	Vehicle_Setup(this,
-	              50.0f, // move speed
+	              65.0f, // move speed
 	              0.1f,  // turn speed
 	              Vec2f(0.0f, 0.0f), // jump out velocity
 	              false  // inventory access
@@ -20,7 +20,7 @@ void onInit(CBlob@ this)
 	if (!this.get("VehicleInfo", @v)) return;
 
 	Vehicle_SetupWeapon(this, v,
-	                    45, // fire delay (ticks)
+	                    20, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(50.0f, 2.0f), // fire position offset
 	                    "mat_tankshell", // bullet ammo config name
