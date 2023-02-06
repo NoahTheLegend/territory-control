@@ -54,7 +54,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			this.server_SetHealth(-1);
 			this.server_Die();
-			server_CreateBlob("chicken", -1, this.getPosition() + Vec2f(0, -5.0f));
+			server_CreateBlob("chick", -1, this.getPosition() + Vec2f(0, -5.0f));
 		}
 	}
 }

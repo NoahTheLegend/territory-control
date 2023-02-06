@@ -90,11 +90,11 @@ void onTick(CMovement@ this)
 	Vec2f vel = blob.getVelocity();
 	if (left)
 	{
-		blob.AddForce(Vec2f((ride ? -1.5f : -1.0f) * vars.walkForce.x, vars.walkForce.y));
+		blob.AddForce(Vec2f(-1.5f * vars.walkForce.x, vars.walkForce.y));
 	}
 	if (right)
 	{
-		blob.AddForce(Vec2f((ride ? 1.5f : 1.0f) * vars.walkForce.x, vars.walkForce.y));
+		blob.AddForce(Vec2f(1.5f * vars.walkForce.x, vars.walkForce.y));
 	}
 
 	// jump at target
