@@ -14,6 +14,7 @@ void onInit(CBlob@ this)
 	this.server_setTeamNum(-1);
 	
 	this.Tag("ignore extractor");
+	this.Tag("ignore inserter");
 	
 	this.set_string("Owner", "");
 	this.addCommandID("sv_setowner");
@@ -52,6 +53,7 @@ void onTick(CBlob@ this)
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	this.inventoryButtonPos = Vec2f(0, 0);
+	if (!caller.isOverlapping(this)) return;
 
 	if (this.getMap().rayCastSolid(caller.getPosition(), this.getPosition())) return;
 	

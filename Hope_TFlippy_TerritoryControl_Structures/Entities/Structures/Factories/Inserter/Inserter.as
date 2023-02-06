@@ -48,6 +48,11 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 	}
 }
 
+bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
+{
+	return forBlob.isOverlapping(this);
+}
+
 void onInit(CBlob@ this)
 {
 	this.set_TileType("background tile", CMap::tile_castle_back);
@@ -71,7 +76,7 @@ void onTick(CBlob@ this)
 	if (cycle)
 	{
 		CBlob@ right = map.getBlobAtPosition(this.getPosition() + Vec2f(12 * sign, 0));
-		if (right !is null)
+		if (right !is null && !right.hasTag("ignore inserter"))
 		{
 			CInventory@ inv = right.getInventory();
 			CInventory@ t_inv = this.getInventory();
@@ -83,7 +88,7 @@ void onTick(CBlob@ this)
 				{
 					string blobName = right.getName();
 					if (item.canBePutInInventory(this) && t_inv.getItem(0) is null && 
-					    blobName != "builder" && blobName != "engineer" && blobName != "hazmat" ) //certain classes won't be affected
+					    blobName != "builder" && blobName != "engineer" && blobName != "hazmat") //certain classes won't be affected
 					{
 						this.server_PutInInventory(item);
 						this.getSprite().PlaySound("bridge_open.ogg", 1.00f, 1.00f);
