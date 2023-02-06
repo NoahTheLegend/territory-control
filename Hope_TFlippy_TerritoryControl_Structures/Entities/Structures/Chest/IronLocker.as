@@ -20,6 +20,7 @@ void onInit(CBlob@ this)
 	this.set_string("Owner", "");
 	this.addCommandID("sv_setowner");
 	this.addCommandID("sv_store");
+	this.addCommandID("sv_grab");
 
 	HarvestBlobMat[] mats = {};
 	mats.push_back(HarvestBlobMat(2.0f, "mat_ironingot"));
@@ -65,6 +66,10 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 			{
 				// params.write_u16(caller.getNetworkID()); // wtf why
 				CButton@ buttonOwner = caller.CreateGenericButton(28, Vec2f(0, -10), this, this.getCommandID("sv_store"), "Store", params);
+			}
+			if (this.getInventory() !is null && this.getInventory().getItemsCount() > 0)
+			{
+				CButton@ buttonOwner = caller.CreateGenericButton(16, Vec2f(0, 10), this, this.getCommandID("sv_grab"), "Grab all", params);
 			}
 		}
 	}
@@ -116,6 +121,27 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						if (!this.server_PutInInventory(item))
 						{
 							caller.server_PutInInventory(item);
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		if (cmd == this.getCommandID("sv_grab"))
+		{
+			CBlob@ caller = getBlobByNetworkID(params.read_u16());
+			if (caller !is null)
+			{
+				CInventory @inv = this.getInventory();
+				if (inv !is null)
+				{
+					while (inv.getItemsCount() > 0)
+					{
+						CBlob@ item = inv.getItem(0);
+						if (!caller.server_PutInInventory(item))
+						{
+							this.server_PutOutInventory(item);
 							break;
 						}
 					}
