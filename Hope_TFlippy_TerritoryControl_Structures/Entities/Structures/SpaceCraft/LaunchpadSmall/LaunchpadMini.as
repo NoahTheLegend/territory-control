@@ -204,7 +204,7 @@ void onTick(CBlob@ this)
                 //set requirements here
                 this.set_u16("mat_ironingot", 150);
                 this.set_u16("mat_steelingot", 50);
-                this.set_u16("mat_fuel", 100);
+                this.set_u16("mat_fuel", 200);
                 this.set_u16("mat_copperwire", 150);
                 this.set_u16("mat_carbon", 150);
                 this.set_u16("mat_titaniumingot", 150);
