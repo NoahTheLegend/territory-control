@@ -97,7 +97,8 @@ void onTick(CBlob@ this)
 						carried.server_DetachFromAll();
 					}
 					Vec2f dir = (target.getPosition()-this.getPosition());
-					carried.setVelocity(dir/1.5);
+					carried.setVelocity(dir/2.5);
+					carried.server_SetTimeToDie(0.5f);
 				}
 			}
 			else if (ap !is null && ap.getOccupied() is null && isServer())
