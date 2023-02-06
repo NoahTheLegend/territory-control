@@ -173,7 +173,7 @@ void onTick(CBlob@ this)
 								dropped.setVelocity(this.getVelocity()-Vec2f(0, this.getVelocity().y*0.4));
 								dropped.AddForce(Vec2f(0, 20.0f));
 								dropped.setPosition(this.getPosition() - Vec2f(0,-24.0));
-								dropped.IgnoreCollisionWhileOverlapped(this);
+								dropped.IgnoreCollisionWhileOverlapped(this, 60);
 								dropped.SetDamageOwnerPlayer(pilot.getPlayer());
 								dropped.Tag("no pickup");
 								dropped.Tag("change rotation");
