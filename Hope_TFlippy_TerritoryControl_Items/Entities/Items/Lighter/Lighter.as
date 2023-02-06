@@ -48,7 +48,7 @@ void onTick(CBlob@ this)
 				if (isServer())
 				{
 					holder.SetLight(true);
-					holder.SetLightRadius(16.00f);
+					holder.SetLightRadius(32.00f);
 					holder.SetLightColor(SColor(255, 255, 100, 40));
 				}
 			}
@@ -76,7 +76,7 @@ void onTick(CBlob@ this)
 						getMap().rayCastSolidNoBlobs(this.getPosition(), pos, pos);
 						CBlob@ blob = getMap().getBlobAtPosition(pos);
 						
-						if (blob !is null)
+						if (blob !is null && !(blob.getName() == "fireplace"))
 						{
 							this.server_Hit(blob, pos, Vec2f(0, 0), 0.25f, Hitters::fire, true);
 						}
