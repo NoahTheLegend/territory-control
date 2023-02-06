@@ -231,6 +231,14 @@ bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 	else return true;
 }
 
+void onDie(CBlob@ this)
+{
+	if (this.getPlayer() !is null)
+	{
+		ResetPlayer(this);
+	}
+}
+
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (isServer())
