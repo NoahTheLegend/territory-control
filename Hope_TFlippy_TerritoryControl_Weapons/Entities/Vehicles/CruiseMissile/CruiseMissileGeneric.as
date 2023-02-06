@@ -41,6 +41,24 @@ void DoExplosion(CBlob@ this)
 		return;
 	}
 
+	if (isServer())
+	{
+		CInventory@ inv = this.getInventory();
+		if (inv !is null)
+		{
+			for (u8 i = 0; i < inv.getItemsCount(); i++)
+			{
+				CBlob@ b = inv.getItem(i);
+				if (b !is null && b.hasTag("explosive"))
+				{
+					//b.server_PutOutInventory(this);
+					b.Tag("DoExplode");
+					b.server_Die();
+				}
+			}
+		}
+	}
+
 	this.set_f32("map_damage_radius", 48.0f);
 	this.set_f32("map_damage_ratio", 0.4f);
 	f32 angle = this.get_f32("bomb angle");
