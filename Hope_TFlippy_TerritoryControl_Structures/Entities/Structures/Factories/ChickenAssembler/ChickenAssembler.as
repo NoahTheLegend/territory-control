@@ -167,6 +167,8 @@ void onInit(CBlob@ this)
 	this.Tag("hassound");
 	
 	this.addCommandID("set");
+	this.addCommandID("reverse");
+	this.set_bool("reverse", false);
 
 	this.set_u8("crafting", 0);
 
@@ -181,6 +183,7 @@ void GetButtonsFor( CBlob@ this, CBlob@ caller )
 		params.write_u16(caller.getNetworkID());
 
 		CButton@ button = caller.CreateGenericButton(21, Vec2f(0, -16), this, ChickenAssemblerMenu, "Set Item");
+		CButton@ button1 = caller.CreateGenericButton(19, Vec2f(-12, -8), this, this.getCommandID("reverse"), this.get_bool("reverse") ? "\nPack to crates":"\nDrop items");
 	}
 }
 
@@ -227,6 +230,14 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 		u8 setting = params.read_u8();
 		this.set_u8("crafting", setting);
 	}
+	else if (cmd == this.getCommandID("reverse"))
+	{
+		if (isServer())
+		{
+			this.set_bool("reverse", !this.get_bool("reverse"));
+			this.Sync("reverse", true);
+		}
+	}
 }
 
 void onTick(CBlob@ this)
@@ -256,19 +267,30 @@ void onTick(CBlob@ this)
 				getMap().getBlobsInRadius(this.getPosition(), 64.0f, @crates);
 
 				CBlob@ crate;
-				bool dont_spawn_crate = false;
-				for (u8 i = 0; i < crates.length; i++)
+				bool dont_spawn_crate = this.get_bool("reverse");
+				if (!dont_spawn_crate)
 				{
-					if (crates[i] !is null && crates[i].getName() == "cacrate")
+					for (u8 i = 0; i < crates.length; i++)
 					{
-						CInventory@ inv = crates[i].getInventory();
-						if (inv.isFull() || inv.getItemsCount() > 9 - (item.resultname == "mat_battery" ? Maths::Floor(item.resultcount/50) : item.resultcount)) break;
-						dont_spawn_crate = true;
-						@crate = @crates[i];
+						if (crates[i] !is null && crates[i].getName() == "cacrate")
+						{
+							CInventory@ inv = crates[i].getInventory();
+							if (inv.isFull() || inv.getItemsCount() > 9 - (item.resultname == "mat_battery" ? Maths::Floor(item.resultcount/50) : item.resultcount)) break;
+							dont_spawn_crate = true;
+							@crate = @crates[i];
+						}
 					}
 				}
 				if (!dont_spawn_crate) @crate = server_CreateBlobNoInit("cacrate");
-				if (crate !is null)
+
+				if (crate is null)
+				{
+					for (uint i = 0; i < item.resultcount; i++)
+					{
+						CBlob@ blob = server_CreateBlob(item.resultname, 250, this.getPosition());
+					}
+				}
+				else
 				{
 					crate.server_setTeamNum(250);
 					crate.setPosition(this.getPosition());
