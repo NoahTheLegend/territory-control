@@ -2,7 +2,7 @@
 #include "RunnerCommon.as";
 #include "Hitters.as";
 
-const int max = 4;
+const int max = 12;
 
 void onInit(CBlob@ this)
 {
