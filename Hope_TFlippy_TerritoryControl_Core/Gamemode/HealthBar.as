@@ -17,7 +17,8 @@ void onRender(CSprite@ this)
 		Vec2f pos2d = blob.getInterpolatedScreenPos() + Vec2f(0, 20);
 		Vec2f dim = Vec2f(24, 8);
 		
-		const f32 y = blob.getHeight() * 2.4f;
+		const f32 zoom = getCamera().targetDistance * getDriver().getResolutionScaleFactor();
+		const f32 y = blob.getHeight() * zoom;
 		const f32 initialHealth = blob.getInitialHealth();
 		const f32 blobHealth = blob.getHealth();
 		bool chicken = false;
