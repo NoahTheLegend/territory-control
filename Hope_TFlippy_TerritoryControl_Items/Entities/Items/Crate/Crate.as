@@ -221,7 +221,7 @@ void Land(CBlob@ this)
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
-	return !blob.hasTag("parachute");
+	return !blob.hasTag("parachute") && blob.get_string("crateType") != "chicken";
 }
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
