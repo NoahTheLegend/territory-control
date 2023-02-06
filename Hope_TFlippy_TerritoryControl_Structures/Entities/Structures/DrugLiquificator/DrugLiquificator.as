@@ -62,8 +62,7 @@ void onInit(CBlob@ this)
 	this.getCurrentScript().tickFrequency = 90;
 
 	this.Tag("builder always hit");
-	this.addCommandID("setnormal");//set normal recipes
-	this.addCommandID("setrev");//set reversed recipes
+	this.addCommandID("setrev");
 	this.set_bool("isReversed",false);
 
 	CSprite@ sprite = this.getSprite();
@@ -100,33 +99,19 @@ void onInit(CSprite@ this)
 	}
 }
 
+//void GetButtonsFor( CBlob@ this, CBlob@ caller )
+//{
+//	CButton@ button = caller.CreateGenericButton(17, Vec2f(8, 0), this, this.getCommandID("setrev"), "Reverse recipes");
+//}
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
-{
-	if(this.get_bool("isReversed")){
-		CButton@ button = caller.CreateGenericButton(18, Vec2f(0, 0), this, this.getCommandID("setnormal"), "normal recipe");
-	}else{
-		CButton@ button = caller.CreateGenericButton(17, Vec2f(0, 0), this, this.getCommandID("setrev"), "reverse recipe");
-	}
-	
-
-}
-
-void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
-{
-	if (cmd == this.getCommandID("setnormal"))
-	{
-			this.set_bool("isReversed",false);
-			this.Sync("isReversed",true);
-	}
-	if (cmd == this.getCommandID("setrev"))
-	{
-			this.set_bool("isReversed",true);
-			this.Sync("isReversed",true);
-	}
-	
-}
-
+//void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
+//{
+//	if (cmd == this.getCommandID("setrev"))
+//	{
+//		this.set_bool("isReversed", !this.get_bool("isReversed"));
+//		this.Sync("isReversed",true);
+//	}
+//}
 
 void onTick(CBlob@ this)
 {
@@ -143,24 +128,23 @@ void onTick(CBlob@ this)
 		u16 count = inv.getCount(R.inName);
 		
 		if (count < R.inAmount) continue;
-
 		
 		if (isServer())
 		{
 			CBlob@ invBlob = inv.getBlob();
 			invBlob.TakeBlob(R.inName, R.inAmount);
 
-			CBlob@ res = server_CreateBlob(R.outName, this.getTeamNum(), this.getPosition()+Vec2f(0,12.0f));
+			CBlob@ res = server_CreateBlob(R.outName, this.getTeamNum(), this.getPosition()+Vec2f(0,8.0f));
 			if (res !is null)
 			{
 				//res.Tag("justmade");
 				res.server_SetQuantity(R.outAmount);
-				
+				if (this.get_bool("isReversed")) this.server_PutInInventory(res);
 				//dont put back in inventory as it can process again
 				//this.server_PutInInventory(res);
 			}
 		}
-		else if (isClient())
+		if (isClient())
 		{
 			this.getSprite().PlaySound("DrugLab_Create_Creamy.ogg", 1.00f, 1.10f);
 			this.getSprite().PlaySound("DrugLab_Create_Acidic.ogg", 0.65f, 1.25f);
