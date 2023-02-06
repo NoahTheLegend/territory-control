@@ -319,8 +319,8 @@ const string[] rolling = { // from 0 to 2500, as bigger value as more chance to 
     "molecularfabricator-750",
     "oof-650",
     "pheromones-2000",
-    "shito-5",
-    "suszooka-5",
+    "shito-15",
+    "suszooka-25",
     "zatniktel-400",
     "zatniktelbig-250"
 };
@@ -343,10 +343,10 @@ const string[] matAsteroid = {
 const u16[] valAsteroid = {
     3500,
     1500,
-    1200,
+    1350,
     1000,
     1250,
-    800,
+    1500,
     1000,
     100,
     75,
@@ -361,7 +361,7 @@ const u16[] yieldAsteroid = { // depending on the value
     80,
     250,
     100,
-    250, // mithril
+    300, // mithril
     500,
     300,
     150,
