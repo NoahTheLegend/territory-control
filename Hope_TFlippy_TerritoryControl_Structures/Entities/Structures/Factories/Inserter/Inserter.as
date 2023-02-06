@@ -108,7 +108,7 @@ void onTick(CBlob@ this)
 				CBlob@ item = inv.getItem(0);
 				if (item !is null)
 				{
-					if (item.canBePutInInventory(left)) 
+					if (item.canBePutInInventory(left) && left.getInventory() !is null && !left.getInventory().isFull()) 
 					{
 						left.server_PutInInventory(item);
 						this.getSprite().PlaySound("bridge_close.ogg", 1.00f, 1.00f);
