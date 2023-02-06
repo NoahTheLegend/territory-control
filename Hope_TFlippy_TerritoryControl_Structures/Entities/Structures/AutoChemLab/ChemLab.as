@@ -97,12 +97,14 @@ void onTick(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
 	if (blob is null) return;
-	if ((!blob.get_bool("state") && blob.hasTag("togglesupport"))) // || blob.get_u32("elec") < 300) return; // set this to stop structure
-	if(this.getSpriteLayer("gear1") !is null){
-		this.getSpriteLayer("gear1").RotateBy(5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
-	}
-	if(this.getSpriteLayer("gear2") !is null){
-		this.getSpriteLayer("gear2").RotateBy(-5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
+	if ((blob.get_bool("state") || !blob.hasTag("togglesupport"))) // || blob.get_u32("elec") < 300) return; // set this to stop structure
+	{
+		if(this.getSpriteLayer("gear1") !is null){
+			this.getSpriteLayer("gear1").RotateBy(5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
+		}
+		if(this.getSpriteLayer("gear2") !is null){
+			this.getSpriteLayer("gear2").RotateBy(-5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
+		}
 	}
 }
 
