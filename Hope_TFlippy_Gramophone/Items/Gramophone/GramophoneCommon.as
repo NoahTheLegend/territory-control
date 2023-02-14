@@ -79,7 +79,8 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Bella Ciao", "Disc_BellaCiao.ogg"),// 62
 	GramophoneRecord("Warszawianka", "Disc_Warszawianka.ogg"),// 63
 	GramophoneRecord("Deus Pátria Rei", "Disc_DeusPatriaRei.ogg"),// 64
-	GramophoneRecord("Cadia Stands - Inspection", "Disc_Inspection.ogg")// 65
+	GramophoneRecord("Cadia Stands - Inspection", "Disc_Inspection.ogg"),// 65
+	GramophoneRecord("Famous Opera", "Disc_Opera.ogg")// 66
 };
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
 // example: !disc 0 will give you mountain king
