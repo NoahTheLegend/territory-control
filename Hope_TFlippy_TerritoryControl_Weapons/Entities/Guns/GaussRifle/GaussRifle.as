@@ -7,12 +7,12 @@ void onInit(CBlob@ this)
 	//General
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
 	settings.TOTAL = 1; //Max amount of ammo that can be in a clip
-	settings.FIRE_INTERVAL = 10; //Time in between shots
-	settings.RELOAD_TIME = 15; //Time it takes to reload (in ticks)
+	settings.FIRE_INTERVAL = 15; //Time in between shots
+	settings.RELOAD_TIME = 40; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_titaniumingot"; //Ammunition the gun takes
 
 	//Bullet
-	settings.B_PER_SHOT = 10; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
+	settings.B_PER_SHOT = 9; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
 	settings.B_SPREAD = 0; //the higher the value, the more 'uncontrollable' bullets get
 	settings.B_GRAV = Vec2f(0, 0.001); //Bullet gravity drop
 	settings.B_SPEED = 150; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
@@ -21,7 +21,7 @@ void onInit(CBlob@ this)
 	settings.B_TYPE = HittersTC::railgun_lance; //Type of bullet the gun shoots | hitter
 
 	//Recoil
-	settings.G_RECOIL = -27; //0 is default, adds recoil aiming up
+	settings.G_RECOIL = -75; //0 is default, adds recoil aiming up
 	settings.G_RANDOMX = true; //Should we randomly move x
 	settings.G_RANDOMY = false; //Should we randomly move y, it ignores g_recoil
 	settings.G_RECOILT = 7; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)

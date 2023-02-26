@@ -19,8 +19,10 @@ void onInit(CBlob@ this)
 	VehicleInfo@ v;
 	if (!this.get("VehicleInfo", @v)) return;
 
+	this.set_u32("no_shoot", 0);
+
 	Vehicle_SetupWeapon(this, v,
-	                    90, // fire delay (ticks)
+	                    120, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(-6.0f, 2.0f), // fire position offset
 	                    "mat_howitzershell", // bullet ammo config name
@@ -134,7 +136,8 @@ void onTick(CBlob@ this)
 			arm.RotateBy(rotation, Vec2f(facing_left ? -4.0f : 4.0f, 0.0f));
 		}
 
-		Vehicle_StandardControls(this, v);
+		if (getGameTime() >= this.get_u32("no_shoot"))
+			Vehicle_StandardControls(this, v);
 	}
 	if (this.hasTag("invincible") && this.isAttached())
 	{
@@ -230,22 +233,10 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)
 {
 	if (attached.hasTag("bomber")) return;
-
-	if (attached.getPlayer() !is null && this.hasTag("invincible"))
-	{
-		if (this.isAttached())
-		{
-			attached.Tag("invincible");
-			attached.Tag("invincibilityByVehicle");
-		}
-	}
+	this.set_u32("no_shoot", getGameTime()+120);
 }
 
 void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 {
-	if (detached.hasTag("invincibilityByVehicle"))
-	{
-		detached.Untag("invincible");
-		detached.Untag("invincibilityByVehicle");
-	}
+
 }

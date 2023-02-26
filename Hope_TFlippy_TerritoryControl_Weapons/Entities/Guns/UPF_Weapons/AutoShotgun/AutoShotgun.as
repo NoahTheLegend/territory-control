@@ -21,7 +21,7 @@ void onInit(CBlob@ this)
 	settings.B_TYPE = HittersTC::shotgun; //Type of bullet the gun shoots | hitter
 
 	//Recoil
-	settings.G_RECOIL = -20; //0 is default, adds recoil aiming up
+	settings.G_RECOIL = -14; //0 is default, adds recoil aiming up
 	//settings.G_RANDOMX = true; //Should we randomly move x
 	//settings.G_RANDOMY = false; //Should we randomly move y, it ignores g_recoil
 	settings.G_RECOILT = 7; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)
