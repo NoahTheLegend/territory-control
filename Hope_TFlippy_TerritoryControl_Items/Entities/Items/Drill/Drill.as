@@ -302,6 +302,12 @@ void onTick(CBlob@ this)
 								hit_ground = true;
 							}
 
+							if (holder.getPlayer() !is null && b.hasTag(""+holder.getPlayer().getNetworkID())
+							&& !this.get_bool("can_hit_team_blobs"))
+							{
+								continue;
+							}
+
 							if ((b.getTeamNum() == holder.getTeamNum() && !this.get_bool("can_hit_team_blobs")) ||
 									hit_ground && !is_ground)
 							{
