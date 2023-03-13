@@ -18,6 +18,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("consume"))
 	{
+		if (getGameTime() < this.get_u32("consume_delay")) return;
+		this.set_u32("consume_delay", getGameTime()+2);
 		this.getSprite().PlaySound("gasp.ogg");
 		this.getSprite().PlaySound("Gurgle2.ogg");
 

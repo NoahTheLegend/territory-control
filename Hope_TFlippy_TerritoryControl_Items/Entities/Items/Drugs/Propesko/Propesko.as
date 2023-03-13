@@ -17,6 +17,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("consume"))
 	{
+		if (getGameTime() < this.get_u32("consume_delay")) return;
+		this.set_u32("consume_delay", getGameTime()+2);
 		// this.getSprite().PlaySound("Huuu.ogg", 1.0f, 1.5f);
 		this.getSprite().PlaySound("drunk_fx3.ogg", 2.00f, 0.75f);
 

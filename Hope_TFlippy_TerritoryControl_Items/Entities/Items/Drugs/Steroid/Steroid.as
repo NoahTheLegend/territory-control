@@ -21,6 +21,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("consume"))
 	{
+		if (getGameTime() < this.get_u32("consume_delay")) return;
+		this.set_u32("consume_delay", getGameTime()+2);
 		int rnd = XORRandom(2);
 		this.getSprite().PlaySound("Syringe_Injection_"+rnd+".ogg", 2.00f, 1.00f);
 
