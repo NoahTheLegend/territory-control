@@ -48,6 +48,11 @@ void onTick(CBlob@ this)
 	}
 	DoKnockedUpdate(this);
 
+	if (this.isAttached() && isKnocked(this))
+	{
+		return;
+	}
+
 	if (getGameTime() <= this.get_u32("disable_gliding"))
 	{
 		this.setPosition(Vec2f(this.getPosition().x, this.getOldPosition().y));
