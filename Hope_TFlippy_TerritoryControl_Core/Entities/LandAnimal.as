@@ -90,11 +90,11 @@ void onTick(CMovement@ this)
 	Vec2f vel = blob.getVelocity();
 	if (left)
 	{
-		blob.AddForce(Vec2f(-1.5f * vars.walkForce.x, vars.walkForce.y));
+		blob.AddForce(Vec2f(-1.25f * vars.walkForce.x, vars.walkForce.y));
 	}
 	if (right)
 	{
-		blob.AddForce(Vec2f(1.5f * vars.walkForce.x, vars.walkForce.y));
+		blob.AddForce(Vec2f(1.25f * vars.walkForce.x, vars.walkForce.y));
 	}
 
 	// jump at target
@@ -113,7 +113,7 @@ void onTick(CMovement@ this)
 	}
 
 	// jump if blocked
-	f32 mody = 1.0f;
+	f32 mody = 0.75f;
 	if (blob.getName() == "piglet") mody = 3.5f;
 	if (left || right || up)
 	{
@@ -124,7 +124,7 @@ void onTick(CMovement@ this)
 		                                               )
 		   )
 		{
-			f32 mod = blob.isInWater() ? 0.23f : 1.0f;
+			f32 mod = blob.isInWater() ? 0.23f : 0.75f;
 			blob.AddForce(Vec2f(mod * vars.jumpForce.x, mod * vars.jumpForce.y * (ride ? 1.5f : 1.0f) * mody));
 		}
 	}
