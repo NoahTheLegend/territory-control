@@ -15,6 +15,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("consume"))
 	{
+		if (getGameTime() < this.get_u32("consume_delay")) return;
+		this.set_u32("consume_delay", getGameTime()+2);
 		this.getSprite().PlaySound("shid.ogg", 0.50f, this.get_f32("voice pitch"));
 
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
