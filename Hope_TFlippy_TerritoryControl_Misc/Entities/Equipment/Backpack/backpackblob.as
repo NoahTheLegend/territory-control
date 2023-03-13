@@ -3,6 +3,13 @@ void onInit(CBlob@ this)
 	this.SetVisible(false);
 	AddIconToken("$store_inventory$", "InteractionIcons.png", Vec2f(32, 32), 28);
 	this.addCommandID("store inventory");
+	this.addCommandID("client sync");
+
+	if (isClient())
+	{
+		CBitStream params;
+		this.SendCommand(this.getCommandID("client sync"), params);
+	}
 }
 
 void onTick(CBlob@ this)
@@ -31,7 +38,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (isServer())
 	{
-		if (cmd == this.getCommandID("store inventory"))
+		if (cmd == this.getCommandID("client sync"))
+		{
+			this.Sync("holder_id", true);
+		}
+		else if (cmd == this.getCommandID("store inventory"))
 		{
 			CBlob@ caller = getBlobByNetworkID(params.read_u16());
 			if (caller !is null)
