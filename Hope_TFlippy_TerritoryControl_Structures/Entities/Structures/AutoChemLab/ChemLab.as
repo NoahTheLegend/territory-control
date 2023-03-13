@@ -281,7 +281,8 @@ void React(CBlob@ this)
 				{
 					ganjapod_blob.server_Die();
 
-					Material::createFor(this, "mat_boof", 15 + XORRandom(5));
+					Material::createFor(this, "mat_boof", 10 + XORRandom(5));
+					Material::createFor(this, "boof", 1);
 				}
 
 				ShakeScreen(20.0f, 30, this.getPosition());
