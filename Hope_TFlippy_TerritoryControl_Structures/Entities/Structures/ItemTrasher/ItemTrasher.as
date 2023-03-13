@@ -21,7 +21,7 @@ void onInit(CBlob@ this)
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
-	if (this is null || blob is null) return;
+	if (this is null || blob is null || blob.hasTag("player") || blob.hasTag("npc")) return;
 	if (this.get_string("filtername") == "turned off" || blob.getName() != this.get_string("filtername")) return;
 	if (!blob.isAttached() && !blob.hasTag("dead"))
 	{
