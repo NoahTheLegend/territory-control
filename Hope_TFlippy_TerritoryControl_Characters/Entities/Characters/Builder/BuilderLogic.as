@@ -43,7 +43,16 @@ void onInit(CBlob@ this)
 
 	SetHelp(this, "help self action2", "builder", "$Pick$Dig/Chop  $KEY_HOLD$$RMB$", "", 3);
 
-	if (!this.exists("mining_hardness")) this.set_u8("mining_hardness", 2);
+	if (!this.exists("mining_hardness"))
+	{
+		this.set_u8("mining_hardness", 2);
+		//if (this.getName() == "rockman" || this.getName() == "advancedengineer")
+		//{
+		//	this.set_u8("mining_hardness", 3);
+		//}
+	}
+	
+
 	if (!this.exists("max_build_length")) this.set_f32("max_build_length", 4.00f);
 	if (!this.exists("build delay")) this.set_u32("build delay", 4);
 	
