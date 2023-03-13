@@ -85,17 +85,17 @@ void onInit(CBlob@ this)
 	{
 		{
 			ShopItem@ s = addShopItem(this, "A fresh grain Seed", "$seed$", "grain_seed", "A common food source which can be used for various tasks.\nConvert grain into seeds.");
-			AddRequirement(s.requirements, "coin", "", "Coins", 350);
+			AddRequirement(s.requirements, "coin", "", "Coins", 400);
 			s.spawnNothing = true;
 		}
 		{
 			ShopItem@ s = addShopItem(this, "A fresh ganja Seed", "$seed$", "ganja_seed", "A plant which is known for its drug properties.\nConvert a ganja pod into a seed.", true);
-			AddRequirement(s.requirements, "coin", "", "Coins", 750);
+			AddRequirement(s.requirements, "coin", "", "Coins", 600);
 			s.spawnNothing = true;
 		}
 		{
 			ShopItem@ s = addShopItem(this, "A fresh pumpkin Seed", "$seed$", "pumpkin_seed", "A large squash fun for festivities.\nAttempt to convert a pumpkin into a seed.", true);
-			AddRequirement(s.requirements, "coin", "", "Coins", 750);
+			AddRequirement(s.requirements, "coin", "", "Coins", 500);
 			s.spawnNothing = true;
 		}
 		{

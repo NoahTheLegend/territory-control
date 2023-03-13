@@ -64,7 +64,7 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 	f32 mod = Maths::Clamp(1.00f - (dist / 192.00f), 0, 1);
 	f32 force = Maths::Clamp(blob.getRadius() * 70 * mod * 3, 0, blob.getMass() * 50);
 	
-	blob.AddForce(dir * (force / 2));
+	blob.AddForce(dir * (force / 2.75f));
 	//SetKnocked(blob, 150 * mod);
 
 

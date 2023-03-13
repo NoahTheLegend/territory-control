@@ -288,8 +288,6 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Anti-pickup Magnet", "$apmagnet$", "apmagnet", "Disables auto-pickup");
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 2);
-		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 2);
 		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
 		s.customButton = true;
