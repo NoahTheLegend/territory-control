@@ -84,7 +84,6 @@ bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 
 void onTick(CBlob@ this)
 {
-	if (getGameTime()%30==0 && this.isInInventory()) this.server_Die(); // if will be causing problems, add isServer()
 	if (this.getTickSinceCreated() > 30)
 	{
 		ShapeConsts@ consts = this.getShape().getConsts();

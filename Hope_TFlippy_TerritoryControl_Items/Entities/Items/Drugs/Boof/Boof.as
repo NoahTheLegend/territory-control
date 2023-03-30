@@ -7,6 +7,9 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (getGameTime() <= this.get_u32("button_delay")) return;
+	this.set_u32("button_delay", getGameTime()+5);
+
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
 	caller.CreateGenericButton(22, Vec2f(0, 0), this, this.getCommandID("consume"), "Smoke!", params);
