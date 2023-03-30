@@ -8,7 +8,8 @@ void onInit(CRules@ this)
 	this.addCommandID("pick teams");
 	this.addCommandID("pick spectator");
 	this.addCommandID("pick none");
-
+	this.addCommandID("sync teamkick");
+	
 	AddIconToken("$TEAMS$", "GUI/MenuItems.png", Vec2f(32, 32), 1);
 	AddIconToken("$SPECTATOR$", "GUI/MenuItems.png", Vec2f(32, 32), 19);
 }
@@ -78,7 +79,11 @@ void ReadChangeTeam(CRules@ this, CBitStream @params, int team)
 		if (player.getTeamNum() <= 100)
 		{
 			player.set_u32("teamkick_time", getGameTime() + 30 * 60 * 2.5f);
-			player.Sync("teamkick_time", true);
+			//player.Sync("teamkick_time", true); bad deltas
+			CBitStream params;
+			params.write_u16(player.getNetworkID());
+			params.write_u32(player.get_u32("teamkick_time"));
+			this.SendCommand(this.getCommandID("sync teamkick"), params);
 		}
 	
 		player.server_setTeamNum(100 + XORRandom(100));
@@ -115,5 +120,19 @@ void onCommand(CRules@ this, u8 cmd, CBitStream @params)
 	else if (cmd == this.getCommandID("pick none"))
 	{
 		getHUD().ClearMenus();
+	}
+	else if (cmd == this.getCommandID("sync teamkick"))
+	{
+		if (isClient())
+		{
+			u16 playerid;
+			u32 val;
+			if (!params.saferead_u16(playerid)) return;
+			if (!params.saferead_u32(val)) return;
+
+			CPlayer@ p = getPlayerByNetworkId(playerid);
+			if (p is null) return;
+			p.set_u32("teamkick_time", val);
+		}
 	}
 }

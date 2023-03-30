@@ -51,6 +51,8 @@ bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 
 void onTick(CBlob@ this)
 {
+	if (this is null) return;
+
 	RunnerMoveVars@ moveVars;
 	if (this.get("moveVars", @moveVars))
 	{
@@ -186,6 +188,7 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
+	if (this is null) return;
 	if (cmd == this.getCommandID("mg_explode"))
 	{
 		if (isServer())

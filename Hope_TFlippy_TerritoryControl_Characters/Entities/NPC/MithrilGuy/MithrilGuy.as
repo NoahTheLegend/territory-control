@@ -163,6 +163,7 @@ void onTick(CBlob@ this)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
+	if (this is null) return;
 	if (cmd == this.getCommandID("mg_explode"))
 	{
 		if (isServer())
@@ -217,6 +218,7 @@ void onDie(CBlob@ this)
 void onTick(CBrain@ this)
 {
 	if (!isServer()) return;
+	if (this is null) return;
 
 	CBlob @blob = this.getBlob();
 
