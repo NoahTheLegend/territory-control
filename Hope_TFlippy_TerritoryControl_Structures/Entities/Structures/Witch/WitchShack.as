@@ -252,6 +252,7 @@ const string[] tips = {
 	"Gooby = [pressure > 75000 | heat > 1500 | Rippio | Fiks | Meat]", // lie, explode
 	"Explodium = [heat < 300 | DangerMeat >= 15]",
 	"Vodka = [heat > 1000 | Grain]",
+	"Cider = [heat < 500 | pressure > 10000 | Pumpkin]",
 	"Crack (small chance) and Coal = [pressure < 5000 | heat > 500 | Fiks]",
 	"Paxilon and Boof = [pressure > 100000 | heat > 1000 | Methane | Oil]", // lie, make fuel and explode
 	"Sosek = [pressure > 50000 | heat > 1500 | Vodka | Fuel >= 50 | Coal >= 50]",
