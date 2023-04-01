@@ -8,7 +8,7 @@ const string food_queue = "food_queue";
 
 void onInit(CBlob@ this)
 {
-	FoodQueue fq("grain", 30);
+	FoodQueue fq("grain", 45);
 	this.set(food_queue, fq);
 }
 
