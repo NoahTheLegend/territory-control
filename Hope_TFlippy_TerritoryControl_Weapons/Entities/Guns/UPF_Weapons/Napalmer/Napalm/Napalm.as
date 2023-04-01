@@ -49,7 +49,7 @@ void onTick(CBlob@ this)
 			
 			if (isServer())
 			{
-				this.server_Hit(blob, blob.getPosition(), Vec2f(0, 0), 0.0f, Hitters::fire);
+				this.server_Hit(blob, blob.getPosition(), Vec2f(0, 0), 0.175f, Hitters::fire);
 				if (XORRandom(5) == 0) this.server_Die();
 			}
 		}
