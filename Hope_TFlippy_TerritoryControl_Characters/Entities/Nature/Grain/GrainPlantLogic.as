@@ -5,6 +5,7 @@
 void onInit(CBlob@ this)
 {
 	this.Tag("nature");
+	this.Tag("plant");
 	
 	this.SetFacingLeft(XORRandom(2) == 0);
 
@@ -55,5 +56,6 @@ void GrowGrain(CBlob @this)
 	}
 
 	this.Tag("has grain");
+	this.Tag("has fruit");
 	this.getCurrentScript().runFlags |= Script::remove_after_this;
 }

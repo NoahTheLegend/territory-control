@@ -9,6 +9,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("builder always hit");
 	this.Tag("nature");
+	this.Tag("plant");
 	
 	this.set_u8(growth_time, 60);
 	this.set_u8(grown_amount, 8);
@@ -31,6 +32,7 @@ void onTick(CBlob@ this)
 void GrowProtopopov(CBlob @this)
 {
 	this.Tag("has bulb");
+	this.Tag("has fruit");
 	this.getCurrentScript().runFlags |= Script::remove_after_this;
 }
 

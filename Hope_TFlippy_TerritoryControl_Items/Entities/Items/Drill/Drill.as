@@ -290,7 +290,7 @@ void onTick(CBlob@ this)
 							// or blobs to increase damage to (for the future)
 							string name = b.getName();
 
-							if (b.hasTag("invincible"))
+							if (b.hasTag("invincible") || b.getName() == "seed" || (b.hasTag("plant") && !b.hasTag("has fruit")))
 							{
 								continue; // carry on onto the next loop, dont waste time & heat on this
 							}
@@ -318,6 +318,7 @@ void onTick(CBlob@ this)
 
 							if (isServer())
 							{
+								if (b.hasTag("has fruit")) attack_dam = 0.15f;
 								if (int(heat) > heat_max * 0.7f) // are we at high heat? more damamge!
 								{
 									attack_dam += 0.5f;

@@ -9,6 +9,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("builder always hit");
 	this.Tag("nature");
+	this.Tag("plant");
 	
 	if (this.hasTag("instant_grow"))
 	{
@@ -28,5 +29,6 @@ void onTick(CBlob@ this)
 void GrowPumpkin(CBlob @this)
 {
 	this.Tag("has pumpkin");
+	this.Tag("has fruit");
 	this.getCurrentScript().runFlags |= Script::remove_after_this;
 }
