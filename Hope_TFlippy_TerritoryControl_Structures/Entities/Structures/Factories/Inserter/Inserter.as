@@ -1,4 +1,5 @@
 ﻿#include "MakeMat.as";
+#include "FilteringCommon.as";
 
 void onInit(CSprite@ this)
 {
@@ -24,15 +25,16 @@ void onInit(CSprite@ this)
 	// }
 // }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if(caller.getCarriedBlob() !is this){
 		CBitStream params;
 		params.write_u16(caller.getNetworkID());
 
 		int icon = !this.isFacingLeft() ? 18 : 17;
 
-		CButton@ button = caller.CreateGenericButton(icon, Vec2f(0, 0), this, this.getCommandID("use"), "Use", params);
+		CButton@ button = caller.CreateGenericButton(icon, Vec2f(0, -8), this, this.getCommandID("use"), "Use", params);
 	}
 }
 
@@ -76,7 +78,7 @@ void onTick(CBlob@ this)
 	if (cycle)
 	{
 		CBlob@ right = map.getBlobAtPosition(this.getPosition() + Vec2f(12 * sign, 0));
-		if (right !is null && !right.hasTag("ignore inserter"))
+		if (right !is null && !right.hasTag("ignore inserter") && !right.hasTag("player"))
 		{
 			CInventory@ inv = right.getInventory();
 			CInventory@ t_inv = this.getInventory();
@@ -87,8 +89,8 @@ void onTick(CBlob@ this)
 				if (item !is null)
 				{
 					string blobName = right.getName();
-					if (item.canBePutInInventory(this) && t_inv.getItem(0) is null && 
-					    blobName != "builder" && blobName != "engineer" && blobName != "hazmat") //certain classes won't be affected
+					if (server_isItemAccepted(this, item.getName()) && item.canBePutInInventory(this)
+					&& t_inv.getItem(0) is null) //certain classes won't be affected
 					{
 						this.server_PutInInventory(item);
 						this.getSprite().PlaySound("bridge_open.ogg", 1.00f, 1.00f);
@@ -108,7 +110,8 @@ void onTick(CBlob@ this)
 				CBlob@ item = inv.getItem(0);
 				if (item !is null)
 				{
-					if (item.canBePutInInventory(left) && left.getInventory() !is null && !left.getInventory().isFull()) 
+					if (!left.hasTag("player") && item.canBePutInInventory(left) &&
+					left.getInventory() !is null && !left.getInventory().isFull()) 
 					{
 						left.server_PutInInventory(item);
 						this.getSprite().PlaySound("bridge_close.ogg", 1.00f, 1.00f);
