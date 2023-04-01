@@ -343,6 +343,7 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (isInventoryAccessible(this, caller))
 	{
 		this.set_Vec2f("shop offset", Vec2f(8, 0));
@@ -406,7 +407,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 				callerPlayer.server_setCoins(callerPlayer.getCoins() +  parseInt(spl[1]));
 			}
-			else if (name.findFirst("mat_") != -1)
+			else if (name.findFirst("mat_") != -1 && spl.length > 1)
 			{
 				CPlayer@ callerPlayer = callerBlob.getPlayer();
 				if (callerPlayer is null) return;
