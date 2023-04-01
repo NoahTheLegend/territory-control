@@ -121,6 +121,20 @@ void onTick(CBlob@ this)
 					this.server_PutInInventory(oil);
 				}
 			}
+			else
+			{
+				CBlob@ oil = server_CreateBlob("mat_oil", this.getTeamNum(), this.getPosition());
+				if (oil !is null)
+				{
+					oil.server_SetQuantity(XORRandom(fuel.getQuantity())+1);
+					this.server_PutInInventory(oil);
+				}
+				if (isServer())
+				{
+					fuel.Tag("dead");
+					fuel.server_Die();
+				}
+			}
 		}
 	}
 }
