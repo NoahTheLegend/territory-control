@@ -14,7 +14,7 @@ void onRender(CSprite@ this)
 	if (mouseOnBlob)
 	{
 		//VV right here VV
-		Vec2f pos2d = blob.getInterpolatedScreenPos() + Vec2f(0, 20);
+		Vec2f pos2d = blob.getInterpolatedScreenPos() + Vec2f(0, blob.getHeight()+20);
 		Vec2f dim = Vec2f(24, 8);
 		
 		const f32 zoom = getCamera().targetDistance * getDriver().getResolutionScaleFactor();
