@@ -107,7 +107,7 @@ void onTick(CBlob@ this)
 
 		if (server)
 		{
-			if (XORRandom(900) == 0) this.SendCommand(this.getCommandID("reset train"));
+			if (XORRandom(750) == 0) this.SendCommand(this.getCommandID("reset train"));
 		}
 	}
 	else if (!this.hasTag("stop train"))
