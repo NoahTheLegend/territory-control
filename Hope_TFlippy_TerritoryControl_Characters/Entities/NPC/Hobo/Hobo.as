@@ -280,7 +280,7 @@ void onInit(CBlob@ this)
 		}
 
 		{
-			ShopItem@ s = addShopItem(this, "rocket prop whatever rocket", "$icon_sawrocket$", "mat_sawrocket-1", "rocket for launcher");
+			ShopItem@ s = addShopItem(this, "rocket prop whatever rocket", "$icon_sawrocket$", "mat_sawrocket-1", "rockets for launcher");
 			AddRequirement(s.requirements, "coin", "", "Coins", 50 + rand.NextRanged(550));
 			s.spawnNothing = true;
 			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
@@ -301,6 +301,14 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "coin", "", "Coins", 5000 + rand.NextRanged(2000));
 		s.spawnNothing = true;
 		this.set_u32("shop_space", this.get_u32("shop_space") + 1);
+	}
+	if (rand.NextRanged(100) < 30)
+	{
+		ShopItem@ s = addShopItem(this, "same sheeeeeesht parody", "$macrogun$", "macrogun", "dumb toy shot mAh nosee offf");
+		AddRequirement(s.requirements, "coin", "", "Coins", 3500 + rand.NextRanged(3000));
+		s.buttonwidth = 2;
+		s.spawnNothing = true;
+		this.set_u32("shop_space", this.get_u32("shop_space") + 2);
 	}
 
 	if (rand.NextRanged(100) < 40)
