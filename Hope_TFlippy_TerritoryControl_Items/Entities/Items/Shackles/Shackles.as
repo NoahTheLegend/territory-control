@@ -70,7 +70,7 @@ void onTick(CBlob@ this)
 						CBlob@ blob = hitInfos[i].blob;
 
 						bool do_continue = false;
-						if (blob !is null)
+						if (blob !is null && blob.getName() == "peasant")
 						{
 							CBlob@[] overlapping;
 							blob.getOverlapping(@overlapping);
