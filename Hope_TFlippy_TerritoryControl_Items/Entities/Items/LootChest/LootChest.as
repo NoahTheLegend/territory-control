@@ -77,6 +77,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller.getTeamNum() != 250 && !this.hasTag("opened") && caller.get_u8("deity_id") != Deity::foghorn)
 	{
 		if (!this.getMap().rayCastSolid(caller.getPosition(), this.getPosition()))

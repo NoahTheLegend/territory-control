@@ -118,8 +118,9 @@ void onTick(CBlob@ this)
 	}
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	u16 carried_netid;
 
 	CBlob@ carried = caller.getCarriedBlob();

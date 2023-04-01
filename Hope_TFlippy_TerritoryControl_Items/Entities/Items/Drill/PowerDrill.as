@@ -431,8 +431,9 @@ void onTick(CBlob@ this)
 	}
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	AddIconToken("$team_drilling$", "HelpIcons.png", Vec2f(16, 16), 12);
 	AddIconToken("$no_team_drilling$", "HelpIcons.png", Vec2f(16, 16), 4);
 	if (this !is null && caller !is null)

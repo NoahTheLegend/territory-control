@@ -206,6 +206,7 @@ void onTick(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.isOverlapping(caller))
 	{
 		CButton@ button = caller.CreateGenericButton(25, Vec2f(8, 0), this, this.getCommandID("selling_guns"), "Sell guns!");

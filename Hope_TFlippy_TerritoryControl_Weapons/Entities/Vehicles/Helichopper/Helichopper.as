@@ -377,6 +377,7 @@ bool doesCollideWithBlob( CBlob@ this, CBlob@ blob )
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller.getTeamNum() == this.getTeamNum())
 	{
 		{

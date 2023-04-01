@@ -193,6 +193,7 @@ void addTokens(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if(caller.getName() == this.get_string("required class"))
 	{
 		this.set_Vec2f("shop offset", Vec2f_zero);

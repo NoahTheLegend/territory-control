@@ -5,6 +5,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
 	

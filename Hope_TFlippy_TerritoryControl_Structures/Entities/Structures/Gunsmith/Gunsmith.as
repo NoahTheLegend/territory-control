@@ -191,6 +191,7 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBlob@ carried = caller.getCarriedBlob();
 
 	if (isInventoryAccessible(this, caller))

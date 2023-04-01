@@ -82,6 +82,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	this.inventoryButtonPos = Vec2f(0, 0);
 
 	if (this.getMap().rayCastSolid(caller.getPosition(), this.getPosition())) return;

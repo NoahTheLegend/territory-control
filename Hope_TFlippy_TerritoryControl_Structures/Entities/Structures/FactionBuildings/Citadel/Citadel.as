@@ -97,6 +97,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller.getTeamNum() == this.getTeamNum() && caller.isOverlapping(this))
 	{
 		CBitStream params;

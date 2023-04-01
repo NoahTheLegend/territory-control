@@ -4,8 +4,9 @@ void onInit( CBlob@ this )
 	this.addCommandID("useitem");
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.isOverlapping(caller) || this.isAttachedTo(caller))
 	{
 		CBitStream params;

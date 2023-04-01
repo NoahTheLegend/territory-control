@@ -167,6 +167,7 @@ void onHealthChange(CBlob@ this, f32 oldHealth)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (!canSeeButtons(this, caller)) return;
 
 	if (!Vehicle_AddFlipButton(this, caller))

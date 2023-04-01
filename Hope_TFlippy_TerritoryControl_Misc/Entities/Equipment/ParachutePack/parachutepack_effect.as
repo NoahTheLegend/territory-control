@@ -39,6 +39,7 @@ void UpdateScript(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	CBlob@ carried = caller.getCarriedBlob();
 	this.addCommandID("deploy_chute");

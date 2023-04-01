@@ -26,6 +26,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller.getTeamNum() == this.getTeamNum())
 	{
 		if (this.getMap().rayCastSolid(caller.getPosition(), this.getPosition())) return;

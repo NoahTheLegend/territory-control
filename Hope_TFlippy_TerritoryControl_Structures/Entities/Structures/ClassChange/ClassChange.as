@@ -200,6 +200,7 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (isInventoryAccessible(this, caller))
 	{
 		this.set_Vec2f("shop offset", Vec2f(8, 0));

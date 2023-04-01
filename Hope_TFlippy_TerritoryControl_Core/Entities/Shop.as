@@ -43,6 +43,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	ShopItem[]@ shop_items;
 	if(!this.get(SHOP_ARRAY, @shop_items))
 	{

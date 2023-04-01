@@ -100,6 +100,7 @@ void onTick(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	// print("" + (caller.getPosition() - this.getPosition()).Length());
 	this.set_bool("shop available", (caller.getPosition() - this.getPosition()).Length() < 40.0f);
 }

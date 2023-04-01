@@ -113,6 +113,7 @@ void PickupOverlap(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if ((this.getTeamNum() >= 100 ? true : caller.getTeamNum() == this.getTeamNum()) && caller.isOverlapping(this))
 	{
 		CInventory @inv = caller.getInventory();

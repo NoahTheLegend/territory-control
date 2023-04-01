@@ -350,6 +350,7 @@ void DrawLine(CSprite@ this, Vec2f startPos, f32 length, f32 angle, bool flip)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (!Vehicle_AddFlipButton(this, caller))
 	{
 		Vehicle_AddLoadAmmoButton(this, caller);

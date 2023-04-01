@@ -49,6 +49,7 @@ void populateShop(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.get_bool("shop_open") == true) 
 	{
 		this.set_bool("shop available", this.isOverlapping(caller));

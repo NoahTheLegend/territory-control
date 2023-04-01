@@ -83,6 +83,7 @@ void onTick(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBlob@ carried = caller.getCarriedBlob();
 	if (this.get_u16("power") >= MAX_ENERGY) return;
 

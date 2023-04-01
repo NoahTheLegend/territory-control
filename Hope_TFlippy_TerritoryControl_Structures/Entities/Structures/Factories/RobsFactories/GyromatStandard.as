@@ -7,8 +7,9 @@ void onInit(CBlob@ this){
 	//this.set_Vec2f("gyro_button_pos",Vec2f(0,0));
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	Vec2f buttonPos;
 	if(this.exists("gyro_button_pos"))buttonPos = this.get_Vec2f("gyro_button_pos");
 

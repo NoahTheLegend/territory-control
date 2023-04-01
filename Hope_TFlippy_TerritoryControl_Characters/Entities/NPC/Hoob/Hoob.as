@@ -335,7 +335,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
-	return false;
+	return this.hasTag("dead");
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)

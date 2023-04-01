@@ -121,6 +121,7 @@ void onTick(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.isOverlapping(caller) && (this.get_bool("state") || !this.hasTag("togglesupport")))
 	{
 		u8 multp = this.get_u8("multiplier");

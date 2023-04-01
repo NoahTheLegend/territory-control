@@ -128,6 +128,7 @@ void onTick(CSprite@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller is null) return;
  	CBitStream params;
 	params.write_u16(caller.getNetworkID());

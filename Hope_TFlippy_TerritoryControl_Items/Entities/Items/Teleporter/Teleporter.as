@@ -45,6 +45,7 @@ void onInit(CSprite@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	u32 mithril_count = GetFuel(this);
 	f32 radius = Maths::Sqrt(mithril_count / pi);
 	u32 size = Maths::Round(radius * 2);

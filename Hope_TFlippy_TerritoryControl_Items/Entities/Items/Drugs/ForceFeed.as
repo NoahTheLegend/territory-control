@@ -7,7 +7,8 @@ void onInit(CBlob@ this)
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
-{	
+{
+	if (this.getDistanceTo(caller) > 96.0f) return;	
 	CBlob@ carried = caller.getCarriedBlob();
 	
 	if (caller !is this && carried !is null && carried.hasTag("forcefeedable"))

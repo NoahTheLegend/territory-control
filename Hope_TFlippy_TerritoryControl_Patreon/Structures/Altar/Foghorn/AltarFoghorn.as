@@ -147,8 +147,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						
 						if (isServer())
 						{
-							callerPlayer.Sync("deity_id", false);
-							callerBlob.Sync("deity_id", false);
+							callerPlayer.Sync("deity_id", true);
+							callerBlob.Sync("deity_id", true);
 						}
 					}
 					else

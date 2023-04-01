@@ -356,6 +356,7 @@ CBlob@ FindStorage(u8 team)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	this.set_Vec2f("shop offset", Vec2f(3, -2));
 	this.set_bool("shop available", this.isOverlapping(caller));
 

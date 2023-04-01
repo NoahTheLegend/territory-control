@@ -84,6 +84,7 @@ void onTick(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller is null) return;
  	CBitStream params;
 	params.write_u16(caller.getNetworkID());
@@ -143,10 +144,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						if (isServer())
 						{
 							callerPlayer.set_u8("deity_id", Deity::swaglag);
-							callerPlayer.Sync("deity_id", false);
+							callerPlayer.Sync("deity_id", true);
 							
 							callerBlob.set_u8("deity_id", Deity::swaglag);
-							callerBlob.Sync("deity_id", false);
+							callerBlob.Sync("deity_id", true);
 						}
 					}
 					else

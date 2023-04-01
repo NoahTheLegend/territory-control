@@ -527,6 +527,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (!this.hasTag("offblast"))
 	{
 		CBitStream params;

@@ -265,8 +265,9 @@ void onInit(CBlob@ this)
 	this.Tag("ignore extractor");
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (!caller.isOverlapping(this)) return;
 	{
 		CBitStream params;

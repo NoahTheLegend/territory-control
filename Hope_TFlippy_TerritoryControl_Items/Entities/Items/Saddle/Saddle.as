@@ -12,6 +12,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
     if (caller is null || this.hasAttached()) return;
     CBitStream params;
     if (this.isAttachedToPoint("SADDLE"))

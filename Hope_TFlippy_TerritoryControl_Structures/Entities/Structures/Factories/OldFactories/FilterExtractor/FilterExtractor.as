@@ -40,6 +40,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 
 	if (this !is null)
@@ -58,7 +59,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				this.set_bool("reversed", true);
 			else
 				this.set_bool("reversed", false);
-			printf("" + this.get_bool("reversed"));
 		}
 	}
 }

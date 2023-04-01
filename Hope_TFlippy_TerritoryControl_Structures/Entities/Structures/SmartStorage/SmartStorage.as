@@ -18,8 +18,9 @@ void onInit(CBlob@ this)
 	this.set("minableMats", mats);
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	/*if (caller !is null)
 	{
 		if ((this.getTeamNum() == caller.getTeamNum() || this.getTeamNum() > 6) && caller.isOverlapping(this))

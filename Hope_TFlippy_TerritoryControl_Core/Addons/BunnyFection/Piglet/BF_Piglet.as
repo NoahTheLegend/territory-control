@@ -177,6 +177,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller is null) return;
 	if (!this.isOverlapping(caller)) return;
 

@@ -68,6 +68,7 @@ void CheckInactive(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	if (this.get_bool("inactive") && caller !is null && this.isOverlapping(caller))
 	{

@@ -8,6 +8,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
 	caller.CreateGenericButton(22, Vec2f(0, 0), this, this.getCommandID("consume"), "Insert!", params);

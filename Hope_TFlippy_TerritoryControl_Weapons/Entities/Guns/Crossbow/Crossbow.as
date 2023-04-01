@@ -59,6 +59,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBlob@ carried = caller.getCarriedBlob();
 	if (this.isAttached()) return;
 	CBitStream params;

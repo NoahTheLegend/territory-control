@@ -91,8 +91,9 @@ void onTick(CBlob@ this)
 	}
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if(!this.isOverlapping(caller))return;
 	
 	u16 carried_netid;

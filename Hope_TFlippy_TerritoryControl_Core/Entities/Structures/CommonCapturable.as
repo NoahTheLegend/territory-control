@@ -195,6 +195,7 @@ void onTick(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller.isOverlapping(this) && !this.hasTag("faction_base"))
 	{
 		if (caller.getTeamNum() == this.getTeamNum() && this.getTeamNum() < 100)

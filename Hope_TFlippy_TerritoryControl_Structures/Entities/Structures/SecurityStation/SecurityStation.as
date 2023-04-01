@@ -34,6 +34,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	//if (this.get_u32("elec") < 50) return;
 	if (caller !is null && caller.isOverlapping(this))
 	{

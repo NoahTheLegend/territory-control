@@ -30,6 +30,8 @@ void onInit(CBlob@ this)
 	this.set_string("Owner", "");
 	this.set_string("Owners", "");
 
+	this.Tag("remote_storage");
+
 	if (isServer())
 	{
 		CBitStream stream;
@@ -52,6 +54,7 @@ void onTick(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	this.inventoryButtonPos = Vec2f(0, 0);
 	if (!caller.isOverlapping(this)) return;
 

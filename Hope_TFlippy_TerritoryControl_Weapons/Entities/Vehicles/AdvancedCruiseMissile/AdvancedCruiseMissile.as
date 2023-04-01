@@ -269,6 +269,7 @@ void ResetPlayer(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.hasTag("offblast")) return;
 
 	CPlayer@ ply = caller.getPlayer();

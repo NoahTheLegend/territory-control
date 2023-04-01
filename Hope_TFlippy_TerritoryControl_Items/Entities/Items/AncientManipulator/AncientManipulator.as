@@ -147,6 +147,7 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	this.set_bool("shop available", (caller.getPosition() - this.getPosition()).Length() < 64.0f);
 }
 

@@ -629,6 +629,7 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	this.set_bool("shop available", this.isOverlapping(caller) || this.isAttachedTo(caller));
 }
 

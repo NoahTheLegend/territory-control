@@ -115,8 +115,9 @@ void onTick(CBlob@ this)
 	}
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
 	bool can_change = this.get_bool("can_change_gas_type");

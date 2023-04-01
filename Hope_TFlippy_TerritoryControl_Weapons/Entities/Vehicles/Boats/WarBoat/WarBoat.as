@@ -210,6 +210,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (!canSeeButtons(this, caller)) return;
 
 	if (caller.getTeamNum() == this.getTeamNum())

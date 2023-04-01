@@ -157,6 +157,7 @@ void setOpen(CBlob@ this, bool open)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	params.write_bool(this.get_bool("state"));
 

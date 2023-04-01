@@ -526,6 +526,7 @@ bool doesCollideWithBlob( CBlob@ this, CBlob@ blob )
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	Vec2f buttonPos;
 	buttonPos = Vec2f(-5,2);
 	if (caller.getTeamNum() == this.getTeamNum())

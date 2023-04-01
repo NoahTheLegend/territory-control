@@ -96,6 +96,7 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	CBlob@ carried = caller.getCarriedBlob();
 	if (carried !is null && this.get_u32("ammo") < this.get_u32("maxammo"))

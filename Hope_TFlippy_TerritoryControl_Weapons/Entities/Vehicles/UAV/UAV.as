@@ -404,6 +404,7 @@ void onRender(CSprite@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
 	if (point is null) return;
 	if (this.getDistanceTo(caller) <= 48)

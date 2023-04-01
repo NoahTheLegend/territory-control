@@ -462,6 +462,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	this.set_Vec2f("shop offset", Vec2f(0,0));
 	this.set_bool("shop available", this.isOverlapping(caller));
 }

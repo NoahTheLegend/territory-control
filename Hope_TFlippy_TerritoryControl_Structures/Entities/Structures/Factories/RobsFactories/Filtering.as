@@ -17,8 +17,9 @@ void onInit(CBlob@ this){
 		this.Tag("whitelist");
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this is null || caller is null) return;
 	if(this.getDistanceTo(caller) > 20)return;
 	if(this.isAttached())return;
@@ -48,7 +49,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params){
 	if (cmd == this.getCommandID("add_filter_item"))
 	{
 		CBlob@ carried = getBlobByNetworkID(params.read_u16());
-
 		//if(isServer())
 		if (carried !is null){
 			string[]@ filter;

@@ -8,6 +8,7 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (getGameTime() <= this.get_u32("button_delay")) return;
 	this.set_u32("button_delay", getGameTime()+5);
 	
