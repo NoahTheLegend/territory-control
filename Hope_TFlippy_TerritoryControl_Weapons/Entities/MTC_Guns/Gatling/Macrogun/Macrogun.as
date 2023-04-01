@@ -8,7 +8,7 @@ void onInit(CBlob@ this)
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
 	settings.TOTAL = 50; //Max amount of ammo that can be in a clip
 	settings.FIRE_INTERVAL = 3; //Time in between shots
-	settings.RELOAD_TIME = 60; //Time it takes to reload (in ticks)
+	settings.RELOAD_TIME = 90; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_gatlingammo"; //Ammunition the gun takes
 
 	//Bullet
@@ -21,10 +21,10 @@ void onInit(CBlob@ this)
 	settings.B_TYPE = HittersTC::bullet_high_cal; //Type of bullet the gun shoots | hitter
 
 	//Recoil
-	settings.G_RECOIL = -25; //0 is default, adds recoil aiming up
+	settings.G_RECOIL = -18; //0 is default, adds recoil aiming up
 	settings.G_RANDOMX = true; //Should we randomly move x
 	settings.G_RANDOMY = false; //Should we randomly move y, it ignores g_recoil
-	settings.G_RECOILT = 5; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)
+	settings.G_RECOILT = 4; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)
 	settings.G_BACK_T = 0; //Should we recoil the arm back time? (aim goes up, then back down with this, if > 0, how long should it last)
 
 	//Sound
