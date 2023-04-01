@@ -174,12 +174,6 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 		if (isServer()) this.server_PutInInventory(blob);
 		if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
 	}
-
-	if (!blob.isAttached() && blob.hasTag("material") && blob.getName() == "mat_coal")
-	{
-		if (isServer()) this.server_PutInInventory(blob);
-		if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
-	}
 }
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
