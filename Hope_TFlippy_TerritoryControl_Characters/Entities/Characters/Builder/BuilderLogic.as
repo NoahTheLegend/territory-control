@@ -274,7 +274,7 @@ bool RecdHitCommand(CBlob@ this, CBitStream@ params)
 				
 				if (mining_hardness < 1) // slave
 				{
-					if ((tile >= CMap::tile_concrete && tile <= CMap::tile_concrete_d7))
+					if ((tile >= CMap::tile_concrete && tile <= CMap::tile_concrete_d7) && XORRandom(25) != 0)
 					{
 						this.getSprite().PlaySound("build_wall2.ogg", 1.0f, 0.8f);
 						can_mine = false;
