@@ -44,7 +44,7 @@ void onSetPlayer(CRules@ this, CBlob@ blob, CPlayer@ player)
 		{
 			deity_id = player.get_u8("deity_id");
 			blob.set_u8("deity_id", deity_id);
-			blob.Sync("deity_id", false);
+			blob.Sync("deity_id", true);
 		}
 		else if (isClient())
 		{

@@ -11,6 +11,7 @@
 #include "GunModule.as"
 #include "BulletCase.as";
 #include "Recoil.as";
+#include "DeityCommon.as";
 
 const uint8 NO_AMMO_INTERVAL = 25;
  
@@ -34,6 +35,7 @@ void onInit(CBlob@ this)
 	// Set commands
 	this.addCommandID("reload");
 	this.addCommandID("fireProj");
+	this.addCommandID("sync_interval");
 
 	// Set vars
 	this.set_bool("beginReload", false); //Starts a reload
@@ -260,8 +262,30 @@ void onTick(CBlob@ this)
 			} 
 			else if (this.get_bool("beginReload")) // Beginning of reload
 			{
+				// CLIENTSIDE ONLY
 				// Start reload sequence
-				actionInterval = settings.RELOAD_TIME;
+				f32 reload_time = settings.RELOAD_TIME;
+				if (holder.get_u8("deity_id") == Deity::tflippy)
+				{
+					//printf("HAS_DEITY");
+					f32 power = 0;
+					f32 mod = 0;
+					CBlob@ altar = getBlobByName("altar_tflippy");
+					if (altar !is null)
+					{
+						power = altar.get_f32("deity_power");
+						mod = Maths::Min(power * 0.00003f, 35.00f);
+					}
+					reload_time = reload_time-(reload_time*mod);
+					//printf("POWER - "+power);
+				}
+
+				actionInterval = reload_time;
+
+				CBitStream params;
+				params.write_u8(actionInterval);
+				this.SendCommand(this.getCommandID("sync_interval"), params);
+
 				this.set_bool("beginReload", false);
 				this.set_bool("doReload", true);
 
@@ -397,7 +421,8 @@ void onTick(CBlob@ this)
 				}
 			}
 
-			this.set_u8("actionInterval", actionInterval);
+			if (actionInterval != 0 || this.get_u8("actionInterval") != 0) this.set_u8("actionInterval", actionInterval);
+			//if (getGameTime()%15==0)printf(""+this.get_u8("actionInterval"));
 
 			sprite.ResetTransform();
 			//sprite.RotateBy( aimangle, holder.isFacingLeft() ? Vec2f(-3,3) : Vec2f(3,3) );

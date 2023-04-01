@@ -2,6 +2,7 @@
 #include "Requirements_Tech.as";
 #include "ShopCommon.as";
 #include "DeityCommon.as";
+#include "CustomBlocks.as";
 #include "MinableMatsCommon.as";
 
 // A script by TFlippy
@@ -35,6 +36,7 @@ void onInit(CBlob@ this)
 {
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
 	this.set_TileType("background tile", CMap::tile_castle_back);
+	if (this.getName() == "altar_tflippy") this.set_TileType("background tile", CMap::tile_bconcrete);
 	this.Tag("builder always hit");
 	
 	if (!this.exists("deity_id")) this.set_u8("deity_id", Deity::none);
@@ -45,7 +47,7 @@ void onInit(CBlob@ this)
 	
 	if (this.getName() == "altar")
 	{
-		this.set_Vec2f("shop menu size", Vec2f(18, 2));
+		this.set_Vec2f("shop menu size", Vec2f(10, 4));
 		this.set_string("shop description", "Select a Deity");
 		this.set_u8("shop icon", 15);
 		this.Tag(SHOP_AUTOCLOSE);
@@ -59,7 +61,19 @@ void onInit(CBlob@ this)
 		AddIconToken("$icon_dragonfriend$", "Altar.png", Vec2f(24, 32), 7);
 		AddIconToken("$icon_trollbird$", "Altar.png", Vec2f(24, 32), 9);
 		AddIconToken("$icon_leutnant$", "Altar.png", Vec2f(24, 32), 10);
+		AddIconToken("$icon_tflippy$", "Altar.png", Vec2f(24, 32), 12);
 		
+		{
+			ShopItem@ s = addShopItem(this, "TFlippy, The Creator", "$icon_tflippy$", "altar_tflippy", "Missing good ol' days? This may help you feel nostalgic!");
+			AddRequirement(s.requirements, "no more global", "altar_tflippy", "Altar of TFlippy", 1);
+			AddRequirement(s.requirements, "coin", "", "Coins", 250);
+			AddRequirement(s.requirements, "blob", "hobo", "Hobo", 1);
+			s.customButton = true;
+			s.buttonwidth = 2;	
+			s.buttonheight = 2;
+			
+			s.spawnNothing = true;
+		}
 		{
 			ShopItem@ s = addShopItem(this, "Mithrios, God of Death", "$icon_mithrios$", "altar_mithrios", "A demon known for his cruelty and hunger for blood.\n\nAfter being banished from the mortal realm, he returned as a weapon of destruction.\n\n- Damage Reflection\n- Kill a random person\n- Create a Mithrios Device\n- Gain Demonic Power by killing people");
 			AddRequirement(s.requirements, "no more global", "altar_mithrios", "Altar of Mithrios", 1);
@@ -133,7 +147,7 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 		}
 		{
-			ShopItem@ s = addShopItem(this, "Dragonfriend, God of Greed", "$icon_dragonfriend$", "altar_dragonfriend", "The god of wealth, power and greed.\n\n- Stonks Trading\n- Fire Resistance up to 100%\n- Summon a meteor\n\n- $KEY_S$+$LMB$ to conjure a fireball");
+			ShopItem@ s = addShopItem(this, "Dragonfriend, God of Greed", "$icon_dragonfriend$", "altar_dragonfriend", "The god of wealth, power and greed.\n\n- Stonks Trading\n- Fire Resistance up to 100%\n- Summon a meteor\n\nPress V to conjure a fireball");
 			AddRequirement(s.requirements, "no more global", "altar_dragonfriend", "Altar of the Dragon", 1);
 			AddRequirement(s.requirements, "coin", "", "Coins", 8000);
 			s.customButton = true;

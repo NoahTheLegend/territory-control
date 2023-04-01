@@ -4,6 +4,7 @@
 #include "MakeDustParticle.as";
 #include "FallDamageCommon.as";
 #include "Knocked.as";
+#include "DeityCommon.as";
 
 const string fallscreamtag = "_fallingscream";
 
@@ -594,17 +595,35 @@ void onTick(CMovement@ this)
 		CBlob@ carryBlob = blob.getCarriedBlob();
 		if (carryBlob !is null)
 		{
-			if (carryBlob.hasTag("insane weight"))
+			bool insane_weight = carryBlob.hasTag("insane weight");
+			bool medium_weight = carryBlob.hasTag("medium weight");
+			bool heavy_weight = carryBlob.hasTag("heavy weight");
+
+			if (blob.get_u8("deity_id") == Deity::tflippy && carryBlob.hasTag("explosive"))
+			{
+				CBlob@ altar = getBlobByName("altar_tflippy");
+				if (altar !is null && altar.get_u8("sprite_frame") == 14)
+				{
+					if (medium_weight) medium_weight = false;
+					else if (heavy_weight)
+					{
+						medium_weight = true;
+						heavy_weight = false;
+					}
+				} 
+			}
+		
+			if (insane_weight)
 			{
 				moveVars.walkFactor *= 0.4f;
 				moveVars.jumpFactor *= 0.03f;
 			}
-			else if (carryBlob.hasTag("medium weight"))
+			else if (medium_weight)
 			{
 				moveVars.walkFactor *= 0.8f;
 				moveVars.jumpFactor *= 0.8f;
 			}
-			else if (carryBlob.hasTag("heavy weight"))
+			else if (heavy_weight)
 			{
 				moveVars.walkFactor *= 0.6f;
 				moveVars.jumpFactor *= 0.5f;

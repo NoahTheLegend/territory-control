@@ -14,6 +14,7 @@
  */
 
 #include "ThrowCommon.as";
+#include "DeityCommon.as";
 
 const f32 DEFAULT_THROW_VEL_CUSTOM = 6.0f;
 
@@ -147,16 +148,42 @@ void DoThrowCustom(CBlob@ this, CBlob@ carried, Vec2f pos, Vec2f vector, Vec2f s
 		{
 			vel *= 1.30f;
 		}
+
+		bool insane_weight = carried.hasTag("insane weight");
+		bool light_weight = carried.hasTag("light weight");
+		bool medium_weight = carried.hasTag("medium weight");
+		bool heavy_weight =  carried.hasTag("heavy weight");
+		if (this.get_u8("deity_id") == Deity::tflippy && carried.hasTag("explosive"))
+		{
+			CBlob@ altar = getBlobByName("altar_tflippy");
+			if (altar !is null && altar.get_u8("sprite_frame") == 14)
+			{
+				if (medium_weight)
+				{
+					light_weight = true;
+					medium_weight = false;
+				}
+				else if (heavy_weight)
+				{
+					medium_weight = true;
+					heavy_weight = false;
+				}
+			} 
+		}
 	
-		if (carried.hasTag("medium weight"))
+		if (light_weight)
+		{
+			vel *= 0.8f;
+		}
+		else if (medium_weight)
 		{
 			vel *= 0.6f;
 		}
-		else if (carried.hasTag("heavy weight"))
+		else if (heavy_weight)
 		{
 			vel *= 0.3f;
 		}
-		else if (carried.hasTag("insane weight"))
+		else if (insane_weight)
 		{
 			vel *= 0.15f;
 		}

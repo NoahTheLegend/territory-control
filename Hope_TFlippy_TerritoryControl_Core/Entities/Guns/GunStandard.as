@@ -179,6 +179,14 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 		this.sub_u8("clip", 1);
 	}
+	else if (isServer() && cmd == this.getCommandID("sync_interval"))
+	{
+		u8 time;
+		if (!params.saferead_u8(time)) return;
+		this.set_u8("actionInterval", time);
+		//printf("TIME --- "+time);
+		this.Sync("actionInterval", true);
+	}
 }
 
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint) 

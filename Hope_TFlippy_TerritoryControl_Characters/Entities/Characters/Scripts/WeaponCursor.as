@@ -1,4 +1,5 @@
 #include "GunCommon.as";
+#include "DeityCommon.as";
 
 void onRender(CSprite@ this)
 {
@@ -125,8 +126,24 @@ void onRender(CSprite@ this)
 
 					if (gun.get_bool("doReload") && !gun.hasTag("CustomShotgunReload"))
 					{
+						f32 mod = 0;
+						f32 reload_time = settings.RELOAD_TIME;
+						if (blob.get_u8("deity_id") == Deity::tflippy)
+						{
+							f32 power = 0;
+							
+							CBlob@ altar = getBlobByName("altar_tflippy");
+							if (altar !is null)
+							{
+								power = altar.get_f32("deity_power");
+								mod = Maths::Min(power * 0.00003f, 35.00f);
+							}
+
+							reload_time = reload_time-(reload_time*mod);
+						}
+
 						//Reloading sequence
-						u32 endTime = settings.RELOAD_TIME;
+						u32 endTime = reload_time;
 						u32 reloadTime = gun.get_u8("actionInterval");
 						u32 startTime = endTime - reloadTime;
 						ammo = f32(maxammo)*f32(startTime) / f32(endTime);

@@ -12,7 +12,8 @@ namespace Deity
 		dragonfriend,
 		foghorn,
 		trollbird,
-		leutnant
+		leutnant,
+		tflippy
 	}
 }
 

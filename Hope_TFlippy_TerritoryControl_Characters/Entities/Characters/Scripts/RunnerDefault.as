@@ -6,6 +6,7 @@
 #include "Survival_Structs.as";
 #include "Logging.as";
 #include "DeityCommon.as";
+#include "MakeDustParticle.as";
 
 void onInit(CBlob@ this)
 {
@@ -13,6 +14,9 @@ void onInit(CBlob@ this)
 	this.Tag("medium weight");
 
 	this.Tag("grapplable");
+
+	this.addCommandID("jetpackv1_effects");
+	this.addCommandID("jetpackv2_effects");
 
 	//default player minimap dot - not for migrants
 	if (this.getName() != "migrant")
@@ -68,6 +72,51 @@ void onTick(CBlob@ this)
 					//printf("e");
 					this.set_u32("disable_gliding", getGameTime()+10);
 				}
+			}
+		}
+	}
+
+	if (isClient() && !this.isMyPlayer())
+	{
+		//jet v1
+		u32 tmp = this.get_u32("nextJetpack");
+		if ((getGameTime() + 75) < tmp)
+			makeSteamParticle(this, Vec2f(), XORRandom(100) < 30 ? ("SmallFire" + (1 + XORRandom(2))) : "SmallExplosion" + (1 + XORRandom(3)));
+		else if (getGameTime() < tmp)
+			makeSteamParticle(this, Vec2f(XORRandom(128) - 64, XORRandom(128) - 64) * 0.0015f * this.getRadius(),"SmallSteam",Vec2f(XORRandom(10)-5,XORRandom(10)-5)*0.2*this.getRadius());
+	
+		if (this.get_u32("timer") > 0) this.set_u32("timer", this.get_u32("timer") - 1);
+		// jet v2
+		if (this.hasTag("pressed_shift"))
+		{
+			Vec2f pos = this.getPosition() + Vec2f(0.0f, 2.0f);
+			u8 particlesrandom = XORRandom(3);
+			f32 fl = this.isFacingLeft() ? 1.0f : -1.0f;
+			switch (particlesrandom)
+			{
+				case 0:
+					MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallExplosion1.png");
+					break;
+				case 1:
+					MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallExplosion2.png");
+					if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
+					{
+						MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallSteam.png");
+						this.getSprite().PlaySound("DrillOverheat.ogg");
+					}
+					break;
+				case 2:
+					MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallExplosion3.png");
+					break;
+			}
+			if (this.get_u32("timer") == 0) 
+			{
+				CSprite@ sprite = this.getSprite();
+				//sprite.PlaySound("FlamethrowerFire.ogg", 0.4f);
+				sprite.SetEmitSound("FlamethrowerFire.ogg");
+				sprite.SetEmitSoundSpeed(1.1f);
+				sprite.SetEmitSoundPaused(false);
+				if (this.get_u32("timer") < 1) this.set_u32("timer", 45);
 			}
 		}
 	}
@@ -266,6 +315,14 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 		}
 		//print("reset camera");
 	}
+}
+
+void MakeParticle(CBlob@ this, const Vec2f pos, const string filename)
+{
+	this.getSprite().SetEmitSoundPaused(false);
+	if (!this.isOnScreen()) {return;}
+	ParticleAnimated(filename, pos, Vec2f(0, 1.0f), float(XORRandom(360)), 0.5f + XORRandom(100) * 0.01f, 1 + XORRandom(4), XORRandom(100) * -0.00005f, true);
+	//ParticleAnimated(filename, this.getPosition() + pos, Vec2f(0, 1.0f), float(XORRandom(360)), 0.5f + XORRandom(100) * 0.01f, 1 + XORRandom(4), XORRandom(100) * -0.00005f, true);
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
@@ -481,4 +538,41 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
 	if (this.getPlayer() == null || forBlob.getPlayer() == null) return false;
 	return (forBlob !is this) && ((getKnocked(this) > 0) || (this.get_f32("babbyed") > 0) || (this.isKeyPressed(key_down)) || (this.hasTag("dead")));
+}
+
+void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
+{
+	if (cmd == this.getCommandID("jetpackv1_effects"))
+	{
+		if (isClient() && !this.isMyPlayer()) // particles are also played in jetpack script, so you don't need to play it with a delay
+		{
+			u32 tmp;
+			if (!params.saferead_u32(tmp)) return;
+
+			this.set_u32("nextJetpack", tmp);
+			Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);
+
+			MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
+			this.getSprite().PlaySound("/Jetpack_Offblast.ogg");
+		}
+	}
+	else if (cmd == this.getCommandID("jetpackv2_effects"))
+	{
+		bool just_pressed = params.read_bool();
+		if (just_pressed)
+		{
+			this.Tag("pressed_shift");
+		}
+		else
+		{
+			this.Untag("pressed_shift");
+		}
+	}
+}
+
+void makeSteamParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSteam", const Vec2f displacement = Vec2f(0,0))
+{
+	if (!isClient()) return;
+
+	ParticleAnimated(filename, this.getPosition()+displacement, vel, float(XORRandom(360)), 1.0f, 2 + XORRandom(3), -0.1f, false);
 }
