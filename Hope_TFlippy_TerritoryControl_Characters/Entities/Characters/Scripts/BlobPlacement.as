@@ -11,12 +11,12 @@ void PlaceBlob(CBlob@ this, CBlob @blob, Vec2f cursorPos)
 {
 	if (blob !is null)
 	{
+		if (this.getPlayer() !is null) blob.Tag(""+this.getPlayer().getNetworkID());
+
 		if (!serverBlobCheck(this, blob, cursorPos))
 		{
 			return;
 		}
-
-		if (this.getPlayer() !is null) blob.Tag(""+this.getPlayer().getNetworkID());
 
 		u32 delay = this.get_u32("build delay");
 		SetBuildDelay(this, delay / 2); // Set a smaller delay to compensate for lag/late packets etc

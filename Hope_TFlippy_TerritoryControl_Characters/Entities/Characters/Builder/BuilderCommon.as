@@ -277,6 +277,8 @@ CBlob@ server_BuildBlob(CBlob@ this, BuildBlock[]@ blocks, uint index)
 				CBlob@ blockBlob = server_CreateBlob(b.name, myTeam, pos);
 				if (blockBlob !is null)
 				{
+					if (this.getPlayer() !is null) blockBlob.Tag(""+this.getPlayer().getNetworkID());
+					
 					if (this.getPlayer() !is null)
 					blockBlob.set_string("builder", this.getPlayer().getUsername());
 
