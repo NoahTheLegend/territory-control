@@ -42,7 +42,7 @@ void onTick(CBlob@ this)
 	const bool is_server = isServer();
 	const bool is_client = isClient();
 
-	if (vellen > 2.0f)
+	if (vellen > 0.5f)
 	{
 		Vec2f pos = this.getPosition();
 
@@ -56,14 +56,13 @@ void onTick(CBlob@ this)
 
 		if (map.isTileBackgroundNonEmpty(tile))
 		{
-			// if (isServer)
-			// {
-				// if (map.getSectorAtPosition(pos, "no build") !is null)
-				// {
-					// return;
-				// }
-				// map.server_DestroyTile(pos, 1.0f, this);
-			// }
+			if (isServer())
+			{
+				if (map.getSectorAtPosition(pos, "no build") !is null)
+				{
+					map.server_DestroyTile(pos, 1.0f, this);
+				}
+			}
 		}
 		else if (map.isTileSolid(tile))
 		{
@@ -103,8 +102,7 @@ bool canHitBlob(CBlob@ this, CBlob@ blob)
 	CBlob@ carrier = blob.getCarriedBlob();
 
 	if (carrier !is null)
-		if (carrier.hasTag("player")
-		        && (this.getTeamNum() == carrier.getTeamNum() || blob.hasTag("temp blob")))
+		if ((this.getTeamNum() == carrier.getTeamNum() || blob.hasTag("temp blob")))
 			return false;
 
 	return (this.getTeamNum() != blob.getTeamNum() || blob.getShape().isStatic())
@@ -167,7 +165,7 @@ void Pierce(CBlob @this)
 	bool hit = false;
 	bool ricochet = (gametime + this.getNetworkID() * 17) % 3 == 0;
 
-	if (map.getHitInfosFromArc(oldpos, -angle, 0, displen, this, false, @hitInfos))
+	if (map.getHitInfosFromArc(oldpos, -angle, 0, displen, this, true, @hitInfos))
 	{
 		for (uint i = 0; i < hitInfos.length; i++)
 		{
