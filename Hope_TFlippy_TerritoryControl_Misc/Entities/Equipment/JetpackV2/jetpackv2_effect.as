@@ -12,7 +12,6 @@ void onInit(CBlob@ this)
 	this.addCommandID("load_fuel");
 	this.set_f32("fuel_count", 0);
 	this.set_f32("max_fuel", 2250);
-	this.set_f32("timerf", 0);
 }
 
 void UpdateScript(CBlob@ this)
@@ -57,7 +56,7 @@ void onTick(CBlob@ this)
 		UpdateScript(this);
 		this.set_string("reload_script", "");
 	}
-	u32 particlesrandom = XORRandom(3);
+	u8 particlesrandom = XORRandom(3);
 	if (controls !is null)
 		if (!shift || this.get_f32("fuel_count") < 1) sprite.SetEmitSoundPaused(true);
 	if (controls !is null)
@@ -77,48 +76,34 @@ void onTick(CBlob@ this)
 			if (vel.y > -(XORRandom(5.0) + 2.0f)) this.AddForce(Vec2f(0, -40.0f));
 		}
 
-		Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);
+		Vec2f pos = this.getPosition() + Vec2f(0.0f, 2.0f);
 
-		if (this.isFacingLeft())
+		if (getGameTime()%15==0 && controls.isKeyPressed(KEY_LSHIFT))
 		{
-			switch (particlesrandom)
-			{
-				case 0:
-					MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion1.png");
-					break;
-				case 1:
-					MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion2.png");
-					if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
-					{
-						MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallSteam.png");
-						this.getSprite().PlaySound("DrillOverheat.ogg");
-					}
-					break;
-				case 2:
-					MakeParticle(this, pos + Vec2f(5.0f, 8.0f), "SmallExplosion3.png");
-					break;
-			}
+			CBitStream params;
+			params.write_bool(true);
+			this.SendCommand(this.getCommandID("jetpackv2_effects"), params);
 		}
-		else
+
+		f32 fl = this.isFacingLeft() ? 1.0f : -1.0f;
+		switch (particlesrandom)
 		{
-			switch (particlesrandom)
-			{
-				case 0:
-					MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion1.png");
-					break;
-				case 1:
-					MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion2.png");
-					if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
-					{
-						MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallSteam.png");
-						this.getSprite().PlaySound("DrillOverheat.ogg");
-					}
-					break;
-				case 2:
-					MakeParticle(this, pos + Vec2f(-5.0f, 8.0f), "SmallExplosion3.png");
-					break;
-			}
-		}			
+			case 0:
+				MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallExplosion1.png");
+				break;
+			case 1:
+				MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallExplosion2.png");
+				if (this.get_f32("fuel_count") < 500 && this.get_f32("fuel_count") > 0)
+				{
+					MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallSteam.png");
+					this.getSprite().PlaySound("DrillOverheat.ogg");
+				}
+				break;
+			case 2:
+				MakeParticle(this, pos + Vec2f(fl*5.0f, 8.0f), "SmallExplosion3.png");
+				break;
+		}
+			
 
 		if (this.get_u32("timer") == 0) 
 		{
@@ -127,6 +112,15 @@ void onTick(CBlob@ this)
 			sprite.SetEmitSoundSpeed(1.1f);
 			sprite.SetEmitSoundPaused(false);
 			if (this.get_u32("timer") < 1) this.set_u32("timer", 45);
+		}
+	}
+	else
+	{
+		if (controls.isKeyJustReleased(KEY_LSHIFT))
+		{
+			CBitStream params;
+			params.write_bool(false);
+			this.SendCommand(this.getCommandID("jetpackv2_effects"), params);
 		}
 	}
 }
@@ -176,6 +170,7 @@ void drawInfo(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
+	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	CBlob@ carried = caller.getCarriedBlob();
 	if (carried !is null && this.get_f32("fuel_count") < this.get_f32("max_fuel"))

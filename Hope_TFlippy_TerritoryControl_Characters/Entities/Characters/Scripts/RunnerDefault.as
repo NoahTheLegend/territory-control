@@ -85,6 +85,7 @@ void onTick(CBlob@ this)
 		else if (getGameTime() < tmp)
 			makeSteamParticle(this, Vec2f(XORRandom(128) - 64, XORRandom(128) - 64) * 0.0015f * this.getRadius(),"SmallSteam",Vec2f(XORRandom(10)-5,XORRandom(10)-5)*0.2*this.getRadius());
 	
+	
 		if (this.get_u32("timer") > 0) this.set_u32("timer", this.get_u32("timer") - 1);
 		// jet v2
 		if (this.hasTag("pressed_shift"))
