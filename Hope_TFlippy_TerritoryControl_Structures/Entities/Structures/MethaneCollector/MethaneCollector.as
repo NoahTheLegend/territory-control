@@ -29,7 +29,7 @@ void onTick(CBlob@ this)
 		{
 			MakeMat(storage, this.getPosition(), "mat_methane", 2 + XORRandom(3));
 		}
-		else if (this.getInventory().getCount("mat_methane") < 100)
+		else if (this.getInventory().getCount("mat_methane") < 200)
 		{
 			MakeMat(this, this.getPosition(), "mat_methane", 2 + XORRandom(3));
 		}
