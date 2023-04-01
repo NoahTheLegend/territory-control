@@ -68,6 +68,22 @@ void onTick(CBlob@ this)
 					for (uint i = 0; i < hitInfos.length; i++)
 					{
 						CBlob@ blob = hitInfos[i].blob;
+
+						bool do_continue = false;
+						if (blob !is null)
+						{
+							CBlob@[] overlapping;
+							blob.getOverlapping(@overlapping);
+							for (u16 i = 0; i < overlapping.length; i++)
+							{
+								if (overlapping[i] !is null && overlapping[i].getName() == "ruins")
+								{
+									do_continue = true;
+									break;
+								}
+							}
+						}
+						if (do_continue) continue;
 						if (blob !is null && blob.hasTag("player") && blob.getTeamNum() != team && (blob.get_u8("deity_id") != Deity::ivan || blob.get_u8("deity_id") != Deity::swaglag))
 						{
 							f32 chance = 1.0f - (blob.getHealth() / blob.getInitialHealth());
