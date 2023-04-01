@@ -9,7 +9,7 @@ void onRender(CSprite@ this)
 	CBlob@ blob = this.getBlob();
 	Vec2f center = blob.getPosition();
 	Vec2f mouseWorld = getControls().getMouseWorldPos();
-	const f32 renderRadius = (blob.getRadius()) * 0.95f;
+	const f32 renderRadius = (blob.getRadius()) * 1.5f;
 	bool mouseOnBlob = (mouseWorld - center).getLength() < renderRadius;
 	if (mouseOnBlob)
 	{
