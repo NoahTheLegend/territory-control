@@ -10,6 +10,14 @@ Random traderRandom(Time());
 
 const string[] for_sale =
 {
+	//ammo
+	"mat_pistolammo",
+	"mat_rifleammo",
+	"mat_shotgunammo",
+	"mat_gatlingammo",
+	"mat_sniperammo",
+	"mat_lancerod",
+
 	//advanced
 	"bnak",
 	"svd",
@@ -95,7 +103,15 @@ void onInit(CBlob@ this)
 	bool state = this.get_bool("state");
 	
 	//prices
-	
+
+	//ammo
+	this.set_u8("mat_pistolammo", 1);
+	this.set_u8("mat_rifleammo", 2);
+	this.set_u8("mat_shotgunammo", 3);
+	this.set_u8("mat_gatlingammo", 2);
+	this.set_u8("mat_sniperammo", 3);
+	this.set_u8("mat_lancerod", 20);
+
 	//banditshit
 	this.set_u8("banditrifle", 1);
 	this.set_u8("puntgun", 10);
@@ -124,22 +140,22 @@ void onInit(CBlob@ this)
 	
 	//chicken guns
 	this.set_u8("amr", 33);
-	this.set_u8("assaultrifle", 2);
-	this.set_u8("autoshotgun", 3);
-	this.set_u8("beagle", 7);
+	this.set_u8("assaultrifle", 8);
+	this.set_u8("autoshotgun", 8);
+	this.set_u8("beagle", 12);
 	this.set_u8("fuger", 1);
-	this.set_u8("carbine", 10);
-	this.set_u8("sniper", 4);
-	this.set_u8("minigun", 33);
-	this.set_u8("pdw", 9);
-	this.set_u8("rekt", 100);
-	this.set_u8("silencedrifle", 3);
-	this.set_u8("sgl", 33);
-	this.set_u8("sar", 1);
-	this.set_u8("rpg", 33);
-	this.set_u8("uzi", 1);
-	this.set_u8("napalmer", 33);
-	this.set_u8("msgl", 3);
+	this.set_u8("carbine", 12);
+	this.set_u8("sniper", 14);
+	this.set_u8("minigun", 75);
+	this.set_u8("pdw", 12);
+	this.set_u8("rekt", 250);
+	this.set_u8("silencedrifle", 8);
+	this.set_u8("sgl", 30);
+	this.set_u8("sar", 8);
+	this.set_u8("rpg", 35);
+	this.set_u8("uzi", 4);
+	this.set_u8("napalmer", 30);
+	this.set_u8("msgl", 6);
 	this.set_u8("macrogun", 20);
 	
 	//alienshit
@@ -190,7 +206,7 @@ void onTick(CBlob@ this)
 			for (s32 i = 0; i < for_sale.length; i++)
 			{
 				CBlob@ item = inv.getItem(for_sale[i]);
-				if (item !is null)
+				if (item !is null && item.getQuantity() == item.getMaxQuantity())
 				{
 					if (isServer()){
 						item.server_Die();
@@ -225,7 +241,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob is null || this.isAttached()) return;
 
-	if (!blob.isAttached() && !blob.hasTag("player") && !blob.getShape().isStatic() && (blob.hasTag("weapon")))
+	if (!blob.isAttached() && !blob.hasTag("player") && !blob.getShape().isStatic() && (blob.hasTag("weapon") || blob.hasTag("ammo")))
 	{
 		if (isServer()) this.server_PutInInventory(blob);
 		if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
@@ -243,7 +259,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			for (s32 i = 0; i < for_sale.length; i++)
 			{
 				CBlob@ item = inv.getItem(for_sale[i]);
-				if (item !is null)
+				if (item !is null && item.getQuantity() == item.getMaxQuantity())
 				{
 					if (isServer()){
 						item.server_Die();
