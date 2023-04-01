@@ -248,10 +248,10 @@ bool RecdHitCommand(CBlob@ this, CBitStream@ params)
 				u8 mining_hardness = this.get_u8("mining_hardness");
 				bool can_mine = true;
 				
-
-				if (mining_hardness < 3)
+				if (mining_hardness < 3) // builder
 				{
-					if ((tile >= CMap::tile_plasteel && tile <= CMap::tile_plasteel_d14) || (tile >= CMap::tile_bplasteel && tile <= CMap::tile_bplasteel_d14))
+					if ((tile >= CMap::tile_plasteel && tile <= CMap::tile_plasteel_d14)
+					|| (tile >= CMap::tile_bplasteel && tile <= CMap::tile_bplasteel_d14))
 					{
 						this.getSprite().PlaySound("/metal_stone.ogg");
 						sparks(tilepos, 1, 1);
@@ -259,9 +259,12 @@ bool RecdHitCommand(CBlob@ this, CBitStream@ params)
 					}
 				}
 				
-				if (mining_hardness < 2)
+				if (mining_hardness < 2) // peasant
 				{
-					if ((tile >= CMap::tile_iron && tile <= CMap::tile_iron_d8) || (tile >= CMap::tile_reinforcedconcrete_d5 && tile <= CMap::tile_reinforcedconcrete_d15) || (tile >= CMap::tile_biron && tile <= CMap::tile_biron_d8) || (tile >= CMap::tile_titanium && tile <= CMap::tile_titanium_d7))
+					if ((tile >= CMap::tile_iron && tile <= CMap::tile_iron_d8)
+					|| (tile >= CMap::tile_reinforcedconcrete_d5 && tile <= CMap::tile_reinforcedconcrete_d15)
+					|| (tile >= CMap::tile_biron && tile <= CMap::tile_biron_d8)
+					|| (tile >= CMap::tile_titanium && tile <= CMap::tile_titanium_d7))
 					{
 						this.getSprite().PlaySound("/metal_stone.ogg");
 						sparks(tilepos, 1, 1);
@@ -269,9 +272,9 @@ bool RecdHitCommand(CBlob@ this, CBitStream@ params)
 					}
 				}
 				
-				if (mining_hardness < 1)
+				if (mining_hardness < 1) // slave
 				{
-					if (map.isTileCastle(tile))
+					if ((tile >= CMap::tile_concrete && tile <= CMap::tile_concrete_d7))
 					{
 						this.getSprite().PlaySound("build_wall2.ogg", 1.0f, 0.8f);
 						can_mine = false;
