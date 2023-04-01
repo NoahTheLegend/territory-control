@@ -294,6 +294,19 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Acidic.ogg", 1.00f, 1.00f);
 			}
 
+			if (heat < 500 && pressure > 10000 && hasPumpkin)
+			{
+				if (isServer())
+				{
+					if (pumpkin_blob.getQuantity() == 1) pumpkin_blob.server_Die();
+					else pumpkin_blob.server_SetQuantity(Maths::Max(pumpkin_blob.getQuantity() - 1, 0));
+					Material::createFor(this, "cider", 1+XORRandom(2));
+				}
+
+				ShakeScreen(30.0f, 15, this.getPosition());
+				this.getSprite().PlaySound("DrugLab_Create_Acidic.ogg", 1.00f, 1.00f);
+			}
+
 			if (pressure < 5000 && heat > 500  && hasFiks)
 			{
 				if (isServer())

@@ -49,7 +49,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
-	this.set_Vec2f("shop menu size", Vec2f(6, 5));
+	this.set_Vec2f("shop menu size", Vec2f(6, 6));
 	this.set_string("shop description", "Merchant");
 	
 	if (this.hasTag("name_changed"))
@@ -149,6 +149,19 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 		}
 	}*/
+	{
+		u32 cost = getRandomCost(@rand, 180, 280);
+		{
+			ShopItem@ s = addShopItem(this, "Sell Scrub's Chow (1)", "$COIN$", "coin-" + cost, "Sell 1 Scrub's Chow for " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "foodcan", "Scrub's Chow", 1);
+			s.spawnNothing = true;
+		}
+		{
+			ShopItem@ s = addShopItem(this, "Sell Scrub's Chow (4)", "$COIN$", "coin-" + cost*4, "Sell 4 Scrub's Chow for " + cost*4 + " coins.");
+			AddRequirement(s.requirements, "blob", "foodcan", "Scrub's Chow", 4);
+			s.spawnNothing = true;
+		}
+	}
 	u32 oilcost = getRandomCost(@rand, 400, 600);
 	{
 		u32 cost = oilcost;
@@ -162,18 +175,18 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_oil", "Oil Drum (200 l)", 200);
 		s.spawnNothing = true;
 	}
+	u32 fuelcost = getRandomCost(@rand, 400, 600);
 	{
-		u32 cost = getRandomCost(@rand, 160, 220);
-		{
-			ShopItem@ s = addShopItem(this, "Sell Scrub's Chow (1)", "$COIN$", "coin-" + cost, "Sell 1 Scrub's Chow for " + cost + " coins.");
-			AddRequirement(s.requirements, "blob", "foodcan", "Scrub's Chow", 1);
-			s.spawnNothing = true;
-		}
-		{
-			ShopItem@ s = addShopItem(this, "Sell Scrub's Chow (4)", "$COIN$", "coin-" + cost*4, "Sell 4 Scrub's Chow for " + cost*4 + " coins.");
-			AddRequirement(s.requirements, "blob", "foodcan", "Scrub's Chow", 4);
-			s.spawnNothing = true;
-		}
+		u32 cost = fuelcost;
+		ShopItem@ s = addShopItem(this, "Sell Fuel Drum (25 l)", "$COIN$", "coin-" + cost, "Sell 25 litres of fuel for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "mat_fuel", "fuel Drum (25 l)", 25);
+		s.spawnNothing = true;
+	}
+	{
+		u32 cost = fuelcost*4;
+		ShopItem@ s = addShopItem(this, "Sell Fuel Drum (100 l)", "$COIN$", "coin-" + cost, "Sell 100 litres of fuel for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "mat_fuel", "fuel Drum (100 l)", 100);
+		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Sell Grain (1)", "$COIN$", "coin-75", "Sell 1 grain for 75 coins.");
@@ -212,7 +225,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		u32 cost = getRandomCost(@rand, 200, 280);
+		u32 cost = getRandomCost(@rand, 150, 300);
 		{
 			ShopItem@ s = addShopItem(this, "Sell vodka (1)", "$COIN$", "coin-" + cost, "Sell 1 homemade vodka for " + cost + " coins.");
 			AddRequirement(s.requirements, "blob", "vodka", "Vodka.", 1);
@@ -221,6 +234,32 @@ void onInit(CBlob@ this)
 		{
 			ShopItem@ s = addShopItem(this, "Sell vodka (4)", "$COIN$", "coin-" + (cost*4), "Sell 4 homemade vodkas for " + (cost*4) + " coins.");
 			AddRequirement(s.requirements, "blob", "vodka", "Vodka.", 4);
+			s.spawnNothing = true;
+		}
+	}
+	{
+		u32 cost = getRandomCost(@rand, 350, 550);
+		{
+			ShopItem@ s = addShopItem(this, "Sell cider (1)", "$COIN$", "coin-" + cost, "Sell 1 pumpkin cider for " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "cider", "Pumpkin Cider.", 1);
+			s.spawnNothing = true;
+		}
+		{
+			ShopItem@ s = addShopItem(this, "Sell cider (4)", "$COIN$", "coin-" + (cost*4), "Sell 4 pumpkin ciders for " + (cost*4) + " coins.");
+			AddRequirement(s.requirements, "blob", "cider", "Pumpkin Cider.", 4);
+			s.spawnNothing = true;
+		}
+	}
+	{
+		u32 cost = getRandomCost(@rand, 150, 325);
+		{
+			ShopItem@ s = addShopItem(this, "Sell egg (1)", "$COIN$", "coin-" + cost, "Sell 1 egg for " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "egg", "Egg.", 1);
+			s.spawnNothing = true;
+		}
+		{
+			ShopItem@ s = addShopItem(this, "Sell egg (4)", "$COIN$", "coin-" + (cost*4), "Sell 4 eggs for " + (cost*4) + " coins.");
+			AddRequirement(s.requirements, "blob", "egg", "Egg.", 4);
 			s.spawnNothing = true;
 		}
 	}
