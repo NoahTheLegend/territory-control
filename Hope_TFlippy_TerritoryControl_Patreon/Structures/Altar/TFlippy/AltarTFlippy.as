@@ -172,9 +172,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			u8 deity;
 			u16 blobid;
+			f32 power;
 
 			if (!params.saferead_u8(deity)) return;
 			if (!params.saferead_u16(blobid)) return;
+			if (!params.saferead_f32(power)) return;
+			this.set_f32("deity_power", power);
 			
 			CBlob@ b = getBlobByNetworkID(blobid);
 			if (b is null) return;
@@ -247,6 +250,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							CBitStream params;
 							params.write_u8(Deity::tflippy);
 							params.write_u16(callerBlob.getNetworkID());
+							params.write_f32(this.get_f32("deity_power"));
 							this.SendCommand(this.getCommandID("sync_deity"), params);
 						}
 					}
