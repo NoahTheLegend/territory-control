@@ -277,6 +277,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 								{
 									if (getPlayer(i) is null || getPlayer(i).getBlob() is null || (i != getPlayersCount() - 1 && XORRandom(getPlayersCount()/2) != 0)) continue;
 									CBlob@ item = server_CreateBlob("boowb", callerBlob.getTeamNum(), getPlayer(i).getBlob().getPosition());
+									break;
 								}
 							}
 							
