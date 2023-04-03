@@ -136,7 +136,7 @@ void onRender(CSprite@ this)
 							if (altar !is null)
 							{
 								power = altar.get_f32("deity_power");
-								mod = Maths::Min(power * 0.00003f, 35.00f);
+								mod = Maths::Min(power * 0.00003f, 0.35f);
 							}
 
 							reload_time = reload_time-(reload_time*mod);
