@@ -170,6 +170,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	{
 		if (isClient())
 		{
+			this.Sync("deity_power", true);
+
 			u8 deity;
 			u16 blobid;
 			
@@ -219,8 +221,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						
 						if (isServer())
 						{
-							this.Sync("deity_power", true);
-							
 							this.set_u8("sprite_frame", XORRandom(14));
 							if (XORRandom(100) <= 5) this.set_u8("sprite_frame", 14); // 5% chance for fil's cat head
 							CBitStream stream;
