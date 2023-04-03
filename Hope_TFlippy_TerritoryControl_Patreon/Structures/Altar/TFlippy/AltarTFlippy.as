@@ -25,6 +25,7 @@ void onInit(CBlob@ this)
 
 	this.addCommandID("sync_frame");
 	this.set_u8("sprite_frame", XORRandom(14));
+	this.addCommandID("sync_deity");
 
 	if (isClient())
 	{
@@ -246,7 +247,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							CBitStream params;
 							params.write_u8(Deity::tflippy);
 							params.write_u16(callerBlob.getNetworkID());
-							this.SendCommand("sync_deity");
+							this.SendCommand(this.getCommandID("sync_deity"), params);
 						}
 					}
 					else
