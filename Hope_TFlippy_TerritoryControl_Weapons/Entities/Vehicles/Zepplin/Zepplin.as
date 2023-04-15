@@ -1,5 +1,6 @@
 #include "VehicleCommon.as"
 #include "Hitters.as"
+#include "HittersTC.as"
 #include "Explosion.as";
 
 //most of the code is in BomberCommon.as
@@ -390,6 +391,16 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		}
 		Vehicle_onFire(this, v, null, charge);
 	}
+}
+
+f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
+{
+	if (customData == Hitters::explosion || customData == HittersTC::plasma)
+	{
+		damage += 2.0f;
+		return damage * 3.0f;
+	}
+	return damage;
 }
 
 //void DrawLine(CSprite@ this, Vec2f startPos, f32 length, f32 angle, bool flip)
