@@ -91,6 +91,14 @@ void onInit(CBlob@ this)
 			gear.SetRelativeZ(-60);
 		}
 	}
+
+	this.addCommandID("initsync_pressure");
+	this.addCommandID("sync_pressure");
+	if (isClient())
+	{
+		CBitStream params;
+		this.SendCommand(this.getCommandID("initsync_pressure"), params);
+	}
 }
 
 void onTick(CSprite@ this)
@@ -110,7 +118,36 @@ void onTick(CSprite@ this)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	if (cmd == this.getCommandID("lab_add_heat"))
+	if (cmd == this.getCommandID("initsync_pressure"))
+	{
+		if (isServer())
+		{
+			CBitStream params1;
+			params1.write_f32(this.get_f32("pressure"));
+			params1.write_f32(this.get_f32("pressure_max"));
+			params1.write_f32(this.get_f32("upgrade"));
+			params1.write_u16(this.get_u16("level"));
+
+			this.SendCommand(this.getCommandID("sync_pressure"), params1);
+		}
+	}
+	else if (cmd == this.getCommandID("sync_pressure"))
+	{
+		if (isClient())
+		{
+			f32 pressure; f32 maxpressure; f32 upgrade; u16 level;
+			if (!params.saferead_f32(pressure)) return;
+			if (!params.saferead_f32(maxpressure)) return;
+			if (!params.saferead_f32(upgrade)) return;
+			if (!params.saferead_u16(level)) return;
+
+			this.set_f32("pressure", pressure);
+			this.set_f32("pressure_max", maxpressure);
+			this.set_f32("upgrade", upgrade);
+			this.set_u16("level", level);
+		}
+	}
+	else if (cmd == this.getCommandID("lab_add_heat"))
 	{
 		this.add_f32("heat", 100);
 	}
