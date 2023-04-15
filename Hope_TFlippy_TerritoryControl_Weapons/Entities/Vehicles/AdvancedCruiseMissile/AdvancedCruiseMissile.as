@@ -99,6 +99,7 @@ void onTick(CBlob@ this)
 	{
 		CInventory@ inv = this.getInventory();
 		CBlob@ payload = inv.getItem(0);
+		CBlob@ payload2 = inv.getItem(1);
 		if (payload !is null)
 		{
 			//print("payload is " + payload.getName());
@@ -133,13 +134,20 @@ void onTick(CBlob@ this)
 			}
 			if (payload.getName() == "mat_fuel")
 			{
+				u16 quantity = inv.getCount("mat_fuel");
 				
-		     if(isServer())
-			 {
-			    CBlob@ dynamite = server_CreateBlob("thermobaricexplosion", this.getTeamNum(), this.getPosition());
-			    payload.server_Die();
-			 }
-				
+				f32 strength = quantity / (payload.getMaxQuantity() * 2); // 0.0f - 1.0f strength;
+
+			 	if(isServer())
+			 	{
+			 		CBlob@ thermo = server_CreateBlob("thermobaricexplosion", this.getTeamNum(), this.getPosition());
+					if (thermo !is null)
+					{
+  	 					thermo.set_f32("boom_end", 320 * strength);
+		 				thermo.set_u32("boom_delay", 15 - (5*strength));
+					}
+			 		payload.server_Die();
+			 	}
 			}
 			if (payload.getName() == "fragmine")
 			{
