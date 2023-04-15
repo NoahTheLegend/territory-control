@@ -11,6 +11,7 @@ void onInit(CBlob@ this)
 	this.Tag("heavy weight");
 
 	this.addCommandID("offblast");
+	this.addCommandID("emote");
 
 	this.set_u32("no_explosion_timer", 0);
 	this.set_u32("fuel_timer", 0);
