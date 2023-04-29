@@ -70,56 +70,75 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-	const bool cycle = this.get_bool("inserter_cycle");
+	
 	const f32 sign = this.isFacingLeft() ? -1 : 1;
-
+	CInventory@ t_inv = this.getInventory();
 	CMap@ map = getMap();
-
-	if (cycle)
+	
+	//push item out of inserter
+	if(t_inv.getItemsCount() > 0)
+	{
+		CBlob@ left = map.getBlobAtPosition(this.getPosition() + Vec2f(-12 * sign, 0));
+		if (left !is null)
+		{
+			CBlob@ item = t_inv.getItem(0);
+			if (item !is null)
+			{
+				if (!left.hasTag("player") && item.canBePutInInventory(left) &&
+				left.getInventory() !is null && !left.getInventory().isFull()) 
+				{
+					left.server_PutInInventory(item);
+					this.getSprite().PlaySound("bridge_close.ogg", 1.00f, 1.00f);
+				}
+			}
+			
+		}
+	}
+	//pull item into inserter
+	else
 	{
 		CBlob@ right = map.getBlobAtPosition(this.getPosition() + Vec2f(12 * sign, 0));
 		if (right !is null && !right.hasTag("ignore inserter") && !right.hasTag("player"))
 		{
 			CInventory@ inv = right.getInventory();
-			CInventory@ t_inv = this.getInventory();
 
-			if (inv !is null && t_inv !is null)
-			{
-				CBlob@ item = inv.getItem(0);
-				if (item !is null)
-				{
-					string blobName = right.getName();
-					if (server_isItemAccepted(this, item.getName()) && item.canBePutInInventory(this)
-					&& t_inv.getItem(0) is null) //certain classes won't be affected
-					{
-						this.server_PutInInventory(item);
-						this.getSprite().PlaySound("bridge_open.ogg", 1.00f, 1.00f);
-					}
-				}
-			}
-		}
-	}
-	else
-	{
-		CBlob@ left = map.getBlobAtPosition(this.getPosition() + Vec2f(-12 * sign, 0));
-		if (left !is null)
-		{
-			CInventory@ inv = this.getInventory();
 			if (inv !is null)
 			{
-				CBlob@ item = inv.getItem(0);
-				if (item !is null)
+				if(this.hasTag("whitelist"))
 				{
-					if (!left.hasTag("player") && item.canBePutInInventory(left) &&
-					left.getInventory() !is null && !left.getInventory().isFull()) 
+					string[]@ filter;
+					if(this.get("filtered_items", @filter)){
+					
+						for(int i = 0;i < filter.length();i++){
+						
+							CBlob@ item = inv.getItem(filter[i]);
+							if (item !is null)
+							{
+								this.server_PutInInventory(item);
+								this.getSprite().PlaySound("bridge_open.ogg", 1.00f, 1.00f);
+								break;
+							}
+						}
+					
+					}
+					
+				}
+				else
+				{	
+					for (int i = 0; i < inv.getItemsCount(); i++)
 					{
-						left.server_PutInInventory(item);
-						this.getSprite().PlaySound("bridge_close.ogg", 1.00f, 1.00f);
+						CBlob@ item = inv.getItem(i);
+						if (server_isItemAccepted(this, item.getName()) && item.canBePutInInventory(this))
+						{
+							this.server_PutInInventory(item);
+							this.getSprite().PlaySound("bridge_open.ogg", 1.00f, 1.00f);
+							break;
+						}
 					}
 				}
+			
 			}
 		}
 	}
 
-	this.set_bool("inserter_cycle", !cycle);
 }
