@@ -81,7 +81,7 @@ void onInit(CBlob@ this)
 	
 }
 
-void onInit(CSprite@ this)
+/*void onInit(CSprite@ this)
 {
 	this.SetZ(-50);
 	CSpriteLayer@ layer = this.addSpriteLayer("layer", "LiquidAnim.png", 12, 12);
@@ -97,7 +97,7 @@ void onInit(CSprite@ this)
 			layer.SetAnimation(anim);
 		}
 	}
-}
+}*/
 
 //void GetButtonsFor( CBlob@ this, CBlob@ caller )
 //{
