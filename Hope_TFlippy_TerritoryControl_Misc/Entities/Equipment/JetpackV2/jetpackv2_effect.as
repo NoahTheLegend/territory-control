@@ -6,17 +6,17 @@
 
 void onInit(CBlob@ this)
 {
-	if (this.get_string("reload_script") != "jetpack")
-		UpdateScript(this);
+	//if (this.get_string("reload_script") != "jetpackv2")
+	//	UpdateScript(this);
 	this.set_u32("timer", 0);
 	this.addCommandID("load_fuel");
 	this.set_f32("fuel_count", 0);
 	this.set_f32("max_fuel", 2250);
 }
 
-void UpdateScript(CBlob@ this)
+/*void UpdateScript(CBlob@ this)
 {
-	CSpriteLayer@ jetpack = this.getSprite().addSpriteLayer("jetpack", "jetpack_icon.png", 24, 24);
+	CSpriteLayer@ jetpack = this.getSprite().addSpriteLayer("jetpackм2", "jetpackv2_icon.png", 24, 24);
 
 	if (jetpack !is null)
 	{
@@ -26,7 +26,7 @@ void UpdateScript(CBlob@ this)
 		if (this.getSprite().isFacingLeft())
 		jetpack.SetFacingLeft(true);
 	}
-}
+}*/
 
 void MakeParticle(CBlob@ this, const Vec2f pos, const string filename)
 {
@@ -50,12 +50,12 @@ void onTick(CBlob@ this)
 				this.set_f32("fuel_count", this.get_f32("fuel_count") - 3);
 				if (this.get_f32("fuel_count") < 0) this.set_f32("fuel_count", 0);
 			}
-	if (this.get_u32("timer") > 0) this.set_u32("timer", this.get_u32("timer") - 1);
-	if (this.get_string("reload_script") == "jetpack")
-	{
-		UpdateScript(this);
-		this.set_string("reload_script", "");
-	}
+	//if (this.get_u32("timer") > 0) this.set_u32("timer", this.get_u32("timer") - 1);
+	//if (this.get_string("reload_script") == "jetpack")
+	//{
+	//	UpdateScript(this);
+	//	this.set_string("reload_script", "");
+	//}
 	u8 particlesrandom = XORRandom(3);
 	if (controls !is null)
 		if (!shift || this.get_f32("fuel_count") < 1) sprite.SetEmitSoundPaused(true);
