@@ -74,7 +74,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 8));
-	this.set_Vec2f("shop menu size", Vec2f(6, 3));
+	this.set_Vec2f("shop menu size", Vec2f(7, 3));
 	this.set_string("shop description", "Coalville Mining Company");
 	
 	if (this.hasTag("name_changed"))
@@ -102,7 +102,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Copper Ore (50)", "$mat_copper$", "mat_copper-50", "Buy 50 copper for 75 coins.");
+		ShopItem@ s = addShopItem(this, "Buy Copper Ore (50)", "$mat_copper$", "mat_copper-50", "Buy 50 Copper for 75 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 75);
 		s.spawnNothing = true;
 	}
@@ -114,6 +114,11 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Buy Sulphur (50)", "$mat_sulphur$", "mat_sulphur-50", "Buy 50 Sulphur for 150 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Titanium (50)", "$mat_titanium$", "mat_titanium-50", "Buy 50 Titanium for 250 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 		s.spawnNothing = true;
 	}
 	// BUY MORE
@@ -133,7 +138,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Copper Ore (500)", "$mat_copper$", "mat_copper-500", "Buy 500 copper for 750 coins.");
+		ShopItem@ s = addShopItem(this, "Buy Copper Ore (500)", "$mat_copper$", "mat_copper-500", "Buy 500 Copper for 750 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 		s.spawnNothing = true;
 	}
@@ -145,6 +150,11 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Buy Sulphur (500)", "$mat_sulphur$", "mat_sulphur-500", "Buy 500 Sulphur for 1500 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Buy Titanium (500)", "$mat_titanium$", "mat_titanium-500", "Buy 500 Titanium for 2500 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
 		s.spawnNothing = true;
 	}
 	// SELL
@@ -176,6 +186,11 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Sell Sulphur (250)", "$COIN$", "coin-225", "Sell 150 Sulphur for 225 coins (0.125x of the price)");
 		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 250);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Sell Titanium (500)", "$COIN$", "coin-625", "Sell 500 Titanium for 625 coins.");
+		AddRequirement(s.requirements, "blob", "mat_titanium", "Titanium Ore", 500);
 		s.spawnNothing = true;
 	}
 }
