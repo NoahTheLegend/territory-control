@@ -48,7 +48,7 @@ void onInit(CBlob@ this)
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("Beagle", 2, "UPF Beagle (2)");
+		AssemblerItem i("beagle", 2, "UPF Beagle (2)");
 		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 12);
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		items.push_back(i);
