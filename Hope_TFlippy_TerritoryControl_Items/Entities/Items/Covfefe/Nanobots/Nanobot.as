@@ -8,6 +8,7 @@ const f32 reproduce_threshold = 500.0f;
 void onInit(CBlob@ this)
 {
 	this.Tag("invincible");
+	this.Tag("no_invincible_removal");
 	this.getShape().SetGravityScale(0);
 	this.getSprite().SetZ(10.0f);
 	

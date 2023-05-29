@@ -19,6 +19,7 @@ void onInit(CBlob@ this)
 	this.Tag("noCapturing");
 	//this.Tag("truesight");
 	this.set_f32("voice pitch", 2.00f);
+	this.Tag("no_invincible_removal");
 	
 	this.SetLight(true);
 	this.SetLightRadius(80.0f);

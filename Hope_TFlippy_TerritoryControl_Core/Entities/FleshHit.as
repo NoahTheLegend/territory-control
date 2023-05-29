@@ -20,6 +20,7 @@ f32 getGibHealth(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
+	if (!this.isAttached() && getGameTime() % 300 == 0 && !this.hasTag("no_invincible_removal")) this.Untag("invincible");
 	if (isServer() && getGameTime()%15==0 && this.getName() != "hazmat" && this.getName() != "exosuit")
 	{
 		if (this.hasTag("combat chicken")) return;

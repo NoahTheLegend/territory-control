@@ -21,6 +21,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("player");
 	this.Tag("invincible");
+	this.Tag("no_invincible_removal");
 
 	CShape@ shape = this.getShape();
 	shape.SetRotationsAllowed(true);

@@ -9,6 +9,7 @@ void onInit(CBlob@ this)
 	this.set_u8("mining_hardness", 100);
 	this.set_f32("max_build_length", 7.00f);
 	this.set_u32("build delay", 1);
+	this.Tag("no_invincible_removal");
 	
 	//this.Tag("player");
 	this.Tag("admin");
