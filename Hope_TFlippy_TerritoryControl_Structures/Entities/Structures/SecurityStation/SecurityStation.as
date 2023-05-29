@@ -20,7 +20,6 @@ void onInit(CBlob@ this)
 		card.setPosition(this.getPosition());
 		card.set_u32("security_link_id", this.get_u32("security_link_id"));
 		card.server_setTeamNum(this.getTeamNum());
-		card.Tag("security_linkable");
 		card.Init();
 		//printf("" + card.get_u32("security_link_id"));
 	}
