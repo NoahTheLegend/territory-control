@@ -9,12 +9,14 @@ void onInit(CSprite@ this)
 {
 	this.ReloadSprites(0, 0); //always blue
 	this.addSpriteLayer("isOnScreen","NoTexture.png",1,1);
+
+	this.getBlob().Tag("badger");
 }
 
 void onTick(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
-
+	
 	if (!blob.hasTag("dead"))
 	{
 		if(!this.getSpriteLayer("isOnScreen").isOnScreen()){
@@ -154,9 +156,9 @@ void onTick(CBlob@ this)
 			this.getSprite().PlaySound("bagel_growl" + (1 + XORRandom(2)) + ".ogg", 0.5f, 0.5f + XORRandom(100) / 400.0f);
 		}
 		
-		if (this.get_u32("next bite") < getGameTime() && XORRandom(100) < 50) 
+		if (this.get_u32("next bite") < getGameTime() && XORRandom(100) < 25) 
 		{
-			this.set_u32("next bite", getGameTime() + 25);
+			this.set_u32("next bite", getGameTime() + 30);
 			// this.getSprite().PlaySound("bagel_chomp.ogg", 0.4f, 0.9f);
 			this.getSprite().SetAnimation("walk");
 			EatMap(this);

@@ -124,7 +124,7 @@ void onTick(CMovement@ this)
 		                                               )
 		   )
 		{
-			f32 mod = blob.isInWater() ? 0.23f : 0.75f;
+			f32 mod = blob.isInWater() ? 0.1f : 0.75f;
 			blob.AddForce(Vec2f(mod * vars.jumpForce.x, mod * vars.jumpForce.y * (ride ? 1.5f : 1.0f) * mody));
 		}
 	}

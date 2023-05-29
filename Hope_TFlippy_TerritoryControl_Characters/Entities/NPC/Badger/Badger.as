@@ -11,6 +11,7 @@ void onInit(CSprite@ this)
 void onTick(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
+	blob.Tag("badger");
 
 	if (!blob.hasTag("dead"))
 	{
