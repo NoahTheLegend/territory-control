@@ -270,7 +270,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Kitten", "$icon_kitten$", "kitten", "A cute little kitten! Take care of it!", false, true);
-		AddRequirement(s.requirements, "coin", "", "Coins", getRandomCost(@rand, 250, 350));
+		AddRequirement(s.requirements, "coin", "", "Coins", getRandomCost(@rand, 225, 325));
 		s.spawnNothing = true;
 	}
 	{
@@ -417,7 +417,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 				callerPlayer.server_setCoins(callerPlayer.getCoins() +  parseInt(spl[1]));
 			}
-			else if(spl[0] == "seed")
+			else if (spl[0] == "seed")
 			{
 				CBlob@ blob = server_MakeSeed(this.getPosition(),XORRandom(2)==1 ? "tree_pine" : "tree_bushy");
 
@@ -431,6 +431,15 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				{
 					callerBlob.server_PutInInventory(blob);
 				}
+			}
+			else if (spl[0] == "kitten")
+			{
+				u8 rand = XORRandom(3);
+				CBlob@ blob = server_CreateBlob(rand == 0 ? "kitten" : rand == 1 ? "kittenwhite" : "kittenblack", callerBlob.getTeamNum(), this.getPosition());
+
+				if (blob is null) return;
+
+				callerBlob.server_Pickup(blob);
 			}
 			else if (name.findFirst("mat_") != -1 && spl.length > 1)
 			{

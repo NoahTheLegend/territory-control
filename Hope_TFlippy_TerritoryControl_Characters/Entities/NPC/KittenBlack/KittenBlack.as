@@ -104,7 +104,7 @@ void onTick(CSprite@ this)
 		if (blob.get_u32("next meow") < getGameTime() && XORRandom(100) < 30) 
 		{
 			blob.set_u32("next meow", getGameTime() + 120);
-			this.PlaySound("Kitten_Meow_" + XORRandom(5), 0.75f, 1);
+			this.PlaySound("Kitten_Meow_" + XORRandom(5), 0.5f, 1);
 		}
 	}
 }
