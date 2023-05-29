@@ -11,6 +11,8 @@ void onInit(CBlob@ this)
 
 	this.set_u8("deity_id", Deity::dragonfriend);
 	this.set_Vec2f("shop menu size", Vec2f(3, 2));
+
+	this.addCommandID("sync_deity");
 	
 	// CSprite@ sprite = this.getSprite();
 	// sprite.SetEmitSound("AltarDragonfriend_Music.ogg");
@@ -165,7 +167,24 @@ void onTick(CBlob@ this)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
-	if (cmd == this.getCommandID("shop made item"))
+	if (cmd == this.getCommandID("sync_deity"))
+	{
+		if (isClient())
+		{
+			u8 deity;
+			u16 blobid;
+
+			if (!params.saferead_u8(deity)) return;
+			if (!params.saferead_u16(blobid)) return;
+			
+			CBlob@ b = getBlobByNetworkID(blobid);
+			if (b is null) return;
+			b.set_u8("deity_id", deity);
+			if (b.getPlayer() is null) return;
+			b.getPlayer().set_u8("deity_id", deity);
+		}
+	}
+	else if (cmd == this.getCommandID("shop made item"))
 	{
 		u16 caller, item;
 		if (params.saferead_netid(caller) && params.saferead_netid(item))
@@ -182,7 +201,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 						if (callerBlob.getTeamNum() < 7)
 						{
 							this.add_f32("deity_power", 899);
-							if (isServer()) this.Sync("deity_power", false);
 							
 							if (isClient())
 							{
@@ -205,10 +223,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 							if (isServer())
 							{
 								callerPlayer.set_u8("deity_id", Deity::dragonfriend);
-								callerPlayer.Sync("deity_id", true);
-								
 								callerBlob.set_u8("deity_id", Deity::dragonfriend);
-								callerBlob.Sync("deity_id", true);
+
+								CBitStream params;
+								params.write_u8(Deity::dragonfriend);
+								params.write_u16(callerBlob.getNetworkID());
+								this.SendCommand(this.getCommandID("sync_deity"), params);
 							}
 						}
 						else
@@ -241,7 +261,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 								f32 stonks_value = this.get_f32("stonks_value");
 							
 								this.add_f32("deity_power", stonks_value * 0.95f);
-								if (isServer()) this.Sync("deity_power", false);
 							
 								server_DropCoins(this.getPosition(), stonks_value * 0.05f);
 							}
@@ -256,7 +275,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 							if (isServer())
 							{
 								this.add_f32("deity_power", 7999);
-								if (isServer()) this.Sync("deity_power", false);
 							
 								f32 map_width = getMap().tilemapwidth * 8.00f;
 								CBlob@ item = server_CreateBlob("meteor", this.getTeamNum(), Vec2f(XORRandom(map_width), 0));

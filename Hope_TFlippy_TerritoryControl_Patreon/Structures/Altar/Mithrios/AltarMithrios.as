@@ -11,7 +11,7 @@ void onInit(CBlob@ this)
 
 	this.set_Vec2f("shop menu size", Vec2f(4, 2));
 
-		this.addCommandID("turn_sounds");
+	this.addCommandID("turn_sounds");this.addCommandID("sync_deity");
 	
 	CSprite@ sprite = this.getSprite();
 	sprite.SetEmitSound("DemonicLoop.ogg");
@@ -149,6 +149,23 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			}
 		}
 	}
+	else if (cmd == this.getCommandID("sync_deity"))
+	{
+		if (isClient())
+		{
+			u8 deity;
+			u16 blobid;
+
+			if (!params.saferead_u8(deity)) return;
+			if (!params.saferead_u16(blobid)) return;
+			
+			CBlob@ b = getBlobByNetworkID(blobid);
+			if (b is null) return;
+			b.set_u8("deity_id", deity);
+			if (b.getPlayer() is null) return;
+			b.getPlayer().set_u8("deity_id", deity);
+		}
+	}
 	else if (cmd == this.getCommandID("shop made item"))
 	{
 		u16 caller, item;
@@ -164,7 +181,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					if (data == "follower")
 					{
 						this.add_f32("deity_power", 50);
-						if (isServer()) this.Sync("deity_power", false);
 						
 						if (isClient())
 						{
@@ -186,10 +202,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						if (isServer())
 						{
 							callerPlayer.set_u8("deity_id", Deity::mithrios);
-							callerPlayer.Sync("deity_id", true);
-							
 							callerBlob.set_u8("deity_id", Deity::mithrios);
-							callerBlob.Sync("deity_id", true);
+
+							CBitStream params;
+							params.write_u8(Deity::mithrios);
+							params.write_u16(callerBlob.getNetworkID());
+							this.SendCommand(this.getCommandID("sync_deity"), params);
 						}
 					}
 					else

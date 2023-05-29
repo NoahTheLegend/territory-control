@@ -22,6 +22,7 @@ void onInit(CBlob@ this)
 	this.Tag("colourful");
 
 	this.addCommandID("turn_sounds");
+	this.addCommandID("sync_deity");
 
 	CSprite@ sprite = this.getSprite();
 	sprite.SetEmitSound("Ivan_Music.ogg");
@@ -220,6 +221,23 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			}
 		}
 	}
+	else if (cmd == this.getCommandID("sync_deity"))
+	{
+		if (isClient())
+		{
+			u8 deity;
+			u16 blobid;
+
+			if (!params.saferead_u8(deity)) return;
+			if (!params.saferead_u16(blobid)) return;
+			
+			CBlob@ b = getBlobByNetworkID(blobid);
+			if (b is null) return;
+			b.set_u8("deity_id", deity);
+			if (b.getPlayer() is null) return;
+			b.getPlayer().set_u8("deity_id", deity);
+		}
+	}
 	else if (cmd == this.getCommandID("shop made item"))
 	{
 		u16 caller, item;
@@ -235,7 +253,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					if (data == "follower")
 					{
 						this.add_f32("deity_power", 50);
-						if (isServer()) this.Sync("deity_power", false);
 
 						if (isClient())
 						{
@@ -258,10 +275,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						if (isServer())
 						{
 							callerPlayer.set_u8("deity_id", Deity::ivan);
-							callerPlayer.Sync("deity_id", true);
-
 							callerBlob.set_u8("deity_id", Deity::ivan);
-							callerBlob.Sync("deity_id", true);
+
+							CBitStream params;
+							params.write_u8(Deity::ivan);
+							params.write_u16(callerBlob.getNetworkID());
+							this.SendCommand(this.getCommandID("sync_deity"), params);
 						}
 					}
 					else
@@ -269,7 +288,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						if (data == "offering_hobo")
 						{
 							this.add_f32("deity_power", 25);
-							if (isServer()) this.Sync("deity_power", false);
 
 							if (isServer())
 							{
@@ -292,7 +310,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						else if (data == "offering_ak47")
 						{
 							this.add_f32("deity_power", 100);
-							if (isServer()) this.Sync("deity_power", false);
 
 							if (isServer())
 							{
