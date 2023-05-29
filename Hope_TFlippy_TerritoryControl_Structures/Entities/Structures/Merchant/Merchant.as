@@ -150,7 +150,7 @@ void onInit(CBlob@ this)
 		}
 	}*/
 	{
-		u32 cost = getRandomCost(@rand, 180, 280);
+		u32 cost = getRandomCost(@rand, 150, 250);
 		{
 			ShopItem@ s = addShopItem(this, "Sell Scrub's Chow (1)", "$COIN$", "coin-" + cost, "Sell 1 Scrub's Chow for " + cost + " coins.");
 			AddRequirement(s.requirements, "blob", "foodcan", "Scrub's Chow", 1);
@@ -238,7 +238,7 @@ void onInit(CBlob@ this)
 		}
 	}
 	{
-		u32 cost = getRandomCost(@rand, 350, 550);
+		u32 cost = getRandomCost(@rand, 450, 600);
 		{
 			ShopItem@ s = addShopItem(this, "Sell cider (1)", "$COIN$", "coin-" + cost, "Sell 1 pumpkin cider for " + cost + " coins.");
 			AddRequirement(s.requirements, "blob", "cider", "Pumpkin Cider.", 1);
