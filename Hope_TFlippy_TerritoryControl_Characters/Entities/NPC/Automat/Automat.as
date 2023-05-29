@@ -24,6 +24,7 @@ void onInit(CBlob@ this)
 	//causes infinite ammo
 	//this.Tag("npc");
 
+	this.Tag("vehicle");
 	this.addCommandID("automat_give");
 	this.inventoryButtonPos = Vec2f(0, 16);
 
