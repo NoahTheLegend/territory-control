@@ -70,7 +70,6 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-	
 	const f32 sign = this.isFacingLeft() ? -1 : 1;
 	CInventory@ t_inv = this.getInventory();
 	CMap@ map = getMap();

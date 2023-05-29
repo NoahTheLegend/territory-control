@@ -11,6 +11,7 @@ void onInit(CBlob@ this)
 
 	this.addCommandID("sync_prep");
 	this.addCommandID("sync");
+	this.Tag("extractable");
 
 	this.set_u32("elec_max", ELECTRICITY_MAX);
 	this.set_u16("consume_id", 0);
