@@ -9,7 +9,7 @@ const f32 MAX_HEAT = 350.0f;
 void onInit(CBlob@ this)
 {
 	Vehicle_Setup(this,
-	              70, // move speed
+	              350, // move speed
 	              0.3f,  // turn speed
 	              Vec2f(0.0f, 0.0f), // jump out velocity
 	              true  // inventory access
@@ -196,12 +196,12 @@ void onTick(CBlob@ this)
 					{
 						if (this.get_bool("break"))
 						{
-							f32 torque = this.isOnWall() ? 625.0f : 1250.0f;
+							f32 torque = this.isOnWall() ? 4000.0f : 16000.0f;
 							this.AddTorque(this.isFacingLeft() ? -torque : torque);
 						}
 						else
 						{
-							f32 torque = 350.0f;
+							f32 torque = 7500.0f;
 							this.AddTorque(this.isFacingLeft() ? torque : -torque);
 						}
 					}

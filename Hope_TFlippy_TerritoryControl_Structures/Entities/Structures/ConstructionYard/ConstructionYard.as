@@ -283,7 +283,7 @@ void onInit(CBlob@ this)
 	}
 	*/	
 	{
-		ShopItem@ s = addShopItem(this, "Charge Drill", "$chargedrill$", "chargedrill", "$chargedrill$\n\n\n\n\n" + "A giant drill that is capable to dig giant tunnels.\nYou can roll it while driving, press [DOWN] button.\nYou can reverse modes while driving, press [SPACEBAR] button.", false, false);
+		ShopItem@ s = addShopItem(this, "Charge Drill", "$chargedrill$", "chargedrill", "$chargedrill$\n\n\n\n\n" + "A giant drill that is capable to dig giant tunnels and omoron heartstones.\nYou can roll it while driving, press [DOWN] button.\nYou can reverse modes while driving, press [SPACEBAR] button.", false, false);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 20);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 12);
