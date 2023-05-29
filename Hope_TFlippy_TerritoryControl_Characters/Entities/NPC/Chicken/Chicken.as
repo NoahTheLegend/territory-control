@@ -16,8 +16,6 @@ void onInit(CSprite@ this)
 {
 	this.ReloadSprites(0, 0); //always blue
 	this.addSpriteLayer("isOnScreen","NoTexture.png",1,1);
-
-   
 }
 
 void onTick(CSprite@ this)
