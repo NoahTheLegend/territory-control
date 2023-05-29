@@ -126,7 +126,7 @@ void onTick(CBlob@ this)
 	const bool server = isServer();
 	const bool client = isClient();
 
-	const f32 power = this.get_f32("deity_power");
+	f32 power = this.get_f32("deity_power");
 	if (power < 0.00f)
 	{
 		this.set_f32("deity_power", 0);
