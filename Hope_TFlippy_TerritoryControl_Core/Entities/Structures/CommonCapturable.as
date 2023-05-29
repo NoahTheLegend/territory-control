@@ -77,7 +77,8 @@ void onTick(CBlob@ this)
 			{
 				// if (b.getTeamNum() != this.getTeamNum() && (this.getTeamNum() == 255 ? (this.hasTag("can be captured by neutral") ? this.getTeamNum() < 8 : b.getTeamNum() < 8)))
 				// && (this.getTeamNum() == 255 && this.hasTag("can be captured by neutral") ? true : b.getTeamNum() < 8)
-				if ((b.getTeamNum() != this.getTeamNum()) && ((this.getTeamNum() != 255 && this.hasTag("can be captured by neutral") && b.hasTag("human")) || ((!b.hasTag("neutral") && b.getTeamNum() < 7) || (b.getTeamNum() == 250 && this.hasTag("faction_base")))))
+				if ((b.getTeamNum() != this.getTeamNum()) && ((this.getTeamNum() != 255 && this.hasTag("can be captured by neutral") && b.hasTag("human")) || ((!b.hasTag("neutral") && b.getTeamNum() < 7)
+					|| (b.getTeamNum() == 250 && this.getTeamNum() < 7 && (this.hasTag("faction_base") || this.hasTag("can be captured by neutral"))))))
 				{
 					Vec2f bpos = b.getPosition();
 					if (bpos.x > pos.x - this.getWidth() / 1.0f && bpos.x < pos.x + this.getWidth() / 1.0f && bpos.y < pos.y + this.getHeight() / 1.0f && bpos.y > pos.y - this.getHeight() / 1.0f)
