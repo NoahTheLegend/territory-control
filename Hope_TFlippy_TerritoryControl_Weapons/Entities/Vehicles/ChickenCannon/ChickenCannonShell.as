@@ -118,12 +118,14 @@ void Pierce(CBlob@ this, Vec2f velocity, const f32 angle)
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
+	if (this.getTickSinceCreated() < 15) return false;
 	if (blob !is null) return (this.getTeamNum() != blob.getTeamNum() && (blob.isCollidable() || blob.hasTag("building")));
 	else return false;
 }
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
+	if (this.getTickSinceCreated() < 5) return;
 	if (isServer())
 	{
 		if (blob !is null && doesCollideWithBlob(this, blob)) this.server_Die();

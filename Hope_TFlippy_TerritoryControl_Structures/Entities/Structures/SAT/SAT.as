@@ -17,6 +17,7 @@ void onInit(CBlob@ this)
 	
 	this.getSprite().SetZ(20);
 	this.set_u16("target", 0);
+	this.Tag("vehicle");
 }
 
 void onInit(CSprite@ this)
@@ -107,7 +108,7 @@ void onTick(CBlob@ this)
 			head.ResetTransform();
 			head.RotateBy(-aimDir.Angle() + 180, Vec2f());
 		}
-		
+
 		if (Maths::Round(angDeg) != 90 && this.get_u32("nextAttack") < getGameTime())
 		{
 			if (isServer())
@@ -134,7 +135,7 @@ void onTick(CBlob@ this)
 			}
 			
 			ShakeScreen(200.0f, 50.0f, this.getPosition());
-			this.set_u32("nextAttack", getGameTime() + 300);
+			this.set_u32("nextAttack", getGameTime() + 450);
 		}
 	}
 }

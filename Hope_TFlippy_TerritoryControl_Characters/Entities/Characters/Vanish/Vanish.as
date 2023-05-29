@@ -14,6 +14,8 @@ void onInit(CBlob@ this)
 	this.Tag("noCapturing");
 	this.Tag("truesight");
 
+	this.addCommandID("emote");
+
 	this.Tag("noUseMenu");
 	this.set_f32("gib health", -3.0f);
 
