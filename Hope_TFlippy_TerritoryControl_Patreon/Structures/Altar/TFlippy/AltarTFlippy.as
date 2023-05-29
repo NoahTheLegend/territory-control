@@ -127,6 +127,11 @@ void onTick(CBlob@ this)
 	const bool client = isClient();
 
 	const f32 power = this.get_f32("deity_power");
+	if (power < 0.00f)
+	{
+		this.set_f32("deity_power", 0);
+		power = 0;
+	}
 	this.setInventoryName("Altar of TFlippy\n\nNostalgy feel: " + Maths::Min(1000, Maths::Max(1, power/100)) + " hoob"+(Maths::Max(1, power/100) == 1?"":"s")+" of 1000" + "\nGun reload bonus: +" + (Maths::Min(power * 0.00003f, 0.35f)*100) + "%\n"+(this.get_u8("sprite_frame")==14?"Bonus: explosives weigh much less":""));
 	const f32 radius = 64.00f + ((power / 100.00f) * 8.00f);
 	this.SetLightRadius(radius);
