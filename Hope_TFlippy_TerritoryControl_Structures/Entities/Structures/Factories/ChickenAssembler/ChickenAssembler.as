@@ -122,9 +122,9 @@ void onInit(CBlob@ this)
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("mat_hshell", 8, "HATC Shell (8)");
-		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 32);
-		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 500);
+		AssemblerItem i("mat_hshell", 4, "HATC Shell (4)");
+		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 24);
+		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 300);
 		AddRequirement(i.reqs, "blob", "mat_mithrilenriched", "Enriched Mithril", 40);
 		items.push_back(i);
 	}
