@@ -87,7 +87,7 @@ void onTick(CBlob@ this)
 		if (pilot !is null && this.getHealth() > 10.00f)
 		{
 			Vec2f dir = pilot.getPosition() - pilot.getAimPos();
-			dir.RotateBy(this.isFacingLeft()?35:-35);
+			dir.RotateBy(this.isFacingLeft()?25:-25);
 			const f32 len = dir.Length();
 			dir.Normalize();
 		
