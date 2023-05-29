@@ -34,31 +34,31 @@ void onInit(CBlob@ this)
 	}
     {
 		ShopItem@ s = addShopItem(this, "Low Caliber Ammunition (20)", "$icon_pistolammo$", "mat_pistolammo-20", "Bullets for pistols and SMGs.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 35);
+		AddRequirement(s.requirements, "coin", "", "Coins", 25);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "High Caliber Ammunition (10)", "$icon_rifleammo$", "mat_rifleammo-10", "Bullets for rifles. Effective against armored targets.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 60);
+		AddRequirement(s.requirements, "coin", "", "Coins", 40);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Shotgun Shells (4)", "$icon_shotgunammo$", "mat_shotgunammo-4", "Shotgun Shells for... Shotguns.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+		AddRequirement(s.requirements, "coin", "", "Coins", 35);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Machine Gun Ammunition (50)", "$icon_gatlingammo$", "mat_gatlingammo-50", "Ammunition used by the machine gun.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+		AddRequirement(s.requirements, "coin", "", "Coins", 65);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "High Power Ammunition (10)", "$icon_sniperammo$", "mat_sniperammo-10", "Rounds that are mainly used by sniper rifles. Very effective against heavy armored targets.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 125);
+		AddRequirement(s.requirements, "coin", "", "Coins", 100);
 
 		s.spawnNothing = true;
 	}

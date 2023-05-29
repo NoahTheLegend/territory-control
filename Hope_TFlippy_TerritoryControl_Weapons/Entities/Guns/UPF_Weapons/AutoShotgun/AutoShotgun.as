@@ -12,12 +12,12 @@ void onInit(CBlob@ this)
 	settings.AMMO_BLOB = "mat_shotgunammo"; //Ammunition the gun takes
 
 	//Bullet
-	settings.B_PER_SHOT = 5; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
+	settings.B_PER_SHOT = 6; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
 	settings.B_SPREAD = 4; //the higher the value, the more 'uncontrollable' bullets get
 	settings.B_GRAV = Vec2f(0, 0.01); //Bullet gravity drop
 	settings.B_SPEED = 90; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
-	settings.B_TTL = 5; //TTL = 'Time To Live' which determines the time the bullet lasts before despawning
-	settings.B_DAMAGE = 1.35f; //1 is 1 heart
+	settings.B_TTL = 7; //TTL = 'Time To Live' which determines the time the bullet lasts before despawning
+	settings.B_DAMAGE = 1.66f; //1 is 1 heart
 	settings.B_TYPE = HittersTC::shotgun; //Type of bullet the gun shoots | hitter
 
 	//Recoil

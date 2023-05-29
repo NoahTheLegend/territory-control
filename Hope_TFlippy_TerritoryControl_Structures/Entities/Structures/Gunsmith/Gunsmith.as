@@ -53,13 +53,13 @@ void onInit(CBlob@ this)
 
 	{
 		ShopItem@ s = addShopItem(this, "Low Caliber Ammunition (20)", "$icon_pistolammo$", "mat_pistolammo-20", "Bullets for pistols and SMGs.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 50);
+		AddRequirement(s.requirements, "coin", "", "Coins", 30);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Revolver", "$revolver$", "revolver", "A compact firearm for those with small pockets.\n\nUses Lowcal Rounds.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -79,7 +79,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "High Caliber Ammunition (10)", "$icon_rifleammo$", "mat_rifleammo-10", "Bullets for rifles. Effective against armored targets.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 80);
+		AddRequirement(s.requirements, "coin", "", "Coins", 60);
 
 		s.spawnNothing = true;
 	}
@@ -105,13 +105,13 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Shotgun Shells (4)", "$icon_shotgunammo$", "mat_shotgunammo-4", "Shotgun Shells for... Shotguns.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Boomstick", "$icon_boomstick$", "boomstick", "You see this? A boomstick! The twelve-gauge double-barreled Bobington.\n\nUses Shotgun Shells.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 425); //300c
+		AddRequirement(s.requirements, "coin", "", "Coins", 250); //300c
 		//AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8); //80c
 		//AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 2); //20c
 		//AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 6); //300c
@@ -124,7 +124,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Shotgun", "$icon_shotgun$", "shotgun", "A short-ranged weapon that deals devastating damage.\n\nUses Shotgun Shells.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 750); 
+		AddRequirement(s.requirements, "coin", "", "Coins", 350); 
 		//AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 120); //324c
 		//AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4); //200c
 
@@ -136,13 +136,13 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Machine Gun Ammunition (50)", "$icon_gatlingammo$", "mat_gatlingammo-50", "Ammunition used by the machine gun.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		AddRequirement(s.requirements, "coin", "", "Coins", 75);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "DP-27", "$dp27$", "dp27", "A cheap machinegun that was primary used in WW2 by russians.\n\nUses Gatling Ammo.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 1200); //1000c
+		AddRequirement(s.requirements, "coin", "", "Coins", 800); //1000c
 		//AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150); //405c
 		//AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 2); //20c
 		//AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);	//400c
@@ -155,7 +155,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "High Power Ammunition (10)", "$icon_sniperammo$", "mat_sniperammo-10", "Rounds that are mainly used by sniper rifles. Very effective against heavy armored targets.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		AddRequirement(s.requirements, "coin", "", "Coins", 120);
 
 		s.spawnNothing = true;
 	}

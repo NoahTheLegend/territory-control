@@ -42,61 +42,60 @@ void onInit(CBlob@ this)
 {
 	AssemblerItem[] items;
 	{
+		AssemblerItem i("fuger", 4, "UPF Fuger (4)");
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 8);
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 4);
+		items.push_back(i);
+	}
+	{
+		AssemblerItem i("Beagle", 2, "UPF Beagle (2)");
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 12);
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		items.push_back(i);
+	}
+	{
+		AssemblerItem i("uzi", 4, "UPF Submachine Gun (4)");
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 12);
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		items.push_back(i);
+	}
+	{
 		AssemblerItem i("assaultrifle", 2, "UPF Assault Rifle (2)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 24);
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 32);
 		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 20);
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("autoshotgun", 2, "UPF Assault Shotgun (2)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 24);
-		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 30);
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
-		items.push_back(i);
-	}
-	{
 		AssemblerItem i("sniper", 2, "UPF Sniper Rifle (2)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 44);
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 60);
 		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 30);
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("uzi", 4, "UPF Submachine Gun (4)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 36);
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
-		items.push_back(i);
-	}
-	{
-		AssemblerItem i("fuger", 4, "UPF Fuger (4)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 8);
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
-		items.push_back(i);
-	}
-	{
 		AssemblerItem i("silencedrifle", 2, "UPF Suppressed Rifle (2)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 30);
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 24);
 		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 12);
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		items.push_back(i);
 	}
 	{
 		AssemblerItem i("sar", 4, "UPF Semiautomatic Rifle (4)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 34);
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
 		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 22);
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 18);
 		items.push_back(i);
 	}
 	{
 		AssemblerItem i("msgl", 2, "UPF Multi-Shot Grenade Launcher AV-140 (2)");
-		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 40);
+		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 48);
 		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 32);
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("samrpg", 2, "SAM RPG (2)");
+		AssemblerItem i("samrpg", 2, "RPG with guided missiles (2)");
 		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
 		AddRequirement(i.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 12);
@@ -104,9 +103,9 @@ void onInit(CBlob@ this)
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("mat_sammissile", 4, "SAM Missile (4)");
+		AssemblerItem i("mat_sammissile", 3, "SAM Missile (3)");
 		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 4);
-		AddRequirement(i.reqs, "blob", "mat_methane", "Methane", 25);
+		AddRequirement(i.reqs, "blob", "mat_methane", "Methane", 30);
 		items.push_back(i);
 	}
 	{
