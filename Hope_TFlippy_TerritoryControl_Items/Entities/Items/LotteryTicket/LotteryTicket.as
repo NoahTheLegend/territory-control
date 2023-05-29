@@ -31,8 +31,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (isClient())
 		{
 			if (amount <= 0) this.getSprite().PlaySound("depleted.ogg", 0.80f, 0.80f);
-			else if (amount <= 1000) this.getSprite().PlaySound("LotteryTicket_Kaching.ogg", 0.80f, 1.00f);
-			else if (amount <= 7500) this.getSprite().PlaySound("AchievementUnlocked.ogg", 1.00f, 1.00f);
+			else if (amount <= 1750) this.getSprite().PlaySound("LotteryTicket_Kaching.ogg", 0.80f, 1.00f);
+			else if (amount <= 12500) this.getSprite().PlaySound("AchievementUnlocked.ogg", 1.00f, 1.00f);
 			else 
 			{
 				this.getSprite().PlaySound("FanfareWin.ogg", 1.50f, 1.00f);

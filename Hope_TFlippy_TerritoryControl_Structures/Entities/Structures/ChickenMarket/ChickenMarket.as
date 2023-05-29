@@ -59,7 +59,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("write");
 
 	{
-		ShopItem@ s = addShopItem(this, "UPF Department Store Partnership Card", "$buyshop$", "buyshop", "Become the UPF Department Store co-leader and receive 20% of its sales and unlock a permission\nto order artillery barrages!", false, true);
+		ShopItem@ s = addShopItem(this, "UPF Department Store Partnership Card", "$buyshop$", "buyshop", "Become the UPF Department Store co-leader and receive 20% of its sales and unlock the unique permission\nto order artillery barrages!", false, true);
 		AddRequirement(s.requirements, "coin", "", "Coins", 9999);
 
 		s.spawnNothing = true;
@@ -89,11 +89,11 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "IPL Lottery Ticket", "$lotteryticket$", "lotteryticket-50", "Have you ever dreamed of becoming a hero like Foghorn? Buy yourself an IPL Lottery Ticket and make your dreams come true!");
-		AddRequirement(s.requirements, "coin", "", "Coins", 249);
+		AddRequirement(s.requirements, "coin", "", "Coins", 149);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Sell Egg (1)", "$COIN$", "coin-90", "Sell 1 rescued Egg for 90 coins.");
+		ShopItem@ s = addShopItem(this, "Sell Egg (1)", "$COIN$", "coin-500", "Sell 1 rescued Egg for 500 coins.");
 		AddRequirement(s.requirements, "blob", "egg", "Rescued Egg", 1);
 		s.spawnNothing = true;
 	}
@@ -113,13 +113,13 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Portable SAM System", "$icon_sam$", "sam-500", "A portable surface-to-air missile system used to shoot down aerial targets. Automatically operated.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 7999);
+		ShopItem@ s = addShopItem(this, "SAM Missile (1)", "$icon_sammissile$", "mat_sammissile-1-56", "Guided missiles for the Portable SAM System.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 279);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "SAM Missile (1)", "$icon_sammissile$", "mat_sammissile-1-56", "Guided missiles for the Portable SAM System.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 279);
+		ShopItem@ s = addShopItem(this, "Portable SAM System", "$icon_sam$", "sam-500", "A portable surface-to-air missile system used to shoot down aerial targets. Automatically operated.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 7999);
 		s.spawnNothing = true;
 	}
 	{
