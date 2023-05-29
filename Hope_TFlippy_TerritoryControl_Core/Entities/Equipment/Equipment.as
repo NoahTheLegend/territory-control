@@ -396,12 +396,13 @@ void onDie(CBlob@ this)
 		string torsoname = this.get_string("equipment_torso");
 		string torso2name = this.get_string("equipment2_torso");
 		string bootsname = this.get_string("equipment_boots");
+
 		if (headname != "")
 		{
 			if (headname == "carbonhelmet" || headname == "wilmethelmet" || headname == "bucket" || headname == "pumpkin" || headname == "scubagear" || headname == "minershelmet" || headname == "nvd")
 			{
-				//CBlob@ item = server_CreateBlob(headname, this.getTeamNum(), this.getPosition());
-				//if (item !is null) item.set_f32("health", this.get_f32(headname+"_health"));
+				CBlob@ item = server_CreateBlob(headname, this.getTeamNum(), this.getPosition());
+				if (item !is null) item.set_f32("health", this.get_f32(headname+"_health"));
 				this.RemoveScript(headname+"_effect.as");
 			}
 		}

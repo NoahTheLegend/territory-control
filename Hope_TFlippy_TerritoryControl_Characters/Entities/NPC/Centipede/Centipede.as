@@ -119,6 +119,7 @@ void onTick(CBrain@ this)
 	const f32 maxDistance = blob.get_f32("maxDistance");
 
 	CBlob@ target = this.getTarget();
+	if (XORRandom(1000)==0) @target = null;
 
 	// print("" + target.getConfig());
 
