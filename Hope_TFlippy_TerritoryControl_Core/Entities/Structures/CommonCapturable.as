@@ -231,6 +231,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 
 void onChangeTeam(CBlob@ this, const int oldTeam)
 {
+	if (this.getTeamNum() > 7 || this.getTeamNum() < 0) this.server_setTeamNum(pure_neutral_team);
 	if (this.getTeamNum() >= 0 && this.getTeamNum() < 8)
 	{
 		CSprite@ sprite = this.getSprite();
