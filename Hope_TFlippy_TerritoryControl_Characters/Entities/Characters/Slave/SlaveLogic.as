@@ -1,6 +1,8 @@
 #include "RunnerCommon.as";
 #include "Hitters.as";
 
+const f32 bite_freq = 30*30;
+
 void onInit(CBlob@ this)
 {
 	this.Tag("remote_storage");
@@ -10,9 +12,13 @@ void onInit(CBlob@ this)
 	this.Tag("neutral");
 	this.Tag("human");
 
+	this.addCommandID("bite");
+
 	this.set_Vec2f("inventory offset", Vec2f(0.0f, 0.0f));
 	this.set_f32("mining_multiplier", 3.0f);
 	this.set_u32("build delay", 8);
+
+	this.set_u32("next_bite", 0);
 
 	if (isServer())
 	{
@@ -91,3 +97,48 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 // {
 	// return byBlob.getName() != "slave";
 // }
+
+
+void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
+{
+	Vec2f ul = gridmenu.getUpperLeftPosition();
+	Vec2f lr = gridmenu.getLowerRightPosition();
+
+	this.ClearGridMenusExceptInventory();
+	Vec2f pos = Vec2f(lr.x, ul.y) + Vec2f(-96, 152);
+	CGridMenu@ menu = CreateGridMenu(pos, this, Vec2f(1, 1), "Bite yourself!");
+
+	this.set_Vec2f("InventoryPos",pos);
+
+	AddIconToken("$bite$", "Bite.png", Vec2f(16, 16), 1);
+
+	if (menu !is null)
+	{
+		menu.deleteAfterClick = true;
+
+		CGridButton@ button = menu.AddButton("$bite$", "Bite yourself!", this.getCommandID("bite"));
+		if (button !is null)
+		{
+			button.SetEnabled(this.get_u32("next_bite") < getGameTime());
+			button.selectOneOnClick = false;
+		}
+	}
+}
+
+void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
+{
+	if (cmd == this.getCommandID("bite"))
+	{
+		if (this.get_u32("next_bite") > getGameTime()) return;
+		this.set_u32("next_bite", getGameTime()+bite_freq);
+
+		if (isServer())
+			this.server_Hit(this, this.getPosition(), Vec2f_zero, 0.5f, Hitters::bite, false);
+
+		if (isClient() && this.getSprite() !is null)
+		{
+			this.getSprite().PlaySound("ZombieBite.ogg");
+			this.getSprite().PlaySound("TraderScream.ogg", 0.8f, this.getSexNum() == 0 ? 1.0f : 2.0f);
+		}
+	}
+}
