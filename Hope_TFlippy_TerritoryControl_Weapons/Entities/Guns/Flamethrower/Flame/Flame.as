@@ -23,6 +23,11 @@ void onInit(CBlob@ this)
 	{
 		this.getCurrentScript().runFlags |= Script::tick_onscreen;
 	}
+	if (isServer())
+	{
+		if (getMap() !is null && getMap().isTileSolid(getMap().getTile(this.getPosition())))
+			this.server_Die();
+	}
 }
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)

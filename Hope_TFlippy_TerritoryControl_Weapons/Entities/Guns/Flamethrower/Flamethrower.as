@@ -42,7 +42,7 @@ void onInit(CBlob@ this)
 	this.set_u32("CustomGunRecoil", 0);
 	//this.set_f32("CustomReloadPitch", 0.65f);
 	this.set_string("ProjBlob", "flame");
-	this.set_Vec2f("ProjOffset", Vec2f(-15, -1));
+	this.set_Vec2f("ProjOffset", Vec2f(-12, -1));
 	this.Tag("CustomSoundLoop");
 	this.Tag("powerful");
 }
