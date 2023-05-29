@@ -64,7 +64,7 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 	}
 
 	// tilemap check
-	const bool buildSolid = (map.isTileSolid(buildTile) || (buildTile >= 800 && buildTile <= 824) || (blob !is null && blob.isCollidable()) || (buildTile == CMap::tile_iron || buildTile == CMap::tile_glass 
+	const bool buildSolid = (map.isTileSolid(buildTile) || (buildTile >= 800 && buildTile <= 824) || (blob !is null && blob.isCollidable()) || (buildTile == CMap::tile_iron || buildTile == CMap::tile_glass || buildTile == CMap::tile_titanium
 	|| buildTile == CMap::tile_plasteel || buildTile == CMap::tile_tnt || buildTile == CMap::tile_concrete || buildTile == CMap::tile_reinforcedconcrete || buildTile == CMap::tile_kudzu
 	|| buildTile == CMap::tile_goldingot || buildTile == CMap::tile_mithrilingot || buildTile == CMap::tile_copperingot || buildTile == CMap::tile_steelingot || buildTile == CMap::tile_ironingot || buildTile == CMap::tile_bricks));
 	Vec2f tilespace = map.getTileSpacePosition(p);
