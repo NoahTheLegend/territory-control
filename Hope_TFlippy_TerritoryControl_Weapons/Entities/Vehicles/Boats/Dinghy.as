@@ -6,6 +6,7 @@
 void onInit(CBlob@ this)
 {
 	this.addCommandID("store inventory");
+	this.Tag("ignore fall");
 
 	AddIconToken("$store_inventory$", "InteractionIcons.png", Vec2f(32, 32), 28);
 
@@ -109,7 +110,7 @@ void onTick(CBlob@ this)
 
 	if (!this.isInWater())
 	{
-		this.setVelocity(Vec2f(0, this.getVelocity().y));
+		this.setVelocity(Vec2f(this.getVelocity().x*0.5f, this.getVelocity().y));
 	}
 }
 
