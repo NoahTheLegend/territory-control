@@ -10,6 +10,7 @@
 #include "Requirements.as"
 #include "CustomBlocks.as";
 #include "ParticleSparks.as";
+#include "HittersTC.as";
 
 //attacks limited to the one time per-actor before reset.
 
@@ -810,6 +811,10 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			break;
 	}
 	
+	if (damage < 0.1f && customData > HittersTC::bullet_low_cal && customData != HittersTC::shotgun)
+	{
+		damage == 0.1f;
+	}
 	return damage; //no block, damage goes through
 }
 
