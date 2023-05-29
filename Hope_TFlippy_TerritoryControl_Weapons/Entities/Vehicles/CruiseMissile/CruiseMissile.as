@@ -51,7 +51,8 @@ void onAddToInventory(CBlob@ this, CBlob@ blob)
 		"mat_explodium",
 		"mat_mithrilenriched",
 		"mat_stunbomb",
-		"mat_smokegrenade"
+		"mat_smokegrenade",
+		"mat_explonuke"
 	};
 
 	CSprite@ sprite = this.getSprite();
