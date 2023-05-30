@@ -83,7 +83,8 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Famous Opera", "Disc_Opera.ogg"),// 66
 	GramophoneRecord("II Magnifico Cornuto (M11)", "Disc_II-Magnifico-Cornuto(M11).ogg"),// 67
 	GramophoneRecord("Circus Ambience", "Disc_CircusMusic.ogg"),// 68
-	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg")// 69 haha 69 gomek dog
+	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg"),// 69 haha 69 gomek dog
+	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg")
 };
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
 // example: !disc 0 will give you mountain king
