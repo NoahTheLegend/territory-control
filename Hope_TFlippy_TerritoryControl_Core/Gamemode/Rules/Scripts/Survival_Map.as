@@ -2,6 +2,7 @@
 #include "MapType.as";
 
 const string[] OffiMaps = {
+	"TFlippy_TC_Thomas",
     "Xeno_Plains&Hills",
 	"Xeno_TC_Graveyard",
 	"TFlippy_TC_Reign",
@@ -12,6 +13,8 @@ const string[] OffiMaps = {
 	"TFlippy_TC_Tenshi_Lakes",
 	"TFlippy_TC_Valley",
 	"TFlippy_Rob_TC_Socks",
+	"Imbalol_TC_OilRig",
+	"Imbalol_TC_UPFCargo",
 	"Ginger_TC_Bridge",
 	"Ginger_TC_Ridgelands_V2",
 	"Ginger_TC_Royale_V3",
@@ -23,12 +26,13 @@ const string[] OffiMaps = {
 	"Ginger_TC_Aether",
 	"Ginger_TC_Royale",
 	"Ginger_TC_Highlands_V4",
+	"Ginger_TC_Samurai.png",
 	"Ginger_TC_Cove_v2",
 	"JmD_TC_Poultry_v6",
 	"Sylw_LawrenceSlum",
 	"Tenshi_TC_WellOiledMachine_v2",
-	"Goldy_TC_Basement_v2",
 	"Goldy_TC_Sewers_v2",
+	"Goldy_TC_Netherland_v2",
 	"Skemonde_TC_Gooby_v3fM",
 	"Skemonde_TC_Morgenland_v3",
 	"NoahTheLegend_Deadborn.png"
@@ -36,7 +40,6 @@ const string[] OffiMaps = {
 
 const string[] MemeMaps = {
 	"TFlippy_THD_TC_Foghorn",
-	//"Goldy_TC_Basement_v2",
 	//"Goldy_TC_DoubleVision", //too laggy to use
 	//"Goldy_TC_ThomsMega_Smoll", //E bug
 	//"Imbalol_TC_City_v1",
@@ -44,6 +47,7 @@ const string[] MemeMaps = {
 	//"Maybe_Cool_Tc_Map",
 	//"Naime_TC_Land",
 	"Ginger_TC_Mookcity",
+	"Ginger_TC_Bebop",
 	//"Imbalol_TC_Joker2",
 	"TFlippy_UncleBen_v5",
 	"WorldsCollide",
@@ -56,8 +60,6 @@ const string[] MemeMaps = {
 const string[] OldMaps = {
 	"Ginger_TC_Pirates",
 	"Imbalol_TC_ChickenKingdom_v2",
-	"Imbalol_TC_OilRig",
-	"Imbalol_TC_UPFCargo",
 	"Tenshi_TC_DeadEchoSeven_v1",
 	"Ginger_TC_Seaside",
 	"Ginger_TC_Highlands",
@@ -65,11 +67,13 @@ const string[] OldMaps = {
 	"TFlippy_TC_Nostalgia",
 	"Goldy_TC_Propesko",
 	"Xeno_TC_AncientTemple",
+	"Imbalol_TC_OilRig",
+	"Imbalol_TC_UPFCargo",
 	"TFlippy_TC_Skynet",
 	"TFlippy_THD_TC_Kagtorio",
 	"Ginger_Tenshi_TC_Extinction",
 	"Goldy_TC_Hollows",
-	"Goldy_TC_Netherland_v2",
+	"Goldy_TC_Basement_v2",
 	"Ginger_TC_Equinox",
 	"Ginger_TC_Lagoon",
 	"TFlippy_TC_Thomas"

@@ -13,6 +13,8 @@ void onInit(CBlob@ this)
 	this.Tag("extractable");
 	this.addCommandID("write");
 	this.addCommandID("sync_prop");
+
+	this.getSprite().getConsts().accurateLighting = false;
 	
 	this.set_string("mat_prop", XORRandom(4)==0?"mat_methane":"mat_oil");
 
@@ -28,7 +30,8 @@ void onInit(CBlob@ this)
 	this.Tag("upkeep building");
 	this.set_u8("upkeep cap increase", 2);
 	this.set_u8("upkeep cost", 0);
-
+	this.Tag("can be captured by neutral");
+	
 	this.SetMinimapOutsideBehaviour(CBlob::minimap_snap);
 	this.SetMinimapVars("MinimapIcons.png",64,Vec2f(8,8));
 	this.SetMinimapRenderAlways(true);
@@ -38,6 +41,8 @@ void onInit(CBlob@ this)
 		this.setInventoryName(this.get_string("text"));
 		this.set_string("shop description", this.get_string("text"));
 	}
+
+	this.inventoryButtonPos = Vec2f(30, 34);
 }
 
 void onDie(CBlob@ this)
@@ -99,7 +104,7 @@ void onTick(CSprite@ this)
 			// left column
 			{
 				Vec2f pos = blob.getPosition()-Vec2f(27, -40);
-				f32 dist = 0;
+				f32 dist = getMap().tilemapheight*8-pos.y;
 			
 				HitInfo@[] infos;
 				getMap().getHitInfosFromRay(pos, 90,
@@ -131,7 +136,7 @@ void onTick(CSprite@ this)
 			// right column
 			{
 				Vec2f pos = blob.getPosition()-Vec2f(-35, -40);
-				f32 dist = 0;
+				f32 dist = getMap().tilemapheight*8-pos.y;
 				
 				HitInfo@[] infos;
 				getMap().getHitInfosFromRay(pos, 90,
@@ -163,7 +168,7 @@ void onTick(CSprite@ this)
 			// drill
 			{
 				Vec2f pos = blob.getPosition()-Vec2f(-3, -40);
-				f32 dist = 0;
+				f32 dist = getMap().tilemapheight*8-pos.y;
 			
 				HitInfo@[] infos;
 				getMap().getHitInfosFromRay(pos, 90,
