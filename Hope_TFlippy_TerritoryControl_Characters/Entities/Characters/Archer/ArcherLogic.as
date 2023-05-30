@@ -84,7 +84,7 @@ void ManageGrapple(CBlob@ this, ArcherInfo@ archer)
 			sprite.SetEmitSoundPaused(true);
 			sprite.PlaySound("PopIn.ogg");
 		}
-		else if (true) //otherwise grapple // test
+		else
 		{
 			archer.grappling = true;
 			archer.grapple_id = 0xffff;
@@ -193,6 +193,8 @@ void ManageGrapple(CBlob@ this, ArcherInfo@ archer)
 					delta -= step;
 					found = checkGrappleStep(this, archer, map, dist);
 				}
+				if (canSend(this))
+					SyncGrapple(this);
 
 			}
 			else //stuck -> pull towards pos
