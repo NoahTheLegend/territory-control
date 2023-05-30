@@ -39,7 +39,7 @@ void onInit(CBlob@ this)
 	AddIconToken("$icon_tflippy_follower$", "InteractionIcons.png", Vec2f(32, 32), 11);
 	{
 		ShopItem@ s = addShopItem(this, "Rite of Nostalgy", "$icon_tflippy_follower$", "follower", "Gain old feelings by praising The Creator");
-		AddRequirement(s.requirements, "blob", "foodcan", "Scrub Chow", 1);
+		AddRequirement(s.requirements, "blob", "foodcan", "Scrub Chow", 2);
 		s.customButton = true;
 		s.buttonwidth = 2;	
 		s.buttonheight = 2;
