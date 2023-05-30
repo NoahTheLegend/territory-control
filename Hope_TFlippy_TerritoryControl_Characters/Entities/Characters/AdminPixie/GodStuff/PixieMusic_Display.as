@@ -1,3 +1,4 @@
+#define CLIENT_ONLY
 #include "godCommon.as";
 string[] note_names = 
 {"B","C","C#","D","D#","E","F","F#","G","G#","A","A#"};

@@ -60,7 +60,7 @@ void onTick(CBlob@ this)
 	CControls@ controls = this.getControls();
 	if (controls !is null)
 	{
-		if (controls.isKeyJustPressed(KEY_LSHIFT) && !this.hasTag("exploding"))
+		if (this.isMyPlayer() && controls.isKeyJustPressed(KEY_LSHIFT) && !this.hasTag("exploding"))
 		{
 			CBitStream params;
 			this.SendCommand(this.getCommandID("vest_explode"), params);

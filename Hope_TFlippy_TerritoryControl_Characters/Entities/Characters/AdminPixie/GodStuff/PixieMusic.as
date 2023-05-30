@@ -5,7 +5,10 @@
 //also later you will need to stop player from acting while you play
 
 //#include "Flute_layout.as";
+
+#define CLIENT_ONLY
 #include "godCommon.as"
+
 namespace Layout
 {
     enum LayoutNumbers

@@ -42,7 +42,7 @@ void onTick(CBlob@ this)
 	CControls@ controls = this.getControls();
 	CInventory@ inv = this.getInventory();
 	if (controls is null) return;
-	bool shift = controls.isKeyPressed(KEY_LSHIFT) || controls.isKeyPressed(KEY_RSHIFT);
+	bool shift = this.isMyPlayer() && (controls.isKeyPressed(KEY_LSHIFT) || controls.isKeyPressed(KEY_RSHIFT));
 	if (controls !is null) 
 		if (shift)
 			if (this.get_f32("fuel_count") > 0)

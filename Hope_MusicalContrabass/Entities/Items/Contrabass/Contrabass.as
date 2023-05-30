@@ -9,6 +9,8 @@
 
 //#include "Flute_layout.as";
 
+#define CLIENT_ONLY
+
 namespace Layout
 {
     enum LayoutNumbers

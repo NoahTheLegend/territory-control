@@ -16,7 +16,7 @@ void onTick(CBlob@ this)
         return;
     }
     CControls@ controls = playerblob.getControls();
-    if(controls is null)
+    if(controls is null || !playerblob.isMyPlayer())
 	{
         return;
     }

@@ -237,10 +237,11 @@ void onTick(CBlob@ this)
 
 			// Start reload sequence when pressing [R]
 			CControls@ controls = holder.getControls();
-			if (controls !is null && controls.isKeyJustPressed(KEY_KEY_R) &&
+			if (controls !is null && holder.isMyPlayer() && controls.isKeyJustPressed(KEY_KEY_R) &&
 				!this.get_bool("beginReload") && !this.get_bool("doReload") && 
 				this.get_u8("clip") < settings.TOTAL && HasAmmo(this))
 			{
+				printf("e");
 				this.set_bool("beginReload", true);
 			}
 

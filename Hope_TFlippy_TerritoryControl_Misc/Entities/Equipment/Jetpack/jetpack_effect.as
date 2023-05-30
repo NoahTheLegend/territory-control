@@ -41,7 +41,7 @@ void onTick(CBlob@ this)
 	if (!flying)
 	{
 		CControls@ controls = this.getControls();
-		if (controls !is null && controls.isKeyPressed(KEY_LSHIFT) && !isknocked)
+		if (controls !is null && this.isMyPlayer() && controls.isKeyPressed(KEY_LSHIFT) && !isknocked)
 		{
 			Vec2f dir = this.getAimPos() - this.getPosition();
 			dir.Normalize();
