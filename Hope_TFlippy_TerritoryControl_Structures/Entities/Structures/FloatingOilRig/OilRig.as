@@ -13,8 +13,12 @@ void onInit(CBlob@ this)
 	this.Tag("extractable");
 	this.addCommandID("write");
 	this.addCommandID("sync_prop");
+	
+	this.SetLight(true);
+	this.SetLightRadius(250.0f);
+	this.SetLightColor(SColor(255, 255, 240, 210));
 
-	this.getSprite().getConsts().accurateLighting = false;
+	this.getSprite().getConsts().accurateLighting = true;
 	
 	this.set_string("mat_prop", XORRandom(4)==0?"mat_methane":"mat_oil");
 
