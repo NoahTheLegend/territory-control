@@ -12,14 +12,14 @@ void onInit(CBlob@ this)
 
 	//General
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
-	settings.TOTAL = 12; //Max amount of ammo that can be in a clip
-	settings.FIRE_INTERVAL = 5; //Time in between shots
-	settings.RELOAD_TIME = 30; //Time it takes to reload (in ticks)
+	settings.TOTAL = 10; //Max amount of ammo that can be in a clip
+	settings.FIRE_INTERVAL = 6; //Time in between shots
+	settings.RELOAD_TIME = 45; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_mithril"; //Ammunition the gun takes
 
 	//Bullet
 	settings.B_PER_SHOT = 1; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
-	settings.B_SPREAD = 2; //the higher the value, the more 'uncontrollable' bullets get
+	settings.B_SPREAD = 3; //the higher the value, the more 'uncontrollable' bullets get
 	settings.B_GRAV = Vec2f(0, 0.001); //Bullet gravity drop
 	settings.B_SPEED = 90; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
 	settings.B_TTL = 10; //TTL = 'Time To Live' which determines the time the bullet lasts before despawning
@@ -27,7 +27,7 @@ void onInit(CBlob@ this)
 	settings.B_TYPE = HittersTC::plasma; //Type of bullet the gun shoots | hitter
 
 	//Recoil
-	settings.G_RECOIL = -7; //0 is default, adds recoil aiming up
+	settings.G_RECOIL = -10; //0 is default, adds recoil aiming up
 	settings.G_RANDOMX = true; //Should we randomly move x
 	settings.G_RANDOMY = false; //Should we randomly move y, it ignores g_recoil
 	settings.G_RECOILT = 4; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)
@@ -35,7 +35,7 @@ void onInit(CBlob@ this)
 
 	//Sound
 	settings.FIRE_SOUND = "BlasterShoot.ogg"; //Sound when shooting
-	settings.RELOAD_SOUND = "RifleReload.ogg"; //Sound when reloading
+	settings.RELOAD_SOUND = "ChargeRifle_Reload.ogg"; //Sound when reloading
 
 	//Offset
 	settings.MUZZLE_OFFSET = Vec2f(-15, -1); //Where the muzzle flash appears
