@@ -305,7 +305,7 @@ const string[] rolling = { // from 0 to 2500, as bigger value as more chance to 
     "mat_antimatter-800",
     "mat_copper-2250",
     "mat_concrete-1500",
-    "mat_gold-1850",
+    "mat_gold-1500",
     "mat_iron-2250",
     "mat_lancerod-1500",
     "mat_matter-1700",
@@ -315,7 +315,7 @@ const string[] rolling = { // from 0 to 2500, as bigger value as more chance to 
     "mat_stone-2500",
     "mat_sulphur-1250",
     "mat_titanium-2250",
-    "mat_wilmet-1900",
+    "mat_wilmet-1800",
     "molecularfabricator-750",
     "oof-650",
     "pheromones-2000",
@@ -333,7 +333,6 @@ const string[] matAsteroid = {
     "mat_concrete",
     "mat_mithril",
     "mat_sulphur",
-    "mat_mithrilenriched",
     "mat_mithrilingot",
     "infernalstone",
     "amogusplushie",
@@ -341,14 +340,13 @@ const string[] matAsteroid = {
 };
 
 const u16[] valAsteroid = {
-    3500,
-    1500,
-    1350,
-    1000,
+    3000,
+    1200,
     1250,
+    900,
     1500,
+    1400,
     1000,
-    100,
     75,
     1, //infernal stone
     1, //amogi
@@ -357,11 +355,11 @@ const u16[] valAsteroid = {
 // yields are the random increasing amount, as more it is (from 1 to 1000), as more mats it can summon with a random chance
 const u16[] yieldAsteroid = { // depending on the value
     200,
-    80,
-    80,
-    250,
-    100,
-    300, // mithril
+    75,
+    75,
+    225,
+    90,
+    275, // mithril
     500,
     300,
     150,
@@ -479,7 +477,7 @@ const string[] matExoplanet = {
     "mat_wilmet",
     "amogusplushie",
     "gyromat",
-    "suszooka", // make very small chance
+    "suszooka",
     "lifematter",
     "energymatter",
     "pheromones",

@@ -154,7 +154,6 @@ const string[] reqcompunit = { //5
     "mat_copperwire",
     "mat_carbon",
     "mat_titaniumingot",
-    "gyromat",
     "bp_automation_advanced"
 };
 
@@ -625,62 +624,61 @@ void onTick(CBlob@ this)
             if (frameindex <= 1)
             {
                 //set requirements here
-                this.set_u16("mat_steelingot", 75);
-                this.set_u16("mat_copperingot", 75);
-                this.set_u16("mat_fuel", 150);
-                this.set_u16("mat_copperwire", 100);
-                this.set_u16("mat_carbon", 150);
-                this.set_u16("mat_titaniumingot", 100);
-                this.set_u16("lighter", 4);
+                this.set_u16("mat_steelingot", 50);
+                this.set_u16("mat_copperingot", 50);
+                this.set_u16("mat_fuel", 100);
+                this.set_u16("mat_copperwire", 50);
+                this.set_u16("mat_carbon", 100);
+                this.set_u16("mat_titaniumingot", 75);
+                this.set_u16("lighter", 1);
                 this.set_u16("bp_energetics", 1);
             }
             else if (frameindex >= 2 && frameindex <= 3)
             {
                 if (this.getSprite() !is null) this.getSprite().SetEmitSoundPaused(false);
-                this.set_u16("mat_ironingot", 150);
-                this.set_u16("mat_steelingot", 75);
-                this.set_u16("mat_copperingot", 400);
-                this.set_u16("mat_oil", 250);
+                this.set_u16("mat_ironingot", 100);
+                this.set_u16("mat_steelingot", 50);
+                this.set_u16("mat_copperingot", 150);
+                this.set_u16("mat_oil", 300);
                 this.set_u16("mat_copperwire", 150);
                 this.set_u16("mat_carbon", 150);
                 this.set_u16("mat_titaniumingot", 50);
-                this.set_u16("catalyzer", 2);
+                this.set_u16("catalyzer", 1);
             }
             else if (frameindex == 4)
             {
-                this.set_u16("mat_ironingot", 250);
-                this.set_u16("mat_steelingot", 125);
+                this.set_u16("mat_ironingot", 200);
+                this.set_u16("mat_steelingot", 100);
                 this.set_u16("mat_carbon", 350);
                 this.set_u16("mat_titaniumingot", 200);
                 this.set_u16("mat_concrete", 3000);
-                this.set_u16("wrench", 5);
+                this.set_u16("wrench", 2);
             }
             else if (frameindex == 5)
             {
-                this.set_u16("mat_ironingot", 150);
-                this.set_u16("mat_steelingot", 50);
-                this.set_u16("mat_copperwire", 350);
+                this.set_u16("mat_ironingot", 200);
+                this.set_u16("mat_steelingot", 75);
+                this.set_u16("mat_copperwire", 300);
                 this.set_u16("mat_carbon", 250);
                 this.set_u16("mat_titaniumingot", 100);
-                this.set_u16("gyromat", 1);
                 this.set_u16("bp_automation_advanced", 1);
             }
             else if (frameindex >= 6 && frameindex <= 9)
             {
                 this.set_u16("mat_ironingot", 50);
-                this.set_u16("mat_steelingot", 40);
-                this.set_u16("mat_copperingot", 35);
-                this.set_u16("mat_mithrilingot", 20);
-                this.set_u16("mat_carbon", 150);
-                this.set_u16("mat_titaniumingot", 50);
+                this.set_u16("mat_steelingot", 30);
+                this.set_u16("mat_copperingot", 30);
+                this.set_u16("mat_mithrilingot", 15);
+                this.set_u16("mat_carbon", 100);
+                this.set_u16("mat_titaniumingot", 30);
             }
             else if (frameindex == 10)
             {
-                this.set_u16("mat_ironingot", 150);
-                this.set_u16("mat_steelingot", 100);
-                this.set_u16("mat_mithrilingot", 100);
-                this.set_u16("mat_goldingot", 100);
-                this.set_u16("mat_carbon", 275);
+                this.set_u16("mat_ironingot", 100);
+                this.set_u16("mat_steelingot", 75);
+                this.set_u16("mat_mithrilingot", 50);
+                this.set_u16("mat_goldingot", 75);
+                this.set_u16("mat_carbon", 250);
                 this.set_u16("mat_titaniumingot", 100);
             }
 
@@ -709,7 +707,7 @@ void onTick(CBlob@ this)
     }
     else if (frameindex == 5)
     {
-        matsneeded = "Materials left:\nIron ingots - "+this.get_u16("mat_ironingot")+"\nSteel ingots - "+this.get_u16("mat_steelingot")+"\nCopper ingots - "+this.get_u16("mat_copperingot")+"\nCopper wires - "+this.get_u16("mat_copperwire")+"\nCarbon - "+this.get_u16("mat_carbon")+"\nTitanium ingots - "+this.get_u16("mat_titaniumingot")+"\nGyromat - "+this.get_u16("gyromat")+"\nBlueprint (Advanced Automation) - "+this.get_u16("bp_automation_advanced");
+        matsneeded = "Materials left:\nIron ingots - "+this.get_u16("mat_ironingot")+"\nSteel ingots - "+this.get_u16("mat_steelingot")+"\nCopper ingots - "+this.get_u16("mat_copperingot")+"\nCopper wires - "+this.get_u16("mat_copperwire")+"\nCarbon - "+this.get_u16("mat_carbon")+"\nTitanium ingots - "+this.get_u16("mat_titaniumingot")+"\nBlueprint (Advanced Automation) - "+this.get_u16("bp_automation_advanced");
     }
     else if (frameindex >= 6 && frameindex <= 9)
     {
@@ -804,7 +802,7 @@ void onTick(CBlob@ this)
                         }
                     }
 
-                    if (powerdrill >= 10)
+                    if (powerdrill >= 8)
                     {
                         this.set_string("module"+(this.get_u8("frameindex")-5), "drillstation");
                         u8 counter = 0;
@@ -812,7 +810,7 @@ void onTick(CBlob@ this)
                         for (u8 i = 0; i < inv.getItemsCount(); i++)
                         {
                             CBlob@ blob = inv.getItem(i);
-                            if (blob !is null && blob.getName() == "powerdrill" && counter < 10)
+                            if (blob !is null && blob.getName() == "powerdrill" && counter < 8)
                             {
                                 counter++;
                                 blob.Tag("dead");
@@ -821,7 +819,7 @@ void onTick(CBlob@ this)
                         }
                         this.Sync("module"+(this.get_u8("frameindex")-5), true);
                     }
-                    else if (mat_fuel >= 10 && !this.hasTag("has_fuel_tank"))
+                    else if (mat_fuel >= 15 && !this.hasTag("has_fuel_tank"))
                     {
                         this.set_string("module"+(this.get_u8("frameindex")-5), "fueltank");
                         u8 counter = 0;
@@ -830,7 +828,7 @@ void onTick(CBlob@ this)
                         {
                             CBlob@ blob = inv.getItem(i);
                             
-                            if (blob !is null && blob.getName() == "mat_fuel" && counter < 10)
+                            if (blob !is null && blob.getName() == "mat_fuel" && counter < 15)
                             {
                                 counter++;
                                 blob.Tag("dead");
@@ -858,7 +856,7 @@ void onTick(CBlob@ this)
                         }
                         this.Sync("module"+(this.get_u8("frameindex")-5), true);
                     }
-                    else if (uzi >= 8)
+                    else if (uzi >= 4)
                     {
                         this.set_string("module"+(this.get_u8("frameindex")-5), "weaponpack");
                         u8 counter = 0;
@@ -867,7 +865,7 @@ void onTick(CBlob@ this)
                         {
                             CBlob@ blob = inv.getItem(i);
                             
-                            if (blob !is null && blob.getName() == "uzi" && counter < 16)
+                            if (blob !is null && blob.getName() == "uzi" && counter < 4)
                             {
                                 counter++;
                                 blob.Tag("dead");

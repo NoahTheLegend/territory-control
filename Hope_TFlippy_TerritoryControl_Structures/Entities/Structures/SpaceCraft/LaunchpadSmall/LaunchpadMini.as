@@ -203,31 +203,31 @@ void onTick(CBlob@ this)
             if (frameindex == 0)
             {
                 //set requirements here
-                this.set_u16("mat_ironingot", 150);
-                this.set_u16("mat_steelingot", 50);
-                this.set_u16("mat_fuel", 200);
+                this.set_u16("mat_ironingot", 75);
+                this.set_u16("mat_steelingot", 20);
+                this.set_u16("mat_fuel", 150);
                 this.set_u16("mat_copperwire", 150);
                 this.set_u16("mat_carbon", 150);
-                this.set_u16("mat_titaniumingot", 150);
+                this.set_u16("mat_titaniumingot", 75);
                 this.set_u16("lighter", 2);
             }
             else if (frameindex == 1)
             {
                 if (this.getSprite() !is null) this.getSprite().SetEmitSoundPaused(false);
-                this.set_u16("mat_ironingot", 300);
-                this.set_u16("mat_steelingot", 100);
-                this.set_u16("mat_copperingot", 150);
+                this.set_u16("mat_ironingot", 200);
+                this.set_u16("mat_steelingot", 75);
+                this.set_u16("mat_copperingot", 100);
                 this.set_u16("mat_copperwire", 150);
                 this.set_u16("mat_carbon", 400);
-                this.set_u16("mat_titaniumingot", 125);
+                this.set_u16("mat_titaniumingot", 100);
             }
             else
             {
-                this.set_u16("mat_ironingot", 125);
-                this.set_u16("mat_goldingot", 75);
-                this.set_u16("mat_copperwire", 150);
-                this.set_u16("mat_carbon", 250);
-                this.set_u16("mat_titaniumingot", 75);
+                this.set_u16("mat_ironingot", 100);
+                this.set_u16("mat_goldingot", 50);
+                this.set_u16("mat_copperwire", 50);
+                this.set_u16("mat_carbon", 200);
+                this.set_u16("mat_titaniumingot", 50);
             }
 
             for (u8 i = 0; i < matNames.length; i++)
