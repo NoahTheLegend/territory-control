@@ -76,23 +76,23 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Stone (250)", "$mat_stone_1x$", "mat_stone-250", "Buy 250 stone for 150 coins.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		ShopItem@ s = addShopItem(this, "Buy Stone (250)", "$mat_stone_1x$", "mat_stone-250", "Buy 250 stone for 125 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 125);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Stone (2500)", "$mat_stone_10x$", "mat_stone-2500", "Buy 2500 stone for 1500 coins.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
+		ShopItem@ s = addShopItem(this, "Buy Stone (2500)", "$mat_stone_10x$", "mat_stone-2500", "Buy 2500 stone for 1250 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 1250);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Wood (250)", "$mat_wood_1x$", "mat_wood-250", "Buy 250 wood for 90 coins.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 90);
+		ShopItem@ s = addShopItem(this, "Buy Wood (250)", "$mat_wood_1x$", "mat_wood-250", "Buy 250 wood for 80 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 80);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Wood (2500)", "$mat_wood_10x$", "mat_wood-2500", "Buy 2500 wood for 900 coins.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 900);
+		ShopItem@ s = addShopItem(this, "Buy Wood (2500)", "$mat_wood_10x$", "mat_wood-2500", "Buy 2500 wood for 800 coins.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 800);
 		s.spawnNothing = true;
 	}
 	{
@@ -116,12 +116,12 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Sell Wood (250)", "$COIN$", "coin-75", "Sell 250 wood for 75 coins.");
+		ShopItem@ s = addShopItem(this, "Sell Wood (250)", "$COIN$", "coin-70", "Sell 250 wood for 70 coins.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Sell Wood (2500)", "$COIN$", "coin-750", "Sell 2500 wood for 750 coins.");
+		ShopItem@ s = addShopItem(this, "Sell Wood (2500)", "$COIN$", "coin-750", "Sell 2500 wood for 700 coins.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 2500);
 		s.spawnNothing = true;
 	}
