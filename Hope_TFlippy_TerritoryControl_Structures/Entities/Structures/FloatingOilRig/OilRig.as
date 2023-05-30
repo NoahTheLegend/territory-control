@@ -76,7 +76,7 @@ void onTick(CSprite@ this)
 	
 	if (isClient())
 	{
-		if (blob.getTickSinceCreated() == 1)
+		if (blob.getTickSinceCreated() == 1 || !blob.hasTag("initializded_layers"))
 		{
 			CBlob@ blob = this.getBlob();
 			if (blob is null) return;
@@ -209,6 +209,7 @@ void onTick(CSprite@ this)
 					seg.SetOffset(Vec2f(-3, 58 + 16*i));
 				}
 			}
+			blob.Tag("initializded_layers");
 		}
 	}
 }
