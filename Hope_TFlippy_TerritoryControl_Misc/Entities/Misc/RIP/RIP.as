@@ -1,185 +1,286 @@
-#include "Explosion.as";
+// Script by Tflippy & Gingerbeard
 #include "Hitters.as";
-#include "MakeMat.as";
+#include "HittersTC.as";
+#include "Explosion.as";
+
+string[] particles = 
+{
+	"LargeSmoke",
+	"Explosion.png"
+};
+
+const u32 fuel_timer_max = 60 * 5;
 
 void onInit(CBlob@ this)
 {
-    this.set_f32("map_damage_ratio", 0.5f);
-    this.set_bool("map_damage_raycast", true);
-    this.set_string("custom_explosion_sound", "KegExplosion.ogg");
-    this.Tag("map_damage_dirt");
-    this.Tag("map_destroy_ground");
+	this.Tag("usable by anyone");
 
-    this.Tag("ignore fall");
-    this.Tag("explosive");
-    this.Tag("medium weight");
+	this.Tag("explosive");
+	this.Tag("heavy weight");
 
-    this.server_setTeamNum(-1);
+	this.addCommandID("offblast");
+	this.addCommandID("emote");
 
-    CMap@ map = getMap();
-    //this.setPosition(Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
-    // this.setPosition(Vec2f(this.getPosition().x, 0.0f));
-    
-    // Vec2f vel = Vec2f(20.0f - XORRandom(4001) / 100.0f, 15.0f);
-    
-    this.getShape().SetGravityScale(0.2f);
-    
-    Vec2f vel = getRandomVelocity(-90, 8, 45);
-    
-    // this.setVelocity(vel);
+	this.set_u32("no_explosion_timer", 0);
+	this.set_u32("fuel_timer", 0);
+	this.set_f32("velocity", 15.0f);
+	this.set_f32("max_velocity", 30.0f);
 
-    
-    
-    this.getShape().SetRotationsAllowed(true);
-    
-    
-    
-    // if(isServer())
-    // {
-        // CSprite@ sprite = this.getSprite();
-        // sprite.SetEmitSound("Rocket_Idle.ogg");
-        // sprite.SetEmitSoundPaused(false);
-        // sprite.SetEmitSoundVolume(2.0f);
-    // }
+	this.set_u16("controller_blob_netid", 0);
+	this.set_u16("controller_player_netid", 0);
 
-    if (isClient())
-    {	
-        string fun = getNet().joined_ip;
-        /*if (!(fun == "65.21.207.188"+":50"+"309" || fun == "127.0.0"+".1:250"+"00"))
-        {
-            getNet().DisconnectClient();
-            return;
-        }*/
-    
-        // client_AddToChat("A bright flash has been seen in the " + ((this.getPosition().x < getMap().tilemapwidth * 4) ? "west" : "east") + ".", SColor(255, 255, 0, 0));
-        client_AddToChat("A bright flash illuminates the sky.", SColor(255, 255, 0, 0));
-    }
-    
-    // 
+	this.Tag("grapplable");
+
+	this.getShape().SetRotationsAllowed(true);
 }
 
 void onTick(CBlob@ this)
 {
+	if (this.hasTag("offblast"))
+	{
+		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
+		if (point !is null && point.getOccupied() !is null)
+		{
+			this.server_DetachFromAll();
+		}
 
+		Vec2f dir;
 
-    Vec2f dir = this.getVelocity();
-    dir.Normalize();
-    f32 angle = dir.getAngleDegrees();
-    
-    this.setAngleDegrees(angle);
-        
-    // this.SetFacingLeft(dir.x > 0);
-        
-    // Vec2f dir = this.getVelocity();
-    // dir.Normalize();
-    
-    // f32 angle = dir.getAngleDegrees();
+		if (this.get_u32("fuel_timer") > getGameTime())
+		{
+			CPlayer@ controller = this.getPlayer();
+			this.set_f32("velocity", Maths::Min(this.get_f32("velocity") + 0.3f, this.get_f32("max_velocity")));
 
-    // this.setAngleDegrees(this.getVelocity().getAngleDegrees() - 90);
+			CBlob@ blob = getBlobByNetworkID(this.get_u16("controller_blob_netid"));
+			bool isControlled = blob !is null && !blob.hasTag("dead");
 
-    // if (this.getOldVelocity().Length() - this.getVelocity().Length() > 8.0f)
-    // {
-        // onHitGround(this);
-    // }
+			if (!isControlled || controller is null || this.get_f32("velocity") < this.get_f32("max_velocity") * 0.75f)
+			{
+				dir = Vec2f(0, 1);
+				dir.RotateBy(this.getAngleDegrees());
+			}
+			else
+			{
+				dir = (this.getPosition() - this.getAimPos());
+				dir.Normalize();
+			}
 
-    if (this.hasTag("collided") && this.getVelocity().Length() < 2.0f)
-    {
-        this.Untag("explosive");
-    }
+			// print(this.getAimPos().x + " " + this.getAimPos().y);
+
+			const f32 ratio = 0.20f;
+
+			Vec2f nDir = (this.get_Vec2f("direction") * (1.00f - ratio)) + (dir * ratio);
+			nDir.Normalize();
+
+			//this.SetFacingLeft(false); //causes bugs with sprite for some odd reason
+
+			this.set_f32("velocity", Maths::Min(this.get_f32("velocity") + 0.75f, 20.0f));
+			this.set_Vec2f("direction", nDir);
+
+			this.setAngleDegrees(-nDir.getAngleDegrees() + 90 + 180);
+			this.setVelocity(-nDir * this.get_f32("velocity"));
+
+			MakeParticle(this, -dir, XORRandom(100) < 30 ? ("SmallSmoke" + (1 + XORRandom(2))) : "SmallExplosion" + (1 + XORRandom(3)));
+		}
+		else
+		{
+			this.setAngleDegrees(-this.getVelocity().Angle() + 90);
+			//this.getSprite().SetEmitSoundPaused(true);
+
+			if(isClient())
+			{
+				CSprite@ sprite = this.getSprite();
+				f32 modifier = Maths::Max(0, this.getVelocity().y * 0.04f);
+				sprite.SetEmitSound("Shell_Whistle.ogg");
+				sprite.SetEmitSoundPaused(false);
+				sprite.SetEmitSoundVolume(Maths::Max(0, modifier));
+			}
+		}
+
+		if (this.isKeyJustPressed(key_action1) || this.getHealth() <= 0.0f)
+		{
+			if (isServer())
+			{
+				ResetPlayer(this);
+				this.server_Die();
+				return;
+			}
+		}
+	}
 }
 
-void MakeParticle(CBlob@ this, const string filename = "SmallSteam")
+bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 {
-    if (!isClient()) return;
-
-    ParticleAnimated(filename, this.getPosition(), Vec2f(), float(XORRandom(360)), 1.0f, 2 + XORRandom(3), -0.1f, false);
+	if (inventoryBlob.hasTag("human") || inventoryBlob.getName() == "backpackblob")
+	{
+		if (inventoryBlob.isMyPlayer()) Sound::Play("NoAmmo");
+		return false;
+	}
+	else return true;
 }
 
-void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point1)
+void onDie(CBlob@ this)
 {
-    // onHitGround(this);
+    DoExplosion(this);
+	if (this.getPlayer() !is null)
+	{
+		ResetPlayer(this);
+	}
 }
 
-/*void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point1)
+void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
-    if(blob is null || (blob.getShape().isStatic() && blob.isCollidable()))
-    {
-        onHitGround(this);
-    }
-}*/
+	if (isServer())
+	{
+		if ((blob !is null ? !blob.isCollidable() : !solid)) return;
+		if (this.hasTag("offblast") && this.get_u32("no_explosion_timer") < getGameTime()) 
+		{
+			ResetPlayer(this);
+		}
+	}
+}
 
-void onHitGround(CBlob@ this)
+void ResetPlayer(CBlob@ this)
 {
-    // if(!this.hasTag("explosive")) return;
+	if (isServer())
+	{
+		CPlayer@ ply = getPlayerByNetworkId(this.get_u16("controller_player_netid"));
+		CBlob@ blob = getBlobByNetworkID(this.get_u16("controller_blob_netid"));
+		if (blob !is null && ply !is null && !blob.hasTag("dead"))
+		{
+			blob.server_SetPlayer(ply);
+		}
 
-    CMap@ map = getMap();
+		this.server_Die();
+	}
+}
 
-    f32 vellen = this.getOldVelocity().Length();
-    if(vellen < 8.0f) return;
+void GetButtonsFor(CBlob@ this, CBlob@ caller)
+{
+	if (this.getDistanceTo(caller) > 96.0f) return;
+	if (this.hasTag("offblast")) return;
 
-    f32 power = Maths::Min(vellen / 9.0f, 1.0f);
+	CPlayer@ ply = caller.getPlayer();
+	if (ply !is null)
+	{
+		CBitStream params;
+		params.write_u16(caller.getNetworkID());
+		params.write_u16(ply.getNetworkID());
 
-    if(!this.hasTag("collided"))
-    {
-        if (isClient())
-        {
-            this.getSprite().SetEmitSoundPaused(true);
-            ShakeScreen(power * 500.0f, power * 120.0f, this.getPosition());
-            SetScreenFlash(150, 255, 238, 218);
-            Sound::Play("MeteorStrike.ogg", this.getPosition(), 1.5f, 1.0f);
-        }
+		caller.CreateGenericButton(11, Vec2f(0.0f, -5.0f), this, this.getCommandID("offblast"), "Off blast!", params);
+	}
+}
 
-        // this.Tag("collided");
-    }
+void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
+{
+	if (cmd == this.getCommandID("offblast"))
+	{
+		const u16 caller_netid = params.read_u16();
+		const u16 player_netid = params.read_u16();
 
-    f32 boomRadius = 48.0f * power;
-    this.set_f32("map_damage_radius", boomRadius);
-    Explode(this, boomRadius, 20.0f);
+		CPlayer@ caller = getPlayerByNetworkId(caller_netid);
+		CPlayer@ ply = getPlayerByNetworkId(player_netid);
 
-    if(isServer())
-    {
-        int radius = int(boomRadius / map.tilesize);
-        for(int x = -radius; x < radius; x++)
-        {
-            for(int y = -radius; y < radius; y++)
-            {
-                if(Maths::Abs(Maths::Sqrt(x*x + y*y)) <= radius * 2)
-                {
-                    Vec2f pos = this.getPosition() + Vec2f(x, y) * map.tilesize;
+		if (this.hasTag("offblast")) return;
+		this.Tag("offblast");
 
-                    if(XORRandom(64) == 0)
-                    {
-                        CBlob@ blob = server_CreateBlob("flame", -1, pos);
-                        blob.server_SetTimeToDie(15 + XORRandom(6));
-                    }
-                }
-            }
-        }
+		this.Tag("aerial");
+		this.Tag("projectile");
 
-        CBlob@[] blobs;
-        map.getBlobsInRadius(this.getPosition(), boomRadius, @blobs);
-        for(int i = 0; i < blobs.length; i++)
-        {
-            map.server_setFireWorldspace(blobs[i].getPosition(), true);
-        }
+		this.set_u32("no_explosion_timer", getGameTime() + 10);
+		this.set_u32("fuel_timer", getGameTime() + fuel_timer_max);
 
-        //CBlob@ boulder = server_CreateBlob("boulder", this.getTeamNum(), this.getPosition());
-        //boulder.setVelocity(this.getOldVelocity());
-        //this.server_Die();
-        this.setVelocity(this.getOldVelocity() / 1.55f);
-    }
-    
-    if (isServer())
-    {
-        CBlob@ boom = server_CreateBlobNoInit("nukeexplosion");
-        boom.setPosition(this.getPosition());
-        boom.set_u8("boom_start", 0);
-        boom.set_u8("boom_end", 4);
-        // boom.set_f32("mithril_amount", 5);
-        boom.set_f32("flash_distance", 64);
-        boom.Tag("no mithril");
-        boom.Tag("no fallout");
-        // boom.Tag("no flash");
-        boom.Init();
-    }
+		this.set_u16("controller_blob_netid", caller_netid);
+		this.set_u16("controller_player_netid", player_netid);
+
+		if (isServer() && ply !is null)
+		{
+			this.server_SetPlayer(ply);
+		}
+
+		if (isClient())
+		{
+			CSprite@ sprite = this.getSprite();
+			sprite.SetEmitSound("CruiseMissile_Loop.ogg");
+			sprite.SetEmitSoundSpeed(1.0f);
+			sprite.SetEmitSoundVolume(0.3f);
+			sprite.SetEmitSoundPaused(false);
+			sprite.PlaySound("CruiseMissile_Launch.ogg", 2.00f, 1.00f);
+
+			this.SetLight(true);
+			this.SetLightRadius(128.0f);
+			this.SetLightColor(SColor(255, 255, 100, 0));
+		}
+	}
+}
+
+bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
+{
+	AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PILOT");
+	if (point is null) return true;
+
+	CBlob@ controller = point.getOccupied();
+	if (controller is null) return true;
+	else return false;
+}
+
+void MakeParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSteam")
+{
+	if (!isClient()) return;
+
+	Vec2f offset = Vec2f(0, 16).RotateBy(this.getAngleDegrees());
+	ParticleAnimated(filename, this.getPosition() + offset, vel, float(XORRandom(360)), 1.0f, 2 + XORRandom(3), -0.1f, false);
+}
+
+f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
+{
+	if (customData == HittersTC::bullet_high_cal)
+	{
+		return damage *= 1.5f;
+	}
+
+	return damage;
+}
+
+void DoExplosion(CBlob@ this)
+{
+	CRules@ rules = getRules();
+	if (!shouldExplode(this, rules))
+	{
+		addToNextTick(this, rules, DoExplosion);
+		return;
+	}
+
+	f32 random = XORRandom(8);
+	f32 angle = this.getAngleDegrees() - this.get_f32("bomb angle") + 90;
+	f32 vellen = Maths::Min(this.getVelocity().Length(), 8);
+
+	// print("Modifier: " + modifier + "; Quantity: " + this.getQuantity());
+
+	this.set_f32("map_damage_radius", (40.0f + random));
+	this.set_f32("map_damage_ratio", 0.25f);
+
+	Explode(this, 32.0f + random, 8.0f);
+
+	for (int i = 0; i < (20+XORRandom(6)); i++) 
+	{
+		Vec2f dir = getRandomVelocity(angle, 1, 25);
+		LinearExplosion(this, dir, (48.0f + XORRandom(16)) * vellen, 8 + XORRandom(8), 10 + XORRandom(vellen * 2), 10.0f, Hitters::explosion);
+	}
+
+	if(!isClient()){return;}
+	Vec2f pos = this.getPosition();
+	CMap@ map = getMap();
+
+	for (int i = 0; i < 35; i++)
+	{
+		MakeParticle(this, Vec2f( XORRandom(32) - 16, XORRandom(80) - 60), getRandomVelocity(-angle, XORRandom(500) * 0.01f, 25), particles[XORRandom(particles.length)]);
+	}
+
+	this.getSprite().Gib();
+}
+
+void MakeParticle(CBlob@ this, const Vec2f pos, const Vec2f vel, const string filename = "SmallSteam")
+{
+	ParticleAnimated(filename, this.getPosition() + pos, vel, float(XORRandom(360)), 0.5f + XORRandom(100) * 0.01f, 1 + XORRandom(4), XORRandom(100) * -0.00005f, true);
 }
