@@ -8,7 +8,7 @@ const int sail_index = 0;
 void onInit(CBlob@ this)
 {
 	Vehicle_Setup(this,
-	              550.0f, // move speed
+	              1700.0f, // move speed
 	              0.18f,  // turn speed
 	              Vec2f(0.0f, -2.5f), // jump out velocity
 	              true  // inventory access
@@ -18,9 +18,9 @@ void onInit(CBlob@ this)
 	{
 		return;
 	}
-	Vehicle_SetupWaterSound(this, v, "BoatRowing",  // movement sound
-	                        0.0f, // movement sound volume modifier   0.0f = no manipulation
-	                        0.0f // movement sound pitch modifier     0.0f = no manipulation
+	Vehicle_SetupWaterSound(this, v, "HoverBike_Loop",  // movement sound
+	                        1.25f, // movement sound volume modifier   0.0f = no manipulation
+	                        0.05f // movement sound pitch modifier     0.0f = no manipulation
 	                       );
 	this.getShape().SetOffset(Vec2f(-3, 12));
 	this.getShape().SetCenterOfMassOffset(Vec2f(-1.5f, 6.0f));
@@ -34,10 +34,10 @@ void onInit(CBlob@ this)
 	// additional shape
 
 	Vec2f[] frontShape;
-	frontShape.push_back(Vec2f(74.0f, -19.0f));
-	frontShape.push_back(Vec2f(78.0f, -19.0f));
-	frontShape.push_back(Vec2f(80.0f, 0.0f));
-	frontShape.push_back(Vec2f(76.0f, 0.0f));
+	frontShape.push_back(Vec2f(74.0f, -6.0f));
+	frontShape.push_back(Vec2f(134.0f, -6.0f));
+	frontShape.push_back(Vec2f(128.0f, 0.0f));
+	frontShape.push_back(Vec2f(71.0f, 0.0f));
 	this.getShape().AddShape(frontShape);
 
 	Vec2f[] backShape;
@@ -46,46 +46,27 @@ void onInit(CBlob@ this)
 	backShape.push_back(Vec2f(6.0f, 0.0f));
 	this.getShape().AddShape(backShape);
 
+	Vec2f[] upShape;
+	upShape.push_back(Vec2f(52.0f, -72.0f));
+	upShape.push_back(Vec2f(66.0f, -72.0f));
+	upShape.push_back(Vec2f(66.0f, -68.0f));
+	upShape.push_back(Vec2f(52.0f, -68.0f));
+	this.getShape().AddShape(upShape);
+
+	Vec2f[] upShape2;
+	upShape2.push_back(Vec2f(52.0f, -78.0f));
+	upShape2.push_back(Vec2f(54.0f, -78.0f));
+	upShape2.push_back(Vec2f(54.0f, -68.0f));
+	upShape2.push_back(Vec2f(52.0f, -68.0f));
+	this.getShape().AddShape(upShape2);
+
+	// add pole ladder
+	getMap().server_AddMovingSector(Vec2f(-28.0f, -32.0f), Vec2f(-12.0f, 0.0f), "ladder", this.getNetworkID());
+	getMap().server_AddMovingSector(Vec2f(-28.0f, -48.0f), Vec2f(-12.0f, 0.0f), "ladder", this.getNetworkID());
+	getMap().server_AddMovingSector(Vec2f(-28.0f, -64.0f), Vec2f(-12.0f, 0.0f), "ladder", this.getNetworkID());
+	getMap().server_AddMovingSector(Vec2f(-28.0f, -82.0f), Vec2f(-12.0f, 0.0f), "ladder", this.getNetworkID());
+
 	// sprites
-
-	// add mast
-	this.set_bool("has mast", true);
-
-	const Vec2f mastOffset(2, -3);
-
-	CSpriteLayer@ mast = this.getSprite().addSpriteLayer("mast", 48, 64);
-	if (mast !is null)
-	{
-		Animation@ anim = mast.addAnimation("default", 0, false);
-		int[] frames = {4, 5};
-		anim.AddFrames(frames);
-		mast.SetOffset(Vec2f(9, -6) + mastOffset);
-		mast.SetRelativeZ(-10.0f);
-	}
-
-	if (this.get_bool("has mast"))		// client-side join - might be false
-	{
-		// add sail
-
-		CSpriteLayer@ sail = this.getSprite().addSpriteLayer("sail " + sail_index, 32, 32);
-		if (sail !is null)
-		{
-			Animation@ anim = sail.addAnimation("default", 3, false);
-			int[] frames = {3, 7, 11};
-			anim.AddFrames(frames);
-			sail.SetOffset(Vec2f(1, -10) + mastOffset);
-			sail.SetRelativeZ(-9.0f);
-
-			sail.SetVisible(false);
-		}
-	}
-	else
-	{
-		if (mast !is null)
-		{
-			mast.animation.frame = 1;
-		}
-	}
 
 	// add head
 	{
@@ -98,6 +79,8 @@ void onInit(CBlob@ this)
 			head.SetRelativeZ(1.0f);
 		}
 	}
+
+	if (this.getSprite() !is null) this.getSprite().SetRelativeZ(50.0f);
 
 	//add minimap icon
 	this.SetMinimapVars("GUI/Minimap/MinimapIcons.png", 6, Vec2f(16, 8));
@@ -114,12 +97,16 @@ void onTick(CBlob@ this)
 			return;
 		}
 		Vehicle_StandardControls(this, v);
+
+		if (isServer() && !this.hasTag("has mortar"))
+		{
+			this.Tag("has mortar");
+			CBlob@ mortar = server_CreateBlob("incendiarymortar", this.getTeamNum(), this.getPosition());
+		}
 	}
 
-	if (time % 12 == 0)
-	{
+	if (time % 60 == 0)
 		Vehicle_DontRotateInWater(this);
-	}
 
 	if (!this.isInWater())
 	{
@@ -144,9 +131,6 @@ void onHealthChange(CBlob@ this, f32 oldHealth)
 
 	if (health < tier1 && oldHealth >= tier1)
 	{
-		this.set_bool("has mast", false);
-		this.Tag("no sail");
-
 		CSprite@ sprite = this.getSprite();
 
 		CSpriteLayer@ mast = sprite.getSpriteLayer("mast");
@@ -181,5 +165,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 	{
 		return;
 	}
+
+	if (detached !is null && detached.getName() == "incendiarymortar" && detached.getSprite() !is null) detached.getSprite().SetVisible(true);
 	Vehicle_onDetach(this, v, detached, attachedPoint);
 }
