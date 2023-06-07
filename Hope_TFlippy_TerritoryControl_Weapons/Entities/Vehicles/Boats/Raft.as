@@ -1,6 +1,6 @@
 // Boat logic
 
-const f32 SPEED = 30.0f;
+const f32 SPEED = 60.0f;
 
 void onInit(CBlob@ this)
 {
