@@ -822,8 +822,8 @@ string getRank(string &in username, SColor &out col, CPlayer@ p)
 
 		case 1785258408: // TheCustomerMan
 		{
-			col = SColor(255, 231, 187, 104);
-			return "Small Squares Artist";
+			col = SColor(0xfffbf236);
+			return "Beloved Admin ^ш^";
 		}
 		break;
 		case -127609809: //RenderX
