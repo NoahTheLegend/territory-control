@@ -124,6 +124,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		
 		if (headname != "" && this.exists(headname+"_health"))
 		{
+			//print("head '"+headname+"'");
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;
 
@@ -151,6 +152,25 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 					default:
 						ratio = 0.20f;
+						break;
+				}
+			}
+			else if (headname == "stahlhelm" && customData != HittersTC::radiation)
+			{
+				switch (customData)
+				{
+					case HittersTC::bullet_low_cal:
+					case HittersTC::shotgun:
+						ratio = 0.8f;
+						break;
+
+					case HittersTC::bullet_high_cal:
+					case HittersTC::railgun_lance:
+						ratio = 0.7f;
+						break;
+
+					default:
+						ratio = 0.1f;
 						break;
 				}
 			}
@@ -206,12 +226,15 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			}
 			else if (headname == "scubagear" || headname == "bucket" || headname == "pumpkin" || headname == "minershelmet")
 					ratio = 0.20f;
-					
-			f32 armorHealth = armorMaxHealth - this.get_f32(headname+"_health");
-			if (armorHealth < armorMaxHealth/3.5f) armorHealth = armorMaxHealth/3.5f;
-			ratio *= armorHealth / armorMaxHealth;
-
-			this.add_f32(headname+"_health", (ratio*dmg)/4);
+			
+			if (headname != "stahlhelm") {
+				f32 armorHealth = armorMaxHealth - this.get_f32(headname+"_health");
+				if (armorHealth < armorMaxHealth/3.5f) armorHealth = armorMaxHealth/3.5f;
+				ratio *= armorHealth / armorMaxHealth;
+	
+				this.add_f32(headname+"_health", (ratio*dmg)/4);
+			}
+			
 			f32 playerDamage = Maths::Clamp((1.00f - ratio) * dmg, 0, dmg);
 			dmg = playerDamage;
 		}

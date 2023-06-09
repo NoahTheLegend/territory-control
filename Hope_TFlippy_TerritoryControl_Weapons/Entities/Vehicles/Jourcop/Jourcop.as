@@ -4,10 +4,10 @@
 #include "VehicleFuel.as";
 #include "GunCommon.as";
 
-const Vec2f upVelo = Vec2f(0.00f, -0.02f);
+const Vec2f upVelo = Vec2f(0.00f, -0.015f);
 const Vec2f downVelo = Vec2f(0.00f, 0.003f);
-const Vec2f leftVelo = Vec2f(-0.075f, 0.00f);
-const Vec2f rightVelo = Vec2f(0.075f, 0.00f);
+const Vec2f leftVelo = Vec2f(-0.035f, 0.00f);
+const Vec2f rightVelo = Vec2f(0.035f, 0.00f);
 
 const Vec2f minClampVelocity = Vec2f(-0.40f, -0.70f);
 const Vec2f maxClampVelocity = Vec2f( 0.40f, 0.00f);
@@ -18,12 +18,14 @@ void onInit(CBlob@ this)
 {
 	this.set_string("custom_explosion_sound", "bigbomb_explosion.ogg");
 	this.set_bool("map_damage_raycast", true);
+	this.set_bool("UPF_Skin", false);
 	this.set_u32("duration", 0);
 	//this.getSprite().SetRelativeZ(-60.0f);
 	
 	this.addCommandID("load_fuel");
 	this.addCommandID("play_music");
 	this.addCommandID("stop_music");
+	this.addCommandID("change_skin");
 
 	this.Tag("vehicle");
 	this.Tag("aerial");
@@ -40,6 +42,7 @@ void onInit(CBlob@ this)
 		}
 	}
 
+	this.set_f32("fuel_count", 250);
 	this.set_f32("max_fuel", 2500);
 	this.set_f32("fuel_consumption_modifier", 2.00f);
 
@@ -76,10 +79,13 @@ void onInit(CSprite@ this)
 	CSpriteLayer@ blade = this.addSpriteLayer("blade", "UHT_Blade.png", 67, 8);
 	if (blade !is null)
 	{
-		Animation@ anim = blade.addAnimation("default", 1, true);
+		Animation@ SPEEEN = blade.addAnimation("SPEEEN", 1, true);
 		int[] frames = {1, 2, 3, 2};
-		anim.AddFrames(frames);
+		SPEEEN.AddFrames(frames);
+		Animation@ stopped = blade.addAnimation("No speen?", 0, false);
+		stopped.AddFrame(0);
 		
+		blade.SetAnimation("SPEEEN");
 		blade.SetOffset(Vec2f(10.5, -21));
 		blade.SetRelativeZ(-70.0f);
 		blade.SetVisible(true);
@@ -191,15 +197,10 @@ void onTick(CBlob@ this)
 		AttachmentPoint@[] aps;
 		this.getAttachmentPoints(@aps);
 		
+		f32 fuel = GetFuel(this);
+		
 		CSpriteLayer@ blade = sprite.getSpriteLayer("blade");
 		CSpriteLayer@ tailrotor = sprite.getSpriteLayer("tailrotor");
-		if (blade !is null)
-		{
-			blade.ResetTransform();
-			blade.SetRelativeZ(-70.0f);
-		}
-
-		f32 fuel = GetFuel(this);
 
 		int size = aps.size();
 		for(int a = 0; a < size; a++)
@@ -258,7 +259,11 @@ void onTick(CBlob@ this)
 		Vec2f targetForce;
 		Vec2f currentForce = this.get_Vec2f("current_force");
 		CBlob@ pilot = this.getAttachmentPoint(0).getOccupied();
-		if (fuel > 0 && pilot !is null) targetForce = this.get_Vec2f("target_force") + newForce;
+		if (fuel > 0 && pilot !is null)
+		{
+			targetForce = this.get_Vec2f("target_force") + newForce;
+			if (this.get_bool("glide")) targetForce = Vec2f(targetForce.x, -0.5890000005);
+		}
 		else targetForce = Vec2f(0, 0);
 		
 		
@@ -270,7 +275,7 @@ void onTick(CBlob@ this)
 		
 		if (pilot !is null)
 		{
-			if (this.getTeamNum() == 250) door.SetVisible(true);
+			if (this.getTeamNum() == 250 || this.get_bool("UPF_Skin")) door.SetVisible(true);
 			else seat.SetVisible(true);
 			
 			door.SetRelativeZ(300.0f);
@@ -282,9 +287,10 @@ void onTick(CBlob@ this)
 			door.SetVisible(false);
 			seat.SetVisible(false);
 			
-			door.SetRelativeZ(0.0f);
-			glass.SetRelativeZ(0.0f);
-			glare.SetRelativeZ(0.0f);
+			this.getSprite().SetZ(-10.0f);
+			door.SetRelativeZ(-10.0f);
+			glass.SetRelativeZ(-10.0f);
+			glare.SetRelativeZ(-10.0f);
 		}
 
 		f32 targetForce_y = Maths::Clamp(targetForce.y, minClampVelocity.y, maxClampVelocity.y);
@@ -292,36 +298,41 @@ void onTick(CBlob@ this)
 		Vec2f clampedTargetForce = Vec2f(Maths::Clamp(targetForce.x, Maths::Max(minClampVelocity.x, -Maths::Abs(targetForce_y)), Maths::Min(maxClampVelocity.x, Maths::Abs(targetForce_y))), targetForce_y);
 		
 		Vec2f resultForce;
-		if(!this.get_bool("glide"))
-		{
+		//if(!this.get_bool("glide"))
+		//{
 			resultForce = Vec2f(Lerp(currentForce.x, clampedTargetForce.x, lerp_speed_x), Lerp(currentForce.y, clampedTargetForce.y, lerp_speed_y));
 			this.set_Vec2f("current_force", resultForce);
-		}
-		else
-		{
-			resultForce = Vec2f(Lerp(currentForce.x, clampedTargetForce.x, lerp_speed_x), -0.5890000005);
-			this.set_Vec2f("current_force", resultForce);
-		}
+		//}
+		//else
+		//{
+		//	resultForce = Vec2f(Lerp(currentForce.x, clampedTargetForce.x, lerp_speed_x), -0.5890000005);
+		//	this.set_Vec2f("current_force", resultForce);
+		//}
 
 		this.AddForce(resultForce * thrust);
 		this.setAngleDegrees(resultForce.x * 80.00f);
 		
 		int anim_time_formula = Maths::Floor(1.00f + (1.00f - Maths::Abs(resultForce.getLength())) * 3) % 4;
-		blade.ResetTransform();
-		blade.animation.time = anim_time_formula;
-		if (blade.animation.time == 0)
+		if (this.get_Vec2f("current_force").getLength() > 0.6) anim_time_formula = 1;
+		
+		if (fuel < 1 || this.get_Vec2f("current_force").getLength() < 0.02)
 		{
-			blade.SetFrameIndex(0);
-			blade.RotateBy(180, Vec2f(0.0f,2.0f));
+			blade.SetAnimation("No speen?");
+			blade.animation.time = 0;
+			
+			tailrotor.SetFrameIndex(0);
+			tailrotor.animation.time = 0;
+		} else
+		if (fuel > 0)
+		{
+			blade.animation.time = anim_time_formula;
+			blade.SetAnimation("SPEEEN");
+			
+			tailrotor.animation.time = anim_time_formula;
 		}
 		
-		tailrotor.animation.time = anim_time_formula;
-		if (tailrotor.animation.time == 0)
-		{
-			tailrotor.SetFrameIndex(1);
-		}
-		
-		sprite.SetEmitSoundSpeed(Maths::Min(0.0001f + Maths::Abs(resultForce.getLength() * 1.50f), 1.10f) * 1.8);
+		if (fuel > 0) sprite.SetEmitSoundSpeed(Maths::Min(0.0001f + Maths::Abs(resultForce.getLength() * 1.50f), 1.10f) * 1.8);
+		else sprite.SetEmitSoundSpeed(0.01);
 
 		this.set_Vec2f("target_force", clampedTargetForce);
 		
@@ -369,8 +380,11 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)
 	{
 		if (attached.hasTag("player"))
 		{
-			this.server_setTeamNum(100);
-			this.server_setTeamNum(attached.getTeamNum());
+			//this.server_setTeamNum(100);
+			//this.server_setTeamNum(attached.getTeamNum());
+			this.getSprite().ReloadSprites(attached.getTeamNum(), 0);
+			CSpriteLayer@ glass = this.getSprite().getSpriteLayer("glass");
+			glass.setRenderStyle(RenderStyle::additive);
 		}
 		
 		if (attached.getName() != "donotspawnthiswithacommand")
@@ -412,27 +426,38 @@ bool doesCollideWithBlob( CBlob@ this, CBlob@ blob )
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
-	if (this.getDistanceTo(caller) > 96.0f) return;
 	Vec2f buttonPos;
 	buttonPos = Vec2f(-8, 2);
 	if (caller.getTeamNum() == this.getTeamNum())
 	{
 		CBlob@ carried = caller.getCarriedBlob();
-		if (carried !is null && this.get_bool("music") == false)
+		if (carried !is null)
 		{
-			if(carried.getName() == "musicdisc")
+			if (this.get_bool("music") == false)
 			{
-				u16 carried_netid = carried.getNetworkID();
-	
-				CBitStream params;
-				params.write_u16(carried_netid);
-				
-				caller.CreateGenericButton("$musicdisc$", buttonPos, this, this.getCommandID("play_music"), "Make it play funny music.", params);
+				if(carried.getName() == "musicdisc")
+				{
+					u16 carried_netid = carried.getNetworkID();
+		
+					CBitStream params;
+					params.write_u16(carried_netid);
+					
+					caller.CreateGenericButton("$musicdisc$", buttonPos, this, this.getCommandID("play_music"), "Make it play funny music.", params);
+				}
+			} else 
+			if(this.get_bool("music") == true){
+				if(carried.getName() == "wrench")
+					caller.CreateGenericButton("$icon_wrench$", buttonPos, this, this.getCommandID("stop_music"), "Stop the music.");
 			}
-		} else 
-		if(carried !is null && this.get_bool("music") == true){
-			if(carried.getName() == "wrench")
-				caller.CreateGenericButton("$icon_wrench$", buttonPos, this, this.getCommandID("stop_music"), "Stop the music.");
+			if(carried.getName() == "paper")
+			{
+				CBitStream params;
+				params.write_u16(caller.getNetworkID());
+				params.write_u16(carried.getNetworkID());
+		
+				CButton@ buttonWrite = caller.CreateGenericButton("$icon_paper$", buttonPos, this, this.getCommandID("change_skin"),
+				"Change vehicle skin.", params);
+			}
 		}
 		{
 			CBitStream params;
@@ -545,6 +570,20 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			}
 		}
 	}
+	else if (cmd == this.getCommandID("change_skin"))
+	{
+		if (isServer())
+		{
+			CBlob @caller = getBlobByNetworkID(params.read_u16());
+			CBlob @carried = getBlobByNetworkID(params.read_u16());
+
+			if (caller !is null && carried !is null)
+			{
+				if (carried.get_string("text") == "upfskin") this.set_bool("UPF_Skin", true);
+				else this.set_bool("UPF_Skin", false);
+			}
+		}
+	}
 }
 
 void onRender(CSprite@ this)
@@ -600,15 +639,16 @@ void MakeParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSt
 void drawFuelCount(CBlob@ this)
 {//this is for pilot
 	int fuel = this.get_f32("fuel_count");
+	bool danger = fuel < this.get_f32("max_fuel") * 0.33;
 	string role = "You are a pilot";
-	string reqsText = "Fuel: " + fuel + " / " + this.get_f32("max_fuel");
+	string fueltext = "Fuel: " + fuel + " / " + this.get_f32("max_fuel");
 	string help = "Hold LMB to stop vertical acceleration";
 	string help2 = "Hold RMB to set helicopter's facing in a cursor direction";
 	int shift = 20;
 
 	GUI::SetFont("menu");
 	GUI::DrawTextCentered(role, this.getInterpolatedScreenPos() + Vec2f(0, 60 + shift), color_white);
-	GUI::DrawTextCentered(reqsText, this.getInterpolatedScreenPos() + Vec2f(0, 75 + shift), color_white);
+	GUI::DrawTextCentered((danger ? "!!!  " : "") + fueltext + (danger ? "  !!!" : ""), this.getInterpolatedScreenPos() + Vec2f(0, 75 + shift), (danger ? SColor(255, 255, 55, 55) : color_white));
 	if (u_showtutorial) {
 		//shift = 0;
 		GUI::DrawTextCentered(help, this.getInterpolatedScreenPos() + Vec2f(0, 90 + shift), color_white);

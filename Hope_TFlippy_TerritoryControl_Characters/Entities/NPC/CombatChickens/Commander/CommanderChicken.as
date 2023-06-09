@@ -8,6 +8,7 @@
 #include "RunnerCommon.as";
 #include "MakeCrate.as";
 #include "ThrowCommon.as";
+#include "MakeMat.as";
 #include "Survival_Structs.as";
 
 u32 next_commander_event = 0; // getGameTime() + (30 * 60 * 5) + XORRandom(30 * 60 * 5));
@@ -143,6 +144,11 @@ void onInit(CBlob@ this)
 		{
 			CBlob@ bp_sdr = server_CreateBlob("bp_energetics", -1, this.getPosition());
 			this.server_PutInInventory(bp_sdr);
+		}
+		
+		if (XORRandom(100) < 20) 
+		{
+			MakeMat(this, this.getPosition(), "villaincap", 1);
 		}
 
 		// gun and ammo

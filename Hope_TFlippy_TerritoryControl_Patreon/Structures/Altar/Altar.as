@@ -168,9 +168,10 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 		}
 		{
-			ShopItem@ s = addShopItem(this, "Leutnant, God of War Crimes", "$icon_leutnant$", "altar_leutnant", "*Essay about how Skemonde is actually a supervillain*");
-			AddRequirement(s.requirements, "coin", "", "Coins", 666);
-			AddRequirement(s.requirements, "blob", "c96", "Klauser C96", 1);
+			ShopItem@ s = addShopItem(this, "Leutnant, God of War Crimes", "$icon_leutnant$", "altar_leutnant", "*Essay about how Skemonde is actually a supervillain*\n\n- Construct a weapon of genocide\n- Immunity to mustardgas\n- Construct an inbalanced helmet");
+			AddRequirement(s.requirements, "coin", "", "Coins", 1488);
+			AddRequirement(s.requirements, "blob", "villaincap", "Cool looking military cap", 1);
+			AddRequirement(s.requirements, "blob", "bandit", "Bandit's Corpse", 1);
 			//AddRequirement(s.requirements, "blob", "shito", "WHY?", 1);
 			s.customButton = true;
 			s.buttonwidth = 2;	

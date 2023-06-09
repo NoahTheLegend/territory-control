@@ -56,5 +56,9 @@ void onTick(CBlob@ this)
  
 void onDie(CBlob@ this)
 {
+	if (isServer())
+	{
+		CBlob@ item = server_CreateBlob(this.get_string("equipment_head"), this.getTeamNum(), this.getPosition());
+	}
 	this.RemoveScript("stahlhelm_effect.as");
 }
