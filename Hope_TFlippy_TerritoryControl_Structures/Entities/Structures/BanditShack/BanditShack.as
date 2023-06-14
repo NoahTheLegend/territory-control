@@ -82,7 +82,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Timbr Grindr", "$icon_banditrifle$", "banditrifle", "I jammed two pipes in this and it kills people and works it's good.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 190);
+		AddRequirement(s.requirements, "coin", "", "Coins", 130);
 		s.spawnNothing = true;
 	}
 	{
@@ -98,6 +98,11 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Sell Mystery Meat (50)", "$COIN$", "coin-50", "I'll cook something out of this and you'll get 50 coins!");
 		AddRequirement(s.requirements, "blob", "mat_meat", "Mystery Meat", 50);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Bandit Rifle", "$banditboltrifle$", "banditboltrifle", "How the heck does it even shoot?");
+		AddRequirement(s.requirements, "coin", "", "Coins", 190);
 		s.spawnNothing = true;
 	}
 }
