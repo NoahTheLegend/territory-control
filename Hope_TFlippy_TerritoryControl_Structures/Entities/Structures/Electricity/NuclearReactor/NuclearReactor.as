@@ -164,7 +164,7 @@ void onTick(CBlob@ this)
 		if (this.getSprite() !is null) this.getSprite().PlaySound("Security_TurnOn", 1.0f);
 	}
 
-	//this.setInventoryName("Nuclear Reactor\nHeat: " + Maths::Round(irradiation) + " / " + max_irradiation);
+	this.setInventoryName("Nuclear Reactor\nHeat: " + Maths::Round(irradiation) + " / " + max_irradiation);
 
 	if (irradiation > max_irradiation * 0.75f)
 	{
