@@ -779,13 +779,12 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Solid.ogg", 1.00f, 1.00f);
 			}
 			// Sturd recipe
-			if (heat >= 500 && hasFiks && hasPumpkin && pumpkin_count >= 2 && hasMithril && mithril_count >= 25)
+			if (heat >= 500 && hasFiks && hasPumpkin && pumpkin_count >= 2)
 			{
 				if (isServer())
 				{
 					fiks_blob.server_Die();
 					pumpkin_blob.server_Die();
-					mithril_blob.server_SetQuantity(Maths::Max(mithril_blob.getQuantity() - (25-XORRandom(21)), 0));
 
 					Material::createFor(this, "sturd", 1 + (XORRandom(3) == 0 ? 1 : 0));
 				}

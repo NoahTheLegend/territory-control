@@ -284,7 +284,7 @@ const string[] tips = {
 	"Carbon - coal, heat >= 1k, pressure >= 200k",
 	"Enriched mithril = pressure > 25000 | heat > 2000 | Mithril | Acid >= 25 | Meat",
 	"Enriched mithril = pressure > 25000 | heat > 1500 | Mithril | Acid >= 25",
-	"Sturd = Fiks | Pumpkin >= 2 | Mithril > 25",
+	"Sturd = Fiks | Pumpkin >= 2",
 	"Polymorphine = heat >= 1000 | Enriched mithril >= 15 | Steroid | Boof >= 25"
 };
 
