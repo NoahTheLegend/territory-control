@@ -7,6 +7,10 @@ void onInit(CBlob@ this)
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {
+	if (hitterBlob.exists("mining_hardness") && hitterBlob.get_u8("mining_hardness") < 2)
+	{
+		damage = 0;
+	}
 	if (damage > 0.05f) //sound for all damage
 	{
 		if (hitterBlob !is this)
