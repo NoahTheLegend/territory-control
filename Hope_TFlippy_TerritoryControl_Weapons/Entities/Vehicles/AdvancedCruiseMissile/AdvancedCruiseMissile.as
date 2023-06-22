@@ -170,7 +170,7 @@ void onTick(CBlob@ this)
 	if (this.hasTag("offblast"))
 	{
 		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
-		if (point !is null && point.getOccupied() !is null)
+		if (point !is null && point.getOccupied() !is null && this.hasAttached())
 		{
 			this.server_DetachFromAll();
 		}

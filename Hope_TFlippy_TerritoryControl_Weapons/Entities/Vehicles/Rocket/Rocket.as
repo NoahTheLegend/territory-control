@@ -166,7 +166,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		this.Tag("aerial");
 
 		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
-		if (point !is null && point.getOccupied() !is null)
+		if (point !is null && point.getOccupied() !is null && this.hasAttached())
 		{
 			this.server_DetachFromAll();
 		}
