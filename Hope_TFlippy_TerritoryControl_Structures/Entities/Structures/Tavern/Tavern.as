@@ -44,7 +44,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Vodka!", "$icon_vodka$", "vodka", "Also homemade fun water, buy this!");
-		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+		AddRequirement(s.requirements, "coin", "", "Coins", 350);
 		s.spawnNothing = true;
 	}
 	{
