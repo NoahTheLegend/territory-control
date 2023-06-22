@@ -1,5 +1,9 @@
 #include "CustomBlocks.as";
 
+// please dont look at this code i beg you
+// will rewrite it eventually
+// this was one of my first modding projects
+
 void onInit(CBlob@ this)
 {
     this.addCommandID("sync_command");
@@ -153,8 +157,7 @@ const string[] reqcompunit = { //5
     "mat_steelingot",
     "mat_copperwire",
     "mat_carbon",
-    "mat_titaniumingot",
-    "bp_automation_advanced"
+    "mat_titaniumingot"
 };
 
 const string[] reqmodule = { //6-10
@@ -661,7 +664,6 @@ void onTick(CBlob@ this)
                 this.set_u16("mat_copperwire", 300);
                 this.set_u16("mat_carbon", 250);
                 this.set_u16("mat_titaniumingot", 100);
-                this.set_u16("bp_automation_advanced", 1);
             }
             else if (frameindex >= 6 && frameindex <= 9)
             {
@@ -707,7 +709,7 @@ void onTick(CBlob@ this)
     }
     else if (frameindex == 5)
     {
-        matsneeded = "Materials left:\nIron ingots - "+this.get_u16("mat_ironingot")+"\nSteel ingots - "+this.get_u16("mat_steelingot")+"\nCopper ingots - "+this.get_u16("mat_copperingot")+"\nCopper wires - "+this.get_u16("mat_copperwire")+"\nCarbon - "+this.get_u16("mat_carbon")+"\nTitanium ingots - "+this.get_u16("mat_titaniumingot")+"\nBlueprint (Advanced Automation) - "+this.get_u16("bp_automation_advanced");
+        matsneeded = "Materials left:\nIron ingots - "+this.get_u16("mat_ironingot")+"\nSteel ingots - "+this.get_u16("mat_steelingot")+"\nCopper ingots - "+this.get_u16("mat_copperingot")+"\nCopper wires - "+this.get_u16("mat_copperwire")+"\nCarbon - "+this.get_u16("mat_carbon")+"\nTitanium ingots - "+this.get_u16("mat_titaniumingot");
     }
     else if (frameindex >= 6 && frameindex <= 9)
     {
@@ -921,8 +923,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
-	// return (forBlob.getTeamNum() == this.getTeamNum() && forBlob.isOverlapping(this));
-	return forBlob !is null && this.getDistanceTo(forBlob) < 128.0f;
+	return ((this.getTeamNum() > 100 ? true : forBlob.getTeamNum() == this.getTeamNum()) && forBlob.isOverlapping(this));
 }
 
 void SyncState(CBlob@ this)

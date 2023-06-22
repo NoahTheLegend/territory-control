@@ -355,8 +355,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
-	// return (forBlob.getTeamNum() == this.getTeamNum() && forBlob.isOverlapping(this));
-	return forBlob !is null && this.getDistanceTo(forBlob) < 128.0f;
+	return ((this.getTeamNum() > 100 ? true : forBlob.getTeamNum() == this.getTeamNum()) && forBlob.isOverlapping(this));
 }
 
 void SyncState(CBlob@ this)
