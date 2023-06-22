@@ -84,7 +84,7 @@ void announceKills(CPlayer@ this)
 						break;
 				}
 			}
-			client_AddToChat(playerName + " murdered 5 in a row !", SColor(255, 255, 0, 0));
+			client_AddToChat(playerName + " murdered 5 in a row!", SColor(255, 255, 0, 0));
             break;
         case 10:
 			if (isClient())
@@ -98,7 +98,7 @@ void announceKills(CPlayer@ this)
 						Sound::Play("Dominating.ogg");
 						break;
 				}
-				client_AddToChat(playerName + " has slayed 10 in a row, be careful !", SColor(255, 255, 0, 0));
+				client_AddToChat(playerName + " has slayed 10 in a row!", SColor(255, 255, 0, 0));
 			}
             break;
         case 15:
@@ -113,14 +113,14 @@ void announceKills(CPlayer@ this)
 						Sound::Play("UltraKill.ogg");
 						break;
 				}
-				client_AddToChat(playerName + " exterminated 15 souls, may God help us !", SColor(255, 255, 0, 0));
+				client_AddToChat(playerName + " exterminated 15 souls!", SColor(255, 255, 0, 0));
 			}
             break;
         case 20:
 			if (isClient())
 			{
 				Sound::Play("MonsterKill.ogg");
-				client_AddToChat(playerName + " wiped out the server with a 20 killstreak, it's over !", SColor(255, 255, 0, 0));
+				client_AddToChat(playerName + " wiped out the server with a 20 killstreak!", SColor(255, 255, 0, 0));
 			}
             break;
     }
