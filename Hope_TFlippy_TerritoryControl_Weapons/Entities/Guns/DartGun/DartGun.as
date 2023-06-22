@@ -47,7 +47,7 @@ void onTick(CBlob@ this)
 				if (getGameTime() >= this.get_u32("nextShoot"))
 				{
 					CBlob@ ammoBlob = GetAmmoBlob(this);
-					if (ammoBlob !is null && ammoBlob.hasTag("dartguninjectable"))
+					if (ammoBlob !is null) // && ammoBlob.hasTag("dartguninjectable")
 					{
 						Vec2f aimDir = holder.getAimPos() - this.getPosition();
 						aimDir.Normalize();
@@ -128,7 +128,7 @@ CBlob@ GetAmmoBlob(CBlob@ this)
 		CBlob@ item = inv.getItem(i);
 		if (item !is null)
 		{
-			if (item.hasTag("forcefeedable") && item.hasTag("dartguninjectable"))
+			if (item.hasTag("forcefeedable")) // && item.hasTag("dartguninjectable")
 			{
 				return item;
 			}
