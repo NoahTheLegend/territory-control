@@ -942,6 +942,8 @@ const string[] chemNames = {
 	//"rippio",
 	"mat_ganja",
 	"ganjapod",
+	"pumpkin",
+	"grain",
 	"mat_carbon"
 };
 
