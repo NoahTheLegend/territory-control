@@ -2,8 +2,8 @@
 #include "ShieldCommon.as";
 #include "Explosion.as";
 
-const f32 BLOB_DAMAGE = 5.0f;
-const f32 MAP_DAMAGE = 5.0f;
+const f32 BLOB_DAMAGE = 1.0f;
+const f32 MAP_DAMAGE = 1.0f;
 
 string[] particles = 
 {
@@ -22,7 +22,6 @@ void onInit(CBlob@ this)
 	
 	this.getShape().getConsts().mapCollisions = false;
 	this.getShape().getConsts().bullet = true;
-	this.getShape().getConsts().net_threshold_multiplier = 4.0f;
 
 	this.set_u32("wait_time", getGameTime() + 5); // Awful fix, I'm quite ashamed.
 	
@@ -30,8 +29,8 @@ void onInit(CBlob@ this)
 	this.Tag("projectile");
 	this.Tag("explosive");
 	
-	this.set_f32("map_damage_radius", 60.0f);
-	this.set_f32("map_damage_ratio", 0.5f);
+	this.set_f32("map_damage_radius", 32.0f);
+	this.set_f32("map_damage_ratio", 0.25f);
 	this.set_string("custom_explosion_sound", "ShockMine_explode.ogg");
 	
 	this.getSprite().SetFrame(0);
@@ -77,7 +76,7 @@ void Pierce(CBlob@ this, Vec2f velocity, const f32 angle)
 	direction.Normalize();
 	
 	Vec2f position = this.getPosition();
-	Vec2f tip_position = position + direction * 4.0f;
+	Vec2f tip_position = position + direction * 8.0f;
 	Vec2f tail_position = position + direction * -4.0f;
 
 	Vec2f[] positions =
@@ -151,10 +150,10 @@ void DoExplosion(CBlob@ this)
 	f32 angle = this.getOldVelocity().Angle();
 	// print("Modifier: " + modifier + "; Quantity: " + this.getQuantity());
 
-	this.set_f32("map_damage_radius", 42.0f);
-	this.set_f32("map_damage_ratio", 0.45f);
+	this.set_f32("map_damage_radius", 32.0f);
+	this.set_f32("map_damage_ratio", 0.25f);
 	
-	Explode(this, 128.0f, 150.0f);
+	Explode(this, 32.0f, 48.0f);
 	
 	for (int i = 0; i < 4; i++) 
 	{
@@ -162,7 +161,7 @@ void DoExplosion(CBlob@ this)
 		dir.x *= 2;
 		dir.Normalize();
 		
-		LinearExplosion(this, dir, 32.0f + XORRandom(16) + (modifier * 8), 24 + XORRandom(24), 4, 0.50f, Hitters::explosion);
+		LinearExplosion(this, dir, 16.0f + XORRandom(8) + (modifier * 4), 12 + XORRandom(24), 4, 0.25f, Hitters::explosion);
 	}
 	
 	if (isServer())

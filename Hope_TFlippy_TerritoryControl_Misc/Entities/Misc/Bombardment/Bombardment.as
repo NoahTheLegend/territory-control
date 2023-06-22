@@ -12,7 +12,6 @@ void onInit(CBlob@ this)
 		client_AddToChat("You hear several distant explosions.", SColor(255, 255, 0, 0));
 	}
 	
-	
 	this.set_u8("shots fired", 0);
 	this.set_u8("shots spawned", 0);
 	
