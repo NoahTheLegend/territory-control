@@ -725,7 +725,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[2].push_back(b);
 	}
 	{
-		BuildBlock b(0, "treecapitator", "$icon_treecapitator$", "Treecapitator:\n\nMurders plants.");
+		BuildBlock b(0, "treecapitator", "$icon_treecapitator$", "Treecapitator:\n\nChops plants and trees. Will break if spammed in close area.\nTakes damage over time. Doesn't collide with fruits.");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron ingot", 8);
 		blocks[2].push_back(b);
