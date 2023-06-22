@@ -28,7 +28,7 @@ const int coinsOnBuildWorkshop = 20;
 
 const int warmupFactor = 3;
 
-const u32 MAX_COINS = 30000;
+const u32 MAX_COINS = 32765;
 
 //
 bool kill_traders_and_shops = false;
@@ -160,7 +160,7 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ killer, u8 customData)
 		
 		const u32 victim_coins = victim.getCoins();
 		
-		f32 reward_factor = 0.10f;
+		f32 reward_factor = 0.1f;
 		u32 dropped_coins = 0.00f;
 	
 		const bool hasKiller = killer !is null;
@@ -207,8 +207,8 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ killer, u8 customData)
 		if (hasKiller)
 		{
 			f32 killer_reward = dropped_coins;
-		
-			if (killer.getTeamNum() < 7)
+
+			if (killer.getTeamNum() < 7 && killer !is victim)
 			{
 				TeamData@ team_data;
 				GetTeamData(killer.getTeamNum(), @team_data);
@@ -228,7 +228,7 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ killer, u8 customData)
 			}
 			
 			mod = killer_reward;
-			killer.server_setCoins(Maths::Clamp(killer.getCoins() + 100 + killer_reward, 0, MAX_COINS));
+			if (killer !is victim) killer.server_setCoins(Maths::Clamp(killer.getCoins() + 100 + killer_reward, 0, MAX_COINS));
 		}
 		else if (victimBlob !is null) server_DropCoins(victimBlob.getPosition(), dropped_coins);
 		
