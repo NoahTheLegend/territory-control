@@ -39,15 +39,6 @@ void onInit(CBlob@ this)
 		lever.SetFrameIndex(0);
 	}
 
-	bool ss = this.get_bool("state");
-	if (ss)
-	{
-		sprite.SetZ(-100.0f);
-		sprite.SetAnimation("open");
-		this.getShape().getConsts().collidable = false;
-		this.getCurrentScript().tickFrequency = 3;
-	}
-
 	this.addCommandID("set_state");
 	this.addCommandID("sync_state");
 	server_Sync(this);
