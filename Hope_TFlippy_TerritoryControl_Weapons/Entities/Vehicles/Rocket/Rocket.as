@@ -53,7 +53,7 @@ void onTick(CBlob@ this)
 				this.setAngleDegrees(-this.getVelocity().Angle() + 90);
 			}
 
-			dir = Vec2f_lerp(this.get_Vec2f("direction"), dir, 0.05f);
+			dir = Vec2f_lerp(this.get_Vec2f("direction"), dir, 0.065f);
 			dir.Normalize();
 
 			this.set_Vec2f("direction", dir);
