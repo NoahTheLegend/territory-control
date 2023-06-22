@@ -443,7 +443,7 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					if (tokens.length != 2 && (tokens.length != 3 || (tokens.length == 3 && !isCool))) return false;
 
 					CPlayer@ tpPlayer =	GetPlayer(tokens[1]);
-					CBlob@ tpBlob =	tokens.length == 2 ? blob : tpPlayer.getBlob();
+					CBlob@ tpBlob =	tokens.length == 2 ? blob : tpPlayer !is null ? tpPlayer.getBlob() : blob;
 					CPlayer@ tpDest = GetPlayer(tokens.length == 2 ? tokens[1] : tokens[2]);
 
 					if (tpBlob !is null && tpDest !is null)
