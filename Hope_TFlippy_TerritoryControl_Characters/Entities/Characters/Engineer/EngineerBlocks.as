@@ -627,7 +627,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[2].push_back(b);
 	}
 	{
-		BuildBlock b(0, "invcleaner", "$icon_invcleaner$", "Inventory cleaner:\n\nGrabs $blue$filtered$blue$ items from player inventories.\nDoesnt work for enemy players.");
+		BuildBlock b(0, "invcleaner", "$icon_invcleaner$", "Inventory cleaner:\n\nGrabs $blue$filtered$blue$ items from player inventories.\nDoesnt work with enemy players.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
 		b.buildOnGround = true;
