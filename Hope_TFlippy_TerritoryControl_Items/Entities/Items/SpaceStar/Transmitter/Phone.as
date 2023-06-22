@@ -169,12 +169,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			{
 				if (spl[1] == "parachute")
 				{
-					CBlob@ blob = server_MakeCrateOnParachute(spl[0], "SpaceStar Ordering Goods", 0, 250, Vec2f(callerBlob.getPosition().x, 0));
+					CBlob@ blob = server_MakeCrateOnParachute(spl[0], "SpaceStar Ordering Goods", 0, this.getTeamNum(), Vec2f(callerBlob.getPosition().x, 0));
 					blob.Tag("unpack on land");
 				}
 				else if (spl[1] == "parachute_no_unpack")
 				{
-					CBlob@ blob = server_MakeCrateOnParachute(spl[0], "SpaceStar Ordering Goods", 0, 250, Vec2f(callerBlob.getPosition().x, 0));
+					CBlob@ blob = server_MakeCrateOnParachute(spl[0], "SpaceStar Ordering Goods", 0, this.getTeamNum(), Vec2f(callerBlob.getPosition().x, 0));
 				}
 				else if (spl[1] == "barrage")
 				{
@@ -422,35 +422,35 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							case 0:							
 							{
 								ammo_config = "mat_gatlingammo";
-								ammo_count = 250;
+								ammo_count = 500;
 							}
 							break;
 							
 							case 1:
 							{
 								ammo_config = "mat_rifleammo";
-								ammo_count = 100;
+								ammo_count = 300;
 							}
 							break;
 							
 							case 2:
 							{
 								ammo_config = "mat_pistolammo";
-								ammo_count = 200;
+								ammo_count = 400;
 							}
 							break;
 							
 							case 3:
 							{
 								ammo_config = "mat_shotgunammo";
-								ammo_count = 50;
+								ammo_count = 120;
 							}
 							break;
 
 							case 4:
 							{
 								ammo_config = "mat_sniperammo";
-								ammo_count = 40;
+								ammo_count = 50;
 							}
 							break;
 
