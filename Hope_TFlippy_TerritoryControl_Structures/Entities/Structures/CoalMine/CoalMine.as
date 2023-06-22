@@ -97,8 +97,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Coal (25)", "$mat_coal$", "mat_coal-25", "Buy 25 Coal for 250 coins.");
-		AddRequirement(s.requirements,"coin","","Coins", 250); //made it cost a lot, so it's better to just conquer the building
+		ShopItem@ s = addShopItem(this, "Buy Coal (25)", "$mat_coal$", "mat_coal-25", "Buy 25 Coal for 150 coins.");
+		AddRequirement(s.requirements,"coin","","Coins", 150); //made it cost a lot, so it's better to just conquer the building
 		s.spawnNothing = true;
 	}
 	{
@@ -133,8 +133,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Buy Coal (250)", "$mat_coal$", "mat_coal-250", "Buy 250 Coal for 2500 coins.");
-		AddRequirement(s.requirements,"coin","","Coins", 2500); //made it cost a lot, so it's better to just conquer the building
+		ShopItem@ s = addShopItem(this, "Buy Coal (250)", "$mat_coal$", "mat_coal-250", "Buy 250 Coal for 1500 coins.");
+		AddRequirement(s.requirements,"coin","","Coins", 1500);
 		s.spawnNothing = true;
 	}
 	{
@@ -169,8 +169,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Sell Coal (125)", "$COIN$", "coin-250", "Sell 125 Coal for 250 coins (0.2x of the price)");
-		AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 125);
+		ShopItem@ s = addShopItem(this, "Sell Coal (125)", "$COIN$", "coin-75", "Sell 125 Coal for 75 coins (0.5x of the price)");
+		AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 75);
 		s.spawnNothing = true;
 	}
 	{
