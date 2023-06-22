@@ -22,6 +22,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
+    if (!this.hasCommandID("switch")) return;
     if (cmd == this.getCommandID("switch"))
 	{
         this.get_bool("extraction_enabled") ? this.Tag("ignore extractor") : this.Untag("ignore extractor");
