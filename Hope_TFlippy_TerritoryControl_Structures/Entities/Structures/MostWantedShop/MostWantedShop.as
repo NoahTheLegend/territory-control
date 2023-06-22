@@ -95,7 +95,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				CPlayer@ p = getPlayer(i);
 				if (p.getCharacterName() == playerName)
 				{
-					if (p.getScore() < 30000)
+					if (p.getScore() < 32765)
 					{
 						p.setScore(p.getScore() + 500);
 						if (isClient()) 
