@@ -399,7 +399,7 @@ void onDie(CBlob@ this)
 
 		if (headname != "")
 		{
-			if (headname == "carbonhelmet" || headname == "wilmethelmet" || headname == "bucket" || headname == "pumpkin" || headname == "scubagear" || headname == "minershelmet" || headname == "nvd")
+			if (headname == "bucket" || headname == "pumpkin" || headname == "scubagear" || headname == "minershelmet" || headname == "nvd")
 			{
 				CBlob@ item = server_CreateBlob(headname, this.getTeamNum(), this.getPosition());
 				if (item !is null) item.set_f32("health", this.get_f32(headname+"_health"));

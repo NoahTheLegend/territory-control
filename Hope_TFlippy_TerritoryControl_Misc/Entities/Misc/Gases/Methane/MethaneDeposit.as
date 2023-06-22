@@ -63,6 +63,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("shop made item"))
 	{
+		if (this.hasTag("done")) return;
+		
 		u16 caller, item;
 		if (!params.saferead_netid(caller) || !params.saferead_netid(item)) return;
 		
@@ -80,6 +82,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			{
 				this.server_Die();
 				CBlob@ newBlob = server_CreateBlob("methanecollector", buyer.getTeamNum(), pos);
+				this.Tag("done");
 			}
 		}
 	}
