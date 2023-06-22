@@ -60,9 +60,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Steam Tank", "$icon_steamtank$", "steamtank", "$icon_steamtank$\n\n\n" + "An armored land vehicle. Comes with a powerful cannon and a durable ram.", false, true);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 20);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 10);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.crate_icon = 7;
@@ -82,7 +80,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Dinghy", "$icon_dinghy$", "dinghy", "$dinghy$\n\n\n" + descriptions[10]);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
-		AddRequirement(s.requirements, "coin", "", "Coins", 30);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
 		s.spawnNothing = true;
 		s.customButton = true;
@@ -98,8 +96,8 @@ void onInit(CBlob@ this)
 	// }
 	{
 		ShopItem@ s = addShopItem(this, "Longboat", "$icon_longboat$", "longboat", "$longboat$\n\n\n" + descriptions[33], false, true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 200);
-		AddRequirement(s.requirements, "coin", "", "Coins", 120);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
+		AddRequirement(s.requirements, "coin", "", "Coins", 350);
 
 		s.crate_icon = 1;
 		s.customButton = true;
@@ -109,7 +107,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "War Boat", "$icon_warboat$", "warboat", "$warboat$\n\n\n" + descriptions[37], false, true);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 500);
-		AddRequirement(s.requirements, "coin", "", "Coins", 200);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.crate_icon = 2;
 		s.customButton = true;
@@ -119,8 +117,6 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Machine Gun", "$icon_gatlinggun$", "gatlinggun", "Useful for making holes.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.crate_icon = 11;
@@ -132,7 +128,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Autocannon", "$icon_autocannon$", "autocannon", "A slow and sturdy wooden monstrosity.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 1000);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 
 		s.crate_icon = 11;
 		s.customButton = true;
@@ -142,7 +138,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Bomber", "$icon_bomber$", "bomber", "$icon_bomber$\n\n\n\n\n\n\n\n" + "A large aerial vehicle used for safe transport and bombing the peasants below.\n[Space] to drop items out of inventory.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		AddRequirement(s.requirements, "coin", "", "Coins", 300);
 
 		s.crate_icon = 13;
 		s.customButton = true;
@@ -151,10 +147,10 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Armored Bomber", "$icon_armoredbomber$", "armoredbomber", "$icon_armoredbomber$\n\n\n\n\n\n\n\n" + "A fortified but slow moving balloon with an iron basket and two attachment slots. Resistant against gunfire.\n[Space] to drop items out of inventory.", false, true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 450);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 20);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 
 		s.crate_icon = 13;
 		s.customButton = true;
@@ -173,8 +169,8 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Rocket Launcher", "$icon_rocketlauncher$", "rocketlauncher", "A rapid-fire rocket launcher especially useful against aerial targets.", false, true);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 12);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 375);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
 		AddRequirement(s.requirements, "coin", "", "Coins", 350);
 
 		s.crate_icon = 0;
@@ -185,8 +181,8 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Howitzer", "$icon_howitzer$", "howitzer", "Mortar's bigger brother.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 175);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
+		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 
 		s.crate_icon = 12;
 		s.customButton = true;
@@ -207,7 +203,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Spotter Airplane", "$icon_triplane$", "triplane", "$icon_triplane$\n\n\n\n" + "A fast airplane used for scouting and light bombing.\n\n[W]/[D] to accelerate\n[LMB] to shoot\n[Space] to drop items out of inventory\n[C] to leave", false, true);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 6);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
 		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
 		s.crate_icon = 14;
@@ -218,7 +214,6 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Cargo Container", "$icon_cargocontainer$", "cargocontainer", "$icon_cargocontainer$\n\n\n\n" + "A large shipping container with a huge storage capacity.\n\nCan be moved around by vehicles.\nActs as a remote inventory.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.crate_icon = 0;
 		s.customButton = true;
@@ -227,10 +222,9 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Minicopter", "$icon_minicopter$", "minicopter", "$icon_minicopter$\n\n\n\n\n" + "A fast helicopter used for scouting and transport.\n\n[W]/[S] for vertical throttle, [A]/[D] for horizontal throttle.", false, true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 300);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
-		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
-		AddRequirement(s.requirements, "coin", "", "Coins", 750);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 500);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 350);
 
 		s.crate_icon = 0;
 		s.customButton = true;
@@ -251,8 +245,8 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Drone!\n\nRequres batteries to fly.", "$uav_icon$", "uav", "$uav$\n\n\n\nRemotely controlled drone, with a machinegun on its hull and controller." + "", false, false);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
-		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 30);
-		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 
 		s.customButton = true;
 		s.buttonwidth = 4;
@@ -260,10 +254,10 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Helichopper", "$helichopper$", "helichopper", "$helichopper$\n\n\n\n\nBoss-helicopter!" + "", false, true);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 50);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 40);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 32);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 48);
 		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 100);
-		AddRequirement(s.requirements, "coin", "", "Coins", 7500);
+		AddRequirement(s.requirements, "coin", "", "Coins", 5000);
 
 		s.crate_icon = 0;
 		s.customButton = true;
@@ -298,9 +292,8 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Journalist copter", "$jourcopicon$", "jourcop", "$jourcopicon$\n\n\n\n\n\nWatch the battlefield dramas, but don't forget about the *birdies*!", false, true);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 28);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 6);
-		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 40);
-		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.crate_icon = 0;
 		s.customButton = true;
@@ -309,7 +302,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Gunship", "$gunshipicon$", "gunship", "$gunshipicon$\n\n\n\n\n\n\n\nA massive ship with an incendiary mortar on its nose.", false, true);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 80);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 64);
 		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 32);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
@@ -321,9 +314,9 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Zeppelin", "$icon_zeppelin$", "zepplin", "$icon_zeppelin$\n\n\n\n\n\n\n\n\n\n\n" + "A large zeppelin.\n\nYou can shoot from gatling gun.\nUses gatling ammo on the first inventory slot.", false, false);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 48);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 24);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 1250);
-		AddRequirement(s.requirements, "coin", "", "Coins", 3000);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 1000);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
 		//s.crate_icon = 0;
 		s.customButton = true;
