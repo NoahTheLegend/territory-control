@@ -52,7 +52,7 @@ CBlob@ FindStorage(u8 team)
 
 	for (u32 i = 0; i < blobs.length; i++)
 	{
-		if (blobs[i].getTeamNum() == team && blobs[i].getInventory().getCount("mat_methane") < 500)
+		if (blobs[i].getTeamNum() == team && blobs[i].getInventory().getCount("mat_methane") < 1000)
 		{
 			validBlobs.push_back(blobs[i]);
 		}
