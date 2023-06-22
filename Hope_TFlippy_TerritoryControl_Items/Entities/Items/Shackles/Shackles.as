@@ -19,8 +19,7 @@ void onInit(CBlob@ this)
 string[] getRestrictedPlayers()
 {
 	string[] players = {
-		"Killy07",
-		"ShotgunHobo"
+
 	};
 	return players;
 }
