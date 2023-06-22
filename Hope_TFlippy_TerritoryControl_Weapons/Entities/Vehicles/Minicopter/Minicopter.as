@@ -338,12 +338,12 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 			if (carried !is null && this.get_f32("fuel_count") < this.get_f32("max_fuel"))
 			{
 				string fuel_name = carried.getName();
-				bool isValid = fuel_name == "mat_oil" || fuel_name == "mat_fuel";
+				bool isValid = fuel_name == "mat_coal" || fuel_name == "mat_oil" || fuel_name == "mat_fuel";
 
 				if (isValid)
 				{
 					params.write_netid(caller.getNetworkID());
-					CButton@ button = caller.CreateGenericButton("$" + fuel_name + "$", Vec2f(12, 0), this, this.getCommandID("load_fuel"), "Load " + carried.getInventoryName() + "\n(" + this.get_f32("fuel_count") + " / " + this.get_f32("max_fuel") + ")", params);
+					CButton@ button = caller.CreateGenericButton("$" + fuel_name + "$", Vec2f(4, 0), this, this.getCommandID("load_fuel"), "Load " + carried.getInventoryName() + "\n(" + this.get_f32("fuel_count") + " / " + this.get_f32("max_fuel") + ")", params);
 				}
 			}
 		}
@@ -428,9 +428,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			string fuel_name = carried.getName();
 			f32 fuel_modifier = 1.00f;
-			bool isValid = false;
+			bool is_coal = fuel_name == "mat_coal";
+			bool isValid = false || is_coal; // hack for coal since its an exclusive vehicle
 
 			fuel_modifier = GetFuelModifier(fuel_name, isValid, 1);
+			if (is_coal) fuel_modifier = GetFuelModifier(fuel_name, isValid, 0);
 
 			if (isValid)
 			{
@@ -491,7 +493,7 @@ void onRender(CSprite@ this)
 
 		GUI::SetFont("menu");
 		GUI::DrawTextCentered("Requires fuel!", Vec2f(pos.x, pos.y + 85 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
-		GUI::DrawTextCentered("(Oil or Fuel)", Vec2f(pos.x, pos.y + 105 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
+		GUI::DrawTextCentered("(Coal, Oil or Fuel)", Vec2f(pos.x, pos.y + 105 + Maths::Sin(getGameTime() / 5.0f) * 5.0f), SColor(255, 255, 55, 55));
 	}
 }
 
