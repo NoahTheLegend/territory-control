@@ -80,7 +80,7 @@ void onTick(CSprite@ this)
 	
 	if (isClient())
 	{
-		if (blob.getTickSinceCreated() == 1 || !blob.hasTag("initializded_layers"))
+		if (blob.getTickSinceCreated() == 1 || (!blob.hasTag("initializded_layers") && blob.isOnScreen()))
 		{
 			CBlob@ blob = this.getBlob();
 			if (blob is null) return;
