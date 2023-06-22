@@ -141,7 +141,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			if (getEquipmentType(item) == "head" && cmd == this.getCommandID("equip_head"))
 			{
 				addHead(caller, eqName);
-				if (eqName == "militaryhelmet" || eqName == "carbonhelmet" || eqName == "wilmethelmet" || eqName == "bucket" || eqName == "pumpkin" || 
+				if (eqName == "militaryhelmet" || eqName == "stahlhelm" || eqName == "carbonhelmet" || eqName == "wilmethelmet" || eqName == "bucket" || eqName == "pumpkin" || 
 					eqName == "scubagear" || eqName == "minershelmet") 
 					caller.set_f32(eqName+"_health", item.get_f32("health"));
 

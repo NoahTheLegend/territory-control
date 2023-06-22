@@ -8,6 +8,7 @@ void onInit(CBlob@ this)
 	this.getShape().SetStatic(true);
 	
 	getRules().set_u8("map_type", MapType::desert);
+	removeWatur();
 
 	this.Tag("infos");
 	if (isServer())
@@ -41,5 +42,13 @@ void onInit(CBlob@ this)
 		setTextureSprite(this,BushTexture,"Desert_Bushes.png");
 		setTextureSprite(this,IvyTexture,"Desert_Ivy.png");
 		swapBlobTextures();	
+	}
+}
+
+void removeWatur()
+{
+	CMap@ map = getMap();
+	for (int offset = 0; offset < (map.tilemapwidth*map.tilemapheight); ++offset) {
+		map.server_setFloodWaterOffset(offset, false);
 	}
 }

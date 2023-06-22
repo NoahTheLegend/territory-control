@@ -55,9 +55,9 @@ void shopMenu(CBlob@ this)
 	
 	AddIconToken("$icon_stahlhelm$", "stahlhelm_icon.png", Vec2f(24, 24), 0);
 	{
-		ShopItem@ s = addShopItem(this, "Stahlhelm M42", "$icon_stahlhelm$", "stahlhelm", "Best combat helmet in the world!");
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 3);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		ShopItem@ s = addShopItem(this, "Stahlhelm M42", "$icon_stahlhelm$", "stahlhelm", "Best combat helmet in the world!\n\nDoesn't require any repair!!!");
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 10);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 500);
 		s.customButton = true;
 		s.buttonwidth = 1;	
 		s.buttonheight = 1;
@@ -65,12 +65,19 @@ void shopMenu(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	
-	{
+	/* {
 		ShopItem@ s = addShopItem(this, "Very stylish cool-looking offiziers Cap!", "$villaincap$", "villaincap", "Peaked Cap for good commanders.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 		s.customButton = true;
 		s.buttonwidth = 1;	
 		s.buttonheight = 1;
+		
+		s.spawnNothing = true;
+	} */
+	
+	{
+		ShopItem@ s = addShopItem(this, "Mustard Gas (100)", "$icon_mustard$", "mat_mustard", "A bottle of a highly poisonous gas. Causes blisters, blindness and lung damage.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 700);;
 		
 		s.spawnNothing = true;
 	}
@@ -81,17 +88,7 @@ void shopMenu(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_rippio", "Rippio Gas", 50);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 		s.customButton = true;
-		s.buttonwidth = 2;	
-		s.buttonheight = 1;
-		
-		s.spawnNothing = true;
-	}
-	
-	{
-		ShopItem@ s = addShopItem(this, "Mustard Gas (100)", "$icon_mustard$", "mat_mustard", "A bottle of a highly poisonous gas. Causes blisters, blindness and lung damage.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 700);
-		s.customButton = true;
-		s.buttonwidth = 2;	
+		s.buttonwidth = 4;	
 		s.buttonheight = 1;
 		
 		s.spawnNothing = true;

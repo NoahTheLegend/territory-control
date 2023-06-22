@@ -81,7 +81,8 @@ const string[] textsIdle =
 	"We used them as parachutes...",
 	"It's a rough life with the UPF out there.",
 	"I supply only the finest goods.",
-	"Are you a wizard?"
+	"Are you a wizard?",
+	"I hate niggers!"
 };
 
 const string[] textsDanger = 
@@ -156,13 +157,13 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Sell Gold Ingot (1)", "$COIN$", "coin-90", "Sell 1 Gold Ingot for 90 coins.");
+		ShopItem@ s = addShopItem(this, "Sell Gold Ingot (1)", "$COIN$", "coin-100", "Sell 1 Gold Ingot for 100 coins.");
 		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold Ingot", 1);
 		s.spawnNothing = true;
 	}
 
 	// Resource Trader
-	if (rand.NextRanged(100) < 50)
+	if (rand.NextRanged(100) < 100)
 	{
 		{
 			ShopItem@ s = addShopItem(this, "Buy Stone (250)", "$mat_stone$", "mat_stone-250", "Buy 250 stone for 135 coins.");
@@ -187,7 +188,7 @@ void onInit(CBlob@ this)
 	}
 
 	// Misc Trader
-	if (rand.NextRanged(100) < 50)
+	if (rand.NextRanged(100) < 100)
 	{
 		{
 			ShopItem@ s = addShopItem(this, "Gramophone Record", "$musicdisc$", "musicdisc", "A disc with mysterious music!");
@@ -199,15 +200,15 @@ void onInit(CBlob@ this)
 			AddRequirement(s.requirements, "coin", "", "Coins", 100);
 			s.spawnNothing = true;
 		}
-	    {  
-		    ShopItem@ s = addShopItem(this, "Amogus Plushie", "$amogusplushie$", "amogusplushie", "SUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUS");
-			AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		{
+			ShopItem@ s = addShopItem(this, "Fiks", "$fiks$", "fiks", "Sweet fiks.");
+			AddRequirement(s.requirements, "coin", "", "Coins", 350);
 			s.spawnNothing = true;
 		}
 	}
 
 	// Nature Trader
-	if (rand.NextRanged(100) < 50)
+	if (rand.NextRanged(100) < 100)
 	{
 		{
 			ShopItem@ s = addShopItem(this, "Tree Seed", "$seed$", "seed", "A tree seed. Trees don't have seeds, though.");
@@ -222,28 +223,41 @@ void onInit(CBlob@ this)
 	}
 
 	// Arms dealer
-	if (rand.NextRanged(100) < 30)
+	if (rand.NextRanged(100) < 100)
 	{
 		{
-			ShopItem@ s = addShopItem(this, "AK-47", "$ak47$", "ak47", "MOTHER RUSSIA.");
+			ShopItem@ s = addShopItem(this, "Ivan's AK-47", "$ivanak47$", "ivanak47", "MOTHER RUSSIA.");
+			AddRequirement(s.requirements, "coin", "", "Coins", 1500);
+			s.spawnNothing = true;
+		}
+		{
+			ShopItem@ s = addShopItem(this, "Dragunov's SVD", "$svd$", "svd", "A short-ranged rifle with medium damage.");
+			AddRequirement(s.requirements, "coin", "", "Coins", 3500);
+			s.spawnNothing = true;
+		}
+		{
+			ShopItem@ s = addShopItem(this, "DP-27", "$dp27$", "dp27", "A cheap smg with high fire rate.");
 			AddRequirement(s.requirements, "coin", "", "Coins", 500);
 			s.spawnNothing = true;
 		}
 		{
-			ShopItem@ s = addShopItem(this, "Dragunov's SVD", "$SVD$", "SVD", "A short-ranged rifle with medium damage.");
-			AddRequirement(s.requirements, "coin", "", "Coins", 1000);
-			s.spawnNothing = true;
-		}
-		{
-			ShopItem@ s = addShopItem(this, "DP-27", "$dp27$", "dp27", "A cheap smg with high fire rate.");
-			AddRequirement(s.requirements, "coin", "", "Coins", 400);
-			s.spawnNothing = true;
-		}
-		{
-			ShopItem@ s = addShopItem(this, "DP-27", "$dp27$", "dp27", "A cheap smg with high fire rate.");
-			AddRequirement(s.requirements, "coin", "", "Coins", 400);
-			s.spawnNothing = true;
-		}
+		ShopItem@ s = addShopItem(this, "Machine Gun Ammunition (50)", "$icon_gatlingammo$", "mat_gatlingammo-50", "Ammunition used by the machine gun.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 65);
+
+		s.spawnNothing = true;
+     	}
+	    {
+		ShopItem@ s = addShopItem(this, "High Power Ammunition (10)", "$icon_sniperammo$", "mat_sniperammo-10", "Rounds that are mainly used by sniper rifles. Very effective against heavy armored targets.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 80);
+
+		s.spawnNothing = true;
+	    }
+	    {
+		ShopItem@ s = addShopItem(this, "High Caliber Ammunition (10)", "$icon_rifleammo$", "mat_rifleammo-10", "Bullets for rifles. Effective against armored targets.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 40);
+
+		s.spawnNothing = true;
+    	}
 	}
 }
 

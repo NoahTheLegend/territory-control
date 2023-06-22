@@ -119,7 +119,7 @@ void onInit(CBlob@ this)
 	this.set_u32("lastDanger", 0);
 
 	// Resource Trader
-	if (rand.NextRanged(100) < 50)
+	if (rand.NextRanged(100) < 100)
 	{
 		{
 		ShopItem@ s = addShopItem(this, "Process Mithril (1)", "$mat_mithrilingot$", "mat_mithrilingot-1", "I shall remove the deadly curse from this mythical metal.");
@@ -136,7 +136,7 @@ void onInit(CBlob@ this)
 	}
 
 	// Misc Trader
-	if (rand.NextRanged(100) < 50)
+	if (rand.NextRanged(100) < 80)
 	{
 	    {
 			ShopItem@ s = addShopItem(this, "JackOLantern", "$jackolantern$", "jackolantern", "A spooky pumpkin.");
@@ -159,11 +159,42 @@ void onInit(CBlob@ this)
 		    AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingots", 2);
 		    s.spawnNothing = true;
 	    }
+		{
+		ShopItem@ s = addShopItem(this, "Infernal Stone", "$infernalstone$", "infernalstone", "It's hot!");
+		AddRequirement(s.requirements, "blob", "meteor", "Meteor", 1);
+		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel", 100);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 250);
+		s.spawnNothing = true;
+	    }
+		{
+		    ShopItem@ s = addShopItem(this, "Illegal gun part", "$illegalgunpart$", "illegalgunpart", "Very illegal gun parts for very illegal weapons.");
+		    AddRequirement(s.requirements, "coin", "", "Coins", 5000);
+		    s.spawnNothing = true;
+	    }
+		{
+		    ShopItem@ s = addShopItem(this, "Saddle", "$saddle$", "saddle", "Saddle for animals.");
+		    AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		    s.spawnNothing = true;
+	    }
+		{
+			ShopItem@ s = addShopItem(this, "Sell Scrub's Chow", "$COIN$", "coin-120", "Sell 1 Scrub's Chow for 120 coins");
+			AddRequirement(s.requirements, "blob", "foodcan", "Scrub's Chow", 1);
+			s.spawnNothing = true;
+			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
+		}
+		{
+		    ShopItem@ s = addShopItem(this, "RIP", "$rip$", "rip", "");
+		    AddRequirement(s.requirements, "coin", "", "Coins", 7000);
+			AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 350);
+			AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron ingot", 20);
+			AddRequirement(s.requirements, "blob", "mat_methane", "Methane", 50);
+		    s.spawnNothing = true;
+	    }
 		
 	}
 
 	// Nature Trader
-	if (rand.NextRanged(100) < 50)
+	if (rand.NextRanged(100) < 70)
 	{
 		{
 			ShopItem@ s = addShopItem(this, "Sell Pumpkin (1)", "$COIN$", "coin-100", "Sell 1 pumpkin for 100 coins.");
@@ -178,6 +209,12 @@ void onInit(CBlob@ this)
 		    AddRequirement(s.requirements, "coin", "", "Coins", 250);
 		    s.spawnNothing = true;
 	    }
+		{
+			ShopItem@ s = addShopItem(this, "Tea", "$tea$", "tea", "Sweet tea.");
+			AddRequirement(s.requirements, "coin", "", "Coins", 150);
+			s.spawnNothing = true;
+			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
+		}
 	}
 
 	// Arms dealer
