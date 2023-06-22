@@ -14,7 +14,6 @@ void onInit(CBlob@ this)
 	this.getShape().SetGravityScale(0.0f);
 	this.getShape().getConsts().mapCollisions = false;
 	this.getShape().SetRotationsAllowed(false);
-	this.getShape().getConsts().transports = true;
 
 	this.SetMapEdgeFlags(CBlob::map_collide_none | CBlob::map_collide_nodeath);
 
@@ -46,18 +45,18 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 	return !blob.hasTag("train");
 }
 
-void onCollision( CBlob@ this, CBlob@ blob, bool solid )
-{
-	blob.setVelocity(Vec2f(6, 0));
-}
-
-/*
 void onTick(CBlob@ this)
 {
 	CMap@ map = getMap();
-	// bool server = isServer();
-	// bool client = isClient();
+	Vec2f pos = this.getPosition();
+	Vec2f vel = -(this.getOldPosition()-pos);
 
-	// if (client) ShakeScreen(80, 50, this.getPosition());
-	this.setVelocity(Vec2f(4, 0));
-}*/
+	CBlob@[] overlapping;
+	map.getBlobsInBox(pos - Vec2f(40, 40), pos - Vec2f(-40, 20), @overlapping);
+	for (u16 i = 0; i < overlapping.length; i++)
+	{
+		if (overlapping[i] is null || !overlapping[i].isOnGround()) continue;
+		if (overlapping[i].getVelocity().x < 4.0f && !overlapping[i].isKeyPressed(key_left))
+			overlapping[i].AddForce(Vec2f(1 + (overlapping[i].isKeyPressed(key_right)?1:0),0) * overlapping[i].getMass());
+	}
+}
