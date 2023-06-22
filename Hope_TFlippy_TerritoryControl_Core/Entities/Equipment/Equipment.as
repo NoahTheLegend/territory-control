@@ -18,9 +18,8 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
 
 	Vec2f MENU_POS;
 
-	if (name == "builder" || name == "peasant" || name == "rockman") MENU_POS = gridmenu.getUpperLeftPosition() + Vec2f(-84, -204);
-	else if (name == "archer") MENU_POS = gridmenu.getUpperLeftPosition() + Vec2f(-84, -56);
-	else MENU_POS = gridmenu.getUpperLeftPosition() + Vec2f(-36, -56);
+	if (name == "archer") MENU_POS = gridmenu.getUpperLeftPosition() + Vec2f(-84, -56);
+	else MENU_POS = gridmenu.getUpperLeftPosition() + Vec2f(-64, -80);
 
 	CGridMenu@ equipments = CreateGridMenu(MENU_POS, this, Vec2f(1, 3), "equipment");
 	CGridMenu@ extraequipments = CreateGridMenu(MENU_POS+Vec2f(-48, 0), this, Vec2f(1, 1), "equipment");
@@ -150,7 +149,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 				if (item.getQuantity() <= 1) item.server_Die();
 				else item.server_SetQuantity(Maths::Max(item.getQuantity() - 1, 0));
 			}
-			else if (getEquipmentType(item) == "torso" && cmd == this.getCommandID("equip_torso"))
+			else if (getEquipmentType(item) == "torso" && cmd == this.getCommandID("equip_torso") && eqName != "backpack")
 			{
 				addTorso(caller, eqName);
 				if (eqName == "bulletproofvest" || eqName == "carbonvest" || eqName == "wilmetvest" || eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));

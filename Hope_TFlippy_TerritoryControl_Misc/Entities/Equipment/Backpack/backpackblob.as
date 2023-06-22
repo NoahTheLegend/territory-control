@@ -1,3 +1,5 @@
+#include "StandardControlsCommon.as";
+
 void onInit(CBlob@ this)
 {
 	this.SetVisible(false);
@@ -27,6 +29,14 @@ bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
 	return false;
+}
+
+void onRemoveFromInventory(CBlob@ this, CBlob@ blob)
+{
+	if (!isServer()) return;
+	CBlob@ holder = getBlobByNetworkID(this.get_u16("holder_id"));
+	if (holder !is null)
+		server_Pickup(this, holder, blob);
 }
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)

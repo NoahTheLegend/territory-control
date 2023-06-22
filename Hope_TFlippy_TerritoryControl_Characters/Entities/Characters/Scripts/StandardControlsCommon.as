@@ -3,6 +3,7 @@ void server_Pickup(CBlob@ this, CBlob@ picker, CBlob@ pickBlob)
 {
 	if (pickBlob is null || picker is null || this is null || pickBlob.isAttached() || !pickBlob.canBePickedUp(picker))
 		return;
+		
 	CBitStream params;
 	params.write_netid(picker.getNetworkID());
 	params.write_netid(pickBlob.getNetworkID());

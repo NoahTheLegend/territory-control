@@ -68,6 +68,7 @@ void onInit(CInventory@ this)
 	}
 	
 	blob.set_Vec2f("backpack position", Vec2f_zero);
+	blob.set_Vec2f("secondary backpack position", Vec2f(-280, 0));
 
 	blob.set_u8("build page", 0);
 
@@ -184,7 +185,7 @@ void MakeBlocksMenu(CInventory@ this, const Vec2f &in INVENTORY_CE)
 void onCreateInventoryMenu(CInventory@ this, CBlob@ forBlob, CGridMenu@ menu)
 {
 	CBlob@ blob = this.getBlob();
-	if(blob is null) return;
+	if (blob is null) return;
 
 	const Vec2f INVENTORY_CE = this.getInventorySlots() * GRID_SIZE / 2 + menu.getUpperLeftPosition();
 	blob.set_Vec2f("backpack position", INVENTORY_CE);
@@ -192,6 +193,15 @@ void onCreateInventoryMenu(CInventory@ this, CBlob@ forBlob, CGridMenu@ menu)
 	blob.ClearGridMenusExceptInventory();
 
 	MakeBlocksMenu(this, INVENTORY_CE);
+
+	if (blob.get_string("equipment2_torso") == "backpack")
+	{
+		CBlob@ backpack = getBlobByNetworkID(blob.get_u16("backpack_id"));
+		if (backpack !is null)
+		{
+			backpack.CreateInventoryMenu(blob.get_Vec2f("backpack position")+blob.get_Vec2f("secondary backpack position"));
+		}
+	}
 }
 
 void onCommand(CInventory@ this, u8 cmd, CBitStream@ params)
