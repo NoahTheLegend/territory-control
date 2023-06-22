@@ -744,9 +744,9 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "inductionfurnace", "$icon_inductionfurnace$", "Industrial Furnace:\n\nA heavy-duty furnace that produces up to 4x more ingots at cost of lower speed. Requires coal to smelt.\n\nHas a multiplier mode that increases output for cost of smelting speed.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 60);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
 		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 1500);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 000);
 		b.buildOnGround = true;
 		b.size.Set(40, 32);
 		blocks[3].push_back(b);
@@ -754,7 +754,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	{
 		BuildBlock b(0, "electricfurnace", "$icon_electricfurnace$", "Electric furnace:\n\nAn advanced analogue for induction furnace. Smelts ore up to 3x ingots and does not require coal for smelting. Also has toggle mode.\n\nHas a multiplier mode that increases output for cost of smelting speed.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 40);
 		AddRequirement(b.reqs, "blob", "mat_battery", "Voltron Battery Plus", 50);
 		b.buildOnGround = true;
@@ -763,7 +762,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "crusher", "$icon_crusher$", "Crusher\nSmashes rocks into concrete and dirt into sulphur with a lower yield");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 18);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 8);
 		b.buildOnGround = true;
 		b.size.Set(24, 32);
@@ -845,11 +844,11 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "nuclearreactor", "$nuclearreactor$", "Nuclear Reactor:\n\nConverts enriched mithril into default with bigger yield.\nProduces wilmet material on higher temperatures.\n\nHas a control panel with password check. Can be sabotaged.\n\nRequires enriched mithril as fuel, mithril also increases heat.\n\nYou can set up a catalyst or refrigerant into the utility slot (also remove them with a wrench) to get certain modifications.\n\nExplodes with an insane power when heated up too much.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 150);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 100);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 40);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 150);
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 1500);
-		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 30);
+		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 1000);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 20);
 
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
@@ -866,8 +865,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "liquificator", "$icon_liquificator$", "Drug Liquificator:\n\nConverts various solid drugs into liquified to syringes, and liquified drugs to gases.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 6);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 20);
 		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
 		b.buildOnGround = true;
