@@ -40,7 +40,6 @@ const string inventory_offset = "inventory offset";
 
 void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 {
-	//Basic
 	AddIconToken("$glass_block$", "World.png", Vec2f(8, 8), CMap::tile_glass);
 	AddIconToken("$bglass_block$", "World.png", Vec2f(8, 8), CMap::tile_bglass);
 	AddIconToken("$concrete_block$", "World.png", Vec2f(8, 8), CMap::tile_concrete);
@@ -63,6 +62,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$concrete_triangle$", "ConcreteTriangle.png", Vec2f(8, 8), 0);
 	AddIconToken("$iron_triangle$", "IronTriangle.png", Vec2f(8, 8), 0);
 	AddIconToken("$stone_halfblock$", "StoneHalfBlock.png", Vec2f(8, 8), 0);
+	AddIconToken("$bricks_back_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks_back);
 	AddIconToken("$iron_halfblock$", "IronHalfBlock.png", Vec2f(8, 8), 0);
 	AddIconToken("$icon_ironplatform$", "IronPlatform.png", Vec2f(8, 8), 0);
 	AddIconToken("$icon_ironladder$", "IronLadder_Icon.png", Vec2f(16, 16), 0, teamnum);
@@ -79,9 +79,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$bricks_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks);
 	AddIconToken("$castle_moss_block$", "World.png", Vec2f(8, 8), CMap::tile_castle_moss);
 	AddIconToken("$castle_back_moss_block$", "World.png", Vec2f(8, 8), CMap::tile_castle_back_moss);
-	AddIconToken("$bricks_back_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks_back);
-
-	//Buildings
 	AddIconToken("$icon_buildershop$", "BuilderShop.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_quarters$", "Quarters.png", Vec2f(40, 24), 2, teamnum);
 	AddIconToken("$icon_tinkertable$", "TinkerTable.png", Vec2f(40, 24), 0, teamnum);
@@ -91,6 +88,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_upfweaponshop$", "UPFWeaponShop.png", Vec2f(40,24), 0, teamnum);
 	AddIconToken("$icon_bombshop$", "BombShop.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_gunsell$", "GunSell.png", Vec2f(40, 24), 0, teamnum);
+	AddIconToken("$icon_classchange$", "ClassChange.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_storage$", "Storage.png", Vec2f(40, 24), 3, teamnum);
 	AddIconToken("$icon_forge$", "Forge.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$constructionyard$", "ConstructionYardIcon.png", Vec2f(16, 16), 0, teamnum);
@@ -99,14 +97,10 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_nursery$","Nursery.png",Vec2f(40, 32), 5, teamnum);
 	AddIconToken("$icon_library$", "Library.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_workshop$", "Building.png", Vec2f(40, 24), 0);
-	AddIconToken("$icon_gunsell$", "GunSell.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_mostwantedshop$", "MostWantedShop.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_bountiesterminal$", "BountiesTerminal.png", Vec2f(40, 24), 0, teamnum);
-	AddIconToken("$icon_classchange$", "ClassChange.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_hatshop$", "HatShop.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_discshop$", "DiscShop.png", Vec2f(40, 24), 0, teamnum);
-
-	//Automation
 	AddIconToken("$icon_conveyor$", "Conveyor.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_separator$", "Seperator.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_filter$", "Filter.png", Vec2f(24, 8), 0, teamnum);
@@ -115,6 +109,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_jumper$", "Jumper.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_autoforge$", "AutoForge.png", Vec2f(24, 32), 0, teamnum);
 	AddIconToken("$icon_inductionfurnace$", "InductionFurnace.png", Vec2f(40, 32), 0, teamnum);
+	AddIconToken("$icon_electricfurnace$", "ElectricFurnace.png", Vec2f(40, 32), 0, teamnum);
 	AddIconToken("$icon_assembler$", "Assembler.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_hopper$", "Hopper.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_fetcher$", "Fetcher.png", Vec2f(24, 24), 0, teamnum);
@@ -139,8 +134,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$plasteellauncher$", "PlasteelLauncher.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$plasteelseparator$", "PlasteelSeperator.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_plasteelfurnace$", "PlasteelFurnace.png", Vec2f(40, 32), 0, teamnum);
-	
-	//Rob's Automation
 	AddIconToken("$icon_rconveyor$", "ConveyorR.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_rfilter$", "FilterR.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_rclimber$", "ClimberR.png", Vec2f(8, 8), 5, teamnum);
@@ -150,8 +143,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_invcleaner$", "AutomationIcons.png", Vec2f(24, 48), 1, teamnum);
 	AddIconToken("$icon_rhoppacker$", "HoppackerR.png", Vec2f(24, 24), 4, teamnum);
 	AddIconToken("$icon_rcompactor$", "CompactorR.png", Vec2f(24, 32), 0, teamnum);
-
-	//Miscellaneous
 	AddIconToken("$icon_lamppost$", "LampPost.png", Vec2f(8, 24), 0, teamnum);
 	AddIconToken("$icon_ironlocker$", "IronLocker.png", Vec2f(16, 24), 0, teamnum);
 	AddIconToken("$icon_woodchest$", "WoodChest.png", Vec2f(16, 16), 0, teamnum);
@@ -180,6 +171,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
     AddIconToken("$adminbuilder$", "EngineerIcon.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_launchpad$", "LaunchpadIcon.png", Vec2f(45, 29), 0, teamnum);
 	AddIconToken("$icon_launchpadmini$", "LaunchpadMiniIcon.png", Vec2f(45, 29), 0, teamnum);
+	AddIconToken("$icon_generator$", "Generator.png", Vec2f(32, 24), 0);
 
 	BuildBlock[] page_0;
 	blocks.push_back(page_0);
