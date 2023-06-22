@@ -204,9 +204,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Money Generating Boots", "$moneygenboots$", "moneygenboots", "Boots that produce money while walking.\nOccupies the boots slot.\nNeeds coal or wood to make money.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
-		AddRequirement(s.requirements, "blob", "mat_coal", "Coal", 25);
-		AddRequirement(s.requirements, "blob", "kitten", "Kitten", 2);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold ingot", 5);
 
 		s.spawnNothing = true;
 	}
