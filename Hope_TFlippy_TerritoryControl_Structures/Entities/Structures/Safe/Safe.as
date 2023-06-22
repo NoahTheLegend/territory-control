@@ -24,6 +24,8 @@ void onInit(CBlob@ this)
 	this.addCommandID("sync_to_server");
 	this.addCommandID("add_owner");
 
+	AddIconToken("$str$", "StoreAll.png", Vec2f(16, 16), 0);
+
 	HarvestBlobMat[] mats = {};
 	mats.push_back(HarvestBlobMat(4.0f, "mat_ironingot"));
 	this.set("minableMats", mats);
@@ -85,21 +87,21 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		CButton@ buttonOwner = caller.CreateGenericButton(9, Vec2f(0, 0), this, this.getCommandID("sv_setowner"), "Claim", params);
 	}
 	
-	if (caller.getPlayer().getUsername() == this.get_string("Owner") || has_access)
-	{
-		CInventory @inv = caller.getInventory();
-		if(inv is null) return;
-
-		CBlob@ carried = caller.getCarriedBlob();
-		if(carried is null && this.isOverlapping(caller))
-		{
-			if(inv.getItemsCount() > 0)
-			{
-				// params.write_u16(caller.getNetworkID()); // wtf why
-				CButton@ buttonOwner = caller.CreateGenericButton(28, Vec2f(0, -10), this, this.getCommandID("sv_store"), "Store", params);
-			}
-		}
-	}
+	//if (caller.getPlayer().getUsername() == this.get_string("Owner") || has_access)
+	//{
+	//	CInventory @inv = caller.getInventory();
+	//	if(inv is null) return;
+//
+	//	CBlob@ carried = caller.getCarriedBlob();
+	//	if(carried is null && this.isOverlapping(caller))
+	//	{
+	//		if(inv.getItemsCount() > 0)
+	//		{
+	//			// params.write_u16(caller.getNetworkID()); // wtf why
+	//			CButton@ buttonOwner = caller.CreateGenericButton(28, Vec2f(0, -10), this, this.getCommandID("sv_store"), "Store", params);
+	//		}
+	//	}
+	//}
 	if (caller.getPlayer().getUsername() == this.get_string("Owner"))
 	{
 		CButton@ button1 = caller.CreateGenericButton(9, Vec2f(10, 0), this, this.getCommandID("clear_owners"), "Clear all owners", params);
@@ -161,36 +163,42 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			// print("Set owner to " + this.get_string("Owner") + "; Team: " + this.getTeamNum());
 		}
 		
-		if (cmd == this.getCommandID("sv_store"))
+	}
+	if (cmd == this.getCommandID("sv_store"))
+	{
+		CBlob@ caller = getBlobByNetworkID(params.read_u16());
+		if (isServer() && caller !is null)
 		{
-			CBlob@ caller = getBlobByNetworkID(params.read_u16());
-			if (caller !is null)
+			CInventory @inv = caller.getInventory();
+			if (caller.getName() == "builder")
 			{
-				CInventory @inv = caller.getInventory();
-				if (caller.getName() == "builder")
+				CBlob@ carried = caller.getCarriedBlob();
+				if (carried !is null)
 				{
-					CBlob@ carried = caller.getCarriedBlob();
-					if (carried !is null)
+					if (carried.hasTag("temp blob"))
 					{
-						if (carried.hasTag("temp blob"))
-						{
-							carried.server_Die();
-						}
-					}
-				}
-				if (inv !is null)
-				{
-					while (inv.getItemsCount() > 0)
-					{
-						CBlob@ item = inv.getItem(0);
-						if (!this.server_PutInInventory(item))
-						{
-							caller.server_PutInInventory(item);
-							break;
-						}
+						carried.server_Die();
 					}
 				}
 			}
+			if (inv !is null)
+			{
+				while (inv.getItemsCount() > 0)
+				{
+					CBlob@ item = inv.getItem(0);
+					if (!this.server_PutInInventory(item))
+					{
+						caller.server_PutInInventory(item);
+						break;
+					}
+				}
+			}
+		}
+	
+		if (caller !is null && caller.isMyPlayer())
+		{
+			caller.ClearGridMenus();
+			caller.ClearButtons();
 		}
 	}
 }
@@ -235,4 +243,18 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 	}
 
 	return has_access || forBlob.getPlayer().getUsername() == this.get_string("Owner");
+}
+
+void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
+{
+	if (forBlob is null) return;
+	if (forBlob.getControls() is null) return;
+	Vec2f mscpos = forBlob.getControls().getMouseScreenPos(); 
+
+	Vec2f MENU_POS = mscpos+Vec2f(-155,-96);
+	CGridMenu@ sv = CreateGridMenu(MENU_POS, this, Vec2f(1, 1), "Store ");
+	
+	CBitStream params;
+	params.write_u16(forBlob.getNetworkID());
+	CGridButton@ store = sv.AddButton("$str$", "Store ", this.getCommandID("sv_store"), Vec2f(1, 1), params);
 }

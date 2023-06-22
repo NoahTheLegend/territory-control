@@ -14,6 +14,7 @@ void onInit(CBlob@ this)
 	this.Tag("extractable");
 
 	this.addCommandID("sv_store");
+	AddIconToken("$str$", "StoreAll.png", Vec2f(16, 16), 0);
 
 	HarvestBlobMat[] mats = {};
 	mats.push_back(HarvestBlobMat(50.0f, "mat_wood"));
@@ -43,7 +44,7 @@ void PickupOverlap(CBlob@ this)
 		}
 	}
 }
-
+/*
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	if (this.getDistanceTo(caller) > 96.0f) return;
@@ -65,14 +66,14 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		}
 	}
 }
-
+*/
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
+	CBlob@ caller = getBlobByNetworkID(params.read_u16());
 	if (isServer())
 	{
 		if (cmd == this.getCommandID("sv_store"))
 		{
-			CBlob@ caller = getBlobByNetworkID(params.read_u16());
 			if (caller !is null)
 			{
 				CInventory @inv = caller.getInventory();
@@ -99,9 +100,28 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			}
 		}
 	}
+	if (caller !is null && caller.isMyPlayer())
+	{
+		caller.ClearGridMenus();
+		caller.ClearButtons();
+	}
 }
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
 	return forBlob.isOverlapping(this);
+}
+
+void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
+{
+	if (forBlob is null) return;
+	if (forBlob.getControls() is null) return;
+	Vec2f mscpos = forBlob.getControls().getMouseScreenPos(); 
+
+	Vec2f MENU_POS = mscpos+Vec2f(-132,-48);
+	CGridMenu@ sv = CreateGridMenu(MENU_POS, this, Vec2f(1, 1), "Store ");
+	
+	CBitStream params;
+	params.write_u16(forBlob.getNetworkID());
+	CGridButton@ store = sv.AddButton("$str$", "Store ", this.getCommandID("sv_store"), Vec2f(1, 1), params);
 }

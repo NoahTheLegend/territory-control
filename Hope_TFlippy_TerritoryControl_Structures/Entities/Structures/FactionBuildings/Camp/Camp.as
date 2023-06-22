@@ -24,6 +24,7 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("nobuild extend", Vec2f(0.0f, 0.0f));
 
 	this.set_bool("base_allow_alarm", false);
+	AddIconToken("$str$", "StoreAll.png", Vec2f(16, 16), 0);
 
 	this.addCommandID("sv_store");
 	this.addCommandID("sv_hidemap");
@@ -45,7 +46,7 @@ void onInit(CBlob@ this)
 
 	// Inventory
 	this.Tag("change class store inventory");
-	this.inventoryButtonPos = Vec2f(28, -5);
+	this.inventoryButtonPos = Vec2f(28, 0);
 
 	// Fancy brick floor
 	CMap@ map = getMap();
@@ -101,10 +102,10 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		CInventory @inv = caller.getInventory();
 		if(inv is null) return;
 
-		if(inv.getItemsCount() > 0)
-		{
-			CButton@ buttonOwner = caller.CreateGenericButton(28, Vec2f(14, 5), this, this.getCommandID("sv_store"), "Store", params);
-		}
+		//if(inv.getItemsCount() > 0)
+		//{
+		//	CButton@ buttonOwner = caller.CreateGenericButton(28, Vec2f(14, 5), this, this.getCommandID("sv_store"), "Store", params);
+		//}
 
 		CButton@ buttonOwner = caller.CreateGenericButton(this.get_bool("minimap_hidden") ? 23 : 27, Vec2f(6, -8), this, this.getCommandID("sv_hidemap"), "Toggle Map Icon", params);
 	}
@@ -158,39 +159,43 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		this.set_u8("minimap_index", this.get_bool("minimap_hidden") ? 17 : 25);
 	}
 
-	if (isServer())
+	if (cmd == this.getCommandID("sv_store"))
 	{
-		if (cmd == this.getCommandID("sv_store"))
+		CBlob@ caller = getBlobByNetworkID(params.read_u16());
+		
+		if (isServer() && caller !is null)
 		{
-			CBlob@ caller = getBlobByNetworkID(params.read_u16());
-			if (caller !is null)
+			CInventory @inv = caller.getInventory();
+			if (caller.getName() == "builder")
 			{
-				CInventory @inv = caller.getInventory();
-				if (caller.getName() == "builder")
+				CBlob@ carried = caller.getCarriedBlob();
+				if (carried !is null)
 				{
-					CBlob@ carried = caller.getCarriedBlob();
-					if (carried !is null)
+					if (carried.hasTag("temp blob"))
 					{
-						if (carried.hasTag("temp blob"))
-						{
-							carried.server_Die();
-						}
-					}
-				}
-
-				if (inv !is null)
-				{
-					while (inv.getItemsCount() > 0)
-					{
-						CBlob@ item = inv.getItem(0);
-						if (!this.server_PutInInventory(item))
-						{
-							caller.server_PutInInventory(item);
-							break;
-						}
+						carried.server_Die();
 					}
 				}
 			}
+
+			if (inv !is null)
+			{
+				while (inv.getItemsCount() > 0)
+				{
+					CBlob@ item = inv.getItem(0);
+					if (!this.server_PutInInventory(item))
+					{
+						caller.server_PutInInventory(item);
+						break;
+					}
+				}
+			}
+		}
+
+		if (caller !is null && caller.isMyPlayer())
+		{
+			caller.ClearGridMenus();
+			caller.ClearButtons();
 		}
 	}
 }
@@ -216,4 +221,18 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		damage *= 5.0f;
 
 	return damage;
+}
+
+void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
+{
+	if (forBlob is null) return;
+	if (forBlob.getControls() is null) return;
+	Vec2f mscpos = forBlob.getControls().getMouseScreenPos(); 
+
+	Vec2f MENU_POS = mscpos+Vec2f(-135,-72);
+	CGridMenu@ sv = CreateGridMenu(MENU_POS, this, Vec2f(1, 1), "Store ");
+	
+	CBitStream params;
+	params.write_u16(forBlob.getNetworkID());
+	CGridButton@ store = sv.AddButton("$str$", "Store ", this.getCommandID("sv_store"), Vec2f(1, 1), params);
 }
