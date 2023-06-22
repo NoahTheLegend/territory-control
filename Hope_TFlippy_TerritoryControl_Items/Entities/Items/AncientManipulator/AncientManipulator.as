@@ -24,7 +24,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Transmute Stone to Copper", "$mat_iron$", "mat_iron-250", "Transmute 250 Stone into 250 Iron Ore.");
 		AddRequirement(s.requirements, "blob", "mat_stone", "Stone", 250);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 35);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 15);
 		s.spawnNothing = true;
 	}
 	{
@@ -34,9 +34,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Transmute Gold to Mithril", "$mat_mithril$", "mat_mithril-250", "Transmute 250 Gold Ore into 250 Mithril Ore.");
-		AddRequirement(s.requirements, "blob", "mat_gold", "Gold Ore", 250);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
+		ShopItem@ s = addShopItem(this, "Transmute Gold to Mithril", "$mat_mithril$", "mat_mithril-250", "Transmute 100 Gold Ore into 250 Mithril Ore.");
+		AddRequirement(s.requirements, "blob", "mat_gold", "Gold Ore", 100);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 25);
 		s.spawnNothing = true;
 	}
 	{
@@ -47,46 +47,40 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Reconstruct 10 Plasteel Sheets", "$icon_plasteel$", "mat_plasteel-10", "A durable yet lightweight material.");
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 10);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 5);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 2);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Wilmet", "$mat_wilmet$", "mat_wilmet-20", "Refine 50 Mithril Ore And 50 Gold Ore into 25 wilmet.");
-		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril Ore", 50);
-		AddRequirement(s.requirements, "blob", "mat_gold", "Gold", 50);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 2);
+		ShopItem@ s = addShopItem(this, "Wilmet", "$mat_wilmet$", "mat_wilmet-25", "Refine 25 Enriched Mithril into 25 wilmet.");
+		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 25);
 		s.spawnNothing = true;
 	}
 	{
 	    ShopItem@ s = addShopItem(this, "Life Matter", "$lifematter$", "lifematter", "Transform a live form into matter.");
 		AddRequirement(s.requirements, "blob", "kitten", "Kitten", 1);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 50);
 		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
 		s.spawnNothing = true;
     }
 	{
 	    ShopItem@ s = addShopItem(this, "Energy Matter", "$energymatter$", "energymatter", "Transform a live form into energy.");
-		AddRequirement(s.requirements, "blob", "kitten", "Kitten", 1);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_meat", "Mystery Meat", 50);
 		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
-		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 50);
 		s.spawnNothing = true;
     }
 	{
 	    ShopItem@ s = addShopItem(this, "Pheromones", "$pheromones$", "pheromones", "Mysterious pheromones.");
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
 		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 150);
-		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 1);
-		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 1);
+		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 2);
+		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 2);
 		s.spawnNothing = true;
     }
 	{
 		ShopItem@ s = addShopItem(this, "Advanced Engineer", "$advancedengineertools$", "advancedengineertools", "A better engineer");
-		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 50);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 100);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 20);
 		s.spawnNothing = true;
 	}
 	{

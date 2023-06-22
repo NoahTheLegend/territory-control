@@ -78,8 +78,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Transmute Gold to Mithril", "$mat_mithril$", "mat_mithril-250", "Transmute 250 Gold Ore into 250 Mithril Ore.");
-		AddRequirement(s.requirements, "blob", "mat_gold", "Gold Ore", 250);
+		ShopItem@ s = addShopItem(this, "Transmute Gold to Mithril", "$mat_mithril$", "mat_mithril-250", "Transmute 100 Gold Ore into 250 Mithril Ore.");
+		AddRequirement(s.requirements, "blob", "mat_gold", "Gold Ore", 100);
 		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 50);
 		s.spawnNothing = true;
 	}
@@ -106,11 +106,11 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Reconstruct 10 Metal Rods", "$mat_lancerod$", "mat_lancerod-10", "A bundle of 10 charge lance rods.");
 		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 50);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 10);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Reconstruct 10 Plasteel Sheets", "$icon_plasteel$", "mat_plasteel-10", "A durable yet lightweight material.");
+		ShopItem@ s = addShopItem(this, "Reconstruct 25 Plasteel Sheets", "$icon_plasteel$", "mat_plasteel-25", "A durable yet lightweight material.");
 		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 25);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 4);

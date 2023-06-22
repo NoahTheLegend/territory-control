@@ -81,9 +81,13 @@ LootItem@[] a_items =
 	LootItem("ancientmanipulator", 1, 1, 250),
 	LootItem("gyromat", 1, 1, 200),
 	LootItem("zatniktel", 1, 1, 135),
+	LootItem("cricket", 1, 1, 135),
+	LootItem("lasersniper", 1, 1, 300),
+	LootItem("lasershotgun", 1, 1, 250),
+	LootItem("blaster", 1, 1, 200),
 	LootItem("drone", 1, 2, 125),
 	LootItem("scyther", 1, 0, 50),
-	LootItem("cube", 1, 0, 25) //poggers 
+	LootItem("cube", 1, 0, 50) //poggers 
 };
 
 void onInit(CBlob@ this)
