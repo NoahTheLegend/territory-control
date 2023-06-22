@@ -21,8 +21,7 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 
 	f32 quantity = this.getQuantity();
 		
-	Explode(this, 16.0f, 2.0f);
-	LinearExplosion(this, velocity, 16.0f * quantity / 2.0f, 16.0f * quantity / 4.0f, 4, 8.0f, Hitters::bomb);
+	Explode(this, 16.0f, 0.75f);
 
 	this.server_Die();
 	this.getSprite().Gib();

@@ -23,7 +23,6 @@ void onInit(CBlob@ this)
 	this.set_f32("map_damage_ratio", 0.5f);
 	this.set_f32("map_damage_radius", 48.0f);
 
-	this.Tag("map_damage_dirt");
 	this.Tag("no explosion particles");
 	this.Tag("automat_activable");
 
