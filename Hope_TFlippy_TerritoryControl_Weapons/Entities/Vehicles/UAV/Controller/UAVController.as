@@ -29,7 +29,7 @@ void onTick(CBlob@ this)
 					if (uav !is null)
 					{
 						// this.getSprite().PlaySound("BeamTowerTargeter_Success.ogg", 0.50f, 1.00f);
-					
+						uav.set_u16("controller_id", this.getNetworkID());
 						CBlob@ localBlob = getLocalPlayerBlob();
 						if (localBlob !is null && localBlob is holder && localBlob.getPlayer() !is null)
 						{

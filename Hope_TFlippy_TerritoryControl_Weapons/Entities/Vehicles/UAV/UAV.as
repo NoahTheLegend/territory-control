@@ -337,6 +337,11 @@ void onDie(CBlob@ this)
 {
 	if (isServer())
 	{
+		if (this.get_u16("controller_id") != 0)
+		{
+			CBlob@ controller = getBlobByNetworkID(this.get_u16("controller_id"));
+			if (controller !is null) controller.server_Die();
+		}
 		this.set_f32("map_damage_radius", 48.0f);
 		this.set_f32("map_damage_ratio", 0.4f);
 		f32 angle = this.get_f32("bomb angle");
