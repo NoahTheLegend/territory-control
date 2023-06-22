@@ -14,6 +14,7 @@ void onInit(CBlob@ this)
 
 void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
 {
+	if (this.hasTag("dead")) return;
 	const string name = this.getName();
 
 	Vec2f MENU_POS;
