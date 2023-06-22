@@ -30,7 +30,7 @@ void onTick(CBlob@ this)
 					this.sub_f32("fiksed", health_increment);
 				}
 
-				if (isClient())
+				if (isClient() && this.getHealth() < this.getInitialHealth())
 				{
 					if (this.isMyPlayer()) this.getSprite().PlaySound("heart.ogg", 0.50f, 1.00f);
 
