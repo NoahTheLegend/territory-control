@@ -187,8 +187,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 		if (caller !is null && caller.isMyPlayer())
 		{
-			caller.ClearGridMenus();
 			caller.ClearButtons();
+			caller.ClearGridMenus();
 		}
 	}
 }

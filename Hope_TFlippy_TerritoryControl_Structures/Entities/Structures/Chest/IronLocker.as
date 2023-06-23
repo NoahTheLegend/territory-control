@@ -151,11 +151,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		}
 	}
 
-	if (caller !is null && caller.isMyPlayer())
-	{
-		caller.ClearGridMenus();
-		caller.ClearButtons();
-	}
+
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)

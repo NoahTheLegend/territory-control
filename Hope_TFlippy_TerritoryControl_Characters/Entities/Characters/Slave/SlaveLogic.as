@@ -11,6 +11,7 @@ void onInit(CBlob@ this)
 	this.Tag("flesh");
 	this.Tag("neutral");
 	this.Tag("human");
+	this.Tag("slave");
 
 	this.addCommandID("bite");
 

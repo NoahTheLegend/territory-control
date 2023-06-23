@@ -85,6 +85,8 @@ void onInit(CBlob@ this)
 	this.inventoryButtonPos = Vec2f(12, 0);
 	this.addCommandID("store inventory");
 	this.getCurrentScript().tickFrequency = 60;
+
+	AddIconToken("$str$", "StoreAll.png", Vec2f(16, 16), 0);
 }
 
 void onTick(CBlob@ this)
@@ -119,16 +121,16 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		CInventory @inv = caller.getInventory();
 		if(inv is null) return;
 		
-		CBlob@ carried = caller.getCarriedBlob();
-		if(carried is null && this.isOverlapping(caller))
-		{
-			if(inv.getItemsCount() > 0)
-			{
-				CBitStream params;
-				params.write_u16(caller.getNetworkID());
-				caller.CreateGenericButton("$store_inventory$", Vec2f(0, -10), this, this.getCommandID("store inventory"), "Store", params);
-			}
-		}
+		//CBlob@ carried = caller.getCarriedBlob();
+		//if(carried is null && this.isOverlapping(caller))
+		//{
+		//	if(inv.getItemsCount() > 0)
+		//	{
+		//		CBitStream params;
+		//		params.write_u16(caller.getNetworkID());
+		//		caller.CreateGenericButton("$store_inventory$", Vec2f(0, -10), this, this.getCommandID("store inventory"), "Store", params);
+		//	}
+		//}
 	}
 }
 
@@ -146,37 +148,34 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	if (isServer())
+	if (cmd == this.getCommandID("store inventory"))
 	{
-		if (cmd == this.getCommandID("store inventory"))
+		CBlob@ caller = getBlobByNetworkID(params.read_u16());
+		if (caller !is null && isServer())
 		{
-			CBlob@ caller = getBlobByNetworkID(params.read_u16());
-			if (caller !is null)
+			CInventory @inv = caller.getInventory();
+			if (caller.getName() == "builder")
 			{
-				CInventory @inv = caller.getInventory();
-				if (caller.getName() == "builder")
+				CBlob@ carried = caller.getCarriedBlob();
+				if (carried !is null)
 				{
-					CBlob@ carried = caller.getCarriedBlob();
-					if (carried !is null)
+					// TODO: find a better way to check and clear blocks + blob blocks || fix the fundamental problem, blob blocks not double checking requirement prior to placement.
+					if (carried.hasTag("temp blob"))
 					{
-						// TODO: find a better way to check and clear blocks + blob blocks || fix the fundamental problem, blob blocks not double checking requirement prior to placement.
-						if (carried.hasTag("temp blob"))
-						{
-							carried.server_Die();
-						}
+						carried.server_Die();
 					}
 				}
-				
-				if (inv !is null)
+			}
+			
+			if (inv !is null)
+			{
+				while (inv.getItemsCount() > 0)
 				{
-					while (inv.getItemsCount() > 0)
+					CBlob@ item = inv.getItem(0);
+					if (!this.server_PutInInventory(item))
 					{
-						CBlob@ item = inv.getItem(0);
-						if (!this.server_PutInInventory(item))
-						{
-							caller.server_PutInInventory(item);
-							break;
-						}
+						caller.server_PutInInventory(item);
+						break;
 					}
 				}
 			}
@@ -348,4 +347,32 @@ bool checkName(string blobName)
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
 	return ((this.getTeamNum() > 100 ? true : forBlob.getTeamNum() == this.getTeamNum()) && forBlob.isOverlapping(this));
+}
+
+void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
+{
+	if (forBlob is null) return;
+	if (forBlob.getControls() is null) return;
+
+	CInventory@ inv = forBlob.getInventory();
+	CInventory@ tinv = this.getInventory();
+	if (inv is null || tinv is null) return;
+	if (inv.getItemsCount() == 0) return;
+
+	bool is_full = true;
+	Vec2f slots = tinv.getInventorySlots();
+	for (u16 i = 0; i < slots.x*slots.y; i++)
+	{
+		if (tinv.getItem(i) is null) is_full = false;
+	}
+	if (is_full) return;
+
+	Vec2f mscpos = forBlob.getControls().getMouseScreenPos(); 
+
+	Vec2f MENU_POS = mscpos+Vec2f(-160,-72);
+	CGridMenu@ sv = CreateGridMenu(MENU_POS, this, Vec2f(1, 1), "Store ");
+	
+	CBitStream params;
+	params.write_u16(forBlob.getNetworkID());
+	CGridButton@ store = sv.AddButton("$str$", "Store ", this.getCommandID("store inventory"), Vec2f(1, 1), params);
 }

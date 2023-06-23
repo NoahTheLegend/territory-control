@@ -27,7 +27,7 @@ void ShowTeamMenu(CRules@ this)
 	CBlob@ localBlob = local.getBlob();
 	if (localBlob !is null)
 	{
-		if (localBlob.getName() == "slave" || (localBlob.hasTag("invincible") && localBlob.hasTag("flesh"))) show = false;
+		if (localBlob.hasTag("slave") || (localBlob.hasTag("invincible") && localBlob.hasTag("flesh"))) show = false;
 	}
 	
 	if (show)

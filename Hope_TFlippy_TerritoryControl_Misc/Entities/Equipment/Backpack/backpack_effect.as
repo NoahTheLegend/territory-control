@@ -27,6 +27,7 @@ void UpdateScript(CBlob@ this)
 		backpackblob.Init();
 		
 		this.set_u16("backpack_id", backpackblob.getNetworkID());
+		this.Sync("backpack_id", true); // i'll regret for that probably
 	}
 }
 

@@ -92,7 +92,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_storage$", "Storage.png", Vec2f(40, 24), 3, teamnum);
 	AddIconToken("$icon_forge$", "Forge.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$constructionyard$", "ConstructionYardIcon.png", Vec2f(16, 16), 0, teamnum);
-	AddIconToken("$icon_camp$", "Camp.png", Vec2f(80, 24), 0, teamnum);
+	AddIconToken("$icon_camp$", "CampIcon.png", Vec2f(64, 24), 0, teamnum);
 	AddIconToken("$icon_patreonshop$", "Present.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_nursery$","Nursery.png",Vec2f(40, 32), 5, teamnum);
 	AddIconToken("$icon_library$", "Library.png", Vec2f(40, 24), 0, teamnum);
@@ -472,7 +472,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
-		BuildBlock b(0, "storage", "$icon_storage$", "Storage:\n\nA storage than can hold materials and items.\nCan be only accessed by the owner team.");
+		BuildBlock b(0, "storage", "$icon_storage$", "Storage:\n\nA storage for keeping materials and items.\nCan be only accessed by the owner team.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 100);
 		b.buildOnGround = true;
@@ -493,6 +493,17 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
 		b.buildOnGround = true;
 		b.size.Set(40, 24);
+		blocks[1].push_back(b);
+	}
+	{
+		BuildBlock b(0, "smartstorage", "$smartstorage$", "Smart storage:\n\nAn advanced storage for storing multiple amount of different items.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 50);
+
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(24, 24);
 		blocks[1].push_back(b);
 	}
 	{
