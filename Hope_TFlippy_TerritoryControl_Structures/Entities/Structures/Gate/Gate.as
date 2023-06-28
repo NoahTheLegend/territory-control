@@ -99,6 +99,7 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 	u32 ang = u32(this.getAngleDegrees() / 90.00f) % 2;
 	
 	CMap@ map = this.getMap();
+	this.getShape().getConsts().collidable = true;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -263,5 +264,6 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
+	if (this.getTeamNum() == 44) return true; // test, remove this later;
 	return !isOpen(this);
 }
