@@ -4,7 +4,7 @@ const u32 ELECTRICITY_PROD = 250;
 void onInit(CBlob@ this)
 {
 	this.getShape().getConsts().mapCollisions = false;
-	this.getCurrentScript().tickFrequency = 30;
+	this.getCurrentScript().tickFrequency = 60;
 
 	this.Tag("builder always hit");
 	this.Tag("generator");
@@ -118,7 +118,7 @@ void onTick(CBlob@ this)
 				CBlob@ oil = server_CreateBlob("mat_oil", this.getTeamNum(), this.getPosition());
 				if (oil !is null)
 				{
-					oil.server_SetQuantity(5+XORRandom(6));
+					oil.server_SetQuantity(5+XORRandom(3));
 					this.server_PutInInventory(oil);
 				}
 			}
@@ -185,4 +185,18 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 			}
 		}
 	}
+}
+
+void onAddToInventory( CBlob@ this, CBlob@ blob )
+{
+	if(blob.getName() != "gyromat") return;
+
+	this.getCurrentScript().tickFrequency = 60 / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
+}
+
+void onRemoveFromInventory(CBlob@ this, CBlob@ blob)
+{
+	if(blob.getName() != "gyromat") return;
+
+	this.getCurrentScript().tickFrequency = 60 / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
 }

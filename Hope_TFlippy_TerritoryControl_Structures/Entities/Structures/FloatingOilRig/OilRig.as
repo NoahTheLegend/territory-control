@@ -235,11 +235,11 @@ void onTick(CBlob@ this)
 			CBlob@ storage = FindStorage(this, this.getTeamNum());
 			if (storage !is null)
 			{
-				MakeMat(storage, this.getPosition(), this.get_string("mat_prop"), XORRandom(7));
+				MakeMat(storage, this.getPosition(), this.get_string("mat_prop"), XORRandom(5) + 3);
 			}
 			else if (this.getInventory().getCount(this.get_string("mat_prop")) < 1600)
 			{
-				MakeMat(this, this.getPosition(), this.get_string("mat_prop"), XORRandom(7));
+				MakeMat(this, this.getPosition(), this.get_string("mat_prop"), XORRandom(5) + 3);
 			}
 		}
 	}
