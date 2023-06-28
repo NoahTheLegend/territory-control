@@ -67,21 +67,7 @@ void onTick(CBlob@ this)
 				CBlob@ mat = server_CreateBlob(matNamesResult[i], -1, this.getPosition());
 				mat.server_SetQuantity(2);
 				mat.Tag("justmade");
-				mat.Tag("from_forge");
 				this.TakeBlob(matNames[i], matRatio[i]);
-
-				CMap@ map = this.getMap();
-				if (map !is null)
-				{
-					CBlob@ blob = map.getBlobAtPosition(this.getPosition() + Vec2f(0, 28.0f));
-					if (blob !is null && blob.getName() == "storage")
-					{
-						if (!blob.server_PutInInventory(mat))
-						{
-							mat.setPosition(blob.getPosition());
-						}
-					}
-				}
 			}
 			if (isClient())
 			{

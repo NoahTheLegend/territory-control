@@ -134,18 +134,6 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	}
 }
 
-void onCollision(CBlob@ this, CBlob@ blob, bool solid)
-{
-	if (blob !is null && blob.hasTag("from_forge"))
-	{
-		if (this.server_PutInInventory(blob))
-		{
-			blob.Untag("from_forge");
-		}
-		else return;
-	}
-}
-
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("store inventory"))

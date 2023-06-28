@@ -86,22 +86,8 @@ void onTick(CBlob@ this)
 					CBlob @mat = server_CreateBlob(matNamesResult[i], -1, this.getPosition());
 					mat.server_SetQuantity(mod*this.get_u8("multiplier"));
 					mat.Tag("justmade");
-					mat.Tag("from_forge");
 					this.TakeBlob(matNames[i], matRatio[i]*this.get_u8("multiplier"));
 					if (coalRatio[i] > 0) this.TakeBlob("mat_coal", coalRatio[i]*this.get_u8("multiplier"));
-
-					CMap@ map = this.getMap();
-					if (map !is null)
-					{
-						CBlob@ blob = map.getBlobAtPosition(this.getPosition() + Vec2f(0, 28.0f));
-						if (blob !is null && blob.getName() == "storage")
-						{
-							if (!blob.server_PutInInventory(mat))
-							{
-								mat.setPosition(blob.getPosition());
-							}
-						}
-					}
 				}
 
 				this.getSprite().PlaySound("ProduceSound.ogg");
