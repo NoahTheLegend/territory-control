@@ -175,7 +175,7 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_oil", "Oil Drum (200 l)", 200);
 		s.spawnNothing = true;
 	}
-	u32 fuelcost = getRandomCost(@rand, 400, 600);
+	u32 fuelcost = getRandomCost(@rand, 650, 950);
 	{
 		u32 cost = fuelcost;
 		ShopItem@ s = addShopItem(this, "Sell Fuel Drum (25 l)", "$COIN$", "coin-" + cost, "Sell 25 litres of fuel for " + cost + " coins.");
