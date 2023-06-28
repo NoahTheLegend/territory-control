@@ -65,7 +65,7 @@ void onTick(CRules@ this)
 
         if (timeSinceMeteor > 6000 && XORRandom(Maths::Max(35000 - timeSinceMeteor, 0)) == 0) // Meteor strike
         {
-			tcpr("[RGE] Random event: Meteor");
+			//tcpr("[RGE] Random event: Meteor");
             server_CreateBlob("meteor", -1, Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
 			
 			this.set_u32("lastMeteor", time);
@@ -73,7 +73,7 @@ void onTick(CRules@ this)
 		
 		if (timeSinceWreckage > 30000 && XORRandom(Maths::Max(250000 - timeSinceWreckage, 0)) == 0) // Wreckage 30000 250000
         {
-            tcpr("[RGE] Random event: Wreckage");
+            //tcpr("[RGE] Random event: Wreckage");
             server_CreateBlob(XORRandom(100) > 50 ? "ancientcapsule" : "poisonship", -1, Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
 			
 			this.set_u32("lastWreckage", time);
@@ -81,7 +81,7 @@ void onTick(CRules@ this)
 		/*
 		if (timeSinceWreckage > 30000 && XORRandom(Maths::Max(108000 - timeSinceWreckage, 0)) == 0) // Ancient capsule
         {
-            tcpr("[RGE] Random event: Capsule");
+            //tcpr("[RGE] Random event: Capsule");
             server_CreateBlob("ancientcapsule", -1, Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
 			
 			this.set_u32("lastCapsule", time);
@@ -95,7 +95,7 @@ void onTick(CRules@ this)
 			this.set_u32("nuketimer", XORRandom(30)+15);
 			this.set_u32("timetonuke", 45);
 			this.set_bool("timetonukego", true);
-			tcpr("[RGE] Random event: Atomic bombardment");
+			//tcpr("[RGE] Random event: Atomic bombardment");
 			printf("activated");
 			printf("" + this.get_u32("nuketimer"));
 			this.set_u32("lastnuke", time);

@@ -212,7 +212,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					
 					CPlayer@ buyer = caller.getPlayer();
 					string buyerName = buyer !is null ? (buyer.getUsername() + " (team " + buyer.getTeamNum() + ")") : "<unknown>";
-					tcpr("[PBI] " + buyerName + " has purchased " + blobName);
+					//tcpr("[PBI] " + buyerName + " has purchased " + blobName);
 				}
 				else
 				{
@@ -339,7 +339,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						
 						CPlayer@ buyer = caller.getPlayer();
 						string buyerName = buyer !is null ? (buyer.getUsername() + " (team " + buyer.getTeamNum() + ")") : "<unknown>";
-						tcpr("[PBI] " +buyerName + " has purchased " + blobName);
+						//tcpr("[PBI] " +buyerName + " has purchased " + blobName);
 					}
 				}
 			}

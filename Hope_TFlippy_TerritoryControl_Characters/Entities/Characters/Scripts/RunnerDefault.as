@@ -485,11 +485,11 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)
 		CPlayer@ player = this.getPlayer();
 		if (player !is null)
 		{
-			//KVSES-tcpr("[PPU] " + player.getUsername() + " has picked up " + attached.getName());
+			//KVSES-//tcpr("[PPU] " + player.getUsername() + " has picked up " + attached.getName());
 		}
 		else
 		{
-			//KVSES-tcpr("[BPU] " + this.getName() + " has picked up " + attached.getName());
+			//KVSES-//tcpr("[BPU] " + this.getName() + " has picked up " + attached.getName());
 		}
 	}
 
@@ -519,11 +519,11 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 		CPlayer@ player = this.getPlayer();
 		if (player !is null)
 		{
-			//KVSES-tcpr("[PDI] " + player.getUsername() + " has dropped " + detached.getName());
+			//KVSES-//tcpr("[PDI] " + player.getUsername() + " has dropped " + detached.getName());
 		}
 		else
 		{
-			//KVSES-tcpr("[BDI] " + this.getName() + " has dropped " + detached.getName());
+			//KVSES-//tcpr("[BDI] " + this.getName() + " has dropped " + detached.getName());
 		}
 	}
 

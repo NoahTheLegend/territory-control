@@ -4,7 +4,7 @@ void print_log(string text)
 {
 	if(isServer())
 	{
-		tcpr("[LOG] " + text);
+		//tcpr("[LOG] " + text);
 	}
 }
 
@@ -17,7 +17,7 @@ void print_log(CBlob@ blob, string text)
 			CPlayer@ player = blob.getPlayer();
 			if (player !is null)
 			{
-				tcpr("[PPL] <" + player.getUsername() + "; " + blob.getName() + "; team " + blob.getTeamNum() + "> " + text);
+				//tcpr("[PPL] <" + player.getUsername() + "; " + blob.getName() + "; team " + blob.getTeamNum() + "> " + text);
 			}
 			else
 			{

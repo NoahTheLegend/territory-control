@@ -37,24 +37,24 @@
 
 void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 {
-    tcpr("[NPJ] Username: " +
-        player.getUsername() +
-        " | Char name: " +
-        player.getCharacterName() +
-        " | IP: " + 
-        player.server_getIP() +
-        " | HWID: " +
-        player.server_getHWID()
-    );
+    //tcpr("[NPJ] Username: " +
+    //    player.getUsername() +
+    //    " | Char name: " +
+    //    player.getCharacterName() +
+    //    " | IP: " + 
+    //    player.server_getIP() +
+    //    " | HWID: " +
+    //    player.server_getHWID()
+    //);
 }
 
 void onPlayerLeave(CRules@ this, CPlayer@ player) 
 {
-    tcpr("[NPL] Player left-> Username: " + player.getUsername());
+    //tcpr("[NPL] Player left-> Username: " + player.getUsername());
 }
 
 bool onServerProcessChat(CRules@ this, const string &in textIn, string &out textOut, CPlayer@ player) {
-    tcpr("[PC] " + player.getUsername() + ": " + textIn);
+    //tcpr("[PC] " + player.getUsername() + ": " + textIn);
     return true;
 }
 

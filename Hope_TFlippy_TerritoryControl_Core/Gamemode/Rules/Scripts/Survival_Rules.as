@@ -161,7 +161,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 				// sleeper.Sync("sleeper_name", false);
 				// sleeper.Sync("sleeper_coins", false);
 
-				tcpr("[MISC] "+playerName + " joined, respawning him at sleeper " + sleeper.getName());
+				//tcpr("[MISC] "+playerName + " joined, respawning him at sleeper " + sleeper.getName());
 			}
 		}
 	}
@@ -211,7 +211,7 @@ void onBlobCreated(CRules@ this, CBlob@ blob)
 {
 	if (isServer() && getGameTime() > 150 && !blob.hasTag("material"))
 	{
-		tcpr("[NBM] " + blob.getName());
+		//tcpr("[NBM] " + blob.getName());
 	}
 }
 
@@ -219,7 +219,7 @@ void onBlobDie(CRules@ this, CBlob@ blob)
 {
 	if (isServer() && getGameTime() > 150 && !blob.hasTag("material"))
 	{
-		tcpr("[NBD] " + blob.getName());
+		//tcpr("[NBD] " + blob.getName());
 	}
 }
 
@@ -307,7 +307,7 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 
 	if (isServer())
 	{
-		tcpr("[PDB] "+victimName +" has been killed by " + attackerName + "; damage type: " + customData);
+		//tcpr("[PDB] "+victimName +" has been killed by " + attackerName + "; damage type: " + customData);
 		
 		// Drop 50% on death + what ever else kag takes away on death
 		// if (victimTeam >= 100 && coins != 0)
@@ -545,7 +545,7 @@ void onTick(CRules@ this)
 							f32 ruins_ratio = 1.00f - (f32(ruins_count) / f32(ruins.length));
 							f32 chicken_chance = ruins_ratio * ruins_ratio;
 
-							tcpr("[CCC] Chicken Chance: " + (chicken_chance * 100) + "%");
+							//tcpr("[CCC] Chicken Chance: " + (chicken_chance * 100) + "%");
 
 							if (XORRandom(100) < (chicken_chance * 100))
 							{
