@@ -26,6 +26,9 @@ void onInit(CBlob@ this)
 	this.set_f32("velocity", 15.0f);
 	this.set_f32("max_velocity", 30.0f);
 
+	AddIconToken("$opaque_heatbar$", "Entities/Industry/Drill/HeatBar.png", Vec2f(24, 6), 0);
+	AddIconToken("$transparent_heatbar$", "Entities/Industry/Drill/HeatBar.png", Vec2f(24, 6), 1);
+
 	this.set_u16("controller_blob_netid", 0);
 	this.set_u16("controller_player_netid", 0);
 
@@ -284,4 +287,30 @@ void DoExplosion(CBlob@ this)
 void MakeParticle(CBlob@ this, const Vec2f pos, const Vec2f vel, const string filename = "SmallSteam")
 {
 	ParticleAnimated(filename, this.getPosition() + pos, vel, float(XORRandom(360)), 0.5f + XORRandom(100) * 0.01f, 1 + XORRandom(4), XORRandom(100) * -0.00005f, true);
+}
+
+void onRender(CSprite@ this)
+{
+	CBlob@ blob = this.getBlob();
+	if (blob is null || blob.getPlayer() is null) return;
+	if (!blob.isMyPlayer()) return;
+	if (blob.get_u32("fuel_timer") == 0) return;
+
+	int transparency = 255;
+	u32 gt = getGameTime();
+	u32 max = blob.get_u32("fuel_timer");
+	if (gt > max) return;
+	f32 percentage = Maths::Min(1.0f, f32(Maths::Min(max, max-gt) / f32(fuel_timer_max)));
+
+	//Vec2f pos = blob.getScreenPos() + Vec2f(-22, 16);
+
+	Vec2f pos = getDriver().getScreenPosFromWorldPos(Vec2f_lerp(blob.getOldPosition(), blob.getPosition(), getInterpolationFactor())) + Vec2f(-22, 48);
+	Vec2f dimension = Vec2f(42, 4);
+	Vec2f bar = Vec2f(pos.x + (dimension.x * percentage), pos.y + dimension.y);
+
+	GUI::DrawIconByName("$opaque_heatbar$", pos);
+	
+	GUI::DrawRectangle(pos + Vec2f(4, 4), bar + Vec2f(4, 4), SColor(transparency, 59, 20, 6));
+	GUI::DrawRectangle(pos + Vec2f(6, 6), bar + Vec2f(2, 4), SColor(transparency, 148, 27, 27));
+	GUI::DrawRectangle(pos + Vec2f(6, 6), bar + Vec2f(2, 2), SColor(transparency, 183, 51, 51));
 }
