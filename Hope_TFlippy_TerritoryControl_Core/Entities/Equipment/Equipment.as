@@ -122,6 +122,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
 	if (cmd == this.getCommandID("equip_head") || cmd == this.getCommandID("equip_torso") || cmd == this.getCommandID("equip2_torso") || cmd == this.getCommandID("equip_boots"))
 	{
+		if (getGameTime() < this.get_u32("equipment_delay")) return;
+		this.set_u32("equipment_delay", getGameTime()+5);
+
 		u16 callerID;
 		if (!params.saferead_u16(callerID)) return;
 		CBlob@ caller = getBlobByNetworkID(callerID);
@@ -228,7 +231,7 @@ void removeHead(CBlob@ playerblob, string headname)
 	if (playerblob.getSprite().getSpriteLayer(headname) !is null) playerblob.getSprite().RemoveSpriteLayer(headname);
 	if (playerblob.getSprite().getSpriteLayer("bushy") !is null) playerblob.getSprite().RemoveSpriteLayer("bushy");
 	if (headname == "minershelmet") playerblob.SetLight(false);	//example of removing custom tags like Light
-
+	if (!playerblob.hasTag(headname)) return;
 	playerblob.Untag(headname);
 	if (isServer())
 	{
@@ -371,6 +374,7 @@ void addBoots(CBlob@ playerblob, string bootsname)		//You still reading this?
 
 void removeBoots(CBlob@ playerblob, string bootsname)		//I think you should already get how this works.
 {
+	if (!playerblob.hasTag(bootsname)) return;
 	if (bootsname == "flippers")
 	{
 		RunnerMoveVars@ moveVars;
