@@ -35,7 +35,7 @@ void onTick(CBlob@ this)
     {
         if (this.isOnGround() && !this.isOnLadder())
         {
-            if ((this.getVelocity().x > 0 || -(this.getVelocity().x) > 0)
+            if (Maths::Abs(this.getVelocity().x) > 0.5f
             && getGameTime() % 6 == 0 && this.get_u32("fuel_countboots") > 25)
             {
                 if (this.getPlayer() !is null) this.getPlayer().server_setCoins(this.getPlayer().getCoins() + XORRandom(15));
