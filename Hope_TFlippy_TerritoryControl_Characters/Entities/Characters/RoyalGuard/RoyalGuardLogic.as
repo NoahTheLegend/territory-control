@@ -110,8 +110,8 @@ void onTick(CBlob@ this)
 
 	if (this.get_string("equipment_torso") != "" && this.get_string("equipment2_torso") != "")
 	{
-		moveVars.walkFactor *= 0.9f;
-		moveVars.jumpFactor *= 0.95f;
+		moveVars.walkFactor *= 0.933f;
+		moveVars.jumpFactor *= 0.975f;
 	}
 
 	if (this.hasTag("glued") && this.get_u32("timer") > 1)
