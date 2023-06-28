@@ -120,11 +120,12 @@ void onTick(CMovement@ this)
 		Vec2f pos = blob.getPosition();
 		CMap@ map = blob.getMap();
 		const f32 radius = blob.getRadius();
-		if ((blob.isOnGround() || blob.isInWater()) && (up || (right && map.isTileSolid(Vec2f(pos.x + radius, pos.y + 0.45f * radius))) || (left && map.isTileSolid(Vec2f(pos.x - radius, pos.y + 0.45f * radius)))
-		                                               )
-		   )
+		if ((blob.isOnGround() || blob.isInWater()) &&
+			(up || (right && map.isTileSolid(Vec2f(pos.x + radius, pos.y + 0.45f * radius)))
+				|| (left && map.isTileSolid(Vec2f(pos.x - radius, pos.y + 0.45f * radius))) ))
 		{
-			f32 mod = blob.isInWater() ? 0.1f : 0.75f;
+			f32 mod = 0.75f;
+			if (blob.isInWater()) blob.setVelocity(Vec2f(blob.getVelocity().x, blob.getVelocity().y*0.5f));
 			blob.AddForce(Vec2f(mod * vars.jumpForce.x, mod * vars.jumpForce.y * (ride ? 1.5f : 1.0f) * mody));
 		}
 	}
