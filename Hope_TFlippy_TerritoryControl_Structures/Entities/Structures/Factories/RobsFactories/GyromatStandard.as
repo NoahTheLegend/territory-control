@@ -34,6 +34,9 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ params){
 	if (cmd == this.getCommandID("load_gyromat"))
 	{
+		if (this.hasTag("loaded_gyromat")) return;
+		this.Tag("loaded_gyromat");
+		this.Untag("unloaded_gyromat");
 		CBlob@ carried = getBlobByNetworkID(params.read_u16());
 
 		if(isServer())
@@ -54,6 +57,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params){
 	
 	if (cmd == this.getCommandID("unload_gyromat"))
 	{
+		if (this.hasTag("unloaded_gyromat")) return;
+		this.Tag("unloaded_gyromat");
+		this.Untag("loaded_gyromat");
 		if(isServer()){
 			if(this.get_f32("gyromat_acceleration") > 1){
 				CBlob @gyro = server_CreateBlobNoInit("gyromat");
