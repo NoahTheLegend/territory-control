@@ -1,6 +1,7 @@
 #include "Hitters.as";
 #include "Knocked.as";
-#include "DeityCommon.as"
+#include "DeityCommon.as";
+#include "CustomBlocks.as";
 
 f32 maxDistance = 80;
 

@@ -10,6 +10,11 @@ bool hasTech(CBlob@ this, const string &in name)
 	CBitStream reqs, missing;
 	AddRequirement(reqs, "tech", "bomb ammo", "Bomb Ammo");
 
+	// classes
+	AddIconToken("$builder_class_icon$", "ClassIcons.png", Vec2f(32, 32), 0);
+	AddIconToken("$knight_class_icon$", "ClassIcons.png", Vec2f(32, 32), 1);
+	AddIconToken("$archer_class_icon$", "ClassIcons.png", Vec2f(32, 32), 2);
+
 	int thisteam = this.getTeamNum();
 
 	CPlayer@ player;

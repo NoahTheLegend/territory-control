@@ -38,7 +38,7 @@ bool canChangeClass(CBlob@ this, CBlob@ blob)
 void InitClasses(CBlob@ this)
 {
 	AddIconToken("$change_class$", "/GUI/InteractionIcons.png", Vec2f(32, 32), 12, 2);
-	addPlayerClass(this, "Builder", "$builder_class_icon$", "builder", "Build ALL the towers.");
+	addPlayerClass(this, "Builder","$builder_class_icon$", "builder", "Build ALL the towers.");
 	addPlayerClass(this, "Knight", "$knight_class_icon$", "knight", "Hack and Slash.");
 	addPlayerClass(this, "Archer", "$archer_class_icon$", "archer", "The Ranged Advantage.");
 }
