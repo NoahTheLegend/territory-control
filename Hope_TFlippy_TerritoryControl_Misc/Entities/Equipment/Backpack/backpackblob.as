@@ -41,7 +41,7 @@ void onRemoveFromInventory(CBlob@ this, CBlob@ blob)
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
-	return forBlob !is null && forBlob.getNetworkID() == this.get_u16("holder_id");
+	return false;
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
