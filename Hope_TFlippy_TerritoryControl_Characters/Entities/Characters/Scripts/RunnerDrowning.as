@@ -5,11 +5,11 @@
 //config vars
 
 const int FREQ = 6; //must be >2 or breathing at top of water breaks
-const u8 default_aircount = 180; //6s, remember to update runnerhoverhud.as
+const u16 default_aircount = 360; //12s, remember to update runnerhoverhud.as
 
 void onInit(CBlob@ this)
 {
-	this.set_u8("air_count", default_aircount);
+	this.set_u16("air_count", default_aircount);
 	this.getCurrentScript().removeIfTag = "dead";
 	this.getCurrentScript().tickFrequency = FREQ; // opt
 }
@@ -44,7 +44,7 @@ void onTick(CBlob@ this)
 		}
 	}
 			
-	u8 aircount = this.get_u8("air_count");
+	u16 aircount = this.get_u16("air_count");
 
 	this.getCurrentScript().tickFrequency = FREQ;
 
@@ -111,7 +111,7 @@ void onTick(CBlob@ this)
 		}
 	}
 
-	this.set_u8("air_count", aircount);
+	this.set_u16("air_count", aircount);
 	this.Sync("air_count", true);
 }
 
