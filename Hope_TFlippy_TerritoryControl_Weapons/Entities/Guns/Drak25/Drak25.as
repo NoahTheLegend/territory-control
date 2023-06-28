@@ -1,21 +1,80 @@
-//////////////////////////////////////////////////////
-//
-//  StandardFire.as - Vamist & Gingerbeard
-//
-//  Handles client side activities
-//
-//CustomCycle
-
 #include "GunCommon.as";
 #include "GunStandard.as";
 #include "GunModule.as"
 #include "BulletCase.as";
 #include "Recoil.as";
-#include "DeityCommon.as";
 
-const uint8 NO_AMMO_INTERVAL = 25;
- 
-void onInit(CBlob@ this) 
+f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
+{
+	if (this.isAttached()) return 0;
+	return damage;
+}
+
+void onInit(CBlob@ this)
+{
+	GunSettings settings = GunSettings();
+
+	//General
+	settings.CLIP = 30; //Amount of ammunition in the gun at creation
+	settings.TOTAL = 30; //Max amount of ammo that can be in a clip
+	settings.FIRE_INTERVAL = 4; //Time in between shots
+	settings.RELOAD_TIME = 1; //Time it takes to reload (in ticks)
+	settings.AMMO_BLOB = ""; //Ammunition the gun takes
+
+	//Bullet
+	//settings.B_PER_SHOT = 1; //Shots per bullet | CHANGE B_SPREAD, otherwise both bullets will come out together
+	settings.B_SPREAD = 3; //the higher the value, the more 'uncontrollable' bullets get
+	settings.B_GRAV = Vec2f(0, 0); //Bullet gravity drop
+	settings.B_SPEED = 18; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
+	settings.B_TTL = 45; //TTL = 'Time To Live' which determines the time the bullet lasts before despawning
+	settings.B_DAMAGE = 0.75f; //1 is 1 heart
+	settings.B_TYPE = HittersTC::plasma; //Type of bullet the gun shoots | hitter
+
+	//Recoil
+	settings.G_RECOIL = -5; //0 is default, adds recoil aiming up
+	settings.G_RANDOMX = true; //Should we randomly move x
+	settings.G_RANDOMY = false; //Should we randomly move y, it ignores g_recoil
+	settings.G_RECOILT = 2; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)
+	settings.G_BACK_T = 2; //Should we recoil the arm back time? (aim goes up, then back down with this, if > 0, how long should it last)
+
+	//Sound
+	settings.FIRE_SOUND = "DLoop.ogg"; //Sound when shooting
+
+	//Offset
+	settings.MUZZLE_OFFSET = Vec2f(-17.5, -0.5); //Where the muzzle flash appears
+
+	this.set("gun_settings", @settings);
+	
+	//Custom
+	this.set_f32("CustomBulletLength", 4.0f);
+	this.set_f32("CustomBulletWidth", 2.0f);
+	this.set_f32("CustomReloadPitch", 1.7);
+	this.set_string("CustomBullet", "item_bullet_blaster.png");
+	this.set_string("CustomFlash", "flash_blaster.png");
+	this.Tag("CustomSoundLoop");
+
+	this.set_f32("heat", 0);
+	this.set_f32("heat_pershot", 35);
+	this.set_f32("max_heat", 1333);
+	this.set_f32("cooling", 15);
+	this.set_f32("cooling_overheat", 5);
+	this.set_f32("overheat", 0);
+	this.set_u32("heat_lock", 0);
+
+	this.SetLight(true);
+	this.SetLightRadius(16.00f);
+	this.SetLightColor(SColor(255, 85, 255, 55));
+
+	CSprite@ sprite = this.getSprite();
+	if (sprite is null) return;
+	sprite.SetEmitSound(settings.FIRE_SOUND);
+	sprite.SetEmitSoundVolume(1.5f);
+	sprite.SetEmitSoundSpeed(1.0f);
+
+	GunInit(this);
+}
+
+void GunInit(CBlob@ this)
 {
 	// Prevent classes from jabbing n stuff
 	AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PICKUP");
@@ -45,6 +104,7 @@ void onInit(CBlob@ this)
 	this.set_f32("gun_recoil_current", 0.0f); //Determines how far the kickback animation is when shooting
 
 	this.Tag("weapon");
+	this.Tag("InfiniteAmmo");
 	this.Tag("no shitty rotation reset");
 	this.Tag("hopperable");
 
@@ -146,6 +206,23 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
+	if (this.get_u32("heat_lock") <= getGameTime())
+	{
+		if (this.get_f32("heat") > 0 && this.get_f32("overheat") == 0)
+		{
+			this.set_f32("heat", Maths::Max(0, this.get_f32("heat")-this.get_f32("cooling")));
+		}
+		if (this.get_f32("overheat") > 0)
+		{
+			this.set_f32("overheat", Maths::Max(0, this.get_f32("overheat")-this.get_f32("cooling_overheat")));
+
+			if (isClient() && getGameTime()%5 == 0)
+			{
+				makeSteamParticle(this, Vec2f());
+			}
+		}
+	}
+
 	if (this.hasTag("a1") && getGameTime() >= this.get_u32("disable_a1")) this.Untag("a1");
 	if (this.hasTag("hold") && getGameTime() >= this.get_u32("disable_hold")) this.Untag("hold");
 	// Server will always get put back to sleep (doesnt need to run any of this)
@@ -156,18 +233,11 @@ void onTick(CBlob@ this)
 
 		if (holder !is null)
 		{
-			//bool isBot = holder.getPlayer() == null;
-			//bool ignoresSlow = holder.getName() == "ninja" || holder.getName() == "soldat";
-			//if (!isBot && !ignoresSlow) holder.isKeyPressed(key_action2) || this.hasTag("a1") ? this.Tag("insane weight") : this.Untag("insane weight");
-
-			/*GunModule[] modules;
-			this.get("GunModules", @modules);
-			for (int a = 0; a < modules.length(); a++)
-			{
-				modules[a].onTick(this, holder);
-			}*/
-
 			CSprite@ sprite = this.getSprite();
+
+			sprite.SetEmitSoundVolume(1.5f + 0.5f*this.get_f32("heat")/this.get_f32("max_heat"));
+			sprite.SetEmitSoundSpeed(1.0f + 0.5f*this.get_f32("heat")/this.get_f32("max_heat"));
+
 			f32 aimangle = getAimAngle(this, holder);
 			f32 tempangle = aimangle;
 			if (tempangle > 360.0f)
@@ -181,38 +251,22 @@ void onTick(CBlob@ this)
 				this.Tag("a1");
 				this.set_u32("disable_a1", getGameTime()+t);
 			}
-			//if (point.isKeyPressed(key_action1) || isBot)
-			//{
-			//	u8 t = this.get_u8("holdtime");
-			//	
-			//	this.Tag("hold");
-			//	this.set_u32("disable_hold", getGameTime()+t);
-			//}
-			//if (!this.hasTag("a1") && !this.hasTag("hold")) 
-			//{
-			//	if (holder.isFacingLeft())
-			//	{
-			//		aimangle = 150+180 + Maths::Floor(tempangle/9);
-			//	}
-			//	else 
-			//	{
-			//		f32 dif = 0; // needed to compensate *circled* direction jump from 0 to 360
-			//		if (tempangle > -360.0f && tempangle < -180.0f) dif = 42.0f;
-			//		aimangle = 30+dif + Maths::Floor(tempangle/9);
-			//		//if (getGameTime()%30==0)printf(""+(tempangle));
-			//	}
-			//}
 
 			this.set_f32("gun_recoil_current", Maths::Lerp(this.get_f32("gun_recoil_current"), 0, 0.45f));
 
 			GunSettings@ settings;
 			this.get("gun_settings", @settings);
 
-			// Case particle the gun uses
-			string casing = this.exists("CustomCase") ? this.get_string("CustomCase") :
-							settings.B_TYPE == HittersTC::bullet_high_cal ? "rifleCase":
-							settings.B_TYPE == HittersTC::bullet_low_cal  ? "pistolCase":
-							settings.B_TYPE == HittersTC::shotgun         ? "shotgunCase": "";
+			this.set_u8("clip", Maths::Ceil(30 * this.get_f32("heat")/this.get_f32("max_heat"))); //Clip u8 for easy maneuverability
+			settings.CLIP = Maths::Ceil(30 * this.get_f32("heat")/this.get_f32("max_heat"));
+			if (isServer())
+			{
+				this.set_u8("clip", 15);
+				settings.CLIP = 15;
+			}
+
+			settings.FIRE_INTERVAL = 3 - Maths::Round(2 * this.get_f32("heat")/this.get_f32("max_heat"));
+
 			f32 oAngle = (aimangle % 360) + 180;
 
 			// Shooting
@@ -224,24 +278,33 @@ void onTick(CBlob@ this)
 					   point.isKeyJustPressed(key_action1) || holder.isKeyJustPressed(key_action1) : //automatic
 					   point.isKeyPressed(key_action1) || holder.isKeyPressed(key_action1)); //semiautomatic
 
+			this.SetLightRadius(pressing_shoot ? 32.00f : 16.00f);
+
+			const bool just_pressed_a1 = point.isKeyJustPressed(key_action1) || holder.isKeyJustPressed(key_action1);
+			const bool just_released_a1= (!point.isKeyPressed(key_action1) && point.wasKeyPressed(key_action1))
+				|| (!holder.isKeyPressed(key_action1) && holder.wasKeyPressed(key_action1));
+
+			if (isClient() && this.get_f32("overheat") == 0)
+			{
+				if (just_pressed_a1)
+				{
+					this.getSprite().PlaySound("DStart.ogg", 1.5f, 1.25f);		
+				}
+				if (just_released_a1)
+				{
+					this.getSprite().PlaySound("DEnd0.ogg", 2.25f, 1.0f + 0.2f*this.get_f32("heat")/this.get_f32("max_heat"));	
+					this.getSprite().PlaySound("DEnd1.ogg", 2.25f, 1.0f + 0.33f*this.get_f32("heat")/this.get_f32("max_heat"));	
+				}
+			}
+
 			// Sound
-			const f32 reload_pitch = this.exists("CustomReloadPitch") ? this.get_f32("CustomReloadPitch") : 1.0f;
 			const f32 cycle_pitch  = this.exists("CustomCyclePitch")  ? this.get_f32("CustomCyclePitch")  : 1.0f;
 			const f32 shoot_volume = this.exists("CustomShootVolume") ? this.get_f32("CustomShootVolume") : 2.0f;
 
 			// Loop firing sound
 			if (this.hasTag("CustomSoundLoop"))
 			{
-				sprite.SetEmitSoundPaused(!(pressing_shoot && this.get_u8("clip") > 0 && !this.get_bool("doReload")));
-			}
-
-			// Start reload sequence when pressing [R]
-			CControls@ controls = holder.getControls();
-			if (controls !is null && holder.isMyPlayer() && controls.isKeyJustPressed(KEY_KEY_R) &&
-				!this.get_bool("beginReload") && !this.get_bool("doReload") && 
-				this.get_u8("clip") < settings.TOTAL && HasAmmo(this))
-			{
-				this.set_bool("beginReload", true);
+				sprite.SetEmitSoundPaused(!(pressing_shoot && this.get_f32("overheat") == 0));
 			}
 
 			uint8 actionInterval = this.get_u8("actionInterval");
@@ -255,75 +318,13 @@ void onTick(CBlob@ this)
 					if ((actionInterval == settings.FIRE_INTERVAL / 2) && this.get_bool("justShot"))
 					{
 						sprite.PlaySound(this.get_string("CustomCycle"));
-						ParticleCase2(casing, this.getPosition(), this.isFacingLeft() ? oAngle : aimangle);
 						this.set_bool("justShot", false);
 					}
 				}
-			} 
-			else if (this.get_bool("beginReload")) // Beginning of reload
-			{
-				// CLIENTSIDE ONLY
-				// Start reload sequence
-				f32 reload_time = settings.RELOAD_TIME;
-				if (holder.get_u8("deity_id") == Deity::tflippy)
-				{
-					//printf("HAS_DEITY");
-					f32 power = 0;
-					f32 mod = 0;
-					CBlob@ altar = getBlobByName("altar_tflippy");
-					if (altar !is null)
-					{
-						power = altar.get_f32("deity_power");
-						mod = Maths::Min(power * 0.00003f, 0.35f);
-					}
-					reload_time = reload_time-(reload_time*mod);
-					//printf("POWER - "+power);
-				}
-
-				actionInterval = reload_time;
-
-				CBitStream params;
-				params.write_u8(actionInterval);
-				this.SendCommand(this.getCommandID("sync_interval"), params);
-
-				this.set_bool("beginReload", false);
-				this.set_bool("doReload", true);
-
-				if (HasAmmo(this) && this.get_u8("clip") < settings.TOTAL) 
-				{
-					if (!this.hasTag("CustomShotgunReload")) sprite.PlaySound(settings.RELOAD_SOUND, 1.0f, reload_pitch);
-				}
 			}
-			else if (this.get_bool("doReload")) // End of reload
-			{
-				/*for (int a = 0; a < modules.length(); a++)
-				{
-					modules[a].onReload(this);
-				}*/
-
-				if (this.hasTag("CustomShotgunReload"))
-				{
-					if (HasAmmo(this) && this.get_u8("clip") < settings.TOTAL)
-					{
-						sprite.PlaySound(settings.RELOAD_SOUND, 1.0f, reload_pitch);
-					}
-					else if (this.exists("CustomReloadingEnding"))
-					{
-						actionInterval = settings.RELOAD_TIME * 2;
-						sprite.PlaySound(this.get_string("CustomReloadingEnding"), 1.0f, cycle_pitch);
-					}
-				}
-
-				if (holder.isMyPlayer() || (isServer() && holder.getBrain() !is null && holder.getBrain().isActive()))
-				{
-					Reload(this, holder);
-				}
-
-				if (this.hasTag("CustomShotgunReload")) this.set_bool("doReload", false);
-			} 
 			else if (pressing_shoot && can_shoot)
 			{
-				if (this.get_u8("clip") > 0)
+				if (this.get_f32("overheat") == 0)
 				{
 					/*for (int a = 0; a < modules.length(); a++)
 					{
@@ -354,30 +355,29 @@ void onTick(CBlob@ this)
 						//if (!accurateHit) aimangle += XORRandom(2) != 0 ? -XORRandom(spr) : XORRandom(spr);
 						aimangle += XORRandom(2) != 0 ? -XORRandom(spr) : XORRandom(spr);
 					}
-
+					
 					if (holder.isMyPlayer() || (isServer() && holder.getPlayer() is null && holder.getBrain() !is null && holder.getBrain().isActive()))
 					{
-						if (this.exists("ProjBlob"))
+						this.add_f32("heat", this.get_f32("heat_pershot"));
+						if (this.get_f32("heat") > this.get_f32("max_heat"))
 						{
-							shootProj(this, aimangle);
-
+							this.set_f32("overheat", 500);
 							if (isClient())
 							{
-								Recoil@ coil = Recoil(holder, settings.G_RECOIL, settings.G_RECOILT, settings.G_BACK_T, settings.G_RANDOMX, settings.G_RANDOMY);
-								coil.onTick();
+								sprite.PlaySound("DrillOverheat.ogg");
+								makeSteamPuff(this);
 							}
 						}
-						else
+						this.set_u32("heat_lock", getGameTime()+5);
+
+						// Local hosts / clients will run this
+						if (isClient())
 						{
-							// Local hosts / clients will run this
-							if (isClient())
-							{
-								shootGun(this.getNetworkID(), aimangle, holder.getNetworkID(), sprite.getWorldTranslation() + fromBarrel);
-							}
-							else // Server will run this
-							{
-								shootGun(this.getNetworkID(), aimangle, holder.getNetworkID(), this.getPosition() + fromBarrel);
-							}
+							shootGun(this.getNetworkID(), aimangle, holder.getNetworkID(), sprite.getWorldTranslation() + fromBarrel);
+						}
+						else // Server will run this
+						{
+							shootGun(this.getNetworkID(), aimangle, holder.getNetworkID(), this.getPosition() + fromBarrel);
 						}
 					}
 
@@ -397,27 +397,8 @@ void onTick(CBlob@ this)
 
 					if (isClient()) 
 					{
-						if (!this.exists("CustomCycle")) 
-						{
-							ParticleCase2(casing, this.getPosition(), this.isFacingLeft() ? oAngle : aimangle);
-						}
-						else this.set_bool("justShot", true);
+						this.set_bool("justShot", true);
 					}
-				}
-				else if (this.get_u8("clickReload") == 1 && HasAmmo(this))
-				{
-					// Start reload sequence if no ammo in gun
-					actionInterval = settings.RELOAD_TIME;
-					this.set_bool("beginReload", false);
-					this.set_bool("doReload", true);
-					sprite.PlaySound(settings.RELOAD_SOUND, 1.0f, reload_pitch);
-				}
-				else if (!this.get_bool("beginReload") && !this.get_bool("doReload"))
-				{
-					// Gun empty sequence
-					sprite.PlaySound(this.exists("CustomSoundEmpty") ? this.get_string("CustomSoundEmpty") : "Gun_Empty.ogg");
-					actionInterval = NO_AMMO_INTERVAL;
-					this.set_u8("clickReload", 1);
 				}
 			}
 
@@ -439,4 +420,35 @@ void onTick(CBlob@ this)
 		}
 		this.getCurrentScript().runFlags |= Script::tick_not_sleeping;
 	}
+}
+
+void makeSteamParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSteam")
+{
+	if (!isClient()) return;
+
+	const f32 rad = this.getRadius();
+	Vec2f random = Vec2f(XORRandom(128) - 64, XORRandom(128) - 64) * 0.015625f * rad;
+	ParticleAnimated(filename, this.getPosition() + random, vel, float(XORRandom(360)), 1.0f, 2 + XORRandom(3), -0.1f, false);
+}
+
+void makeSteamPuff(CBlob@ this, const f32 velocity = 1.0f, const int smallparticles = 10, const bool sound = true)
+{
+	if (sound)
+	{
+		this.getSprite().PlaySound("Steam.ogg");
+	}
+
+	makeSteamParticle(this, Vec2f(), "MediumSteam");
+	for (int i = 0; i < smallparticles; i++)
+	{
+		f32 randomness = (XORRandom(32) + 32) * 0.015625f * 0.5f + 0.75f;
+		Vec2f vel = getRandomVelocity(-90, velocity * randomness, 360.0f);
+		makeSteamParticle(this, vel);
+	}
+}
+
+void onThisAddToInventory(CBlob@ this, CBlob@ inventoryBlob)
+{
+	if (inventoryBlob is null) return;
+	this.getSprite().SetEmitSoundPaused(true);
 }

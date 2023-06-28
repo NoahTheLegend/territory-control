@@ -84,6 +84,7 @@ LootItem@[] a_items =
 	LootItem("cricket", 1, 1, 135),
 	LootItem("lasersniper", 1, 1, 300),
 	LootItem("lasershotgun", 1, 1, 250),
+	LootItem("drak", 1, 1, 350),
 	LootItem("blaster", 1, 1, 200),
 	LootItem("drone", 1, 2, 125),
 	LootItem("scyther", 1, 0, 50),

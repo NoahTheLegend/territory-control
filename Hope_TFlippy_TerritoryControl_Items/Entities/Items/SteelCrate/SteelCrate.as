@@ -1,3 +1,5 @@
+// lootcrate for launchpads
+
 void onInit(CBlob@ this)
 {
     this.addCommandID("sync_state");
@@ -300,6 +302,7 @@ const string[] rolling = { // from 0 to 2500, as bigger value as more chance to 
     "klaxon-300",
     "laserrifle-1200",
     "lasershotgun-1350",
+    "drak-1400",
     "lasersniper-900",
     "lifematter-1450",
     "mat_antimatter-800",
@@ -486,6 +489,7 @@ const string[] matExoplanet = {
     "blaster",
     "infernocannon",
     "lasershotgun",
+    "drak",
     "laserrifle",
     "lasersniper",
     "molecularfabricator",
@@ -515,6 +519,7 @@ const u16[] valExoplanet = {
     1,
     1,
     2,
+    1,
     2,
     1,
     1,

@@ -109,27 +109,30 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					// Determines what can have infinite ammunition
 					const bool isChickenBot = (holder.getPlayer() is null && holder.hasTag("chicken")) || holder.getName() == "adminbuilder";
 
-					if (this.hasTag("CustomShotgunReload"))
+					if (!this.hasTag("InfiniteAmmo"))
 					{
-						//Shotgun reload
+						if (this.hasTag("CustomShotgunReload"))
+						{
+							//Shotgun reload
 
-						if (quantity <= 1) item.server_Die();
-						else item.server_SetQuantity(Maths::Max(quantity - (isChickenBot ? 0 : 1), 0));
-						quantity--;
+							if (quantity <= 1) item.server_Die();
+							else item.server_SetQuantity(Maths::Max(quantity - (isChickenBot ? 0 : 1), 0));
+							quantity--;
 
-						this.add_u8("clip", 1);
-						if (clip < total || quantity == 1) this.set_bool("beginReload", true); //loop
+							this.add_u8("clip", 1);
+							if (clip < total || quantity == 1) this.set_bool("beginReload", true); //loop
 
-						break;
-					}
-					else
-					{
-						//Normal reload
-						s32 taken = Maths::Min(quantity, Maths::Clamp(total - clip, 0, total));
+							break;
+						}
+						else
+						{
+							//Normal reload
+							s32 taken = Maths::Min(quantity, Maths::Clamp(total - clip, 0, total));
 
-						item.server_SetQuantity(Maths::Max(quantity - (isChickenBot ? 0 : taken), 0));
+							item.server_SetQuantity(Maths::Max(quantity - (isChickenBot ? 0 : taken), 0));
 
-						this.add_u8("clip", taken);
+							this.add_u8("clip", taken);
+						}
 					}
 				}
 			}
