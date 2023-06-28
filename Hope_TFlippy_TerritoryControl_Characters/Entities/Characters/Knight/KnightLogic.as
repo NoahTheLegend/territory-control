@@ -45,6 +45,8 @@ void knight_clear_actor_limits(CBlob@ this)
 
 void onInit(CBlob@ this)
 {
+	this.addCommandID("switch");
+	
 	this.set_u32("timer", 0);
 
 	KnightInfo knight;
