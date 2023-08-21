@@ -45,7 +45,7 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Luftwaffe Anthem", "Disc_LuftwaffeAnthem.ogg"),//28
 	GramophoneRecord("Luftwaffe March", "Disc_LuftwaffeMarch.ogg"),//29
 	GramophoneRecord("Марш речников - March of Rivermen | Leonid Kostritsa", "Disc_March_Rechnikov-March_of_Rivermen.ogg"),//30
-	GramophoneRecord("Потому, потому что мы пилоты - Because we are pilots | Leonid Kostritsa", "Disc_Potomu_chto_mi_-_piloti-Because_we_are_-_pilots.ogg"),//31
+	GramophoneRecord("Потому, потому что мы - пилоты - Because we are pilots | Leonid Kostritsa", "Disc_Potomu_chto_mi_-_piloti-Because_we_are_-_pilots.ogg"),//31
 	GramophoneRecord("Вернулся я на родину - I'm back to my homeland | Leonid Kostritsa", "Disc_Vernuls'a_ya_na_rodinu-Returned_to_my_homeland.ogg"),//32
 	GramophoneRecord("Johny", "Disc_Johny.ogg"),//33
 	GramophoneRecord("Pirate Tavern", "Disc_PirateTavern.ogg"),//34
@@ -84,7 +84,10 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("II Magnifico Cornuto (M11)", "Disc_II-Magnifico-Cornuto(M11).ogg"),// 67
 	GramophoneRecord("Circus Ambience", "Disc_CircusMusic.ogg"),// 68
 	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg"),// 69 haha 69 gomek dog
-	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg")
+	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg"),//70
+	GramophoneRecord("Erica", "Disc_Erica.ogg"),//71
+	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen ", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg"),//72
 };
+
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
 // example: !disc 0 will give you mountain king

@@ -19,7 +19,7 @@ void onInit(CBlob@ this)
 	this.Tag("change team on fort capture");
 
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
-	this.set_Vec2f("shop menu size", Vec2f(9, 8));
+	this.set_Vec2f("shop menu size", Vec2f(9, 9));
 	this.set_string("shop description", "Disc Shop");
 	this.set_u8("shop icon", 15);
 
