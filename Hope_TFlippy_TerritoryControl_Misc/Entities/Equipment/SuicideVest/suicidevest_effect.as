@@ -87,8 +87,8 @@ void onTick(CBlob@ this)
 		RunnerMoveVars@ moveVars;
 		if (this.get("moveVars", @moveVars))
 		{
-			moveVars.walkFactor *= 1.50f;
-			moveVars.jumpFactor *= 1.20f;
+			moveVars.walkFactor *= 1.2f;
+			moveVars.jumpFactor *= 1.1f;
 		}
 	
 		if (isServer() && getGameTime() >= this.get_u32("vest_explode"))
