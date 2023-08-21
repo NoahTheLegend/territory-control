@@ -48,6 +48,7 @@ void onInit(CBlob@ this)
 	this.Tag("vehicle");
 	this.Tag("aerial");
 	this.Tag("wooden");
+	this.Tag("plane");
 
 	this.getShape().SetRotationsAllowed(true);
 	this.set_Vec2f("direction", Vec2f(0, 0));

@@ -32,6 +32,7 @@ void onInit(CBlob@ this)
 	
 	this.Tag("vehicle");
 	this.Tag("aerial");
+	this.Tag("plane");
 	
 	CSprite@ sprite = this.getSprite();
 	sprite.SetEmitSound("JetFighter_Loop.ogg");

@@ -58,7 +58,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal)
 	{
 		if (blob !is null)
 		{
-			if (blob.getName() != "triplane" && blob.getName() != "jetfighter"
+			if (!blob.hasTag("plane")
 			&& !blob.isInInventory() && !blob.isAttached())
 				return;
 		}
