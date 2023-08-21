@@ -56,7 +56,7 @@ void DoExplosion(CBlob@ this)
 	this.set_f32("map_damage_radius", 256.0f * modifier);
 
 	this.set_Vec2f("explosion_offset", Vec2f(0, 0));
-	Explode(this, 192.0f * modifier, 192.0f * (1.00f - modifier));
+	Explode(this, 128.0f * modifier, 192.0f * (1.00f - modifier));
 
 	if (!this.hasTag("no side blast"))
 	{
