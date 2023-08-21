@@ -238,28 +238,25 @@ void onInit(CBlob@ this)
 	//}
 	{
 		ShopItem@ s = addShopItem(this, "Arrows (30)", "$mat_arrows$", "mat_arrows-30", "Arrows for crossbows.", true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 50);
 		AddRequirement(s.requirements, "coin", "", "Coins", 75);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Fire Arrow (2)", "$mat_firearrows$", "mat_firearrows-2", descriptions[32], true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 10);
-		AddRequirement(s.requirements, "coin", "", "Coins", 30);
+		AddRequirement(s.requirements, "coin", "", "Coins", 40);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Water Arrow (2)", "$mat_waterarrows$", "mat_waterarrows-2", descriptions[50], true);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 15);
 		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Rendezook", "$icon_rendezook$", "rendezook", "A replica of a rocket launcher found behind the UPF shop in a trash can.\nDoes not seem to hurt anybody.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 350);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
 		s.customButton = true;
 		s.buttonwidth = 2;
@@ -268,8 +265,8 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Katana", "$katana$", "katana", "Japanese melee weapon.\nPerfect for introducing enemies' organs to themselves.");
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel ingot", 16);
+		ShopItem@ s = addShopItem(this, "Katana", "$katana$", "katana", "Japanese melee weapon.\nPerfect for introducing enemies' guts to themselves.");
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel ingot", 6);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.customButton = true;
@@ -280,8 +277,8 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Crossbow", "$crossbow$", "crossbow", "A hand-made ranged weapon.\nUses arrows to shoot.\nYou can set arrow type while holding different arrows near it.");
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 150);
-		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
+		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 
 		s.customButton = true;
 		s.buttonwidth = 2;

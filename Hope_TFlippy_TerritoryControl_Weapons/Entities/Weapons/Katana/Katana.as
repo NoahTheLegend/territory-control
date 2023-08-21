@@ -222,7 +222,6 @@ void onAttach( CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint )
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
-	if (blob !is null && blob.isCollidable()) return true;
-	return false;
+	return blob !is null && blob.isCollidable() && !blob.hasTag("flesh") && !blob.hasTag("player");
 }
 
