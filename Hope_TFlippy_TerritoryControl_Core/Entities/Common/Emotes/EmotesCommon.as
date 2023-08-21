@@ -122,6 +122,8 @@ namespace Emotes
 
 void set_emote(CBlob@ this, u8 emote, int time)
 {
+	if (!this.hasCommandID("emote")) return;
+	
 	if (emote >= Emotes::emotes_total)
 	{
 		emote = Emotes::off;

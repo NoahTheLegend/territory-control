@@ -15,8 +15,6 @@
 #include "CustomBlocks.as";
 #include "Survival_Structs.as";
 
-
-
 //can't be <2 - needs one frame less for gathering infos
 const s32 hit_frame = 2;
 const f32 hit_damage = 0.5f;

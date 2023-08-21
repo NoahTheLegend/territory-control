@@ -24,7 +24,7 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
 
 	if (this.get_string("equipment2_torso") == "backpack")
 	{
-		Vec2f backpack_offset = MENU_POS + Vec2f(-95, 151);
+		Vec2f backpack_offset = MENU_POS + Vec2f(-72, 128);
 
 		//if (this.exists("secondary backpack position"))
 		//	backpack_offset += this.get_Vec2f("secondary backpack position");
