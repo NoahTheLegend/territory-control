@@ -194,14 +194,7 @@ void onCreateInventoryMenu(CInventory@ this, CBlob@ forBlob, CGridMenu@ menu)
 
 	MakeBlocksMenu(this, INVENTORY_CE);
 
-	if (blob.get_string("equipment2_torso") == "backpack")
-	{
-		CBlob@ backpack = getBlobByNetworkID(blob.get_u16("backpack_id"));
-		if (backpack !is null)
-		{
-			backpack.CreateInventoryMenu(blob.get_Vec2f("backpack position")+blob.get_Vec2f("secondary backpack position"));
-		}
-	}
+	
 }
 
 void onCommand(CInventory@ this, u8 cmd, CBitStream@ params)

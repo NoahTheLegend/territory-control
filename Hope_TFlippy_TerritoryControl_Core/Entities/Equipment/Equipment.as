@@ -22,6 +22,20 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
 	if (name == "archer") MENU_POS = gridmenu.getUpperLeftPosition() + Vec2f(-84, -56);
 	else MENU_POS = gridmenu.getUpperLeftPosition() + Vec2f(-64, -80);
 
+	if (this.get_string("equipment2_torso") == "backpack")
+	{
+		Vec2f backpack_offset = MENU_POS + Vec2f(-95, 151);
+
+		//if (this.exists("secondary backpack position"))
+		//	backpack_offset += this.get_Vec2f("secondary backpack position");
+			
+		CBlob@ backpack = getBlobByNetworkID(this.get_u16("backpack_id"));
+		if (backpack !is null)
+		{
+			backpack.CreateInventoryMenu(backpack_offset);
+		}
+	}
+
 	CGridMenu@ equipments = CreateGridMenu(MENU_POS, this, Vec2f(1, 3), "equipment");
 	CGridMenu@ extraequipments = CreateGridMenu(MENU_POS+Vec2f(-48, 0), this, Vec2f(1, 1), "equipment");
 
