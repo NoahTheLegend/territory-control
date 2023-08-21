@@ -24,7 +24,7 @@ void onInit(CBlob@ this)
 	                    90, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(-6.0f, 2.0f), // fire position offset
-	                    "mat_hshell", // bullet ammo config name
+	                    "mat_hatcshell", // bullet ammo config name
 	                    "hshell", // bullet config name
 	                    "ChickenTank_Shoot", // fire sound
 	                    "EmptyFire" // empty fire sound
@@ -53,7 +53,7 @@ void onInit(CBlob@ this)
 	}
 	
 	this.getShape().SetRotationsAllowed(false);
-	this.set_string("autograb blob", "mat_hshell");
+	this.set_string("autograb blob", "mat_hatcshell");
 
 	sprite.SetZ(-10.0f);
 
@@ -62,7 +62,7 @@ void onInit(CBlob@ this)
 	// auto-load on creation
 	if (isServer())
 	{
-		CBlob@ ammo = server_CreateBlob("mat_hshell");
+		CBlob@ ammo = server_CreateBlob("mat_hatcshell");
 		if (ammo !is null)
 		{
 			if (!this.server_PutInInventory(ammo)) ammo.server_Die();

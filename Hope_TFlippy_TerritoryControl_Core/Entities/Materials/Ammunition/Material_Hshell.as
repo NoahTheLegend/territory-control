@@ -3,7 +3,7 @@
 
 void onInit(CBlob@ this)
 {
-	this.maxQuantity = 8;
+	this.maxQuantity = 4;
 	this.Tag("explosive");
 	this.Tag("medium weight");
 }
@@ -16,6 +16,8 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 		addToNextTick(this, rules, velocity, DoExplosion);
 		return;
 	}
+
+	this.Tag("medium weight");
 
 	if (this.hasTag("dead")) return;
 	this.Tag("dead");

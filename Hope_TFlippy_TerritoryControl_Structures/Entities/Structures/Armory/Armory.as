@@ -266,7 +266,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Katana", "$katana$", "katana", "Japanese melee weapon.\nPerfect for introducing enemies' guts to themselves.");
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel ingot", 6);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel ingot", 8);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
 
 		s.customButton = true;
