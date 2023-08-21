@@ -155,8 +155,7 @@ void onTick(CBlob@ this)
 	}
 	if (this.hasTag("offblast"))
 	{
-		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
-		if (point !is null && point.getOccupied() !is null && this.hasAttached())
+		if (this.isAttached())
 		{
 			this.server_DetachFromAll();
 		}
@@ -248,7 +247,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (isServer())
 	{
-		if ((blob !is null ? !blob.isCollidable() : !solid)) return;
+		if ((blob !is null ? !blob.isCollidable() || blob.hasTag("gas") : !solid)) return;
 		if (this.hasTag("offblast") && this.get_u32("no_explosion_timer") < getGameTime()) 
 		{
 			ResetPlayer(this);
@@ -309,9 +308,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 		this.set_u16("controller_blob_netid", caller_netid);
 		this.set_u16("controller_player_netid", player_netid);
 
-		if (isServer() && ply !is null)
+		if (isServer())
 		{
-			this.server_SetPlayer(ply);
+			this.server_DetachFromAll();
+			if (ply !is null)
+				this.server_SetPlayer(ply);
 		}
 
 		if (isClient())
