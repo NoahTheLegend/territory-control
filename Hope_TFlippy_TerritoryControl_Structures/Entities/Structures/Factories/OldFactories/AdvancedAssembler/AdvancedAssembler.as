@@ -377,12 +377,12 @@ void onAddToInventory( CBlob@ this, CBlob@ blob )
 {
 	if(blob.getName() != "gyromat") return;
 
-	this.getCurrentScript().tickFrequency = 60 / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
+	this.getCurrentScript().tickFrequency = Maths::Max(1, 60 / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1));
 }
 
 void onRemoveFromInventory(CBlob@ this, CBlob@ blob)
 {
 	if(blob.getName() != "gyromat") return;
 	
-	this.getCurrentScript().tickFrequency = 60 / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
+	this.getCurrentScript().tickFrequency = Maths::Max(1, 60 / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1));
 }

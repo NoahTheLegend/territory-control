@@ -141,7 +141,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 void onTick(CBlob@ this)
 {
-	this.getCurrentScript().tickFrequency = 60.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
+	this.getCurrentScript().tickFrequency = Maths::Max(1, 60.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1));
 
 	if (isServer())
 	{

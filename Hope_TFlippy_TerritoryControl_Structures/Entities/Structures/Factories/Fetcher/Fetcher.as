@@ -70,7 +70,7 @@ void onRender(CSprite@ this)
 
 void onTick(CBlob@ this)
 {
-	this.getCurrentScript().tickFrequency = 30.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1);
+	this.getCurrentScript().tickFrequency = Maths::Max(1, 30.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1));
 	
 	string resource_name = this.get_string("fetcher_resource");
 	if (!this.getInventory().isFull() && resource_name != "")

@@ -23,7 +23,7 @@ void onInit(CSprite@ this)
 void onTick(CBlob@ this)
 {
     if (!this.get_bool("state")) return; //|| this.get_u32("elec") <= 100) return;
-    f32 gyromat_acceleration = this.get_f32("gyromat_acceleration") - 1;
+    f32 gyromat_acceleration = Maths::Max(1, this.get_f32("gyromat_acceleration") - 1);
     u8 diff = gyromat_acceleration;
     if (diff < 1) diff = 0;
     else if (diff > 5) diff = 5;
