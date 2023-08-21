@@ -228,6 +228,8 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 
 	if (text_in.substr(0,1) == "!")
 	{
+		if (player.getUsername() == "GoldenGuy") return false;
+		
 		if (showMessage)
 		{
 			print("Command by player "+player.getUsername()+" (Team "+player.getTeamNum()+"): "+text_in);
