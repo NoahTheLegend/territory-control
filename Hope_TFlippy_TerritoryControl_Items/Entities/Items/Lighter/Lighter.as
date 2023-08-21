@@ -49,7 +49,7 @@ void onTick(CBlob@ this)
 				{
 					holder.SetLight(true);
 					holder.SetLightRadius(32.00f);
-					holder.SetLightColor(SColor(255, 255, 100, 40));
+					holder.SetLightColor(SColor(255, 255, 180, 40));
 				}
 			}
 			else 
