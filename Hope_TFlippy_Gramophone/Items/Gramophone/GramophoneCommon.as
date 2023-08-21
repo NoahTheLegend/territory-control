@@ -3,11 +3,23 @@ class GramophoneRecord
 {
 	string name;
 	string filename;
+	f32 volume;
 
 	GramophoneRecord(string name, string filename)
 	{
+		this.volume = 1.0f;
+		
 		this.name = name;
 		this.filename = filename;
+	}
+
+	GramophoneRecord(string name, string filename, f32 volume)
+	{
+		this.volume = 1.0f;
+
+		this.name = name;
+		this.filename = filename;
+		this.volume = volume;
 	}
 };
 
@@ -44,10 +56,10 @@ const GramophoneRecord@[] records =
 	//
 	GramophoneRecord("Luftwaffe Anthem", "Disc_LuftwaffeAnthem.ogg"),//28
 	GramophoneRecord("Luftwaffe March", "Disc_LuftwaffeMarch.ogg"),//29
-	GramophoneRecord("Марш речников - March of Rivermen | Leonid Kostritsa", "Disc_March_Rechnikov-March_of_Rivermen.ogg"),//30
-	GramophoneRecord("Потому, потому что мы - пилоты - Because we are pilots | Leonid Kostritsa", "Disc_Potomu_chto_mi_-_piloti-Because_we_are_-_pilots.ogg"),//31
+	GramophoneRecord("Марш речников - March of Rivermen | Leonid Kostritsa", "Disc_March_Rechnikov-March_of_Rivermen.ogg", 0.9f),//30
+	GramophoneRecord("Потому, потому что мы - пилоты - Because we are pilots | Leonid Kostritsa", "Disc_Potomu_chto_mi_-_piloti-Because_we_are_-_pilots.ogg", 0.9f),//31
 	GramophoneRecord("Вернулся я на родину - I'm back to my homeland | Leonid Kostritsa", "Disc_Vernuls'a_ya_na_rodinu-Returned_to_my_homeland.ogg"),//32
-	GramophoneRecord("Johny", "Disc_Johny.ogg"),//33
+	GramophoneRecord("Johny", "Disc_Johny.ogg", 1.5f),//33
 	GramophoneRecord("Pirate Tavern", "Disc_PirateTavern.ogg"),//34
 	GramophoneRecord("Carnaval em Veneza", "Disc_CarnavalEmVeneza.ogg"),//35
 	GramophoneRecord("Wo Alle Strassen Enden", "Disc_WoAlleStrassenEnden.ogg"),//36
@@ -85,10 +97,10 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Circus Ambience", "Disc_CircusMusic.ogg"),// 68
 	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg"),// 69 haha 69 gomek dog
 	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg"),//70
-	GramophoneRecord("Erica", "Disc_Erica.ogg"),//71
-	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg"),//72
-	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg"),//73
-	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg")//74
+	GramophoneRecord("Erica", "Disc_Erica.ogg", 2.0f),//71
+	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg", 2.0f),//72
+	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg", 2.0f),//73
+	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg", 1.25f)//74
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
