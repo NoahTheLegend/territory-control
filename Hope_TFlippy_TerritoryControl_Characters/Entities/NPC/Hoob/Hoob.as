@@ -114,6 +114,7 @@ void onInit(CBlob@ this)
 	this.Tag("human");
 	this.getBrain().server_SetActive(true);
 
+	this.Tag("player");
 	this.set_u32("nextTalk", getGameTime() + XORRandom(60));
 
 	this.set_u32("nextAttack", 0);

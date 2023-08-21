@@ -24,7 +24,7 @@ void onInit(CBlob@ this)
 	if (getNet().isServer())
 	{
 		dictionary harvest;
-		harvest.set('mat_stone', 4);
+		harvest.set('mat_ironingot', 4);
 		this.set('harvest', harvest);
 	}
 

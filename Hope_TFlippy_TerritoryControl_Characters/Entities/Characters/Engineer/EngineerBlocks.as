@@ -283,7 +283,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "iron_trap_block", "$icon_irontrapblock$", "Trap Block:\n\nOnly enemies can pass it like the regular trap block, but it's more durable.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron ingot", 12);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron ingot", 8);
 		blocks[0].push_back(b);
 	}
 	{
