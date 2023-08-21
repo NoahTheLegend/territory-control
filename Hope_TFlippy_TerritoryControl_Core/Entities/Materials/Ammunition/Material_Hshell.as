@@ -3,7 +3,7 @@
 
 void onInit(CBlob@ this)
 {
-	this.maxQuantity = 4;
+	this.maxQuantity = 1;
 	this.Tag("explosive");
 	this.Tag("medium weight");
 }
