@@ -86,7 +86,9 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg"),// 69 haha 69 gomek dog
 	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg"),//70
 	GramophoneRecord("Erica", "Disc_Erica.ogg"),//71
-	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen ", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg"),//72
+	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg"),//72
+	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg"),//73
+	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg")//74
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
