@@ -60,6 +60,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 	if (blob.getPosition().y < this.getPosition().y-4) return;
 	if (blob.getShape().isStatic())return;
 	if (blob.isAttached())return;
+	if (blob.hasTag("building"))return;
 	
 	if(blob.getPosition().x > this.getPosition().x-1 && blob.getPosition().x < this.getPosition().x+1){
 		blob.setVelocity(Vec2f(0.0f, -4.0f));
