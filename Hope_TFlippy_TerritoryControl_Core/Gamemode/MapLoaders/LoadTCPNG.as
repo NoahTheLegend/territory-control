@@ -2131,7 +2131,7 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 			{
 				Vec2f pos = map.getTileWorldPosition(index);
 				glass_SetTile(map, pos);
-				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION | Tile::LIGHT_PASSES);
+				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION | Tile::LIGHT_PASSES | Tile::LIGHT_SOURCE);
 				map.RemoveTileFlag( index, Tile::WATER_PASSES);
 
 				if (isClient()) Sound::Play("build_wall.ogg", map.getTileWorldPosition(index), 1.0f, 1.0f);
@@ -2153,7 +2153,7 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 			case CMap::tile_glass_v12:
 			case CMap::tile_glass_v13:
 			case CMap::tile_glass_v14:
-				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION | Tile::LIGHT_PASSES);
+				map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION | Tile::LIGHT_PASSES | Tile::LIGHT_SOURCE);
 
 				break;
 
