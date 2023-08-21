@@ -70,16 +70,13 @@ void onTick(CSprite@ this)
 	{
 		if(this.getSpriteLayer("gear1") !is null){
 			this.getSpriteLayer("gear1").RotateBy(5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
-	}
-		if(this.getSpriteLayer("gear2") !is null){
-			this.getSpriteLayer("gear2").RotateBy(-5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
-	}
-		if(this.getSpriteLayer("gear3") !is null){
-			this.getSpriteLayer("gear3").RotateBy(5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
-	}
-	
-	
-	
+		}
+			if(this.getSpriteLayer("gear2") !is null){
+				this.getSpriteLayer("gear2").RotateBy(-5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
+		}
+			if(this.getSpriteLayer("gear3") !is null){
+				this.getSpriteLayer("gear3").RotateBy(5.0f*(this.getBlob().exists("gyromat_acceleration") ? this.getBlob().get_f32("gyromat_acceleration") : 1), Vec2f(0.0f,0.0f));
+		}
 	}
 }
 
