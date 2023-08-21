@@ -17,6 +17,21 @@ void DrawInventoryOnHUD(CBlob@ this, Vec2f tl, Vec2f hudPos = Vec2f(0, 0))
 	CBlob@[] itemsToShow;
 	int[] itemAmounts;
 
+	CBlob@[] backpacks;
+	bool hasBackpack = false;
+	if (this.hasScript("Equipment.as"))
+	{
+		if (this.get_string("equipment2_torso") == "backpack")
+		{
+			CBlob@ backpack = getBlobByNetworkID(this.get_u16("backpack_id"));
+			if (backpack !is null)
+			{
+				backpacks.push_back(backpack);
+				hasBackpack = true;
+			}
+		}
+	}
+
 	for (int j = 0; j < inv.getItemsCount(); j++)
 	{
 		CBlob@ item = inv.getItem(j);
@@ -37,6 +52,37 @@ void DrawInventoryOnHUD(CBlob@ this, Vec2f tl, Vec2f hudPos = Vec2f(0, 0))
 		}
 		itemsToShow.push_back(item);
 		itemAmounts.push_back(item.getQuantity());
+	}
+
+	for (int i = 0; i < backpacks.length; i++)
+	{
+		CBlob@ bp = backpacks[i];
+		if (bp is null) continue;
+		CInventory@ bpinv = bp.getInventory();
+
+		for (int j = 0; j < bpinv.getItemsCount(); j++)
+		{
+			CBlob@ item = bpinv.getItem(j);
+			if (item is null) continue;
+			
+			string name = item.getInventoryName();
+			bool doContinue = false;
+			for (int k = 0; k < itemsToShow.length; k++)
+			{
+				if (itemsToShow[k].getInventoryName() == name)
+				{
+					itemAmounts[k] = itemAmounts[k] + item.getQuantity();
+					doContinue = true;
+					break;
+				}
+			}
+			if (doContinue)
+			{
+				continue;
+			}
+			itemsToShow.push_back(item);
+			itemAmounts.push_back(item.getQuantity());
+		}
 	}
 
 	for (int i = 0; i < itemsToShow.length; i++)

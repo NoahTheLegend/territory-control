@@ -308,7 +308,7 @@ void RenderTeamInventoryHUD(CBlob@ this)
 
 		int j = 0;
 		int b = 0;
-		//indian code, gotta repeat it two times
+		//indian code, gotta repeat it once
 		for (int i = 0; i < itemsToShow.length; i++)
 		{
 			//draw ores
@@ -349,7 +349,7 @@ void RenderTeamInventoryHUD(CBlob@ this)
 			{
 				GUI::DrawIcon("GUI/jslot.png", 0, Vec2f(32, 32), itemPos + Vec2f(96, 0));
 
-				if (teamIngots[oreId] == "mat_concrete") { GUI::DrawIcon("Material_Concrete.png", 1,Vec2f(16, 16), itemPos + Vec2f(104, 8)); }
+				if (teamIngots[oreId] == "mat_concrete") { GUI::DrawIcon("Material_Concrete.png", 1, Vec2f(16, 16), itemPos + Vec2f(104, 8)); }
 				else if (teamIngots[oreId] == "mat_copperingot") { GUI::DrawIcon("Material_CopperIngot.png", 0,Vec2f(16, 16), itemPos + Vec2f(104, 8)); }
 				else if (teamIngots[oreId] == "mat_ironingot") { GUI::DrawIcon("Material_IronIngot.png", 0, Vec2f(16, 16), itemPos + Vec2f(104, 8)); }
 				else if (teamIngots[oreId] == "mat_goldingot") { GUI::DrawIcon("Material_GoldIngot.png", 0, Vec2f(16, 16), itemPos + Vec2f(104, 8)); }

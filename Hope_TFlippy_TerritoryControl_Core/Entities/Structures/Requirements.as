@@ -181,8 +181,10 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 	CBlob@[] baseBlobs;
 	CBlob@[] smartStorageBlobs;
 	CBlob@[] factionBases;
+	CBlob@[] backpacks;
 	
 	bool storageEnabled = false;
+	bool hasBackpack = false;
 	
 	if (playerBlob !is null)
 	{
@@ -275,6 +277,19 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 				}
 			}
 		}
+
+		if (playerBlob.hasScript("Equipment.as"))
+		{
+			if (playerBlob.get_string("equipment2_torso") == "backpack")
+			{
+				CBlob@ backpack = getBlobByNetworkID(playerBlob.get_u16("backpack_id"));
+				if (backpack !is null)
+				{
+					backpacks.push_back(backpack);
+					hasBackpack = true;
+				}
+			}
+		}
 	}	
 
 	while (!bs.isBufferEnd()) 
@@ -299,6 +314,14 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 				{
 					sum += smartStorageCheck(smartStorageBlobs[i],blobName);
 					sum += smartStorageBlobs[i].getBlobCount(blobName);
+				}
+			}
+
+			if (hasBackpack)
+			{
+				for (int i = 0; i< backpacks.length; i++)
+				{
+					sum += backpacks[i].getBlobCount(blobName);
 				}
 			}
 			
@@ -448,11 +471,26 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 
 	CBlob@[] smartStorageBlobs;
 	CBlob@[] baseBlobs;
+	CBlob@[] backpacks;
 	
 	bool storageEnabled = false;
+	bool hasBackpack = false;
 
 	if (playerBlob !is null)
 	{
+		if (playerBlob.hasScript("Equipment.as"))
+		{
+			if (playerBlob.get_string("equipment2_torso") == "backpack")
+			{
+				CBlob@ backpack = getBlobByNetworkID(playerBlob.get_u16("backpack_id"));
+				if (backpack !is null)
+				{
+					backpacks.push_back(backpack);
+					hasBackpack = true;
+				}
+			}
+		}
+
 		int playerTeam = playerBlob.getTeamNum();
 		
 		if (playerTeam < 7)
@@ -517,8 +555,6 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 					i--;
 				}
 			}
-			
-			
 		}
 	}
 
@@ -547,7 +583,24 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
             	invBlob.TakeBlob(blobName, quantity - hold);
 			}
 
-			if (storageEnabled)
+			if (hasBackpack)
+			{
+				for (u8 i = 0; i < backpacks.length; i++)
+				{
+					CBlob@ backpack = backpacks[i];
+					if (backpack is null) continue;
+
+					CInventory@ binv = backpack.getInventory();
+					if (binv is null) continue;
+					
+					if (taken < quantity) 
+					{
+						taken += Maths::Min(backpack.getBlobCount(blobName), quantity - taken);
+						backpack.TakeBlob(blobName, quantity);
+					}
+				}
+			}
+			else if (storageEnabled)
 			{
 				for (u8 i = 0; i < smartStorageBlobs.length; i++)
 				{
