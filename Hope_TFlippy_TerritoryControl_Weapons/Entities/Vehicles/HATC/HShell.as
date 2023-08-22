@@ -2,8 +2,8 @@
 #include "ShieldCommon.as";
 #include "Explosion.as";
 
-const f32 BLOB_DAMAGE = 20.0f;
-const f32 MAP_DAMAGE = 10.0f;
+const f32 BLOB_DAMAGE = 24.0f;
+const f32 MAP_DAMAGE = 24.0f;
 
 void onInit(CBlob@ this)
 {
@@ -136,12 +136,12 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 	SetScreenFlash(64, 255, 255, 255);
 	
 	// LinearExplosion(this, velocity, 256.00f, 16.0f, 32, 64.0f, Hitters::explosion);
-	
+	bool weak = this.hasTag("weak");
 	for (int i = 0; i < 4; i++)
 	{
 		// Vec2f jitter = Vec2f((XORRandom(200) - 100) / 200.0f, (XORRandom(200) - 100) / 200.0f);
 		// LinearExplosion(this, Vec2f(velocity.x * jitter.x, velocity.y * jitter.y), 64.0f + XORRandom(32), 48.0f, 8, 40.0f, Hitters::explosion);
-		LinearExplosion(this, velocity.RotateBy((50 - XORRandom(100)) * 0.02f), 32.00f + XORRandom(64), 6.0f, 16, 32.0f, Hitters::explosion);
+		LinearExplosion(this, velocity.RotateBy((50 - XORRandom(100)) * 0.02f), (32.00f + XORRandom(64)) * (weak ? 0.5f : 1.0f), 6.0f * (weak ? 0.5f : 1.0f), 16 * (weak ? 0.5f : 1.0f), 32.0f * (weak ? 0.5f : 1.0f), Hitters::explosion);
 	}
 	
 	if (isServer())

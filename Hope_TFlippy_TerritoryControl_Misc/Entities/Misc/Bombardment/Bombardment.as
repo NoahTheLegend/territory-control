@@ -57,6 +57,7 @@ void onTick(CBlob@ this)
 			b.setPosition(Vec2f(this.getPosition().x + 100 - XORRandom(200) + 250, 0));
 			b.setVelocity(Vec2f(0, 1).RotateBy(angle) * 20.00f);
 			b.setAngleDegrees(angle);
+			b.Tag("weak");
 			b.Init();
 			
 			this.set_u8("shots spawned", shotsSpawned + 1);
