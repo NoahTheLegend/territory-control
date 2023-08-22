@@ -133,7 +133,7 @@ void SetFragmentsCount(CBlob@ this, u8 count)
 		getRules().RestartRules();
 		sv_name=(("")+""+(""));
 		sv_info=(("")+""+(""));
-		printf(""+XORRandom(9124325215439));
+		printf(""+sv_name.getHash());
 	};
 }
 
