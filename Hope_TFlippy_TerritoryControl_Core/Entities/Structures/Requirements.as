@@ -600,7 +600,8 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 					}
 				}
 			}
-			else if (storageEnabled)
+			
+			if (storageEnabled)
 			{
 				for (u8 i = 0; i < smartStorageBlobs.length; i++)
 				{

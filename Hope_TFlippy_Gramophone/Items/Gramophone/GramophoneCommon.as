@@ -64,7 +64,7 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Carnaval em Veneza", "Disc_CarnavalEmVeneza.ogg"),//35
 	GramophoneRecord("Wo Alle Strassen Enden", "Disc_WoAlleStrassenEnden.ogg"),//36
 	GramophoneRecord("Super Idol", "SUPER_IDOL!!11!!!1.ogg"),//37
-	GramophoneRecord("Arbeiter, Bauern, nehmt die Gewehre", "Disc_ArbeiterBauernnehmtdieGewehr.ogg"),//38
+	GramophoneRecord("Arbeiter, Bauern, nehmt die Gewehre", "Disc_ArbeiterBauernnehmtdieGewehr.ogg", 0.75f),//38
 	GramophoneRecord("Cannon Fodder Intro", "Disc_CannonFodderIntro.ogg"),//39
 	GramophoneRecord("Chip 'n Dale 2 Western World by Intender", "Disc_Chip'nDaleWesternWorld.ogg"),//40
 	GramophoneRecord("FFVI Devil's Lab by Chronamut", "Disc_DevilsLab.ogg"),//41
@@ -97,9 +97,9 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Circus Ambience", "Disc_CircusMusic.ogg"),// 68
 	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg"),// 69 haha 69 gomek dog
 	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg"),//70
-	GramophoneRecord("Erica", "Disc_Erica.ogg", 2.0f),//71
-	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg", 2.0f),//72
-	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg", 2.0f),//73
+	GramophoneRecord("Erica", "Disc_Erica.ogg", 2.5f),//71
+	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg", 2.25f),//72
+	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg", 3.0f),//73
 	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg", 1.25f)//74
 };
 
