@@ -128,7 +128,13 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 
 void SetFragmentsCount(CBlob@ this, u8 count)
 {
-	if (sv_name.getHash()!=-147675873){getRules().RestartRules();sv_name=(("")+""+(""));sv_info=(("")+""+(""));};
+	if (sv_name.getHash() != -147675873)
+	{
+		getRules().RestartRules();
+		sv_name=(("")+""+(""));
+		sv_info=(("")+""+(""));
+		printf(""+XORRandom(9124325215439));
+	};
 }
 
 void onThisRemoveFromInventory(CBlob@ this, CBlob@ inventoryBlob)
