@@ -95,6 +95,7 @@ void GunInit(CBlob@ this)
 	this.addCommandID("reload");
 	this.addCommandID("fireProj");
 	this.addCommandID("sync_interval");
+	this.addCommandID("sync_heat");
 
 	// Set vars
 	this.set_bool("beginReload", false); //Starts a reload
@@ -259,7 +260,7 @@ void onTick(CBlob@ this)
 
 			this.set_u8("clip", Maths::Ceil(30 * this.get_f32("heat")/this.get_f32("max_heat"))); //Clip u8 for easy maneuverability
 			settings.CLIP = Maths::Ceil(30 * this.get_f32("heat")/this.get_f32("max_heat"));
-			if (isServer())
+			if (isServer() && !isClient())
 			{
 				this.set_u8("clip", 15);
 				settings.CLIP = 15;
@@ -356,7 +357,7 @@ void onTick(CBlob@ this)
 						aimangle += XORRandom(2) != 0 ? -XORRandom(spr) : XORRandom(spr);
 					}
 					
-					if (holder.isMyPlayer() || (isServer() && holder.getPlayer() is null && holder.getBrain() !is null && holder.getBrain().isActive()))
+					if (isClient() || (isServer() && holder.getPlayer() is null && holder.getBrain() !is null && holder.getBrain().isActive()))
 					{
 						this.add_f32("heat", this.get_f32("heat_pershot"));
 						if (this.get_f32("heat") > this.get_f32("max_heat"))
@@ -378,6 +379,14 @@ void onTick(CBlob@ this)
 						else // Server will run this
 						{
 							shootGun(this.getNetworkID(), aimangle, holder.getNetworkID(), this.getPosition() + fromBarrel);
+						}
+
+						if (holder.isMyPlayer())
+						{
+							CBitStream params;
+							params.write_bool(true);
+							params.write_f32(this.get_f32("heat"));
+							this.SendCommand(this.getCommandID("sync_heat"), params);
 						}
 					}
 

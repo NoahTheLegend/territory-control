@@ -3,7 +3,7 @@
 #include "Explosion.as";
 
 const f32 BLOB_DAMAGE = 24.0f;
-const f32 MAP_DAMAGE = 24.0f;
+const f32 MAP_DAMAGE = 16.0f;
 
 void onInit(CBlob@ this)
 {
@@ -141,7 +141,7 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 	{
 		// Vec2f jitter = Vec2f((XORRandom(200) - 100) / 200.0f, (XORRandom(200) - 100) / 200.0f);
 		// LinearExplosion(this, Vec2f(velocity.x * jitter.x, velocity.y * jitter.y), 64.0f + XORRandom(32), 48.0f, 8, 40.0f, Hitters::explosion);
-		LinearExplosion(this, velocity.RotateBy((50 - XORRandom(100)) * 0.02f), (32.00f + XORRandom(64)) * (weak ? 0.5f : 1.0f), 6.0f * (weak ? 0.5f : 1.0f), 16 * (weak ? 0.5f : 1.0f), 32.0f * (weak ? 0.5f : 1.0f), Hitters::explosion);
+		LinearExplosion(this, velocity.RotateBy((50 - XORRandom(100)) * 0.02f), (24.00f + XORRandom(24)) * (weak ? 0.75f : 1.0f), 2.0f * (weak ? 0.5f : 1.0f), 4 * (weak ? 0.5f : 1.0f), 32.0f * (weak ? 0.5f : 1.0f), Hitters::explosion);
 	}
 	
 	if (isServer())

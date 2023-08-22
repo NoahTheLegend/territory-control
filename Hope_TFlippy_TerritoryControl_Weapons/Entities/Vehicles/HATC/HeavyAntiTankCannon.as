@@ -21,7 +21,7 @@ void onInit(CBlob@ this)
 		return;
 	}
 	Vehicle_SetupWeapon(this, v,
-	                    90, // fire delay (ticks)
+	                    210, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(-6.0f, 2.0f), // fire position offset
 	                    "mat_hatcshell", // bullet ammo config name
