@@ -101,7 +101,8 @@ void onTick(CBlob@ blob)
 		}
 
 		const u8 index = blob.get_u8("emote");
-		if (is_emote(blob, index) && !blob.hasTag("dead") && !blob.isInInventory())
+		//if (is_emote(blob, index) && !blob.hasTag("dead") && !blob.isInInventory())
+		if (is_emote(blob, false, index) && !blob.hasTag("dead") && !blob.isInInventory())
 		{
 			blob.getCurrentScript().tickFrequency = 1;
 			if (emote !is null)

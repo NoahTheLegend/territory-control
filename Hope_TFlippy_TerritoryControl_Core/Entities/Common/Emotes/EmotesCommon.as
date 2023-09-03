@@ -165,7 +165,19 @@ void set_emote(CBlob@ this, u8 emote)
 	// }
 }
 
-bool is_emote(CBlob@ this, u8 emote = 255, bool checkBlank = false)
+void set_emote(CBlob@ this, string token, int time = 0)
+{
+	token = "";
+
+	this.set_string("emote", token);
+	this.set_u32("emotetime", getGameTime() + time);
+	bool client = this.getPlayer() !is null && this.isMyPlayer();
+	this.Sync("emote", !client);
+	this.Sync("emotetime", !client);
+}
+
+//bool is_emote(CBlob@ this, u8 emote = 255, bool checkBlank = false)
+bool is_emote(CBlob@ this, bool checkBlank = false, u8 emote = 255)
 {
 	u8 index = emote;
 	if (index == 255)
