@@ -188,6 +188,17 @@ bool is_emote(CBlob@ this, bool checkBlank = false, u8 emote = 255)
 	return time > getGameTime() && index != Emotes::off && (!checkBlank || (index != Emotes::dots));
 }
 
+bool is_emote(CBlob@ this, u8 emote = 255, bool checkBlank = false)
+{
+	u8 index = emote;
+	if (index == 255)
+		index = this.get_u8("emote");
+
+	u32 time = this.get_u32("emotetime");
+
+	return time > getGameTime() && index != Emotes::off && (!checkBlank || (index != Emotes::dots));
+}
+
 //helper - allow integer entries as well as name entries
 u8 read_emote(ConfigFile@ cfg, string name, u8 default_value)
 {

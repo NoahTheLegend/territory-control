@@ -543,13 +543,7 @@ void onTick(CMovement@ this)
 				force.y -= moveVars.jumpEnd;
 			}
 
-			//if (blob.isOnWall()) {
-			//  force.y *= 1.1f;
-			//}
-
 			force *= moveVars.jumpFactor * moveVars.overallScale * 60.0f;
-
-
 			blob.AddForce(force);
 
 			// sound

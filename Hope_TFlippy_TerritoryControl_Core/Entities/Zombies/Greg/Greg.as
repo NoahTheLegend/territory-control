@@ -14,7 +14,6 @@ void resetTimeout(CBlob@ this)
 u32 getElapsedTime(CBlob@ this)
 {
     return getGameTime() - this.get_u32("timeout");
-
 }
 
 void pickRandTargetPos(CBlob@ this)

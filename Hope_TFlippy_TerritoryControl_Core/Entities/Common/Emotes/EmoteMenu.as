@@ -25,7 +25,7 @@ void onInit(CRules@ rules)
 		return;
 	}
 
-	for (uint i = 0; i < names.length; i += 2)
+	for (uint i = 0; i < names.length-2; i += 2)
 	{
 		IconWheelMenuEntry entry(names[i+1]);
 		entry.visible_name = getTranslatedString(names[i]);
