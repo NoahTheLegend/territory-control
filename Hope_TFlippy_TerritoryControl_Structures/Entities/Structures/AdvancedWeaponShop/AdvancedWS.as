@@ -186,9 +186,9 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Bazooka", "$icon_bazooka$", "bazooka", "A long tube capable of shooting rockets. Make sure nobody is standing behind it.\n\nUses Small Rockets.");
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 5);
-		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 2);
-		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 16);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
 		s.customButton = true;
 		s.buttonwidth = 2;

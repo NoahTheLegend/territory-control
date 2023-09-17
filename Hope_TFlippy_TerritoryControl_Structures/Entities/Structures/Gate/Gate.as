@@ -41,7 +41,7 @@ void onInit(CBlob@ this)
 
 	this.addCommandID("set_state");
 	this.addCommandID("sync_state");
-	server_Sync(this);
+	//server_Sync(this);
 }
 
 void server_Sync(CBlob@ this)

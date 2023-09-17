@@ -237,6 +237,20 @@ bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 
 void onDie(CBlob@ this)
 {
+	CInventory@ inv = this.getInventory();
+	if (inv !is null)
+	{
+		for (u8 i = 0; i < inv.getItemsCount(); i++)
+		{
+			CBlob@ b = inv.getItem(i);
+			if (b !is null && b.hasTag("explosive"))
+			{
+				//b.server_PutOutInventory(this);
+				b.Tag("DoExplode");
+				b.server_Die();
+			}
+		}
+	}
 	if (this.getPlayer() !is null)
 	{
 		ResetPlayer(this);
@@ -274,6 +288,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.hasTag("offblast")) return;
+	if (caller.getTeamNum() != this.getTeamNum()) return;
 
 	CPlayer@ ply = caller.getPlayer();
 	if (ply !is null)
@@ -383,4 +398,9 @@ void onRender(CSprite@ this)
 	GUI::DrawRectangle(pos + Vec2f(4, 4), bar + Vec2f(4, 4), SColor(transparency, 59, 20, 6));
 	GUI::DrawRectangle(pos + Vec2f(6, 6), bar + Vec2f(2, 4), SColor(transparency, 148, 27, 27));
 	GUI::DrawRectangle(pos + Vec2f(6, 6), bar + Vec2f(2, 2), SColor(transparency, 183, 51, 51));
+}
+
+bool isInventoryAccessible(CBlob@ this, CBlob@ byBlob)
+{
+	return byBlob.getTeamNum() == this.getTeamNum();
 }
