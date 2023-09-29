@@ -100,8 +100,8 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Erica", "Disc_Erica.ogg", 2.5f),//71
 	GramophoneRecord("Wir Sind Des Geyers Schwarzer Haufen", "Disc_WirSindDesGeyersSchwarzerHaufen.ogg", 2.25f),//72
 	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg", 3.0f),//73
-	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg", 1.25f),
-	GramophoneRecord("A man without love", "Disc_AManWithoutLove.ogg", 1.0f)
+	GramophoneRecord("A man without love", "Disc_AManWithoutLove.ogg"),
+	
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
