@@ -17,10 +17,6 @@ void Reset(CRules@ this)
 	CCamera@ camera = getCamera();
 	if (camera !is null)
 	{
-		CMap@ map = getMap();
-		if (map is null) return;
-
-		camera.setPosition(Vec2f(map.tilemapwidth*4, map.tilemapheight*4));
 		camera.setTarget(null);
 		// start fairly unzoomed, so we have a nice zoom-in effect
 		camera.targetDistance = 0.25f;

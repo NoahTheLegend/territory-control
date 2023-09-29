@@ -19,7 +19,7 @@ void onInit(CBlob@ this)
 	this.Tag("change team on fort capture");
 
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
-	this.set_Vec2f("shop menu size", Vec2f(9, 9));
+	this.set_Vec2f("shop menu size", Vec2f(9, 7));
 	this.set_string("shop description", "Disc Shop");
 	this.set_u8("shop icon", 15);
 
@@ -28,8 +28,9 @@ void onInit(CBlob@ this)
 		GramophoneRecord record = records[i];
 		if (record !is null)
 		{
+			AddIconToken("$musicdisc"+i+"$", "MusicDisc.png", Vec2f(8, 8), i);
 			{
-				ShopItem@ s = addShopItem(this, record.name, "$musicdisc$", i + "", "Buy [" + record.name + "] pirated disc!", true);
+				ShopItem@ s = addShopItem(this, record.name, "$musicdisc"+i+"$", i + "", "Buy [" + record.name + "] pirated disc!", true);
 				AddRequirement(s.requirements, "coin", "", "Coins", 40);
 
 				s.spawnNothing = true;
