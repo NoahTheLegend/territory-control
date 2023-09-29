@@ -72,7 +72,7 @@ void onPlayerChangedTeam(CRules@ this, CPlayer@ player, u8 oldteam, u8 newteam)
 		resetHelpText();
 		spectatorTeam = true;
 		camera.setTarget(null);
-		setCinematicEnabled(true);
+		setCinematicEnabled(false);
 		if (playerBlob !is null)
 		{
 			playerBlob.ClearButtons();
@@ -138,7 +138,7 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 		}
 
 		deathTime = getGameTime() + 1 * getTicksASecond();
-		setCinematicEnabled(true);
+		setCinematicEnabled(false);
 	}
 }
 
@@ -373,7 +373,7 @@ void onTick(CRules@ this)
 		if (cinematicForceDisabled)
 		{
 			SetTargetPlayer(null);
-			setCinematicEnabled(true);
+			setCinematicEnabled(false);
 			setCinematicForceDisabled(false);
 			resetHelpText();
 			Sound::Play("Sounds/GUI/menuclick.ogg");
