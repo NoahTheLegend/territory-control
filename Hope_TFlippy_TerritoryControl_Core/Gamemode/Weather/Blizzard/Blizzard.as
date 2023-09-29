@@ -22,7 +22,7 @@ void onInit(CBlob@ this)
 
 	if (isClient())
 	{
-		Render::addBlobScript(Render::layer_postworld, this, "Blizzard.as", "RenderBlizzard");
+		int id = Render::addBlobScript(Render::layer_postworld, this, "Blizzard.as", "RenderBlizzard");
 		if(!Texture::exists("BLIZZARD")) Texture::createFromFile("BLIZZARD", "blizzard.png");
 		if(!Texture::exists("FOG")) Texture::createFromFile("FOG", "pixel.png");
 	}
