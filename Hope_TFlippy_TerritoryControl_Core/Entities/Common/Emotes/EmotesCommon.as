@@ -120,6 +120,11 @@ namespace Emotes
 	};
 }
 
+void set_emote(CBlob@ this, u8 emote)
+{	
+	set_emote(this, emote, 90);
+}
+
 void set_emote(CBlob@ this, u8 emote, int time)
 {
 	if (!this.hasCommandID("emote")) return;
@@ -134,50 +139,9 @@ void set_emote(CBlob@ this, u8 emote, int time)
 	params.write_u32(getGameTime() + time);
 	
 	this.SendCommand(this.getCommandID("emote"), params);
-	
-	// this.set_u8("emote", emote);
-	// this.set_u32("emotetime", getGameTime() + time);
-	// bool client = this.getPlayer() !is null && this.isMyPlayer();
-	// this.Sync("emote", !client);
-	// this.Sync("emotetime", !client);
 }
 
-void set_emote(CBlob@ this, u8 emote)
-{	
-	set_emote(this, emote, 90);
-
-	// if (this.isInInventory())
-	// {
-		// CBlob@ inventoryblob = this.getInventoryBlob();
-		// if (inventoryblob !is null && inventoryblob.getName() == "crate" && inventoryblob.exists("emote"))
-		// {
-			// CBitStream params;
-			// params.write_u8(emote);
-			// params.write_u32(getGameTime() + 90);
-			// inventoryblob.SendCommand(inventoryblob.getCommandID("emote"), params);
-			
-			// this.SendCommand(this.getCommandID("emote"), params);
-		// }
-	// }
-	// else
-	// {
-		// set_emote(this, emote, 90);
-	// }
-}
-
-void set_emote(CBlob@ this, string token, int time = 0)
-{
-	token = "";
-
-	this.set_string("emote", token);
-	this.set_u32("emotetime", getGameTime() + time);
-	bool client = this.getPlayer() !is null && this.isMyPlayer();
-	this.Sync("emote", !client);
-	this.Sync("emotetime", !client);
-}
-
-//bool is_emote(CBlob@ this, u8 emote = 255, bool checkBlank = false)
-bool is_emote(CBlob@ this, bool checkBlank = false, u8 emote = 255)
+bool is_emote(CBlob@ this, u8 emote = 255, bool checkBlank = false)
 {
 	u8 index = emote;
 	if (index == 255)
@@ -188,7 +152,7 @@ bool is_emote(CBlob@ this, bool checkBlank = false, u8 emote = 255)
 	return time > getGameTime() && index != Emotes::off && (!checkBlank || (index != Emotes::dots));
 }
 
-bool is_emote(CBlob@ this, u8 emote = 255, bool checkBlank = false)
+bool is_emote(CBlob@ this, bool checkBlank = false, u8 emote = 255)
 {
 	u8 index = emote;
 	if (index == 255)
