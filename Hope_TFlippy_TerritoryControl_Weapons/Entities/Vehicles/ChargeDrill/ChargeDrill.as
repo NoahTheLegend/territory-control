@@ -239,7 +239,7 @@ void onTick(CBlob@ this)
 							bool hitsomething = false;
 							bool hitblob = false;
 
-							if (map.getHitInfosFromArc(this.getPosition() + fromPos + attackVel, -attackVel.Angle() - (faceleft ? -2.0f : 2.0f), 38, distance, this, true, @hitInfos))
+							if (map.getHitInfosFromArc(this.getPosition() + fromPos + attackVel, -attackVel.Angle() - (faceleft ? -2.0f : 2.0f), 42, distance, this, true, @hitInfos))
 							{
 								bool hit_ground = false;
 								for (uint i = 0; i < hitInfos.length; i++)
