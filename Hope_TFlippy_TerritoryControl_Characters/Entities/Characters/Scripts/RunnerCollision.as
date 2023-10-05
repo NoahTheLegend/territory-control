@@ -23,7 +23,7 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 			return false;
 		}
 
-		if (blob.hasTag("gate"))
+		if (blob.hasTag("woodengate"))
 		{
 			return blob.isCollidable() || blob.getShape().getConsts().collidable;
 		}

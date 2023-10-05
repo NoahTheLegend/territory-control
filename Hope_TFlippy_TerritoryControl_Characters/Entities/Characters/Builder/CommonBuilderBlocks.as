@@ -885,7 +885,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[3].push_back(b);
 	}
 	{
-		BuildBlock b(0, "gate", "$icon_gate$", "Wooden Gate:\n\nHeavy door.\n\nCan be only opened from inside.");
+		BuildBlock b(0, "woodengate", "$icon_gate$", "Wooden Gate:\n\nHeavy door.\n\nCan be only opened from inside.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 750);
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
