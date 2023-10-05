@@ -38,8 +38,7 @@ void onInit(CBlob@ this)
 	{
 		sprite.SetZ(-100.0f);
 		sprite.SetAnimation("open");
-		this.getShape().getConsts().collidable = false;
-		this.getCurrentScript().tickFrequency = 3;
+		this.getShape().getConsts().collidable = true;
 	}
 	this.addCommandID("set_state");
 	this.addCommandID("sync_state");
@@ -110,7 +109,7 @@ void setOpen(CBlob@ this, bool open)
 	{
 		sprite.SetZ(-100.0f);
 		sprite.SetAnimation("open");
-		this.getShape().getConsts().collidable = false;
+		this.getShape().getConsts().collidable = true;
 		this.getSprite().PlaySound("/DoorOpen.ogg", 1.00f, 1.00f);
 		// this.getSprite().PlaySound("/Blastdoor_Open.ogg", 1.00f, 1.00f);
 	}
@@ -235,5 +234,6 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
+	return true;
 	return !isOpen(this);
 }
