@@ -1,134 +1,118 @@
 #include "CustomBlocks.as";
+#include "Requirements.as";
+#include "ShopCommon.as";
+#include "Costs.as";
+#include "GenericButtonCommon.as";
+#include "ShopCommon.as";
+
+// please dont look at this code i beg you
+// will rewrite it eventually
+// this was one of my first modding projects
 
 void onInit(CBlob@ this)
 {
-    this.addCommandID("sync_command");
-    this.addCommandID("sync_state");
     this.addCommandID("set_dest");
+    this.addCommandID("sync_state");
+    this.addCommandID("init_sync_state");
     this.addCommandID("add_materials");
     this.addCommandID("construct");
     this.addCommandID("create_rocket");
     this.addCommandID("set_max_time");
+    this.addCommandID("shop made item");
+    this.addCommandID("shop menu");
+    this.addCommandID("shop buy");
+
+    this.Tag("infinite_radius");
+    this.set_u8("frameindex", 0);
+    this.set_u32("time_to_arrival", 0);
+    if (isClient()) InitSyncState(this);
+
+    // SHOP
+	this.set_Vec2f("shop offset", Vec2f(0, 32));
+	this.set_Vec2f("shop menu size", Vec2f(2, 2));
+	this.set_string("shop description", "Construct module");
+	this.set_u8("shop icon", 11);
+    this.Tag(SHOP_AUTOCLOSE);
 
     this.set_TileType("background tile", CMap::tile_biron);
 
-    //CMap@ map = this.getMap();
-    //if (map !is null && isServer())
-    //{   
-    //    for (u8 i = 0; i < 6; i++)
-    //    {
-    //        for (u8 j = 0; j < 3; j++)
-    //        {
-    //            map.server_SetTile(this.getPosition()+Vec2f(-8, i*8), CMap::tile_biron);
-    //        }
-    //    }
-    //}
-
-    this.set_string("destination", "asteroid");
-
-    this.inventoryButtonPos = Vec2f(-16, 32);
+    this.inventoryButtonPos = Vec2f(-24, 86);
 
     this.Tag("builder always hit");
-    this.Tag("update");
+    this.set_bool("update", true);
     this.Tag("launchpad");
-    
-    if (!this.exists("frameindex"))
-    {
-        this.set_u8("frameindex", 0);
-    }
-    else SyncState(this);
-
-    if (!this.exists("time_to_arrival"))
-    {
-        this.set_u32("time_to_arrival", 0);
-    }
-    else SyncState(this);
 
     this.SetLightColor(SColor(255,255,255,255));
-    this.SetLightRadius(128.0f);
+    this.SetLightRadius(164.0f);
     this.SetLight(true);
 
+    this.set_u32("max_time", 0);
+    this.set_u8("screenframe", 0);
+
     AddIconToken("$icon_construct$", "InteractionIcons.png", Vec2f(32, 32), 15);
-}
-
-void onInit(CSprite@ this)
-{
-    this.SetRelativeZ(-15);
-
-    Animation@ anim = this.addAnimation("construct", 0, false);
-    if (anim !is null)
-    {
-        int[] frames = {0,1,2,3};
-        anim.AddFrames(frames);
-        this.SetAnimation(anim);
-    }
-
-    this.SetEmitSound("Mystical_EnergySwordHumLoop5.ogg");
-    this.SetEmitSoundVolume(1.0f);
-    this.SetEmitSoundSpeed(0.35f);
-    this.SetEmitSoundPaused(true);
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	if (this.getDistanceTo(caller) > 96.0f) return;
+    	this.set_Vec2f("shop offset", Vec2f(0, 32));
+
+	this.set_bool("shop available", this.get_u8("frameindex") < 3);
+
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
 
-	if (this.get_u8("frameindex") == 3)
+	if (this.get_u8("frameindex") >= 3)
 	{
 		CButton@ button = caller.CreateGenericButton(17, Vec2f(0, 16), this, this.getCommandID("create_rocket"), "Finish", params);
 	}
-} 
+}
 
 const string[] reqtrusters = { //0
-    "mat_ironingot",
-    "mat_steelingot",
-    "mat_fuel",
-    "mat_copperwire",
-    "mat_carbon",
-    "mat_titaniumingot",
-    "lighter"
+    "mat_ironingot-100",
+    "mat_steelingot-50",
+    "mat_fuel-100",
+    "mat_copperwire-100",
+    "mat_carbon-100",
+    "mat_titaniumingot-75"
 };
 
 const string[] reqhull = { //1
-    "mat_ironingot",
-    "mat_steelingot",
-    "mat_copperingot",
-    "mat_copperwire",
-    "mat_carbon",
-    "mat_titaniumingot"
+    "mat_ironingot-250",
+    "mat_steelingot-100",
+    "mat_copperingot-75",
+    "mat_carbon-200",
+    "mat_titaniumingot-100"
 };
 
 const string[] reqhead = { //2
-    "mat_ironingot",
-    "mat_goldingot",
-    "mat_copperwire",
-    "mat_carbon",
-    "mat_titaniumingot"
+    "mat_ironingot-100",
+    "mat_steelingot-100",
+    "mat_goldingot-50",
+    "mat_copperingot-150",
+    "mat_carbon-150"
 };
 
-void SyncCommand(CBlob@ this, string name, u16 value)
+string uppercaseFirstLetter(string &in str)
 {
-    if (isServer())
-    {
-        CBitStream params;
-        params.write_string(name);
-        params.write_u16(value);
-        this.SendCommand(this.getCommandID("sync_command"), params);
-    }
+    str[0] = str.toUpper()[0];
+    return str;
+}
+
+void onTick(CSprite@ this)
+{
+    CBlob@ blob = this.getBlob();
+    if (blob is null) return;
+
+    this.SetAnimation("default");
+    this.SetFrameIndex(blob.get_u8("frameindex"));
+    this.animation.frame = blob.get_u8("frameindex");
 }
 
 void onTick(CBlob@ this)
 {
-    CSprite@ sprite = this.getSprite();
-    {
-        if (sprite !is null)
-        {
-            sprite.SetFrameIndex(this.get_u8("frameindex"));
-        }
-    }
-    if (this.get_u8("frameindex") == 3) this.setInventoryName("Ready!");
+    // setup locator anim
+    if (this.get_u8("frameindex") == 3) this.setInventoryName("Ready");
     if (this.hasTag("unsuccess"))
     {
         this.Untag("unsuccess");
@@ -140,6 +124,7 @@ void onTick(CBlob@ this)
         if (this.get_u16("rocketid") != 0 && r !is null && r.getName() == "asteroidharvester") hasrocket = true;
     if (hasrocket || this.get_u32("time_to_arrival") > 0)
     {
+        this.Tag("hasrocket");
         if (this.get_u32("time_to_arrival") >= 1) this.set_u32("time_to_arrival", this.get_u32("time_to_arrival") - 1);
             else this.set_u32("time_to_arrival", 0);
 
@@ -155,20 +140,22 @@ void onTick(CBlob@ this)
             
             u8 minutes = this.get_u16("ETA")/60;
             u8 seconds = this.get_u16("ETA")%60;
-            this.setInventoryName("Destination: "+this.get_string("destination")+"\nETA: "+minutes+"m.");
+            this.setInventoryName("Destination: "+this.get_string("destination")+"\nETA: "+minutes+"m. "+seconds+"s.");
         }
 
         if (this.get_u32("time_to_arrival") > 1 && this.get_u32("time_to_arrival") <= 120)
-        {
+        { // spawn crate
+            string dest = this.get_string("destination");
+
             if (isServer())
             {
                 CBlob@ crate = server_CreateBlobNoInit("steelcrate");
                 crate.server_setTeamNum(this.getTeamNum());
-                crate.setPosition(Vec2f(this.getPosition().x + XORRandom(1592.0f)-746.0f, 0));
+                crate.setPosition(Vec2f(this.getPosition().x + XORRandom(1080.0f)-512.0f, 0));
 
                 crate.Tag("parachute");
-                crate.Tag("asteroid"); // some shit mp desync avoiding
-                crate.set_string("destination", "asteroid");
+                crate.Tag(dest); // some shit mp desync avoiding
+                crate.set_string("destination", dest);
                 crate.Init();
             }
 
@@ -178,184 +165,88 @@ void onTick(CBlob@ this)
 
         return;
     }
+    else this.Untag("hasrocket");
 
-    //if (this.get_u32("elec") <= 2500) return;
     //update level
+    //if (this.get_u32("elec") <= 5000) return; 
     u8 frameindex = this.get_u8("frameindex");
     string[] matNames;
-    if (frameindex == 0)
-    {
-        matNames = reqtrusters;
-    }
-    else if (frameindex == 1)
-    {
-        matNames = reqhull;
-    }
-    else if (frameindex == 2)
-    {
-        matNames = reqhead;
-    }
 
-    if (this.hasTag("update"))
+    if (frameindex == 0)
+        matNames = reqtrusters;
+    else if (frameindex == 1)
+        matNames = reqhull;
+    else
+        matNames = reqhead;
+
+    string matsneeded;
+
+    if (this.get_bool("update") && frameindex < 3)
     {
-        if (isServer())
+        u8 idx = this.get_u8("frameindex")+1;
+        string desc = "Construct "+idx+(idx==1?"st":idx==2?"nd":idx==3?"rd":"th")+" module!";
+        
+        for (u8 i = 0; i < matNames.length; i++)
         {
-            if (frameindex == 0)
+            string[] spl = matNames[i].split("-");
+
+            string name;
+            int cost;
+            if (spl.length < 2)
             {
-                //set requirements here
-                this.set_u16("mat_ironingot", 75);
-                this.set_u16("mat_steelingot", 20);
-                this.set_u16("mat_fuel", 150);
-                this.set_u16("mat_copperwire", 150);
-                this.set_u16("mat_carbon", 150);
-                this.set_u16("mat_titaniumingot", 75);
-                this.set_u16("lighter", 2);
-            }
-            else if (frameindex == 1)
-            {
-                if (this.getSprite() !is null) this.getSprite().SetEmitSoundPaused(false);
-                this.set_u16("mat_ironingot", 200);
-                this.set_u16("mat_steelingot", 75);
-                this.set_u16("mat_copperingot", 100);
-                this.set_u16("mat_copperwire", 150);
-                this.set_u16("mat_carbon", 400);
-                this.set_u16("mat_titaniumingot", 100);
+                if (spl.length < 1) continue;
+                cost = 1;
             }
             else
             {
-                this.set_u16("mat_ironingot", 100);
-                this.set_u16("mat_goldingot", 50);
-                this.set_u16("mat_copperwire", 50);
-                this.set_u16("mat_carbon", 200);
-                this.set_u16("mat_titaniumingot", 50);
+                name = spl[0];
+                cost = parseInt(spl[1]);
             }
 
-            for (u8 i = 0; i < matNames.length; i++)
+            string pure_name = "";
+            string[] spl_name = name.split("_");
+            if (spl_name.length == 1)
             {
-                SyncCommand(this, matNames[i], this.get_u16(matNames[i]));
+                pure_name = spl_name[0];
             }
-            
-            this.Untag("update");
-        }
-    }
-    //if this lags server more, optimize by putting into end of getGameTime()%30==0 condition!
-    string matsneeded;
+            else
+                pure_name = spl_name[1];
 
-    if (frameindex == 0)
-    {
-        matsneeded = "Materials left:\nIron ingots - "+this.get_u16("mat_ironingot")+"\nSteel ingots - "+this.get_u16("mat_steelingot")+"\nFuel - "+this.get_u16("mat_fuel")+"\nCopper wires - "+this.get_u16("mat_copperwire")+"\nCarbon - "+this.get_u16("mat_carbon")+"\nTitanium ingots - "+this.get_u16("mat_titaniumingot")+"\nLighters - "+this.get_u16("lighter");
+
+            int separator = pure_name.find("ingot");
+            if (separator == -1) pure_name.find("wire");
+            if (separator != -1)
+            {
+                pure_name = pure_name.substr(0, separator)+" "+pure_name.substr(separator);
+            }
+
+            this.set_Vec2f("shop menu size", Vec2f(2, 2));
+		    ShopItem@ s = addShopItem(this, "Module", "$badgerplushie$", "construct", desc, false);
+		    AddRequirement(s.requirements, "blob", name, pure_name, cost);
+            s.spawnNothing = true;
+            s.customButton = true;
+            s.buttonwidth = 2;
+            s.buttonheight = 2;
+
+            matsneeded = matsneeded + (i!=0?"\n":"") + pure_name+": "+cost;
+        }
+
+        this.set_bool("update", false);
     }
-    else if (frameindex == 1)
-    {
-        matsneeded = "Materials left:\nIron ingots - "+this.get_u16("mat_ironingot")+"\nSteel ingots - "+this.get_u16("mat_steelingot")+"\nCopper ingots - "+this.get_u16("mat_copperingot")+"\nCopper wires - "+this.get_u16("mat_copperwire")+"\nCarbon - "+this.get_u16("mat_carbon")+"\nTitanium ingots - "+this.get_u16("mat_titaniumingot");
-    }
-    else if (frameindex == 2)
-    {
-        matsneeded = "Materials left:\nIron ingots - "+this.get_u16("mat_ironingot")+"\nGold ingots - "+this.get_u16("mat_goldingot")+"\nCopper wires - "+this.get_u16("mat_copperwire")+"\nCarbon - "+this.get_u16("mat_carbon")+"\nTitanium ingots - "+this.get_u16("mat_titaniumingot");
-    }
+    else if (frameindex >= 3)
+        matsneeded = "Ready!";
 
     this.setInventoryName(matsneeded);
-
-    if (getGameTime()%30==0 && isServer())
-    {
-        string matsneeded;
-
-        //update inventory
-        CInventory@ inv = this.getInventory();
-        if (inv !is null)
-        {
-            for (u16 i = 0; i < inv.getItemsCount(); i++)
-            {
-                CBlob@ item = inv.getItem(i);
-                if (item is null) continue;
-                
-                string invname = item.getName();
-                u16 quantity = item.getQuantity();
-                u16 count = this.get_u16(invname);
-
-                for (u8 i = 0; i < matNames.length; i++)
-                {
-                    if (invname != matNames[i]) continue;
-
-                    if (count < quantity)
-                    {
-                        item.server_SetQuantity(quantity-count);
-                        this.set_u16(invname, 0);
-                    }
-                    else
-                    {
-                        this.set_u16(invname, count - quantity);
-                        item.Tag("dead");
-                        item.server_Die();
-                    }
-                    if (quantity == 0) item.server_Die();
-
-                    //printf(invname+" materials left: "+count);
-                }
-            }
-        }
-
-        //check for finishing the goal
-        bool upgrade = true;
-        for (u8 i = 0; i < matNames.length; i++)
-        {
-            if (this.get_u16(matNames[i]) > 0)
-                upgrade = false;
-        }
-        if (upgrade && this.get_u8("frameindex") < 3)
-        {
-            this.add_u8("frameindex", 1);
-            this.Sync("frameindex", true);
-            this.Tag("update");
-            //this.add_u32("elec", -2500);
-            //this.Sync("elec", true);
-            //printf(""+this.get_u8("frameindex"));
-        }
-
-        for (u8 i = 0; i < matNames.length; i++)
-        {
-            SyncCommand(this, matNames[i], this.get_u16(matNames[i]));
-        }
-    }
-}
-
-void onCollision(CBlob@ this, CBlob@ blob, bool solid)
-{
-	if (blob is null) return;
-	
-	if (!blob.isAttached() && !blob.isInInventory() && blob.hasTag("material"))
-	{
-		string config = blob.getName();
-        string[] matNames;
-        u8 frameindex = this.get_u8("frameindex");
-
-        if (frameindex == 0)
-        {
-            matNames = reqtrusters;
-        }
-        else if (frameindex == 1)
-        {
-            matNames = reqhull;
-        }
-        else if (frameindex == 2)
-        {
-            matNames = reqhead;
-        }
-
-		for (u16 i = 0; i < matNames.length; i++)
-		{
-			if (config == matNames[i])
-			{
-				if (isServer()) this.server_PutInInventory(blob);
-				if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
-			}
-		}
-	}
 }
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
-	return ((this.getTeamNum() > 100 ? true : forBlob.getTeamNum() == this.getTeamNum()) && forBlob.isOverlapping(this));
+	return false;
+}
+
+void InitSyncState(CBlob@ this)
+{
+    this.SendCommand(this.getCommandID("init_sync_state"));
 }
 
 void SyncState(CBlob@ this)
@@ -364,14 +255,65 @@ void SyncState(CBlob@ this)
     {
         CBitStream params;
         params.write_u8(this.get_u8("frameindex"));
-        params.write_u16(this.get_u32("time_to_arrival"));
+        params.write_bool(this.get_bool("update"));
+        params.write_u32(this.get_u32("time_to_arrival"));
         this.SendCommand(this.getCommandID("sync_state"), params);
     }
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-    if (cmd == this.getCommandID("set_dest"))
+    if (cmd == this.getCommandID("init_sync_state"))
+    {
+        if (isServer())
+        {
+            SyncState(this);
+        }
+    }
+    else if (cmd == this.getCommandID("sync_state"))
+	{
+        if (isClient())
+        {
+            u8 frameindex;
+            bool update;
+            u32 timeto;
+
+            if (!params.saferead_u8(frameindex)) return;
+            this.set_u8("frameindex", frameindex);
+            if (!params.saferead_bool(update)) return;
+            this.set_bool("update", update);
+            if (!params.saferead_u32(timeto)) return;
+            this.set_u32("time_to_arrival", timeto);
+        }
+    }
+    else if (cmd == this.getCommandID("shop made item"))
+	{
+		this.getSprite().PlaySound("/Construct.ogg");
+
+		u16 caller, item;
+		if(!params.saferead_netid(caller) || !params.saferead_netid(item))
+			return;
+
+		string name = params.read_string();
+		CBlob@ callerBlob = getBlobByNetworkID(caller);
+
+		if (callerBlob is null) return;
+
+        if (!isServer()) return;
+        if (name == "construct")
+        {
+            this.set_u8("frameindex", this.get_u8("frameindex")+1);
+            this.set_bool("update", true);
+            this.Sync("frameindex", true);
+            this.Sync("update", true);
+
+            ShopItem[] items;
+		    this.set("shop array", items);
+        }
+
+        SyncState(this);
+	}  
+    else if (cmd == this.getCommandID("set_dest"))
     {
         string dest = params.read_string();
         this.set_string("destination", dest);
@@ -380,33 +322,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
     {
         u32 t = params.read_u32();
         this.set_u32("max_time", t);
-    }
-    else if (cmd == this.getCommandID("sync_command"))
-	{
-        if (isClient())
-        {
-            string name;
-            u16 value;
-            if (!params.saferead_string(name)) return;
-            if (!params.saferead_u16(value)) return;
-
-            this.set_u16(name, value);
-        }
-    }
-	else if (cmd == this.getCommandID("sync_state"))
-	{
-        if (isClient())
-        {
-            u8 frameindex;
-            u32 timeto;
-
-            if (!params.saferead_u8(frameindex)) return;
-            if (!params.saferead_u32(timeto)) return;
-
-            this.set_u8("frameindex", frameindex);
-            this.set_u32("time_to_arrival", timeto);
-
-        }
     }
     else if (cmd == this.getCommandID("create_rocket"))
     {
@@ -420,10 +335,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
             this.Sync("rocketid", true);
         }
     
-        if (this.getSprite() !is null)  this.getSprite().SetEmitSoundPaused(true);
         this.set_u8("frameindex", 0);
         this.Tag("made");
-        this.Tag("update");
+        this.set_bool("update", true);
     }
 }
 
@@ -432,5 +346,6 @@ void onRocketReturn(CBlob@ this)
     this.Untag("made");
     this.set_u16("ETA", 0);
     this.set_u32("time_to_arrival", 0);
-    this.Tag("update");
+    this.set_u32("max_time", 0);
+    this.set_bool("update", true);
 }

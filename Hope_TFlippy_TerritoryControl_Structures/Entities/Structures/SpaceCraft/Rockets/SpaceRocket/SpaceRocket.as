@@ -1,5 +1,6 @@
 #include "Hitters.as";
 #include "Explosion.as";
+#include "SpaceRocketAnim.as";
 
 const u32 fly_timer_max = 30 * 60;
 
@@ -34,75 +35,6 @@ void onInit(CBlob@ this)
 	AddIconToken("$icon_exoplanet$", "IconExoplanet.png", Vec2f(16, 16), 0);
 }
 
-void onInit(CSprite@ this)
-{
-	this.SetEmitSound("Mystical_EnergySwordHumLoop5.ogg");
-    this.SetEmitSoundVolume(1.0f);
-    this.SetEmitSoundSpeed(0.25f);
-    this.SetEmitSoundPaused(false);
-
-	CSpriteLayer@ f = this.addSpriteLayer("turbinefire", "Effect_Fire", 40, 16);
-	if (f !is null)
-	{
-		Animation@ fanim = f.addAnimation("fsize", 3, true);
-		if (fanim !is null)
-		{
-			int[] frames = {0,1,2};
-			fanim.AddFrames(frames);
-			f.SetAnimation(fanim);
-		}
-		f.RotateByDegrees(-90.0f, Vec2f(0,0));
-		f.SetOffset(Vec2f(-8, 106));
-		f.ScaleBy(Vec2f(0.75,0.75));
-		f.SetVisible(false);
-	}
-	CSpriteLayer@ f1 = this.addSpriteLayer("turbinefire1", "Effect_Fire", 40, 16);
-	if (f1 !is null)
-	{
-		Animation@ fanim = f1.addAnimation("fsize1", 3, true);
-		if (fanim !is null)
-		{
-			int[] frames = {0,1,2};
-			fanim.AddFrames(frames);
-			f1.SetAnimation(fanim);
-		}
-		f1.RotateByDegrees(-90.0f, Vec2f(0,0));
-		f1.SetOffset(Vec2f(8, 106));
-		f1.ScaleBy(Vec2f(0.75,0.75));
-		f1.SetVisible(false);
-	}
-	CSpriteLayer@ f2 = this.addSpriteLayer("turbinefire2", "Effect_Fire", 40, 16);
-	if (f2 !is null)
-	{
-		Animation@ fanim = f2.addAnimation("fsize2", 3, true);
-		if (fanim !is null)
-		{
-			int[] frames = {0,1,2};
-			fanim.AddFrames(frames);
-			f2.SetAnimation(fanim);
-		}
-		f2.RotateByDegrees(-90.0f, Vec2f(0,0));
-		f2.SetOffset(Vec2f(22, 102));
-		f2.ScaleBy(Vec2f(0.6,0.6));
-		f2.SetVisible(false);
-	}
-	CSpriteLayer@ f3 = this.addSpriteLayer("turbinefire3", "Effect_Fire", 40, 16);
-	if (f3 !is null)
-	{
-		Animation@ fanim = f3.addAnimation("fsize3", 3, true);
-		if (fanim !is null)
-		{
-			int[] frames = {0,1,2};
-			fanim.AddFrames(frames);
-			f3.SetAnimation(fanim);
-		}
-		f3.RotateByDegrees(-90.0f, Vec2f(0,0));
-		f3.SetOffset(Vec2f(-22, 102));
-		f3.ScaleBy(Vec2f(0.6,0.6));
-		f3.SetVisible(false);
-	}
-}
-
 void onTick(CBlob@ this)
 {
 	if (this.hasTag("offblast") && this.get_u32("preptimer") < getGameTime())
@@ -115,6 +47,7 @@ void onTick(CBlob@ this)
 
 			this.setVelocity(Vec2f(XORRandom(10) < 5 ? 0.25f : -0.25f, -this.get_f32("velocity")));
 			MakeParticle(this, Vec2f(0,0.5+XORRandom(10)/10), XORRandom(100) < 25 ? ("RocketFire" + (1 + XORRandom(2))) : "SmallExplosion" + (1 + XORRandom(3)));
+			Ignite(this);
 		}
 		else
 		{
@@ -122,62 +55,6 @@ void onTick(CBlob@ this)
             this.server_Die();
 		}
 	}
-    if (isClient() && this.get_u32("preptimer") == getGameTime())
-	{
-		CSprite@ sprite = this.getSprite();
-		if (sprite is null) return;
-
-		CSpriteLayer@ fire = sprite.getSpriteLayer("turbinefire");
-		if (fire !is null)
-		{
-			fire.SetVisible(true);
-			fire.SetAnimation("fsize");
-		}
-		CSpriteLayer@ fire1 = sprite.getSpriteLayer("turbinefire1");
-		if (fire !is null)
-		{
-			fire1.SetVisible(true);
-			fire1.SetAnimation("fsize");
-		}
-		CSpriteLayer@ fire2 = sprite.getSpriteLayer("turbinefire2");
-		if (fire !is null)
-		{
-			fire2.SetVisible(true);
-			fire2.SetAnimation("fsize");
-		}
-		CSpriteLayer@ fire3 = sprite.getSpriteLayer("turbinefire3");
-		if (fire !is null)
-		{
-			fire3.SetVisible(true);
-			fire3.SetAnimation("fsize");
-		}
-		sprite.SetEmitSound("Rocket_Idle.ogg");
-		sprite.SetEmitSoundSpeed(1.3f);
-        sprite.SetEmitSoundVolume(2.0f);
-		sprite.SetEmitSoundPaused(false);
-
-		this.SetLight(true);
-		this.SetLightRadius(256.0f);
-		this.SetLightColor(SColor(255, 255, 100, 0));
-	}
-}
-
-void MakeParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSteam")
-{
-	Vec2f offset = Vec2f(XORRandom(49)-24, 100+XORRandom(16));
-	CMap@ map = getMap(); // fire things up if standing under
-	if (isServer() && map !is null)
-	{
-		for (u8 i = 0; i < 10; i++)
-		{
-			map.server_setFireWorldspace(this.getPosition()+offset+Vec2f(XORRandom(24)-12, XORRandom(32)-16), true);
-		}
-	}
-	if (!isClient()) return;
-    for (u8 i = 0; i < 10; i++)
-    {
-	    ParticleAnimated(filename, this.getPosition() + offset, Vec2f(0, 0.5+XORRandom(10)/10), float(XORRandom(360)), 1.5f, 2 + XORRandom(3), 0.25f, false);
-    }
 }
 
 void onDie(CBlob@ this)
@@ -362,4 +239,17 @@ bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 {
 	return false;
+}
+
+void Ignite(CBlob@ this)
+{
+	Vec2f offset = Vec2f(XORRandom(49)-24, 100+XORRandom(16));
+	CMap@ map = getMap(); // fire things up if standing under
+	if (isServer() && map !is null)
+	{
+		for (u8 i = 0; i < 10; i++)
+		{
+			map.server_setFireWorldspace(this.getPosition()+offset+Vec2f(XORRandom(24)-12, XORRandom(32)-16), true);
+		}
+	}
 }

@@ -125,6 +125,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		u16 callerID;
 		if (!params.saferead_u16(callerID))
 			return;
+
 		bool spawnToInventory = params.read_bool();
 		bool spawnInCrate = params.read_bool();
 		bool producing = params.read_bool();
@@ -140,8 +141,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			caller.ClearMenus();
 			return;
 		}
-
-		if (inv !is null && isInRadius(this, caller))
+		if (inv !is null && (isInRadius(this, caller) || this.hasTag("infinite_radius")))
 		{
 			ShopItem[]@ shop_items;
 			if (!this.get(SHOP_ARRAY, @shop_items)) { return; }
