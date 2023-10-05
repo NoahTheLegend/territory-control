@@ -549,9 +549,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		bool init = params.read_bool();
 		u32 tmp;
 		if (!params.saferead_u32(tmp)) return;
-
+		printf("jetv1enter");
 		if (init && isServer())
 		{
+			printf("jetv1init");
 			CBitStream params;
 			params.write_bool(false);
 			params.write_u32(tmp);
@@ -559,6 +560,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		}
 		if (!init && isClient())
 		{
+			printf("amongus why no effects?");
 			//if (!this.isMyPlayer())
 			{
 				this.set_u32("nextJetpack", tmp);
