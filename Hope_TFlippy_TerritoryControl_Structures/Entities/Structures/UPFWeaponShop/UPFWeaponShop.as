@@ -120,6 +120,7 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
 		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 4);
         AddRequirement(s.requirements, "blob", "sar", "UPF SAR-12", 1);
+		AddRequirement(s.requirements, "blob", "illegalgunpart", "Definitely Legal Gun Part", 1);
 
 		s.spawnNothing = true;
     }
@@ -135,6 +136,7 @@ void onInit(CBlob@ this)
         AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
         AddRequirement(s.requirements, "blob", "assaultrifle", "UPF Assault Rifle", 1);
+		AddRequirement(s.requirements, "blob", "illegalgunpart", "Definitely Legal Gun Part", 1);
 		
         s.spawnNothing = true;
     }
@@ -143,9 +145,8 @@ void onInit(CBlob@ this)
 //		AddRequirement(s.requirements, "coin", "", "Coins", 2000);
         AddRequirement(s.requirements, "blob", "xm", "UPF XM8", 1);
 		AddRequirement(s.requirements, "blob", "carbine", "UPF Carbine", 1);
-		AddRequirement(s.requirements, "blob", "illegalgunpart", "Illegal Gun Part", 1);
-        AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 24);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
+        AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 32);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 32);
         
         s.spawnNothing = true;
     }
