@@ -14,11 +14,11 @@ void onInit(CBlob@ this)
 
 	this.getShape().SetRotationsAllowed(false);
 	this.getSprite().getConsts().accurateLighting = true;
-	
+
 	this.Tag("place norotate");
 	this.Tag("door");
 	this.Tag("blocks water");
-	
+
 	CSprite@ sprite = this.getSprite();
 	CSpriteLayer@ lever = sprite.addSpriteLayer("lever", "Gate.png", 16, 16);
 	if (lever !is null)
@@ -39,9 +39,18 @@ void onInit(CBlob@ this)
 		lever.SetFrameIndex(0);
 	}
 
+	bool ss = this.get_bool("state");
+	if (ss)
+	{
+		sprite.SetZ(-100.0f);
+		sprite.SetAnimation("open");
+		this.getShape().getConsts().collidable = false;
+		this.getCurrentScript().tickFrequency = 3;
+	}
+
 	this.addCommandID("set_state");
 	this.addCommandID("sync_state");
-	//server_Sync(this);
+	server_Sync(this);
 }
 
 void server_Sync(CBlob@ this)
@@ -50,7 +59,7 @@ void server_Sync(CBlob@ this)
 	{
 		CBitStream stream;
 		stream.write_bool(this.get_bool("state"));
-		
+
 		this.SendCommand(this.getCommandID("sync_state"), stream);
 	}
 }
@@ -85,7 +94,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (isClient())
 		{
 			bool ss = params.read_bool();
-			
+
 			this.set_bool("state", ss);
 		}
 	}
@@ -94,19 +103,18 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 void onSetStatic(CBlob@ this, const bool isStatic)
 {
 	if (!isStatic) return;
-	
+
 	Vec2f pos = this.getPosition();
 	u32 ang = u32(this.getAngleDegrees() / 90.00f) % 2;
-	
+
 	CMap@ map = this.getMap();
-	this.getShape().getConsts().collidable = true;
 
 	for (int i = 0; i < 5; i++)
 	{
 		if (ang == 0) map.server_SetTile(Vec2f(pos.x, (pos.y - 16) + i * 8), CMap::tile_wood_back);
 		else map.server_SetTile(Vec2f((pos.x - 16) + i * 8, pos.y), CMap::tile_wood_back);
 	}
-	
+
 	this.getSprite().PlaySound("/build_door.ogg");
 }
 
@@ -123,7 +131,7 @@ void setOpen(CBlob@ this, bool open)
 		sprite.SetZ(-100.0f);
 		sprite.SetAnimation("open");
 		this.getShape().getConsts().collidable = false;
-		
+
 		this.getSprite().PlaySound("/DoorOpen.ogg", 1.00f, 1.00f);
 		// this.getSprite().PlaySound("/Blastdoor_Open.ogg", 1.00f, 1.00f);
 	}
@@ -134,7 +142,7 @@ void setOpen(CBlob@ this, bool open)
 		this.getShape().getConsts().collidable = true;
 		Sound::Play("/DoorClose.ogg", this.getPosition(), 1.00f, 0.80f);
 	}
-	
+
 	const uint count = this.getTouchingCount();
 	uint collided = 0;
 	for (uint step = 0; step < count; ++step)
@@ -149,7 +157,6 @@ void setOpen(CBlob@ this, bool open)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
-	if (this.getDistanceTo(caller) > 96.0f) return;
 	CBitStream params;
 	params.write_bool(this.get_bool("state"));
 
@@ -264,6 +271,5 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
-	if (this.getTeamNum() == 44) return true; // test, remove this later;
 	return !isOpen(this);
 }
