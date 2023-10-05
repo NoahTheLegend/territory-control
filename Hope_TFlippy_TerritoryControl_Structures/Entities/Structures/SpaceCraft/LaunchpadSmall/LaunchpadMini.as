@@ -54,8 +54,9 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
-	if (this.getDistanceTo(caller) > 96.0f) return;
-    	this.set_Vec2f("shop offset", Vec2f(0, 32));
+	if (this.getDistanceTo(caller) > 128.0f) return;
+    
+    this.set_Vec2f("shop offset", Vec2f(0, 32));
 
 	this.set_bool("shop available", this.get_u8("frameindex") < 3);
 

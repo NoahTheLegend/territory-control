@@ -23,7 +23,6 @@ void UpdateScript(CBlob@ this)
 	}
 }
 
-
 // bool delay = false;
 
 void onTick(CBlob@ this)

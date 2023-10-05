@@ -18,6 +18,7 @@ void onInit(CBlob@ this)
 	this.Tag("place norotate");
 	this.Tag("door");
 	this.Tag("blocks water");
+	this.Tag("gate");
 	
 	CSprite@ sprite = this.getSprite();
 	CSpriteLayer@ lever = sprite.addSpriteLayer("lever", "Gate.png", 16, 16);
@@ -264,6 +265,5 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
-	if (this.getTeamNum() == 44) return true; // test, remove this later;
 	return !isOpen(this);
 }

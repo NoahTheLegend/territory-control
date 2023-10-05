@@ -23,6 +23,11 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 			return false;
 		}
 
+		if (blob.hasTag("gate"))
+		{
+			return blob.isCollidable() || blob.getShape().getConsts().collidable;
+		}
+
 		if (this.hasTag("no_flesh_collision"))
 		{
 			if (blob.hasTag("flesh") || blob.hasTag("player") || blob.hasTag("combat chicken")) return false;
