@@ -81,9 +81,9 @@ void onTick(CBlob@ this)
 	{
 		//jet v1
 		u32 tmp = this.get_u32("nextJetpack");
-		if ((getGameTime() + 75) < tmp)
+		if (tmp > getGameTime())
 			makeSteamParticle(this, Vec2f(), XORRandom(100) < 30 ? ("SmallFire" + (1 + XORRandom(2))) : "SmallExplosion" + (1 + XORRandom(3)));
-		else if (getGameTime() < tmp)
+		else if (tmp > getGameTime())
 			makeSteamParticle(this, Vec2f(XORRandom(128) - 64, XORRandom(128) - 64) * 0.0015f * this.getRadius(),"SmallSteam",Vec2f(XORRandom(10)-5,XORRandom(10)-5)*0.2*this.getRadius());
 	
 	
@@ -560,7 +560,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		{
 			if (!this.isMyPlayer())
 			{
-				this.set_u32("nextJetpack", tmp);
+				this.set_u32("nextJetpack", getGameTime()+45);
 				Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);
 
 				MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
@@ -574,6 +574,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		bool just_pressed = params.read_bool();
 		CBitStream params;
 		params.write_bool(just_pressed);
+		this.SendCommand("jetpackv2_keypress", params);
 	}
 	else if (cmd == this.getCommandID("jetpackv2_keypress"))
 	{
