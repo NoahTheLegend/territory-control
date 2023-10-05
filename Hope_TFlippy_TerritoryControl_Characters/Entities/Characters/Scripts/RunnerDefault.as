@@ -574,7 +574,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		bool just_pressed = params.read_bool();
 		CBitStream params;
 		params.write_bool(just_pressed);
-		this.SendCommand("jetpackv2_keypress", params);
+		this.SendCommand(this.getCommandID("jetpackv2_keypress"), params);
 	}
 	else if (cmd == this.getCommandID("jetpackv2_keypress"))
 	{
