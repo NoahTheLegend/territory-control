@@ -184,11 +184,8 @@ bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 	return false;
 }
 
-void onTick(CBlob@ blob)
+void onTick(CSprite@ this)
 {
-	CSprite@ this = blob.getSprite();
-	if (this is null) return;
-	
 	if (isClient())
 	{
 		CBlob@ blob = this.getBlob();
