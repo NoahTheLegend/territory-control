@@ -34,7 +34,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 8));
-	this.set_Vec2f("shop menu size", Vec2f(12, 16));
+	this.set_Vec2f("shop menu size", Vec2f(12, 13));
 	this.set_string("shop description", "Buy");
 	this.set_u8("shop icon", 25);
 
@@ -311,7 +311,7 @@ void onInit(CBlob@ this)
 		s.buttonwidth = 4;
 		s.buttonheight = 3;
 	}
-	{
+	/*{
 		ShopItem@ s = addShopItem(this, "Zeppelin", "$icon_zeppelin$", "zepplin", "$icon_zeppelin$\n\n\n\n\n\n\n\n\n\n\n" + "A large zeppelin.\n\nYou can shoot from gatling gun.\nUses gatling ammo on the first inventory slot.", false, false);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 48);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
@@ -322,7 +322,7 @@ void onInit(CBlob@ this)
 		s.customButton = true;
 		s.buttonwidth = 12;
 		s.buttonheight = 3;
-	}
+	}*/
 }
 
 void onChangeTeam(CBlob@ this, const int oldTeam)
