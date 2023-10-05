@@ -300,19 +300,21 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 		if (callerBlob is null) return;
 
-        if (!isServer()) return;
+        
         if (name == "construct")
         {
-            this.set_u8("frameindex", this.get_u8("frameindex")+1);
-            this.set_bool("update", true);
-            this.Sync("frameindex", true);
-            this.Sync("update", true);
+            if (isServer())
+            {
+                this.set_u8("frameindex", this.get_u8("frameindex")+1);
+                this.set_bool("update", true);
+                this.Sync("frameindex", true);
+                this.Sync("update", true);
+                SyncState(this);
+            }
 
             ShopItem[] items;
 		    this.set("shop array", items);
         }
-
-        SyncState(this);
 	}  
     else if (cmd == this.getCommandID("set_dest"))
     {

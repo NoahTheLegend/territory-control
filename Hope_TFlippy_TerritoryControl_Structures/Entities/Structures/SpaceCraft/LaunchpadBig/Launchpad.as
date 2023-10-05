@@ -398,24 +398,27 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 		if (callerBlob is null) return;
 
-        if (!isServer()) return;
         if (name == "construct")
         {
-            this.set_u8("frameindex", this.get_u8("frameindex")+1);
-            this.set_bool("update", true);
-            this.Sync("frameindex", true);
-            this.Sync("update", true);
+            if (isServer())
+            {
+                this.set_u8("frameindex", this.get_u8("frameindex")+1);
+                this.set_bool("update", true);
+                this.Sync("frameindex", true);
+                this.Sync("update", true);
 
+                SyncState(this);
+            }
+            
             ShopItem[] items;
 		    this.set("shop array", items);
         }
-        else
+        else if (isServer())
         {
             this.set_string("module"+(this.get_u8("frameindex")-6), name);
             this.Sync("module"+(this.get_u8("frameindex")-6), true);
+            SyncState(this);
         }
-
-        SyncState(this);
 	}  
     else if (cmd == this.getCommandID("set_dest"))
     {
