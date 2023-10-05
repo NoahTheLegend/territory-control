@@ -354,3 +354,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	}
 }
 
+void onDie(CBlob@ this)
+{
+	if (XORRandom(100) == 0)
+	{
+		server_CreateBlob("illegalgunpart", this.getTeamNum(), this.getPosition());
+	}
+}

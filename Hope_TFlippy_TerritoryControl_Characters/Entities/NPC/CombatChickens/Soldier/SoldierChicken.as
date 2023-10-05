@@ -277,3 +277,11 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 		return this.getTeamNum() != blob.getTeamNum();
 	else return true;
 }
+
+void onDie(CBlob@ this)
+{
+	if (XORRandom(200) == 0)
+	{
+		server_CreateBlob("illegalgunpart", this.getTeamNum(), this.getPosition());
+	}
+}
