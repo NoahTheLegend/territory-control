@@ -66,6 +66,7 @@ void onInit(CBlob@ this)
 	{
 		AssemblerItem i("sniper", 2, "UPF Sniper Rifle (2)");
 		AddRequirement(i.reqs, "blob", "mat_steelingot", "Steel Ingot", 100);
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
 		items.push_back(i);
 	}
 	{
