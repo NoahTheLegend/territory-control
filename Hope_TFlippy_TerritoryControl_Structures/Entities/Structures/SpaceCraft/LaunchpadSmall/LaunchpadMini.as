@@ -57,8 +57,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	if (this.getDistanceTo(caller) > 128.0f) return;
     
     this.set_Vec2f("shop offset", Vec2f(0, 32));
-
-	this.set_bool("shop available", this.get_u8("frameindex") < 3);
+	this.set_bool("shop available", true);
 
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());

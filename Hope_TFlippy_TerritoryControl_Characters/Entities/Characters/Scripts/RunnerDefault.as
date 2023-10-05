@@ -556,7 +556,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			CBitStream params;
 			params.write_bool(false);
 			params.write_u32(tmp);
-			this.SendCommand(this.getCommandID("jetpackv1_effect"));
+			this.SendCommand(this.getCommandID("jetpackv1_effects"));
 		}
 		if (!init && isClient())
 		{

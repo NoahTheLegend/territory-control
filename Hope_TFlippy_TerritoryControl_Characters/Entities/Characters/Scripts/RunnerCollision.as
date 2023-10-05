@@ -25,7 +25,6 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 
 		if (blob.hasTag("gate"))
 		{
-			printf(""+(blob.isCollidable() || blob.getShape().getConsts().collidable));
 			return blob.isCollidable() || blob.getShape().getConsts().collidable;
 		}
 
