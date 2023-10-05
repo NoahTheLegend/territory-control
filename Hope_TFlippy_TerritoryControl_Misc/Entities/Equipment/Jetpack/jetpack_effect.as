@@ -52,6 +52,7 @@ void onTick(CBlob@ this)
 			if (isClient())
 			{
 				CBitStream params;
+				params.write_bool(true);
 				params.write_u32(tmp);
 				this.SendCommand(this.getCommandID("jetpackv1_effects"), params);
 

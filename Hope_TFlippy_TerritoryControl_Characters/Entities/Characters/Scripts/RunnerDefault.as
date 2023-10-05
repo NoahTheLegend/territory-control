@@ -17,6 +17,7 @@ void onInit(CBlob@ this)
 
 	this.addCommandID("jetpackv1_effects");
 	this.addCommandID("jetpackv2_effects");
+	this.addCommandID("jetpackv2_keypress");
 
 	//default player minimap dot - not for migrants
 	if (this.getName() != "migrant")
@@ -545,22 +546,42 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("jetpackv1_effects"))
 	{
-		if (isClient() && !this.isMyPlayer()) // particles are also played in jetpack script, so you don't need to play it with a delay
+		bool init = params.read_bool();
+		u32 tmp;
+		if (!params.saferead_u32(tmp)) return;
+
+		if (init && isServer())
 		{
-			u32 tmp;
-			if (!params.saferead_u32(tmp)) return;
+			CBitStream params;
+			params.write_bool(false);
+			params.write_u32(tmp);
+			this.SendCommand(this.getCommandID("jetpackv1_effect"));
+		}
+		if (!init && isClient())
+		{
+			//if (!this.isMyPlayer())
+			{
+				this.set_u32("nextJetpack", tmp);
+				Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);
 
-			this.set_u32("nextJetpack", tmp);
-			Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);
-
-			MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
-			this.getSprite().PlaySound("/Jetpack_Offblast.ogg");
+				MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
+				this.getSprite().PlaySound("/Jetpack_Offblast.ogg");
+			}
 		}
 	}
 	else if (cmd == this.getCommandID("jetpackv2_effects"))
 	{
+		if (!isServer()) return;
 		bool just_pressed = params.read_bool();
-		if (just_pressed)
+		CBitStream params;
+		params.write_bool(just_pressed);
+	}
+	else if (cmd == this.getCommandID("jetpackv2_keypress"))
+	{
+		if (!isClient()) return;
+		bool press = params.read_bool();
+
+		if (press)
 		{
 			this.Tag("pressed_shift");
 		}
