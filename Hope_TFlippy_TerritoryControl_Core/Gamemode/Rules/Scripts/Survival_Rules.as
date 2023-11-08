@@ -609,6 +609,9 @@ void onInit(CRules@ this)
 	CSecurity@ sec = getSecurity();
 	sec.unBan("TFlippy");
 
+	if (sv_test && isClient() && isServer())
+		LoadMap("small.png");
+
 	// Print out a message to anybody running TC server/localhost
 	if (isServer() && !isClient())
 	{
