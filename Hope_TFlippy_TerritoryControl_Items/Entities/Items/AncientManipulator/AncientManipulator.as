@@ -24,55 +24,55 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Transmute Stone to Copper", "$mat_iron$", "mat_iron-250", "Transmute 250 Stone into 250 Iron Ore.");
 		AddRequirement(s.requirements, "blob", "mat_stone", "Stone", 250);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 15);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 5);
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Transmute Iron to Copper", "$mat_copper$", "mat_copper-250", "Transmute 250 Iron Ore into 250 Copper Ore.");
 		AddRequirement(s.requirements, "blob", "mat_iron", "Iron Ore", 250);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 10);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 5);
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Transmute Gold to Mithril", "$mat_mithril$", "mat_mithril-250", "Transmute 100 Gold Ore into 250 Mithril Ore.");
 		AddRequirement(s.requirements, "blob", "mat_gold", "Gold Ore", 100);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 25);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 10);
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Refine Mithril", "$mat_mithrilingot$", "mat_mithrilingot-2", "Refine 10 Mithril Ore into 2 Mithril Ingots.");
 		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril Ore", 10);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 10);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 2);
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Reconstruct 10 Plasteel Sheets", "$icon_plasteel$", "mat_plasteel-10", "A durable yet lightweight material.");
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 5);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 1);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 2);
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Wilmet", "$mat_wilmet$", "mat_wilmet-25", "Refine 25 Enriched Mithril into 25 wilmet.");
-		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 25);
+		ShopItem@ s = addShopItem(this, "Wilmet", "$mat_wilmet$", "mat_wilmet-25", "Refine 20 Enriched Mithril into 25 wilmet.");
+		AddRequirement(s.requirements, "blob", "mat_mithrilenriched", "Enriched Mithril", 20);
 		s.spawnNothing = true;
 	}
 	{
-	    ShopItem@ s = addShopItem(this, "Life Matter", "$lifematter$", "lifematter", "Transform a live form into matter.");
-		AddRequirement(s.requirements, "blob", "kitten", "Kitten", 1);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
+	    ShopItem@ s = addShopItem(this, "Life Matter", "$lifematter$", "lifematter", "Transform an Organic Material Into Matter.");
+		AddRequirement(s.requirements, "blob", "mat_meat", "Mystery Meat", 60);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 10);
 		s.spawnNothing = true;
     }
 	{
-	    ShopItem@ s = addShopItem(this, "Energy Matter", "$energymatter$", "energymatter", "Transform a live form into energy.");
-		AddRequirement(s.requirements, "blob", "mat_meat", "Mystery Meat", 50);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
+	    ShopItem@ s = addShopItem(this, "Energy Matter", "$energymatter$", "energymatter", "Transform an Energy Into Energy.");
+		AddRequirement(s.requirements, "blob", "mat_battery", "Batteries", 50);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 10);
 		s.spawnNothing = true;
     }
 	{
 	    ShopItem@ s = addShopItem(this, "Pheromones", "$pheromones$", "pheromones", "Mysterious pheromones.");
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 150);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 100);
 		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 2);
 		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 2);
 		s.spawnNothing = true;
@@ -86,7 +86,7 @@ void onInit(CBlob@ this)
 	{
 	    ShopItem@ s = addShopItem(this, "Laser Sniper Rifle", "$lasersniper$", "lasersniper", "A very strong sniper rifle.");
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 20);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 250);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 200);
 		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 1);
 		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 3);
 		s.spawnNothing = true;
@@ -94,7 +94,7 @@ void onInit(CBlob@ this)
 	{
 	    ShopItem@ s = addShopItem(this, "Laser Shotgun", "$lasershotgun$", "lasershotgun", "A short-ranged weapon with high damage and low firerate.");
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 20);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 250);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 200);
 		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 3);
 		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 1);
 		s.spawnNothing = true;
@@ -113,6 +113,14 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 150);
 		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 1);
 		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 2);
+		s.spawnNothing = true;
+    }
+	{
+	    ShopItem@ s = addShopItem(this, "Covfefe", "$covfefe$", "bcovfefe", "Reconst a Nanobot's controller.");
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 35);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 500);
+		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 5);
+		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 10);
 		s.spawnNothing = true;
     }
 }
