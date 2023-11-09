@@ -1,4 +1,4 @@
-// referencing segments code made by GoldenGuy for KIWI mod
+// referencing some code made by GoldenGuy for KIWI mod
 
 #include "Hitters.as";
 #include "HittersTC.as";
@@ -6,9 +6,13 @@
 
 const f32 sharpness_factor = 0.5f; // linear scale narrow, last segment will be 50% less thick
 const u16 whip_length = 20; // how many segments
-const u16 swipe_time = 30; // delay for damage, also anim speed
+const u16 swipe_time = 20; // delay for damage, also anim speed
 const f32 idle_radius = 8.0f; // radius while twisted
-const f32 atk_radius = 2.0f; // factor radius, area increase to swipe per time
+const f32 atk_radius = 2.5f; // modifier to radius \ atk distance
+const f32 swipe_speed = 8.0f; // modifier to swipe time, only affects distance and visuals
+const f32 swipe_accel_in = 4; // acceleration in
+const f32 swipe_accel_out = 2; // acceleration out
+const f32 max_angle = -90; // huge skill issue, set it manually to disrupt animation
 
 void onInit(CBlob@ this)
 {
@@ -49,6 +53,7 @@ class Whip
 
 	u32 start_time;
 	bool was_fl;
+	bool next_idle;
 
     Whip(string tex, Vec2f _offset, float _anim_dist)
     {
@@ -72,11 +77,13 @@ class Whip
         anim_dist = _anim_dist;
 		start_time = 0;
 		was_fl = false;
+		next_idle = false;
     }
 
 	void Idle()
 	{
 		start_time = 0;
+		next_idle = false;
 
 		Segment@[] reset;
 		segments = reset;
@@ -116,41 +123,86 @@ class Whip
 
 	void Update(CBlob@ blob)
 	{
-		if (getGameTime() > start_time + swipe_time)
+		if (next_idle || getGameTime() > start_time + swipe_time)
 		{
 			Idle();
 			return;
 		} 
 		
 		bool fl = blob.isFacingLeft();
+		f32 facing = fl ? -1 : 1;
 		int diff = getGameTime()-start_time;
-		f32 dfc = f32(diff)/f32(swipe_time);
-
-		Vec2f[] points;
-
-		f32 accel = (diff < swipe_time/2 ? 3 : 1);
-		f32 mod = (8-(16*dfc)) * accel;
-
-		for (u8 i = 0; i < whip_length; i++)
+		f32 dfc = f32(diff)/f32(swipe_time); // diff factor from 0 to 1
+		if (isClient())
 		{
-			f32 rot = i * mod;
-			points.push_back(Vec2f(idle_radius+i*(atk_radius*2*(dfc>0.50f?1.0f-dfc:dfc)), 0).RotateBy(facing*rot));
+			Vec2f[] points;
+
+			f32 accel = (diff < swipe_time/2 ? swipe_accel_in : swipe_accel_out);
+			f32 mod = (swipe_speed-(swipe_speed*2*dfc)) * accel;
+			f32 stfc = Maths::Min(1.0f, f32(diff)/(swipe_time/3)); // start factor to deal with shitty visual desegmentation
+
+			for (u8 i = 0; i < whip_length; i++)
+			{
+				f32 rot = i * mod * stfc;
+				points.push_back(Vec2f(idle_radius+i*(atk_radius*2*(dfc>0.5f?1.0f-dfc:dfc)), 0).RotateBy(facing*rot, Vec2f(0,facing * (diff > swipe_time/2 ? swipe_time*2-diff : 0))));
+				if (rot < max_angle) next_idle = true;
+			}
+			verts.set_length(points.size()*4);
+
+        	Vec2f a, b, c, d;
+        	for(int i = 0; i < points.size(); i++)
+        	{
+				points[i].y *= -1;
+        	    Vec2f a = i-1 < 0 ? points[points.size()-1] : points[i-1];
+        	    Vec2f b = points[i];
+        	    Vec2f c = i+1 == points.size() ? points[0] : points[i+1];
+        	    Vec2f d = i+2 >= points.size() ? (i+1 == points.size() ? points[1] : points[0]) : points[i+2];
+
+				f32 seg_rot = i > 0 ? -(points[i-1]-points[i]).Angle() : 0;
+        	    segments[i] = Segment(a,b,c,d,i,seg_rot);
+				@segments[i].sys = @this;
+        	}
 		}
-		verts.set_length(points.size()*4);
 
-        Vec2f a, b, c, d;
-        for(int i = 0; i < points.size(); i++)
-        {
-			points[i].y *= -1;
-            Vec2f a = i-1 < 0 ? points[points.size()-1] : points[i-1];
-            Vec2f b = points[i];
-            Vec2f c = i+1 == points.size() ? points[0] : points[i+1];
-            Vec2f d = i+2 >= points.size() ? (i+1 == points.size() ? points[1] : points[0]) : points[i+2];
+		if (diff == swipe_time/2) // center
+		{
+			u8 team = blob.getTeamNum();
 
-			f32 seg_rot = i > 0 ? -(points[i-1]-points[i]).Angle() : 0;
-            segments[i] = Segment(a,b,c,d,i,seg_rot);
-			@segments[i].sys = @this;
-        }
+			if (blob.getSprite() !is null)
+			{
+				blob.getSprite().PlaySound("whiphit.ogg", 2.0f, 0.9f+XORRandom(21)*0.01f);
+			}
+			
+			HitInfo@[] hitInfos;
+			if (getMap().getHitInfosFromArc(blob.getPosition(), blob.isFacingLeft()?180:0, 45, whip_length*4 - 8.0f * atk_radius, blob, @hitInfos))
+			{
+				for (uint i = 0; i < hitInfos.length; i++)
+				{
+					CBlob@ target = hitInfos[i].blob;
+					if (target !is null && target.hasTag("flesh"))
+					{
+						u8 knock;
+						bool do_damage = true;
+					
+						if (target.getName() == "slave")
+						{
+							knock = 90 + (1.0f - (target.getHealth() / target.getInitialHealth())) * (30 + XORRandom(50)) * 4.0f;
+							do_damage = false;
+							SetKnocked(target, knock);
+						}
+										
+						AttachmentPoint@ point = blob.getAttachments().getAttachmentPointByName("PICKUP");
+						CBlob@ holder = point.getOccupied();
+
+						if (isServer())
+						{
+							if (holder !is null)
+								holder.server_Hit(target, target.getPosition(), Vec2f(), do_damage ? 0.25f : 0.0f, HittersTC::staff, true);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	void Render(CBlob@ this)
@@ -186,7 +238,7 @@ class Whip
 
 void DrawWhip(CBlob@ this, int id)
 {
-	//if (!this.isAttached()) return;
+	if (!this.isAttached()) return;
     Whip@ whip;
     if (this.get("whip", @whip))
     	whip.Render(this);
@@ -259,36 +311,6 @@ void onTick(CBlob@ this)
 			{
 				whip.Idle();
 			}
-
-			/*if (point.isKeyJustPressed(key_action1))
-			{
-				u8 team = holder.getTeamNum();
-				
-				HitInfo@[] hitInfos;
-				if (getMap().getHitInfosFromArc(this.getPosition(), -(holder.getAimPos() - this.getPosition()).Angle(), 45, 16, this, @hitInfos))
-				{
-					for (uint i = 0; i < hitInfos.length; i++)
-					{
-						CBlob@ blob = hitInfos[i].blob;
-						if (blob !is null && blob.hasTag("flesh"))
-						{
-							u8 knock;
-						
-							if (blob.getName() == "slave") knock = 45 + (1.0f - (blob.getHealth() / blob.getInitialHealth())) * (30 + XORRandom(50)) * 4.0f;
-							else knock = 35 + (1.0f - (blob.getHealth() / blob.getInitialHealth())) * (30 + XORRandom(50));					
-							SetKnocked(blob, knock);
-
-							if (isServer())
-							{
-								holder.server_Hit(blob, blob.getPosition(), Vec2f(), 0.125f, HittersTC::staff, true);
-								holder.server_Hit(this, this.getPosition(), Vec2f(), 0.125f, HittersTC::staff, true);
-							}
-						}
-					}
-				}
-				
-				this.set_u32("next attack", getGameTime() + 30);
-			}*/
 		}
 	}
 }
