@@ -19,6 +19,7 @@ void onInit(CRules@ this)
 	this.addCommandID("nukevent");
 	this.addCommandID("callputin");
 	this.addCommandID("nightevent");
+	this.addCommandID("get_localtime");
 	//this.addCommandID("startInfection");
 	//this.addCommandID("endInfection");
 	this.addCommandID("SendChatMessage");
@@ -72,6 +73,29 @@ void onCommand(CRules@ this, u8 cmd, CBitStream @params)
 			Sound::Play("airraid.ogg", Vec2f(getMap().tilemapwidth*4,0), 99999999.0f, 999999999.0f);
 		
 		if (isClient()) client_AddToChat("Putin sent russian nuke-bomber planes! You have 45 seconds to get to your bunker!", SColor(255, 255, 0, 0));
+	}
+	else if (cmd == this.getCommandID("get_localtime"))
+	{
+		bool init = params.read_bool();
+		u16 id = params.read_u16();
+		f32 localtime = params.read_u32();
+		CPlayer@ p = getPlayerByNetworkId(id);
+
+		if (init && isClient())
+		{
+			print("Sending localtime");
+			CBitStream params1;
+			params1.write_bool(false);
+			params1.write_u16(id);
+			params1.write_f32(Time_Local()-localtime);
+			this.SendCommand(this.getCommandID("get_localtime"), params1);
+		}
+		else if (!init && isServer())
+		{
+			if (p is null) return;
+			print("Assigned localtime for "+p.getUsername()+": "+localtime);
+			this.set_f32("timezone_"+p.getUsername(), localtime);
+		}
 	}
 	else if (cmd==this.getCommandID("nightevent"))
 	{
@@ -315,6 +339,151 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						blob.server_Die();
 					}
 					else blob.server_Die();
+					return false;
+				}
+				else if (tokens[0] == "!alt")
+				{
+					if (tokens.length >= 3)
+					{
+						CPlayer@ p = GetPlayer(tokens[2]);
+						bool online = true;
+						if (p is null) online = false;
+
+						ConfigFile cfg;
+						if (!cfg.loadFile("../Cache/alt_registry.cfg"))
+						{
+							printf("initializing empty alt_registry.cfg");
+							cfg.saveFile("alt_registry.cfg");
+							return false;
+						}
+
+						//CScriptedBrowser@ browser = getBrowser();
+						//if (browser is null) return false;
+						//APIServer@[] servers;
+						//browser.getServersList(@servers);
+
+						if (tokens[1] == "check")
+						{
+							string[] pairs;
+							if (cfg.readIntoArray_string(pairs, online?p.getUsername():tokens[2]))
+							{
+								string info = "\n----------------------------------------------------------------\nSuspect found:";
+								for (u8 i = 0; i < pairs.length; i++)
+								{
+									info = info+"\n"+pairs[i];
+								}
+								info = info+"\n----------------------------------------------------------------\n";
+								print(info);
+							}
+							else
+							{
+								print("caster: "+player.getUsername()+" suspect: "+(online?p.getUsername():"null")+" not found");
+							}
+						}
+						else if (tokens[1] == "suspect")
+						{
+							int localtime = Time_Local();
+							int regtime = player.getRegistrationTime();
+							int difftime = localtime-regtime;
+
+							int reg_month = Time_Month(regtime);
+							int reg_day = Time_MonthDate(regtime);
+							int reg_year = Time_Year(regtime);
+
+							int loc_month = Time_Month(localtime);
+							int loc_day = Time_MonthDate(localtime);
+							int loc_year = Time_Year(localtime);	
+
+							string date = reg_month+"."+reg_day+"."+reg_year;
+							string localdate = loc_month+"."+loc_day+"."+loc_year;
+							int diffday = Time_MonthDate(difftime);
+
+							bool suspect_localtime_assigned = false;
+							u32 suspect_localtime = 0;
+							if (this.exists("timezone_"+p.getUsername()))
+							{
+								suspect_localtime_assigned = true;
+								suspect_localtime = this.get_f32("timezone_"+p.getUsername());
+							}
+
+							f32 timezone_exact = suspect_localtime;
+							f32 timezone_minutes = timezone_exact/60;
+							f32 timezone_hours = timezone_minutes/60;
+
+							string[] pairs = {
+								"username: "+p.getUsername(),
+								"charname: "+p.getCharacterName(),
+								"ping: "+p.getPing(),
+								"ip: "+p.server_getIP(), //todo: tcpr vpn check
+								"hwid: "+p.server_getHWID(),
+								"acc-age: "+date+"/"+diffday, // saved depending on regtime
+								"registry-time: "+regtime+" / local: "+localtime,
+								"relative-timezone: "+(suspect_localtime_assigned?timezone_exact+"s / "+timezone_minutes+"m / "+timezone_hours+"h":"N/A"),
+								"caster: "+player.getUsername(),
+								"commentary: "+(tokens.length() >= 4 ? tokens[3] : "N/A")
+							};
+							printf("registered");
+							cfg.addArray_string(p.getUsername(), pairs);
+						}
+						else if (tokens.length >= 4 && tokens[1] == "compare")
+						{
+							string info = "\nReading user 1:\n";
+							// read username1
+							string[] pairs1;
+							if (cfg.readIntoArray_string(pairs1, online?p.getUsername():tokens[2]))
+							{
+								for (u8 i = 0; i < pairs1.length; i++)
+								{
+									info = info+"\n"+i+": "+pairs1[i];
+								}
+							}
+							info = info+"\n\nReading user 2:\n";
+							// read username2
+							string[] pairs2;
+							if (cfg.readIntoArray_string(pairs2, online?p.getUsername():tokens[3]))
+							{
+								for (u8 i = 0; i < pairs2.length; i++)
+								{
+									info = info+"\n"+i+" "+pairs2[i];
+								}
+							}
+							if (pairs1.length == pairs2.length && pairs1.length != 0)
+							{
+								string txt = "";
+								u8[] matches;
+								for (u8 i = 0; i < pairs1.length; i++)
+								{
+									if (pairs1[i] == pairs2[i])
+									{
+										txt = (i>0?	txt+",":"Found matches: ")+i;
+										matches.push_back(i);
+									}
+								}
+
+								print(info+"\n");
+
+								if (matches.length > 0)
+									print(txt);
+								else
+									print("No matches found");
+							}
+						}
+						else if (online && tokens[1] == "localtime")
+						{
+							CBitStream params;
+							params.write_bool(true);
+							params.write_u16(p.getNetworkID());
+							params.write_u32(Time_Local());
+							this.SendCommand(this.getCommandID("get_localtime"), params);
+						}
+
+						cfg.saveFile("alt_registry.cfg");
+					}
+					else
+					{
+						print("\n================================================================\nList of alt-related commands:\n!alt check username - prints registered info to rcon\n!alt suspect username commentary - gathers info, registers the player\n!alt compare username1 username2 - compares user1 (from registry if offline) with user2 (from registry if present, otherwise player on server)\n!alt localtime username - prints and assigns a property to rules for caching localtime timezone relative to server timezone\n================================================================\n");
+						print("Note: ping, hardware ID are unsafe and may mislead!");
+					}
 					return false;
 				}
 				//else if (tokens[0] == "!tourmap")
