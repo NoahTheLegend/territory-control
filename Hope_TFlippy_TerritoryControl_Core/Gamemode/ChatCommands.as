@@ -481,7 +481,7 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					}
 					else
 					{
-						print("\n================================================================\nList of alt-related commands:\n!alt check username - prints registered info to rcon\n!alt suspect username commentary - gathers info, registers the player\n!alt compare username1 username2 - compares user1 (from registry if offline) with user2 (from registry if present, otherwise player on server)\n!alt localtime username - prints and assigns a property to rules for caching localtime timezone relative to server timezone\n================================================================\n");
+						print("\n================================================================\nList of alt-related commands:\n!alt check username - prints registered info to rcon\n!alt suspect username commentary - gathers info, registers the player\n!alt compare username1 username2 - compares user1 (from registry if offline) with user2 (from registry if offline)\n!alt localtime username - prints and assigns a property to rules for caching localtime timezone relative to server timezone\n================================================================\n");
 						print("Note: ping, hardware ID are unsafe and may mislead!");
 					}
 					return false;
