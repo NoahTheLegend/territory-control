@@ -1,5 +1,7 @@
 #include "Knocked.as";
 
+const f32 health_increment = 0.025f;
+
 void onTick(CBlob@ this)
 {
 	if (this.hasTag("dead")) return;
@@ -29,12 +31,33 @@ void onTick(CBlob@ this)
 			// print("" + (rot * true_level_lerp));
 			
 			CCamera@ cam = getCamera();
-			cam.setRotation(Maths::Clamp(rot * true_level_lerp, -360, 360));
+			cam.setRotation(Maths::Clamp(rot/2 * true_level_lerp, -360, 360));
+		}
+
+		if (this.getTickSinceCreated() % 15 == 0)
+		{
+			f32 maxHealth = this.getInitialHealth();
+			if (this.getHealth() < maxHealth)
+			{
+				if (isServer())
+				{
+					this.server_SetHealth(this.getHealth() + Maths::Min(0.25f, health_increment*level/4));
+					if (this.getHealth() > maxHealth) this.server_SetHealth(maxHealth);
+				}
+
+				if (isClient() && this.getHealth() < this.getInitialHealth())
+				{
+					for (int i = 0; i < 4; i++)
+					{
+						ParticleAnimated("HealParticle.png", this.getPosition() + Vec2f(XORRandom(16) - 8, XORRandom(16) - 8), Vec2f(0, f32(XORRandom(100) * -0.02f)) * 0.25f, 0, 0.5f, 10, 0, true);
+					}
+				}
+			}
 		}
 	
-		if (level > 0 && getKnocked(this) < 10 && XORRandom(4000 / (1 + level * 1.5f)) == 0)
+		if (level > 0 && getKnocked(this) < 10 && XORRandom(10000 / (1 + level * 1.5f)) == 0)
 		{
-			u8 knock = 5 + XORRandom(20) * level;
+			u8 knock = 1 + XORRandom(10) * level;
 		
 			SetKnocked(this, knock);
 			this.getSprite().PlaySound("drunk_fx" + XORRandom(5), 0.8f, this.getSexNum() == 0 ? 1.0f : 2.0f);

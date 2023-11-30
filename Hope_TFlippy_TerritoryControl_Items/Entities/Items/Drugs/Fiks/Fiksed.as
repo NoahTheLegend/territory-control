@@ -32,7 +32,7 @@ void onTick(CBlob@ this)
 
 				if (isClient() && this.getHealth() < this.getInitialHealth())
 				{
-					if (this.isMyPlayer()) this.getSprite().PlaySound("heart.ogg", 0.50f, 1.00f);
+					if (this.isMyPlayer() && this.getHealth() < this.getInitialHealth()) this.getSprite().PlaySound("heart.ogg", 0.50f, 1.00f);
 
 					for (int i = 0; i < 4; i++)
 					{
