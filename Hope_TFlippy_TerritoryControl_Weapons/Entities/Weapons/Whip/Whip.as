@@ -87,7 +87,7 @@ class Whip
 
 		Segment@[] reset;
 		segments = reset;
-
+		
 		Vec2f[] points;
 		for (u8 i = 0; i < whip_length; i++)
 		{
@@ -97,17 +97,19 @@ class Whip
 		verts.set_length(points.size()*4);
 
         Vec2f a, b, c, d;
-        for(int i = 0; i < points.size(); i++)
+        for(int i = 0; i < points.size()-1; ++i)
         {
-            Vec2f a = i-1 < 0 ? points[points.size()-1] : points[i-1];
+            Vec2f a = points[i==0?points.size()-1:i-1];
             Vec2f b = points[i];
-            Vec2f c = i+1 == points.size() ? points[0] : points[i+1];
-            Vec2f d = i+2 >= points.size() ? (i+1 == points.size() ? points[1] : points[0]) : points[i+2];
+            Vec2f c = points[Maths::Min(i+1, points.size()-1)];
+            Vec2f d = points[Maths::Min(i+2, points.size()-2)];
+
 			
 			f32 seg_rot = i*4;
             Segment segment(a,b,c,d,i,seg_rot);
             @segment.sys = @this;
             segments.push_back(@segment);
+			
         }
 	}
 
@@ -123,6 +125,7 @@ class Whip
 
 	void Update(CBlob@ blob)
 	{
+		// very retarded code with a lot of hacks but who would ever care?
 		if (next_idle || getGameTime() > start_time + swipe_time)
 		{
 			Idle();
@@ -150,13 +153,13 @@ class Whip
 			verts.set_length(points.size()*4);
 
         	Vec2f a, b, c, d;
-        	for(int i = 0; i < points.size(); i++)
+        	for(int i = 0; i < points.size()-1; i++)
         	{
 				points[i].y *= -1;
-        	    Vec2f a = i-1 < 0 ? points[points.size()-1] : points[i-1];
-        	    Vec2f b = points[i];
-        	    Vec2f c = i+1 == points.size() ? points[0] : points[i+1];
-        	    Vec2f d = i+2 >= points.size() ? (i+1 == points.size() ? points[1] : points[0]) : points[i+2];
+        		Vec2f a = points[i==0?points.size()-1:i-1];
+            	Vec2f b = points[i];
+            	Vec2f c = points[Maths::Min(i+1, points.size()-1)];
+            	Vec2f d = points[Maths::Min(i+2, points.size()-2)];
 
 				f32 seg_rot = i > 0 ? -(points[i-1]-points[i]).Angle() : 0;
         	    segments[i] = Segment(a,b,c,d,i,seg_rot);
