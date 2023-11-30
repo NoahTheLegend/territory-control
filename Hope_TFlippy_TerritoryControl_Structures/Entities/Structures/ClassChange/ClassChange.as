@@ -103,12 +103,11 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Robotic suit", "$robosuititem$", "robosuititem", "A reproduced with human tech exosuit prototype.");
+		ShopItem@ s = addShopItem(this, "Robotic suit", "$robosuititem$", "robosuititem", "A reproduced by humanity method exosuit prototype.\nVulnerable to electricity.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 2000);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 100);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 200);
-		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper wire", 300);
-		AddRequirement(s.requirements, "blob", "mat_battery", "Battery", 300);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 100);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper wire", 200);
+		AddRequirement(s.requirements, "blob", "mat_battery", "Battery", 200);
 		s.spawnNothing = true;
 	}
 	{
