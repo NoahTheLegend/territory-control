@@ -53,7 +53,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 void SetState(CBlob@ this, bool inState)
 {
 	this.SetLight(inState);
-	this.SetLightRadius(120.0f);
+	this.SetLightRadius(128.0f);
 	this.SetLightColor(SColor(255, 255, 200, 110));
 
 	CSprite@ sprite = this.getSprite();

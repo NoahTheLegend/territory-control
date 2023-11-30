@@ -149,6 +149,8 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$barbedwire$", "BarbedWire.png", Vec2f(16, 16), 0);
 	AddIconToken("$icon_teamlamp$", "TeamLamp.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_industriallamp$", "IndustrialLamp.png", Vec2f(8, 8), 0, teamnum);
+	AddIconToken("$icon_teamlampmk2$", "TeamLampMK2.png", Vec2f(8, 8), 0, teamnum);
+	AddIconToken("$icon_industriallampmk2$", "IndustrialLampMK2.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_safe$", "Safe.png", Vec2f(32, 32), 0, teamnum);
 	AddIconToken("$icon_drillrig$", "DrillRig.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_siren$", "Siren.png", Vec2f(24, 32), 0, teamnum);
@@ -977,6 +979,18 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	{
 		BuildBlock b(0, "industriallamp", "$icon_industriallamp$", "Industrial Lamp:\n\nA sturdy lamp to ligthen up the mood in your factory.\nActs as a support block.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "teamlampmk2", "$icon_teamlampmk2$", "Team Lamp Mk2:\n\nGreatly glows with your team's spirit.");
+		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium ingot", 4);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 8);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "industriallampmk2", "$icon_industriallampmk2$", "Industrial Lamp Mk2:\n\nA sturdy lamp to greatly ligthen up the mood in your factory.\nActs as a support block.");
+		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium ingot", 3);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 6);
 		blocks[4].push_back(b);
 	}
 	{

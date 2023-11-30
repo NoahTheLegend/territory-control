@@ -15,6 +15,7 @@ void onInit(CBlob@ this)
 
 	this.SetLight(true);
 	this.SetLightRadius(64.0f);
+	if (this.getName().find("mk2") != -1) this.SetLightRadius(192.0f);
 	this.SetLightColor(SColor(255, 255, 150, 50));
 
 	// this.getCurrentScript().runFlags |= Script::tick_not_attached;
