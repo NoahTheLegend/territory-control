@@ -14,7 +14,7 @@ void onInit(CBlob@ this)
 	this.Tag("blocks sword");
 
 	this.SetLight(true);
-	this.SetLightRadius(48.0f);
+	this.SetLightRadius(64.0f);
 	this.SetLightColor(SColor(255, 255, 150, 50));
 
 	// this.getCurrentScript().runFlags |= Script::tick_not_attached;
