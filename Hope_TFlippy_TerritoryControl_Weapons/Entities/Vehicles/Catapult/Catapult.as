@@ -236,6 +236,7 @@ void Vehicle_onFire(CBlob@ this, VehicleInfo@ v, CBlob@ bullet, const u8 _charge
 
 		vel += (Vec2f((_r.NextFloat() - 0.5f) * 128, (_r.NextFloat() - 0.5f) * 128) * 0.01f);
 		vel.RotateBy(angle);
+		bullet.Tag("change rotation");
 
 		if (this.exists("gyromat_acceleration"))
 		{
