@@ -80,6 +80,8 @@ void onCommand(CRules@ this, u8 cmd, CBitStream @params)
 		u16 id = params.read_u16();
 		f32 localtime = params.read_u32();
 		CPlayer@ p = getPlayerByNetworkId(id);
+		
+		if (p is null || !p.isMyPlayer()) return;
 
 		if (init && isClient())
 		{
