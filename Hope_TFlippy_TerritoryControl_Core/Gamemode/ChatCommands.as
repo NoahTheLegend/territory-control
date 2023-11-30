@@ -377,7 +377,8 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						if (tokens[1] == "check")
 						{
 							string[] pairs;
-							if (cfg.readIntoArray_string(pairs, online?p.getUsername():tokens[2]))
+							string name = online?p.getUsername():tokens[2];
+							if (cfg.readIntoArray_string(pairs, name))
 							{
 								string info = "\n----------------------------------------------------------------\nSuspect found:";
 								for (u8 i = 0; i < pairs.length; i++)
@@ -389,6 +390,7 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 							}
 							else
 							{
+								error("failed to read "+name+" key into array string");
 								print("caster: "+player.getUsername()+" suspect: "+(online?p.getUsername():"null")+" not found");
 							}
 						}
@@ -452,13 +454,16 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 							info = info+"\n\nReading user 2:\n";
 							// read username2
 							string[] pairs2;
-							if (cfg.readIntoArray_string(pairs2, online?p.getUsername():tokens[3]))
+							string name = online?p.getUsername():tokens[3];
+							if (cfg.readIntoArray_string(pairs2, name))
 							{
 								for (u8 i = 0; i < pairs2.length; i++)
 								{
 									info = info+"\n"+i+" "+pairs2[i];
 								}
 							}
+							else error("failed to read "+name+" key into array string");
+
 							if (pairs1.length == pairs2.length && pairs1.length != 0)
 							{
 								string txt = "";
