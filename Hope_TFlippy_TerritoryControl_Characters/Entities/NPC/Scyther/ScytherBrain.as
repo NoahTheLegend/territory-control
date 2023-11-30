@@ -69,8 +69,6 @@ void onInit(CBlob@ this)
 
 	if (isServer())
 	{
-		this.server_setTeamNum(251);
-
 		for (int i = 0; i < 2; i++)
 		{
 			CBlob@ ammo = server_CreateBlob("mat_lancerod", this.getTeamNum(), this.getPosition());

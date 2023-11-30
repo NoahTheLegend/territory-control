@@ -202,10 +202,8 @@ void onRemoveFromInventory(CBlob@ this, CBlob@ blob)
 	this.set_bool("shop available", true);
 }
 
-/*void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
+void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	// print("" + cmd + " = " + this.getCommandID("shop made item"));
-
 	if (cmd == this.getCommandID("shop made item"))
 	{
 		this.getSprite().PlaySound("/ChaChing.ogg");
@@ -269,7 +267,7 @@ void onRemoveFromInventory(CBlob@ this, CBlob@ blob)
 			}
 		}
 	}
-}*/
+}
 
 void MakeParticle(CBlob@ this, const string filename = "SmallSteam")
 {
