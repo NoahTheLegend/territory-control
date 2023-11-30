@@ -13,7 +13,9 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	
 	if (caller !is this && carried !is null && carried.hasTag("forcefeedable"))
 	{
-		if(this.getDistanceTo(caller) > 32 && carried.hasTag("syringe") || this.getMap().rayCastSolid(caller.getPosition(), this.getPosition())) return;
+		if (this.getDistanceTo(caller) > 32 && carried.hasTag("syringe") || this.getMap().rayCastSolid(caller.getPosition(), this.getPosition())) return;
+		if (this.hasTag("tree") && carried.getName() != "propesko") return;
+		
 		CBitStream params;
 		params.write_u16(carried.getNetworkID());
 		CButton@ button = caller.CreateGenericButton(22, Vec2f(0, 0), this, this.getCommandID("forcefeed"), (carried.exists("forcefeed_text") ? carried.get_string("forcefeed_text") : "Forcefeed!"), params);

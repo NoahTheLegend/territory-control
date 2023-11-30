@@ -10,6 +10,8 @@ void InitVars(CBlob@ this)
 	TreeSegment[] segments;
 	this.set("TreeSegments", segments);
 
+	this.AddScript("ForceFeed.as");
+
 	AddIconToken("$Tree$", "Entities/Common/GUI/HelpIcons.png", Vec2f(16, 16), 1);
 	AddIconToken("$Axe$", "Entities/Common/GUI/HelpIcons.png", Vec2f(16, 16), 13);
 	AddIconToken("$Daggar$", "Entities/Common/GUI/HelpIcons.png", Vec2f(16, 16), 10);
