@@ -92,7 +92,8 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_storage$", "Storage.png", Vec2f(40, 24), 3, teamnum);
 	AddIconToken("$icon_forge$", "Forge.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$constructionyard$", "ConstructionYardIcon.png", Vec2f(16, 16), 0, teamnum);
-	AddIconToken("$icon_camp$", "CampIcon.png", Vec2f(64, 24), 0, teamnum);
+	AddIconToken("$constructionyardmetal$", "ConstructionYardMetalIcon.png", Vec2f(16, 16), 0, teamnum);
+	AddIconToken("$icon_camp$", "CampIcon.png", Vec2f(48, 24), 0, teamnum);
 	AddIconToken("$icon_patreonshop$", "Present.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_nursery$","Nursery.png",Vec2f(40, 32), 5, teamnum);
 	AddIconToken("$icon_library$", "Library.png", Vec2f(40, 24), 0, teamnum);
@@ -458,17 +459,17 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
-		BuildBlock b(0, "forge", "$icon_forge$", "Forge:\n\nEnables you to process raw metals into pure ingots and alloys.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 150);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 70);
-		b.buildOnGround = true;
-		b.size.Set(24, 24);
-		blocks[1].push_back(b);
-	}
-	{
 		BuildBlock b(0, "construction_yard", "$constructionyard$", "Construction Yard:\n\nUsed to construct various vehicles.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 75);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
+		b.buildOnGround = true;
+		b.size.Set(64, 56);
+		blocks[1].push_back(b);
+	}
+	{
+		BuildBlock b(0, "construction_yard_metal", "$constructionyardmetal$", "Metal Construction Yard:\n\nUsed to construct advanced heavy.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 8);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 8);
 		b.buildOnGround = true;
 		b.size.Set(64, 56);
 		blocks[1].push_back(b);
@@ -498,6 +499,23 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
+		BuildBlock b(0, "camp", "$icon_camp$", "Camp:\n\nA basic faction base. Can be upgraded to gain\nspecial functions and more durability.\n\n$GREEN$Increases Upkeep cap by 1.$GREEN$");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 325);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 175);
+		AddRequirement(b.reqs, "coin", "", "Coins", 100);
+		b.buildOnGround = true;
+		b.size.Set(80, 24);
+		blocks[1].push_back(b);
+	}
+	{
+		BuildBlock b(0, "forge", "$icon_forge$", "Forge:\n\nEnables you to process raw metals into pure ingots and alloys.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 150);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 70);
+		b.buildOnGround = true;
+		b.size.Set(24, 24);
+		blocks[1].push_back(b);
+	}
+	{
 		BuildBlock b(0, "smartstorage", "$smartstorage$", "Smart storage:\n\nAn advanced storage for storing multiple amount of different items.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
@@ -506,15 +524,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
-		blocks[1].push_back(b);
-	}
-	{
-		BuildBlock b(0, "camp", "$icon_camp$", "Camp:\n\nA basic faction base. Can be upgraded to gain\nspecial functions and more durability.\n\n$GREEN$Increases Upkeep cap by 1.$GREEN$");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 325);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 175);
-		AddRequirement(b.reqs, "coin", "", "Coins", 100);
-		b.buildOnGround = true;
-		b.size.Set(80, 24);
 		blocks[1].push_back(b);
 	}
 	{

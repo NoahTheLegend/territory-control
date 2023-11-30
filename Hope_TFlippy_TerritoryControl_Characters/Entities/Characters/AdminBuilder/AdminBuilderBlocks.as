@@ -92,7 +92,8 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_storage$", "Storage.png", Vec2f(40, 24), 3, teamnum);
 	AddIconToken("$icon_forge$", "Forge.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$constructionyard$", "ConstructionYardIcon.png", Vec2f(16, 16), 0, teamnum);
-	AddIconToken("$icon_camp$", "Camp.png", Vec2f(80, 24), 0, teamnum);
+	AddIconToken("$constructionyardmetal$", "ConstructionYardMetalIcon.png", Vec2f(16, 16), 0, teamnum);
+	AddIconToken("$icon_camp$", "CampIcon.png", Vec2f(48, 24), 0, teamnum);
 	AddIconToken("$icon_patreonshop$", "Present.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_nursery$","Nursery.png",Vec2f(40, 32), 5, teamnum);
 	AddIconToken("$icon_library$", "Library.png", Vec2f(40, 24), 0, teamnum);
@@ -149,6 +150,8 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$barbedwire$", "BarbedWire.png", Vec2f(16, 16), 0);
 	AddIconToken("$icon_teamlamp$", "TeamLamp.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_industriallamp$", "IndustrialLamp.png", Vec2f(8, 8), 0, teamnum);
+	AddIconToken("$icon_teamlampmk2$", "TeamLampMK2.png", Vec2f(8, 8), 0, teamnum);
+	AddIconToken("$icon_industriallampmk2$", "IndustrialLampMK2.png", Vec2f(8, 8), 0, teamnum);
 	AddIconToken("$icon_safe$", "Safe.png", Vec2f(32, 32), 0, teamnum);
 	AddIconToken("$icon_drillrig$", "DrillRig.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_siren$", "Siren.png", Vec2f(24, 32), 0, teamnum);
@@ -283,7 +286,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "iron_trap_block", "$icon_irontrapblock$", "Trap Block:\n\nOnly enemies can pass it like the regular trap block, but it's more durable.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron ingot", 12);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron ingot", 8);
 		blocks[0].push_back(b);
 	}
 	{
@@ -456,14 +459,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
-		BuildBlock b(0, "forge", "$icon_forge$", "Forge:\n\nEnables you to process raw metals into pure ingots and alloys.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 150);
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 70);
-		b.buildOnGround = true;
-		b.size.Set(24, 24);
-		blocks[1].push_back(b);
-	}
-	{
 		BuildBlock b(0, "construction_yard", "$constructionyard$", "Construction Yard:\n\nUsed to construct various vehicles.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 75);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 200);
@@ -472,7 +467,15 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
-		BuildBlock b(0, "storage", "$icon_storage$", "Storage:\n\nA storage than can hold materials and items.\nCan be only accessed by the owner team.");
+		BuildBlock b(0, "construction_yard_metal", "$constructionyardmetal$", "Metal Construction Yard:\n\nUsed to construct advanced heavy.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 8);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 8);
+		b.buildOnGround = true;
+		b.size.Set(64, 56);
+		blocks[1].push_back(b);
+	}
+	{
+		BuildBlock b(0, "storage", "$icon_storage$", "Storage:\n\nA storage for keeping materials and items.\nCan be only accessed by the owner team.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 100);
 		b.buildOnGround = true;
@@ -502,6 +505,25 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "coin", "", "Coins", 100);
 		b.buildOnGround = true;
 		b.size.Set(80, 24);
+		blocks[1].push_back(b);
+	}
+	{
+		BuildBlock b(0, "forge", "$icon_forge$", "Forge:\n\nEnables you to process raw metals into pure ingots and alloys.");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 150);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 70);
+		b.buildOnGround = true;
+		b.size.Set(24, 24);
+		blocks[1].push_back(b);
+	}
+	{
+		BuildBlock b(0, "smartstorage", "$smartstorage$", "Smart storage:\n\nAn advanced storage for storing multiple amount of different items.");
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 50);
+
+		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		b.buildOnGround = true;
+		b.size.Set(24, 24);
 		blocks[1].push_back(b);
 	}
 	{
@@ -627,7 +649,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[2].push_back(b);
 	}
 	{
-		BuildBlock b(0, "invcleaner", "$icon_invcleaner$", "Inventory cleaner:\n\nGrabs $blue$filtered$blue$ items from player inventories.\nDoesnt work for enemy players.");
+		BuildBlock b(0, "invcleaner", "$icon_invcleaner$", "Inventory cleaner:\n\nGrabs $blue$filtered$blue$ items from player inventories.\nDoesnt work with enemy players.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
 		b.buildOnGround = true;
@@ -655,18 +677,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_ironingot","Iron Ingot", 15);
 		b.buildOnGround = true;
 		b.size.Set(16, 24);
-		blocks[2].push_back(b);
-	}
-	{
-		BuildBlock b(0, "smartstorage", "$smartstorage$", "Smart storage:\n\nAn advanced storage for storing multiple amount of different items.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 40);
-		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 100);
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 500);
-
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-		b.buildOnGround = true;
-		b.size.Set(24, 24);
 		blocks[2].push_back(b);
 	}
 	{
@@ -725,7 +735,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[2].push_back(b);
 	}
 	{
-		BuildBlock b(0, "treecapitator", "$icon_treecapitator$", "Treecapitator:\n\nMurders plants.");
+		BuildBlock b(0, "treecapitator", "$icon_treecapitator$", "Treecapitator:\n\nChops plants and trees. Will break if spammed in close area.\nTakes damage over time. Doesn't collide with fruits.");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron ingot", 8);
 		blocks[2].push_back(b);
@@ -744,9 +754,9 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "inductionfurnace", "$icon_inductionfurnace$", "Industrial Furnace:\n\nA heavy-duty furnace that produces up to 4x more ingots at cost of lower speed. Requires coal to smelt.\n\nHas a multiplier mode that increases output for cost of smelting speed.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 60);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
 		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 1500);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 000);
 		b.buildOnGround = true;
 		b.size.Set(40, 32);
 		blocks[3].push_back(b);
@@ -754,7 +764,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	{
 		BuildBlock b(0, "electricfurnace", "$icon_electricfurnace$", "Electric furnace:\n\nAn advanced analogue for induction furnace. Smelts ore up to 3x ingots and does not require coal for smelting. Also has toggle mode.\n\nHas a multiplier mode that increases output for cost of smelting speed.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper wire", 40);
 		AddRequirement(b.reqs, "blob", "mat_battery", "Voltron Battery Plus", 50);
 		b.buildOnGround = true;
@@ -763,7 +772,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "crusher", "$icon_crusher$", "Crusher\nSmashes rocks into concrete and dirt into sulphur with a lower yield");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 18);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 8);
 		b.buildOnGround = true;
 		b.size.Set(24, 32);
@@ -845,11 +854,11 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "nuclearreactor", "$nuclearreactor$", "Nuclear Reactor:\n\nConverts enriched mithril into default with bigger yield.\nProduces wilmet material on higher temperatures.\n\nHas a control panel with password check. Can be sabotaged.\n\nRequires enriched mithril as fuel, mithril also increases heat.\n\nYou can set up a catalyst or refrigerant into the utility slot (also remove them with a wrench) to get certain modifications.\n\nExplodes with an insane power when heated up too much.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 150);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 100);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 40);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 150);
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 1500);
-		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 30);
+		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 1000);
+		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 20);
 
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
@@ -866,8 +875,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "liquificator", "$icon_liquificator$", "Drug Liquificator:\n\nConverts various solid drugs into liquified to syringes, and liquified drugs to gases.");
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 24);
-		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 6);
+		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 20);
 		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
 		b.buildOnGround = true;
@@ -980,6 +988,18 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	{
 		BuildBlock b(0, "industriallamp", "$icon_industriallamp$", "Industrial Lamp:\n\nA sturdy lamp to ligthen up the mood in your factory.\nActs as a support block.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "teamlampmk2", "$icon_teamlampmk2$", "Team Lamp Mk2:\n\nGreatly glows with your team's spirit.");
+		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium ingot", 4);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 8);
+		blocks[4].push_back(b);
+	}
+	{
+		BuildBlock b(0, "industriallampmk2", "$icon_industriallampmk2$", "Industrial Lamp Mk2:\n\nA sturdy lamp to greatly ligthen up the mood in your factory.\nActs as a support block.");
+		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium ingot", 3);
+		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 6);
 		blocks[4].push_back(b);
 	}
 	{
