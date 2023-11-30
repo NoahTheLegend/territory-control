@@ -175,17 +175,30 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_oil", "Oil Drum (200 l)", 200);
 		s.spawnNothing = true;
 	}
-	u32 fuelcost = getRandomCost(@rand, 650, 950);
+	//u32 fuelcost = getRandomCost(@rand, 650, 950);
+	//{
+	//	u32 cost = fuelcost;
+	//	ShopItem@ s = addShopItem(this, "Sell Fuel Drum (25 l)", "$COIN$", "coin-" + cost, "Sell 25 litres of fuel for " + cost + " coins.");
+	//	AddRequirement(s.requirements, "blob", "mat_fuel", "fuel Drum (25 l)", 25);
+	//	s.spawnNothing = true;
+	//}
+	//{
+	//	u32 cost = fuelcost*4;
+	//	ShopItem@ s = addShopItem(this, "Sell Fuel Drum (100 l)", "$COIN$", "coin-" + cost, "Sell 100 litres of fuel for " + cost + " coins.");
+	//	AddRequirement(s.requirements, "blob", "mat_fuel", "fuel Drum (100 l)", 100);
+	//	s.spawnNothing = true;
+	//}
+	u32 applecost = getRandomCost(@rand, 65, 115);
 	{
-		u32 cost = fuelcost;
-		ShopItem@ s = addShopItem(this, "Sell Fuel Drum (25 l)", "$COIN$", "coin-" + cost, "Sell 25 litres of fuel for " + cost + " coins.");
-		AddRequirement(s.requirements, "blob", "mat_fuel", "fuel Drum (25 l)", 25);
+		u32 cost = applecost;
+		ShopItem@ s = addShopItem(this, "Sell Apple (1)", "$COIN$", "coin-" + cost, "Sell 1 apple for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "apple", "Apple", 1);
 		s.spawnNothing = true;
 	}
 	{
-		u32 cost = fuelcost*4;
-		ShopItem@ s = addShopItem(this, "Sell Fuel Drum (100 l)", "$COIN$", "coin-" + cost, "Sell 100 litres of fuel for " + cost + " coins.");
-		AddRequirement(s.requirements, "blob", "mat_fuel", "fuel Drum (100 l)", 100);
+		u32 cost = applecost*4;
+		ShopItem@ s = addShopItem(this, "Sell Apple (4)", "$COIN$", "coin-" + cost, "Sell 4 apple for " + cost + " coins.");
+		AddRequirement(s.requirements, "blob", "apple", "Apple", 4);
 		s.spawnNothing = true;
 	}
 	{

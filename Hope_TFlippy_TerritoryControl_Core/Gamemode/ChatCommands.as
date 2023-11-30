@@ -886,10 +886,9 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					return false;
 				}
 				else if (tokens[0]=="!tree") 
-					server_MakeSeed(blob.getPosition(),"tree_pine",600,1,16);
-
-				else if (tokens[0]=="!bigtree") 
-					server_MakeSeed(blob.getPosition(),"tree_bushy",400,2,16);
+				{
+					if (tokens.length == 2) server_MakeSeed(blob.getPosition(),"tree_"+tokens[1],600,1,16);
+				}
 
 				else if (tokens[0]=="!spawnwater") 
 					getMap().server_setFloodWaterWorldspace(blob.getPosition(),true);

@@ -9,6 +9,7 @@ const string[] seeds =
 {
 	"tree_pine",
 	"tree_bushy",
+	"tree_apple",
 	"bush",
 	"grain_plant",
 	"flowers"

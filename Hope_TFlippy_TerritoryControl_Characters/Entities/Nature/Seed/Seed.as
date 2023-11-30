@@ -15,7 +15,8 @@ const string[] seed_sprites =
 	"Entities/Natural/Seed/Seed.png",  		// flowers
 	"Entities/Natural/Seed/Seed.png", 		// pumpkin
 	"Entities/Natural/Seed/Seed.png",		// protopopov
-	"Entities/Natural/Seed/Seed.png"		// ganja
+	"Entities/Natural/Seed/Seed.png",		// ganja
+	"Entities/Natural/Seed/Seed.png"      // apples
 };
 
 // names of seeds
@@ -30,7 +31,8 @@ const string[] seed_names =
 	"Flower Seed",   	// flowers
 	"Pumpkin Seed",   	// pumpkin
 	"Protopopov Seed",  // protopopov
-	"Ganja Seed"		// ganja
+	"Ganja Seed",		// ganja
+	"Apple seed"    // apples
 };
 
 const u32 OPT_TICK = 31;

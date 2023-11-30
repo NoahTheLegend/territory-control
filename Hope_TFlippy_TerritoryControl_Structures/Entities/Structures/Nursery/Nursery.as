@@ -31,7 +31,7 @@ void onInit(CBlob@ this)
 	AddIconToken("$flowerplant$", "NurseryIcons.png", Vec2f(16, 16), 3);
 
 	this.set_Vec2f("shop offset", Vec2f(0,0));
-	this.set_Vec2f("shop menu size", Vec2f(4, 5));
+	this.set_Vec2f("shop menu size", Vec2f(4, 6));
 	this.set_string("shop description", "Plant Nursery");
 	this.set_u8("shop icon", 15);
 	
@@ -140,8 +140,26 @@ void onInit(CBlob@ this)
 		}
 		{
 			u32 cost = 1000;
-			ShopItem@ s = addShopItem(this, "Sell Pumpkin (4)", "$COIN$", "coin-" + cost, "Sell 4 pumpkin for " + cost + " coins.");
+			ShopItem@ s = addShopItem(this, "Sell Pumpkin (4)", "$COIN$", "coin-" + cost, "Sell 4 pumpkins for " + cost + " coins.");
 			AddRequirement(s.requirements, "blob", "pumpkin", "Pumpkin", 4);
+			s.spawnNothing = true;
+		}
+		{
+			ShopItem@ s = addShopItem(this, "Apple Tree", "$tree_apple$", "apple_seed", "Create an apple tree seed.", true);
+			AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 50);
+			AddRequirement(s.requirements, "coin", "", "Coins", 500);
+			s.spawnNothing = true;
+		}
+		{
+			u32 cost = 50;
+			ShopItem@ s = addShopItem(this, "Sell Apple (1)", "$COIN$", "coin-" + cost, "Sell 1 apple for " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "apple", "Apple", 1);
+			s.spawnNothing = true;
+		}
+		{
+			u32 cost = 200;
+			ShopItem@ s = addShopItem(this, "Sell Apple (4)", "$COIN$", "coin-" + cost, "Sell 4 apples for " + cost + " coins.");
+			AddRequirement(s.requirements, "blob", "apple", "Apple", 4);
 			s.spawnNothing = true;
 		}
 		{
@@ -213,6 +231,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			{
 				Random rand(getGameTime());
 				server_MakeSeedsFor(@callerBlob, "tree_bushy", 1);
+			}
+			else if(spl[0] == "apple_seed")
+			{
+				Random rand(getGameTime());
+				server_MakeSeedsFor(@callerBlob, "tree_apple", 1);
 			}
 			else if(spl[0] == "ganja_seed")
 			{

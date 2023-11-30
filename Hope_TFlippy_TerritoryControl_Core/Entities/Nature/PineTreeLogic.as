@@ -218,4 +218,3 @@ string getTreeSpritePath()
 	}
 	return "Entities/Natural/Trees/Trees.png";
 }
-

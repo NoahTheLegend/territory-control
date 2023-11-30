@@ -45,6 +45,10 @@ CBlob@ server_MakeSeed(Vec2f atpos, string blobname)
 	{
 		return server_MakeSeed(atpos, blobname, 400, 3, 4);
 	}
+	else if (blobname == "tree_apple")
+	{
+		return server_MakeSeed(atpos, blobname, 600, 10, 4);
+	}
 	else if (blobname == "grain_plant")
 	{
 		return server_MakeSeed(atpos, blobname, 300, 1, 4);

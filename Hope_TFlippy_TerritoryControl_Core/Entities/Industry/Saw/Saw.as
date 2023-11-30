@@ -153,6 +153,7 @@ bool canSaw(CBlob@ this, CBlob@ blob)
 	    name == "wooden_door" ||
 	    name == "mat_wood" ||
 	    name == "tree_bushy" ||
+		name == "tree_apple" ||
 	    name == "tree_pine")
 	{
 		return false;

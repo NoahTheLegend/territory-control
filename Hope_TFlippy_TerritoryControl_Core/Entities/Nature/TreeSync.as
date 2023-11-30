@@ -89,6 +89,8 @@ void onTick(CBlob@ this)
 			this.set_s32("last_grew_time", vars.last_grew_time);
 			this.Sync("last_grew_time", true);
 		}
+
+		
 	}
 }
 
