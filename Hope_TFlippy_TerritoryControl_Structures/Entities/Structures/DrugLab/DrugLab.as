@@ -835,9 +835,6 @@ void onTick(CBlob@ this)
 	CInventory@ inv = this.getInventory();
 	if (inv !is null)
 	{
-		f32 modifier = 1.00f;
-		const f32 max_pressure = this.get_f32("pressure_max") + this.get_f32("upgrade");
-
 		const f32 mithril_count = inv.getCount("mat_mithril");
 		const f32 e_mithril_count = inv.getCount("mat_mithrilenriched");
 		const f32 fuel_count = inv.getCount("mat_fuel");
@@ -845,10 +842,14 @@ void onTick(CBlob@ this)
 		const f32 methane_count = inv.getCount("mat_methane");
 		const f32 mustard_count = inv.getCount("mat_mustard");
 		bool hasRefrigerant = inv.getItem("refrigerant") !is null;
+		bool hasCatalyzer = inv.getItem("catalyzer") !is null;
+
+		f32 modifier = 1.00f;
+		const f32 max_pressure = (hasCatalyzer?1.5f:1.0f)*this.get_f32("pressure_max") + this.get_f32("upgrade");
 
 		const f32 heat = this.get_f32("heat") + (!hasRefrigerant ? Maths::Pow((mithril_count * 3.00f) + (e_mithril_count * 15.00f), 2) / 20000.00f : 0);
 		const f32 pressure = Maths::Pow(1000 + (methane_count * 75) + (fuel_count * 100) + (acid_count * 75) + (mustard_count * 25), Maths::Max(1, 1.00f + (heat * 0.0002f)));
-
+		
 		//this.setInventoryName();
 		this.set_string("drawText",this.get_string("inventory_name") + "\n\nPressure: " + Maths::Round(pressure) + " / " + max_pressure + "\nHeat: " + heat);
 		this.set_f32("percentageToMax", pressure/max_pressure);
