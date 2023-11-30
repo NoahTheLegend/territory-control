@@ -115,8 +115,8 @@ void onTick(CBlob@ blob)
 				CCamera@ camera = getCamera();
 				if (camera !is null)
 				{
-					f32 angle = -camera.getRotation() + blob.getAngleDegrees();
-					emote.RotateBy(-angle, Vec2f(0, 20));
+					f32 angle = -camera.getRotation();
+					emote.RotateBy(angle, Vec2f(0, 0));
 				}
 			}
 		}

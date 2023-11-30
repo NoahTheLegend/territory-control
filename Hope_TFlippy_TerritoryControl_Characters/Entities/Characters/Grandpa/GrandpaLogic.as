@@ -46,7 +46,7 @@ void onInit(CBlob@ this)
 	ParticleZombieLightning(this.getPosition());
 	if (!this.hasTag("nosound")) this.getSprite().PlaySound("MagicWand.ogg");
 
-	this.set_u8("rot", 1);
+	this.set_u8("rotation_mod", 1);
 	this.set_bool("increment", true);
 	this.set_f32("rotation", 0);
 }
@@ -93,41 +93,44 @@ void onTick(CBlob@ this)
 		//{
 		//	if (this.isKeyJustPressed(key_action2))
 		//	{
-		//		this.set_u8("rot", 0);
+		//		this.set_u8("rotation_mod", 0);
 		//		this.set_bool("increment", true);
 		//	}
-		//	this.get_bool("increment") ? this.add_u8("rot", 1) : this.add_u8("rot", -1);
-		//	if (this.get_u8("rot") >= 60 || this.get_u8("rot") == 0) this.set_bool("increment", !this.get_bool("increment"));
-		//	u8 mod = this.get_u8("rot");
+		//	this.get_bool("increment") ? this.add_u8("rotation_mod", 1) : this.add_u8("rotation_mod", -1);
+		//	if (this.get_u8("rotation_mod") >= 60 || this.get_u8("rotation_mod") == 0) this.set_bool("increment", !this.get_bool("increment"));
+		//	u8 mod = this.get_u8("rotation_mod");
 		//	u32 gametime = getGameTime();
 		//	this.isFacingLeft() ? sprite.RotateBy(-1.0f*mod, Vec2f(0,0)) : sprite.RotateBy(1.0f*mod, Vec2f(0,0));
 		//}
 
-		if (this.isKeyJustPressed(key_action3)) sprite.ResetTransform();
+		if (this.isKeyJustPressed(key_action3)) this.setAngleDegrees(0);
 		if (this.isKeyJustPressed(key_action2))
 		{
-			this.set_u8("rot", 0);
+			this.set_u8("rotation_mod", 0);
 			this.set_bool("increment", true);
 		}
 		if (this.isKeyPressed(key_action2))
 		{
-			if (this.get_u8("rot") <= 100) this.add_u8("rot", 1);
+			if (this.get_u8("rotation_mod") <= 100) this.add_u8("rotation_mod", 1);
 		}
-		else if (this.get_u8("rot") > 0) this.add_u8("rot", -1);
+		else if (this.get_u8("rotation_mod") > 0) this.add_u8("rotation_mod", -1);
 		
-		u8 mod = this.get_u8("rot");
+		u8 mod = this.get_u8("rotation_mod");
 		u32 gametime = getGameTime();
 		if (this.isFacingLeft())
 		{
-			sprite.RotateBy(-1.0f*mod, Vec2f(0,0));
-			this.add_f32("rotation", -1.0f*mod);
+			//sprite.RotateBy(-1.0f*mod, Vec2f(0,0));
+			this.setAngleDegrees(this.getAngleDegrees() - 1.0f*mod);
+			this.set_f32("rotation", (this.get_f32("rotation")-1.0f*mod) % 360.0f);
 		}
 		else
 		{
-			sprite.RotateBy(1.0f*mod, Vec2f(0,0));
-			this.add_f32("rotation", 1.0f*mod);
+			//sprite.RotateBy(1.0f*mod, Vec2f(0,0));
+			this.setAngleDegrees(this.getAngleDegrees() + 1.0f*mod);
+			this.set_f32("rotation", (this.get_f32("rotation")+1.0f*mod) % 360.0f);
 		}
 	}
+
 	if (this.isInInventory()) return;
 }
 

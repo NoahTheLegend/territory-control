@@ -341,6 +341,18 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					else blob.server_Die();
 					return false;
 				}
+				if (tokens[0] == "!vanish")
+				{
+					if (blob.getName()!="vanish")
+					{
+						player.server_setTeamNum(-1);
+						CBlob@ newBlob = server_CreateBlob("vanish",-1,blob.getPosition());
+						newBlob.server_SetPlayer(player);
+						blob.server_Die();
+					}
+					else blob.server_Die();
+					return false;
+				}
 				else if (tokens[0] == "!alt")
 				{
 					if (tokens.length >= 3)
