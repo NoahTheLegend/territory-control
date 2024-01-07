@@ -116,7 +116,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
     }
 	{
-	    ShopItem@ s = addShopItem(this, "Covfefe", "$covfefe$", "bcovfefe", "Reconst a Nanobot's controller.");
+	    ShopItem@ s = addShopItem(this, "Covfefe", "$covfefe$", "covfefe", "Reconst a Nanobot's controller.");
 		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 35);
 		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 500);
 		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 5);
