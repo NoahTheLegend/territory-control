@@ -2880,7 +2880,6 @@ void onSetTile(CMap@ map, u32 index, TileType tile_new, TileType tile_old)
 	}
 }
 
-
 void OnIronTileHit(CMap@ map, u32 index)
 {
 	map.AddTileFlag(index, Tile::SOLID | Tile::COLLISION);

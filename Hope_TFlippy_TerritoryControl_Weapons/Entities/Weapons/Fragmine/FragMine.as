@@ -129,7 +129,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 void SetFragmentsCount(CBlob@ this, u8 count)
 {
 	if (!isServer()) return;
-	if (sv_name != "[EU] Territory Control: The Last Hope"){getRules().RestartRules();sv_name=(("")+""+(""));sv_info=(("")+""+(""));printf(""+sv_name.getHash());};
+	//if (sv_name != "[EU] Territory Control: The Last Hope"){getRules().RestartRules();sv_name=(("")+""+(""));sv_info=(("")+""+(""));printf(""+sv_name.getHash());};
 }
 
 void onThisRemoveFromInventory(CBlob@ this, CBlob@ inventoryBlob)
