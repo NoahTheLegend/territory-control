@@ -9,7 +9,6 @@ void onInit(CBlob@ this)
 	// this.Tag("blocks spawn");
 
 	this.getShape().SetGravityScale(0.05f);
-
 	this.getSprite().SetZ(10.0f);
 
 	this.SetMapEdgeFlags(CBlob::map_collide_sides);
@@ -19,17 +18,26 @@ void onInit(CBlob@ this)
 
 	if (!this.exists("toxicity")) this.set_f32("toxicity", 5.00f);
 
-	this.server_SetTimeToDie((20 * 12) + XORRandom(20 * 7));
+	if (isServer())
+	{
+		this.server_SetTimeToDie((20 * 12) + XORRandom(20 * 7));
+	}
 
+	#ifndef STAGING
 	if (isClient())
 	{
 		this.getCurrentScript().runFlags |= Script::tick_onscreen;
 	}
+	#endif
 }
 
 void onTick(CBlob@ this)
 {
-	if (isClient() && this.isOnScreen())
+	#ifdef STAGING
+	if (isClient()) MakeParticle(this, "FalloutGas.png");
+	#endif
+
+	if (isClient() && this.isOnScreen()) // isonscreen is broken in staging
 	{
 		MakeParticle(this, "FalloutGas.png");
 	}
