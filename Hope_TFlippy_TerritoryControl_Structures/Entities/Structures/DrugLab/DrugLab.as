@@ -678,7 +678,7 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Solid.ogg", 1.00f, 1.00f);
 			}
 
-			if (pressure < 100000 && heat > 500 && hasAcid && hasCoal && hasSulphur && acid_count >= 25 && sulphur_count >= 50 && coal_count >= 10)
+			if (pressure < 100000 && heat > 500 && hasAcid && hasCoal && hasSulphur && acid_count >= 50 && sulphur_count >= 250 && coal_count >= 100)
 			{
 				if (isServer())
 				{
@@ -686,7 +686,7 @@ void React(CBlob@ this)
 					sulphur_blob.server_SetQuantity(Maths::Max(sulphur_blob.getQuantity() - 100, 0));
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - 10, 0));
 
-					Material::createFor(this, "propesko", 1 + XORRandom(4));
+					Material::createFor(this, "propesko", 1 + XORRandom(1));
 					if (XORRandom(100) < 10)
 					{
 						Material::createFor(this, "love", 2);
