@@ -387,7 +387,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							
 							case 13:
 							{
-							    if (XORRandom(100) < 5)
+							    if (XORRandom(100) < 25)
 							    {
 								    switch (XORRandom(2))
 							        {
