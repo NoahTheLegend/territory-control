@@ -387,21 +387,24 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							
 							case 13:
 							{
-								switch (XORRandom(1))
-								{
-									case 0:
-									{
-										gun_config = "amr";
-									}
-									break;
+							    if (XORRandom(100) < 5)
+							    {
+								    switch (XORRandom(2))
+							        {
+									    case 0:
+									    {
+									     gun_config = "amr";
+									    }
+									    break;
 									
-									case 1:
-									{
-										gun_config = "minigun";
-									}
-									break;
-								}
-							}
+									    case 1:
+									    {
+										 gun_config = "minigun";
+									    }
+									    break;
+									}  
+							    }
+							}  
 							break;
 						}
 						
