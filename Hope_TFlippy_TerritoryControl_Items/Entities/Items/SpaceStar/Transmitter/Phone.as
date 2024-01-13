@@ -387,25 +387,30 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							
 							case 13:
 							{
-							    if (XORRandom(100) < 25)
-							    {
-								    switch (XORRandom(2))
-							        {
-									    case 0:
-									    {
-									     gun_config = "amr";
-									    }
-									    break;
-									
-									    case 1:
-									    {
-										 gun_config = "minigun";
-									    }
-									    break;
-									}  
-							    }
-							}  
+								if (XORRandom(100) < 15)
+								{
+									switch (XORRandom(2))
+									{
+										case 0:
+										{
+											gun_config = "amr";
+										}
+										break;
+										
+										case 1:
+										{
+											gun_config = "minigun";
+										}
+										break;
+									}
+								}
+								else
+								{ 
+									gun_config = "fuger";
+								}
+				
 							break;
+							}
 						}
 						
 						CBlob@ gun = server_MakeCrateOnParachute(gun_config, "SpaceStar Ordering Weapon Package", 0, 250, Vec2f(callerBlob.getPosition().x + (64 - XORRandom(128)), XORRandom(32)));
