@@ -193,6 +193,10 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 					case HittersTC::railgun_lance:
 						ratio = 0.45f;
 						break;
+						
+					case Hitters::stomp:
+					ratio = 1.0f;
+					break;
 
 					default:
 						ratio = 0.15f;
