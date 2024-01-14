@@ -682,11 +682,11 @@ void React(CBlob@ this)
 			{
 				if (isServer())
 				{
-					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 25, 0));
-					sulphur_blob.server_SetQuantity(Maths::Max(sulphur_blob.getQuantity() - 100, 0));
-					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - 10, 0));
+					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 50, 0));
+					sulphur_blob.server_SetQuantity(Maths::Max(sulphur_blob.getQuantity() - 250, 0));
+					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - 100, 0));
 
-					Material::createFor(this, "propesko", 1 + XORRandom(1));
+					Material::createFor(this, "propesko", 1 + XORRandom(2));
 					if (XORRandom(100) < 10)
 					{
 						Material::createFor(this, "love", 2);
