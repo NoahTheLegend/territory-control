@@ -2,6 +2,7 @@
 #include "MapType.as";
 
 const string[] OffiMaps = {
+	"Vamfistorio_Noah",
 	"TFlippy_TC_Thomas",
     "Xeno_Plains&Hills",
 	"Xeno_TC_Graveyard",
