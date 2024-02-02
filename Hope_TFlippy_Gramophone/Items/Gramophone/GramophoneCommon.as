@@ -79,8 +79,8 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Guillaume David - Noosphere (W40k)", "Disc_Noosphere.ogg"),
 	GramophoneRecord("Johny", "Disc_Johny.ogg", 1.5f),
 	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg", 3.0f),
-	GramophoneRecord("A man without love", "Disc_AManWithoutLove.ogg")
-	
+	GramophoneRecord("A man without love", "Disc_AManWithoutLove.ogg"),
+	GramophoneRecord("Gimme Gimme Gimme!", "Disc_GimmeGimmeGimme.ogg")
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
