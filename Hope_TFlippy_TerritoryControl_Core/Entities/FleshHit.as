@@ -128,7 +128,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;
 
-			if (headname == "militaryhelmet" || headname == "nvd") armorMaxHealth = 80.0f;
+			if (headname == "militaryhelmet" || headname == "nvd") armorMaxHealth = 60.0f;
 			else if (headname == "carbonhelmet") armorMaxHealth = 190.0f;
 			else if (headname == "wilmethelmet") armorMaxHealth = 120.0f;
 			else if (headname == "scubagear") armorMaxHealth = 10.0f;
@@ -142,16 +142,16 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 				{
 					case HittersTC::bullet_low_cal:
 					case HittersTC::shotgun:
-						ratio = 0.75f;
+						ratio = 0.20f;
 						break;
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.6f;
+						ratio = 0.20f;
 						break;
 
 					default:
-						ratio = 0.20f;
+						ratio = 0.10f;
 						break;
 				}
 			}
@@ -161,16 +161,16 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 				{
 					case HittersTC::bullet_low_cal:
 					case HittersTC::shotgun:
-						ratio = 0.8f;
+						ratio = 0.80f;
 						break;
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.7f;
+						ratio = 0.70f;
 						break;
 
 					default:
-						ratio = 0.1f;
+						ratio = 0.10f;
 						break;
 				}
 			}
@@ -186,12 +186,12 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 					case Hitters::mine:
 					case Hitters::mine_special:
 					case Hitters::bomb:
-						ratio = 0.8f;
+						ratio = 0.80f;
 						break;
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.45f;
+						ratio = 0.20f;
 						break;
 						
 					case Hitters::stomp:
@@ -247,7 +247,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;
 
-			if (torsoname == "bulletproofvest") armorMaxHealth = 100.0f;
+			if (torsoname == "bulletproofvest") armorMaxHealth = 75.0f;
 			else if (torsoname == "carbonvest") armorMaxHealth = 200.0f;
 			else if (torsoname == "wilmetvest") armorMaxHealth = 146.0f;
 			else if (torsoname == "keg") armorMaxHealth = 10.0f;
@@ -257,17 +257,20 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 				switch (customData)
 				{
 					case HittersTC::bullet_low_cal:
+						ratio = 0.45f;
+						break;
+						
 					case HittersTC::shotgun:
-						ratio = 0.75f;
+					    ratio = 0.30f;
 						break;
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.6f;
+						ratio = 0.40f;
 						break;
 
 					default:
-						ratio = 0.35f;
+						ratio = 0.25f;
 						break;
 				}
 			}
@@ -289,7 +292,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.45f;
+						ratio = 0.20f;
 						break;
 
 					default:
@@ -356,7 +359,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;
 
-			if (torso2name == "bulletproofvest") armorMaxHealth = 100.0f;
+			if (torso2name == "bulletproofvest") armorMaxHealth = 75.0f;
 			else if (torso2name == "carbonvest") armorMaxHealth = 200.0f;
 			else if (torso2name == "wilmetvest") armorMaxHealth = 146.0f;
 			else if (torso2name == "keg") armorMaxHealth = 10.0f;
@@ -366,17 +369,20 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 				switch (customData)
 				{
 					case HittersTC::bullet_low_cal:
-					case HittersTC::shotgun:
-						ratio = 0.75f;
+						ratio = 0.45f;
+						break;
+						
+					case HittersTC::shotgun:	
+						ratio = 0.30f;
 						break;
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.6f;
+						ratio = 0.40f;
 						break;
 
 					default:
-						ratio = 0.35f;
+						ratio = 0.25f;
 						break;
 				}
 			}
