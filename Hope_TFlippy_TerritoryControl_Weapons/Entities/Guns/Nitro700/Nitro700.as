@@ -23,11 +23,11 @@ void onInit(CBlob@ this)
 	settings.B_GRAV = Vec2f(0, 0.01); //Bullet gravity drop
 	settings.B_SPEED = 110; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
 	settings.B_TTL = 10; //TTL = 'Time To Live' which determines the time the bullet lasts before despawning
-	settings.B_DAMAGE = 2.50f; //1 is 1 heart
+	settings.B_DAMAGE = 2.75f; //1 is 1 heart
 	settings.B_TYPE = HittersTC::bullet_high_cal; //Type of bullet the gun shoots | hitter
 
 	//Recoil
-	settings.G_RECOIL = -50; //0 is default, adds recoil aiming up
+	settings.G_RECOIL = -30; //0 is default, adds recoil aiming up
 	settings.G_RANDOMX = true; //Should we randomly move x
 	//settings.G_RANDOMY = false; //Should we randomly move y, it ignores g_recoil
 	settings.G_RECOILT = 15; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)
