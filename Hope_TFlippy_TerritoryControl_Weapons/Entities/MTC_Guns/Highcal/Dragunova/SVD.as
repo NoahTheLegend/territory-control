@@ -12,7 +12,7 @@ void onInit(CBlob@ this)
 
 	//General
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
-	settings.TOTAL = 10; //Max amount of ammo that can be in a clip
+	settings.TOTAL = 7; //Max amount of ammo that can be in a clip
 	settings.FIRE_INTERVAL = 40; //Time in between shots
 	settings.RELOAD_TIME = 60; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_sniperammo"; //Ammunition the gun takes
@@ -23,11 +23,11 @@ void onInit(CBlob@ this)
 	settings.B_GRAV = Vec2f(0, 0.001); //Bullet gravity drop
 	settings.B_SPEED = 65; //Bullet speed, STRONGLY AFFECTED/EFFECTS B_GRAV
 	settings.B_TTL = 15; //TTL = 'Time To Live' which determines the time the bullet lasts before despawning
-	settings.B_DAMAGE = 5.500f; //1 is 1 heart
+	settings.B_DAMAGE = 4.25f; //1 is 1 heart
 	settings.B_TYPE = HittersTC::bullet_high_cal; //Type of bullet the gun shoots | hitter
 
 	//Recoil
-	settings.G_RECOIL = -7; //0 is default, adds recoil aiming up
+	settings.G_RECOIL = -14; //0 is default, adds recoil aiming up
 	settings.G_RANDOMX = true; //Should we randomly move x
 	settings.G_RANDOMY = false; //Should we randomly move y, it ignores g_recoil
 	settings.G_RECOILT = 4; //How long should recoil last, 10 is default, 30 = 1 second (like ticks)
