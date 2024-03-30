@@ -11,3 +11,6 @@ WIP
 
 ### Current team
 NoahTheLegend, Xeno, Skemonde
+
+### Support
+https://boosty.to/sussyamogus
