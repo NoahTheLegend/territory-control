@@ -95,6 +95,8 @@ void onTick(CBlob@ this)
 			Vec2f nDir = (this.get_Vec2f("direction") * (1.00f - ratio)) + (dir * ratio);
 			nDir.Normalize();
 
+			nDir.RotateBy(Maths::Sin(getGameTime()*0.5f)*4);
+
 			this.SetFacingLeft(false);
 
 			this.set_f32("velocity", Maths::Min(this.get_f32("velocity") + 0.2f, 15.0f));
@@ -135,7 +137,7 @@ void DoExplosion(CBlob@ this)
 	this.set_f32("map_damage_radius", (40.0f + random) * modifier);
 	this.set_f32("map_damage_ratio", 0.25f);
 
-	Explode(this, 40.0f + random, 16.0f);
+	Explode(this, 40.0f + random, 64.0f);
 
 	for (int i = 0; i < 4 * modifier; i++) 
 	{
@@ -206,6 +208,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	if (cmd == this.getCommandID("offblast"))
 	{
 		if (this.hasTag("offblast")) return;
+		if (this.isInInventory()) return;
 
 		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
 		if (point !is null && point.getOccupied() !is null && this.hasAttached())
@@ -240,6 +243,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 }
 
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
+{
+	return !this.hasTag("offblast");
+}
+
+bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 {
 	return !this.hasTag("offblast");
 }
