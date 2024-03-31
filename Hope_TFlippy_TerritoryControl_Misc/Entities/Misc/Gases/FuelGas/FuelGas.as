@@ -112,7 +112,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		case Hitters::explosion:
 		case Hitters::keg:
 		case Hitters::mine:
-			if (damage > 5.0f && !this.hasTag("chain_explosion"))
+			if (damage > 5.0f && this.getTickSinceCreated() > 30 && !this.hasTag("chain_explosion"))
 			{
 				if (isServer())
 				{
@@ -145,7 +145,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						}
 					}
 
-					if (strength >= 1.0f)
+					if (strength >= 3.0f)
 					{
 						CBlob@ thermo = server_CreateBlob("thermobaricexplosion", this.getTeamNum(), pos);
 						if (thermo !is null)
