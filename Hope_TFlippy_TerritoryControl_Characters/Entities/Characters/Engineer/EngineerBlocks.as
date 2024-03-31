@@ -756,7 +756,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "inductionfurnace", "$icon_inductionfurnace$", "Industrial Furnace:\n\nA heavy-duty furnace that produces up to 4x more ingots at cost of lower speed. Requires coal to smelt.\n\nHas a multiplier mode that increases output for cost of smelting speed.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 50);
 		AddRequirement(b.reqs, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 000);
 		b.buildOnGround = true;
 		b.size.Set(40, 32);
 		blocks[3].push_back(b);
