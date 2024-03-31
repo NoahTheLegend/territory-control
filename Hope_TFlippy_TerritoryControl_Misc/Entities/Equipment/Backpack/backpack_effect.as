@@ -6,7 +6,9 @@ void onInit(CBlob@ this)
 
 void UpdateScript(CBlob@ this)
 {
-	CSpriteLayer@ backpack = this.getSprite().addSpriteLayer("backpack", "Backpack.png", 16, 16);
+	CSprite@ sprite = this.getSprite();
+	if (sprite is null) return;
+	CSpriteLayer@ backpack = sprite.addSpriteLayer("backpack", "Backpack.png", 16, 16);
 
 	if (backpack !is null)
 	{
@@ -14,7 +16,7 @@ void UpdateScript(CBlob@ this)
 		backpack.SetRelativeZ(-2);
 		backpack.SetOffset(Vec2f(4, -2));
 		
-		if (this.getSprite().isFacingLeft())
+		if (sprite.isFacingLeft())
 			backpack.SetFacingLeft(true);
 	}
 	
