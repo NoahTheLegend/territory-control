@@ -1,5 +1,6 @@
 #include "PixelOffsets.as"
 #include "RunnerTextures.as"
+#include "RunnerCommon.as"
 
 void onInit(CBlob@ this)
 {
@@ -32,10 +33,15 @@ void onTick(CBlob@ this)
         UpdateScript(this);
         this.set_string("reload_script", "");
     }
+
+    RunnerMoveVars@ moveVars;
+    if (this.get("moveVars", @moveVars))
+    {
+        moveVars.walkFactor *= 0.915f;
+    }
  
     CSpriteLayer@ milhelmet = this.getSprite().getSpriteLayer("carbonhelmet");
     
-   
     if (milhelmet !is null)
     {
         Vec2f headoffset(this.getSprite().getFrameWidth() / 2, -this.getSprite().getFrameHeight() / 2);

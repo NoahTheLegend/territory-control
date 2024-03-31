@@ -1,9 +1,17 @@
+#include "RunnerCommon.as"
+
 void onTick(CBlob@ this)
 {
     if (this.get_string("reload_script") == "carbonvest")
 		this.set_string("reload_script", "");
 	
 	//print("hp: "+this.get_f32("bpv_health"));
+
+	RunnerMoveVars@ moveVars;
+    if (this.get("moveVars", @moveVars))
+    {
+        moveVars.walkFactor *= 0.915f;
+    }
 	
 	if (this.get_f32("carbonvest_health") >= 200.0f)
 	{

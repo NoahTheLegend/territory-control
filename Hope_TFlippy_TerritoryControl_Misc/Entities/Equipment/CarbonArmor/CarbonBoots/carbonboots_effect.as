@@ -8,7 +8,7 @@ void onTick(CBlob@ this)
     RunnerMoveVars@ moveVars;
     if (this.get("moveVars", @moveVars))
     {
-        moveVars.walkFactor *= 0.975f;
+        moveVars.walkFactor *= 0.915f;
     }
     
     if (this.get_f32("carbonboots_health") >= 98.0f)
