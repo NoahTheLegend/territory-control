@@ -248,6 +248,13 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 	return false;
 }
 
+f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
+{
+	CBlob@ remote = getBlobByNetworkID(this.get_u16("remote_netid"));
+	
+	return remote is null ? damage : 0;
+}
+
 void MakeParticle(CBlob@ this, const string filename = "LargeSmoke")
 {
 	CParticle@ particle = ParticleAnimated(filename, this.getPosition() + getRandomVelocity(0, XORRandom(24), 360), this.getOldVelocity() * 0.25f, float(XORRandom(360)), 1.00f, 2, 0.00f, false);
