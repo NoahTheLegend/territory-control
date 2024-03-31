@@ -193,6 +193,7 @@ void React(CBlob@ this)
 			const f32 mustard_count = inv.getCount("mat_mustard");
 			const f32 dirt_count = inv.getCount("mat_dirt");
 			const f32 coal_count = inv.getCount("mat_coal");
+			const f32 steel_count = inv.getCount("mat_steelingot");
 			const f32 protopopov_count = inv.getCount("mat_protopopov");
 			const f32 rippiogas_count = inv.getCount("mat_rippio");
 			const f32 ganja_count = inv.getCount("mat_ganja");
@@ -217,6 +218,7 @@ void React(CBlob@ this)
 			CBlob@ dirt_blob = inv.getItem("mat_dirt");
 			CBlob@ e_mithril_blob = inv.getItem("mat_mithrilenriched");
 			CBlob@ coal_blob = inv.getItem("mat_coal");
+			CBlob@ steel_blob = inv.getItem("mat_steelingot");
 			CBlob@ protopopov_blob = inv.getItem("mat_protopopov");
 			CBlob@ protopopovBulb_blob = inv.getItem("protopopovbulb");
 			CBlob@ vodka_blob = inv.getItem("vodka");
@@ -245,6 +247,7 @@ void React(CBlob@ this)
 			bool hasMustard = mustard_blob !is null;
 			bool hasMithril = mithril_blob !is null;
 			bool hasCoal = coal_blob !is null;
+			bool hasSteel = steel_blob !is null;
 			bool hasProtopopov = protopopov_blob !is null;
 			bool hasProtopopovBulb = protopopovBulb_blob !is null;
 			bool hasVodka = vodka_blob !is null;
@@ -442,7 +445,7 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Gas.ogg", 1.00f, 1.00f);
 			}
 
-			if (pressure > 70000 && heat > 1300 && hasCoal)
+			if (pressure > 70000 && heat > 1300 && hasCoal && !hasSteel)
 			{
 				f32 count = Maths::Min(coal_count, pressure * 0.0002f);
 				//print("coal");
@@ -455,6 +458,22 @@ void React(CBlob@ this)
 
 				ShakeScreen(20.0f, 15, this.getPosition());
 				this.getSprite().PlaySound("DrugLab_Create_Viscous.ogg", 1.00f, 1.00f);
+			}
+
+			if (pressure >= 100000 && heat > 1000 && hasCoal && steel_count >= 6)
+			{
+				f32 count = Maths::Min(coal_count, pressure * 0.0002f);
+				//print("coal");
+
+				if (isServer())
+				{
+					steel_blob.server_SetQuantity(Maths::Max(steel_blob.getQuantity() - 6, 0));
+					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - count, 0));
+					Material::createFor(this, "mat_carbon", count * 1.75f);
+				}
+
+				ShakeScreen(10.0f, 15, this.getPosition());
+				this.getSprite().PlaySound("DrugLab_Create_Viscous.ogg", 1.50f, 1.00f);
 			}
 
 			if (pressure > 20000 && heat > 300 && hasMustard && hasFuel)

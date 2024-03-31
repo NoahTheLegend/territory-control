@@ -164,7 +164,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			const f32 fuel_count = inv.getCount("mat_fuel");
 			const f32 acid_count = inv.getCount("mat_acid");
 			const f32 mustard_count = inv.getCount("mat_mustard");
-			const f32 carbon_count = inv.getCount("mat_mustard");
+			const f32 carbon_count = inv.getCount("mat_carbon");
 			const f32 heat = this.get_f32("heat") + Maths::Pow((mithril_count * 3.00f) + (e_mithril_count * 15.00f), 2) / 20000.00f;
 			const f32 pressure = Maths::Pow(1000 + (methane_count * 75) + (fuel_count * 100) + (acid_count * 75) + (mustard_count * 25), Maths::Max(1, 1.00f + (heat * 0.0002f)));
 
@@ -249,6 +249,7 @@ void React(CBlob@ this)
 			const f32 mustard_count = inv.getCount("mat_mustard");
 			const f32 dirt_count = inv.getCount("mat_dirt");
 			const f32 coal_count = inv.getCount("mat_coal");
+			const f32 steel_count = inv.getCount("mat_steelingot");
 			const f32 protopopov_count = inv.getCount("mat_protopopov");
 			const f32 ganja_count = inv.getCount("mat_ganja");
 			const f32 steroid_count = inv.getCount("steroid");
@@ -272,6 +273,7 @@ void React(CBlob@ this)
 			CBlob@ dirt_blob = inv.getItem("mat_dirt");
 			CBlob@ e_mithril_blob = inv.getItem("mat_mithrilenriched");
 			CBlob@ coal_blob = inv.getItem("mat_coal");
+			CBlob@ steel_blob = inv.getItem("mat_steelingot");
 			CBlob@ domino_blob = inv.getItem("domino");
 			CBlob@ stim_blob = inv.getItem("stim");
 			CBlob@ protopopov_blob = inv.getItem("mat_protopopov");
@@ -298,6 +300,7 @@ void React(CBlob@ this)
 			bool hasMustard = mustard_blob !is null;
 			bool hasMithril = mithril_blob !is null;
 			bool hasCoal = coal_blob !is null;
+			bool hasSteel = steel_blob !is null;
 			bool hasStim = stim_blob !is null;
 			bool hasProtopopov = protopopov_blob !is null;
 			bool hasProtopopovBulb = protopopovBulb_blob !is null;
@@ -494,7 +497,7 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Gas.ogg", 1.00f, 1.00f);
 			}
 			// Oil Mat Recipe
-			if (pressure > 70000 && pressure < 200000 && heat > 1300 && hasCoal)
+			if (pressure > 70000 && pressure < 200000 && heat > 1300 && hasCoal && !hasSteel)
 			{
 				f32 count = Maths::Min(coal_count, pressure * 0.0002f);
 				//print("coal");
@@ -509,13 +512,14 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Viscous.ogg", 1.00f, 1.00f);
 			}
 			// Carbon Mat Recipe
-			if (pressure >= 200000 && heat > 1000 && hasCoal)
+			if (pressure >= 100000 && heat > 1000 && hasCoal && steel_count >= 4)
 			{
 				f32 count = Maths::Min(coal_count, pressure * 0.0002f);
 				//print("coal");
 
 				if (isServer())
 				{
+					steel_blob.server_SetQuantity(Maths::Max(steel_blob.getQuantity() - 4, 0));
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - count, 0));
 					Material::createFor(this, "mat_carbon", count * 1.75f);
 				}
@@ -726,7 +730,7 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Solid.ogg", 1.00f, 1.00f);
 			}
 			// Propesko Drug Recipe
-			if (pressure < 100000 && heat > 500 && hasAcid && hasCoal && acid_count >= 25 && sulphur_count >= 100 && coal_count >= 10)
+			if (pressure < 100000 && heat > 500 && hasAcid && hasCoal && hasSulphur && acid_count >= 50 && sulphur_count >= 250 && coal_count >= 100)
 			{
 				if (isServer())
 				{
