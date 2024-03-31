@@ -128,7 +128,7 @@ void onTick(CBlob@ this)
 					CBlob@ item;
 					for (u8 i = 0; i < inv.getItemsCount(); i++)
 					{
-						if (inv.getItem(i) !is null && inv.getItem(i).getName() != "gyromat")
+						if (inv.getItem(i) !is null)
 						{
 							@item = @inv.getItem(i);
 						}
@@ -153,7 +153,7 @@ void onTick(CBlob@ this)
 						{
 							u32 quantity = item.getQuantity();
 
-							if (item.maxQuantity>8)
+							if (item.getName() == "gyromat" || item.maxQuantity>8)
 							{ 
 								// To prevent spamming 
 								this.server_PutOutInventory(item);
@@ -306,7 +306,7 @@ void onDie(CBlob@ this)
 void onCollision(CBlob@ this,CBlob@ blob,bool solid)
 {
 	float power = this.getOldVelocity().getLength();
-	if (power > 5.0f && blob == null)
+	if (power > 20.0f && blob == null)
 	{
 		if (isClient())
 		{

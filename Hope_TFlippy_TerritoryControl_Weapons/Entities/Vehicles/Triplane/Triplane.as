@@ -165,7 +165,7 @@ void onTick(CBlob@ this)
 							CBlob@ item = inv.getItem(0);
 							u32 quantity = item.getQuantity();
 
-							if (item.maxQuantity > 8)
+							if (item.getName() == "gyromat" || item.maxQuantity > 8)
 							{ 
 								// To prevent spamming 
 								this.server_PutOutInventory(item);
