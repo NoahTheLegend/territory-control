@@ -79,7 +79,7 @@ const string[] reqtrusters = { //0
 
 const string[] reqhull = { //1
     "mat_ironingot-250",
-    "mat_steelingot-100",
+    "mat_steelingot-50",
     "mat_copperingot-75",
     "mat_carbon-200",
     "mat_titaniumingot-100"
@@ -87,8 +87,8 @@ const string[] reqhull = { //1
 
 const string[] reqhead = { //2
     "mat_ironingot-100",
-    "mat_steelingot-100",
-    "mat_goldingot-50",
+    "mat_steelingot-75",
+    "mat_goldingot-25",
     "mat_copperingot-150",
     "mat_carbon-150"
 };

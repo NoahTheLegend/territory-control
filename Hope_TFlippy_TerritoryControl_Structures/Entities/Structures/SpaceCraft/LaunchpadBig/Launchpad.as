@@ -92,14 +92,14 @@ const string[] reqtrusters = { //0-1
     "mat_fuel-150",
     "mat_copperwire-100",
     "mat_carbon-100",
-    "mat_titaniumingot-100"
+    "mat_titaniumingot-50"
 };
 
 const string[] reqtrusters1 = reqtrusters;
 
 const string[] reqengines = { //2-3
     "mat_ironingot-100",
-    "mat_steelingot-50",
+    "mat_steelingot-25",
     "mat_oil-300",
     "mat_copperwire-150",
     "mat_carbon-100",
@@ -111,22 +111,22 @@ const string[] reqengines1 = reqengines;
 
 const string[] reqhull = { //4
     "mat_ironingot-450",
-    "mat_steelingot-150",
+    "mat_steelingot-100",
     "mat_carbon-500",
     "mat_titaniumingot-150"
 };
 
 const string[] reqcompunit = { //5
     "mat_ironingot-200",
-    "mat_steelingot-200",
-    "mat_copperwire-500",
+    "mat_steelingot-100",
+    "mat_copperwire-400",
     "mat_titaniumingot-100",
     "mat_mithrilingot-60"
 };
 
 const string[] reqmodule = { //6-10
     "mat_steelingot-25",
-    "mat_carbon-75",
+    "mat_carbon-50",
     "mat_titaniumingot-50",
     "mat_mithrilingot-15",
     "mat_copperingot-50"
@@ -136,7 +136,7 @@ const string[] reqhead = { //11
     "mat_ironingot-150",
     "mat_carbon-150",
     "mat_titaniumingot-50",
-    "mat_goldingot-75"
+    "mat_goldingot-50"
 };
 
 string uppercaseFirstLetter(string &in str)
