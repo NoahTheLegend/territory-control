@@ -102,6 +102,9 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {
+	CMap@ map = getMap();
+	if (map is null) return damage;
+
 	switch (customData)
 	{
 		case Hitters::fire:
@@ -109,8 +112,54 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		case Hitters::explosion:
 		case Hitters::keg:
 		case Hitters::mine:
-			this.Tag("lit");
-			this.server_SetTimeToDie(2.00f / 20.00f);
+			if (damage > 5.0f && !this.hasTag("chain_explosion"))
+			{
+				if (isServer())
+				{
+					f32 strength = 0.5f;
+					Vec2f pos = this.getPosition();
+					int iters = 1;
+
+					for (int i = 0; i < 1; i++)
+					{
+						CBlob@[] chain;
+						if (map.getBlobsInRadius(this.getPosition(), 32.0f * iters, @chain))
+						{
+							for (int j = 0; j < chain.size(); j++)
+							{
+								CBlob@ b = chain[j];
+								if (b is null || b is this
+									|| b.getName() != "fuelgas" || b.hasTag("chain_explosion"))
+										continue;
+
+								b.Tag("chain_explosion");
+								b.server_Die();
+
+								strength += 0.2f;
+
+								@b = null;
+
+								i--;
+								iters++;
+							}
+						}
+					}
+
+					if (strength >= 1.0f)
+					{
+						CBlob@ thermo = server_CreateBlob("thermobaricexplosion", this.getTeamNum(), pos);
+						if (thermo !is null)
+						{
+  	 						thermo.set_f32("boom_end", Maths::Min(600, 30 * strength));
+		 					thermo.set_u32("boom_delay", 30 - (Maths::Min(strength, 20)));
+						}
+					}
+				}
+			}
+			else
+			{
+				this.server_SetTimeToDie(2.00f / 20.00f);
+			}
 			return 0;
 			break;
 
