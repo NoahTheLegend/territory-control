@@ -949,7 +949,8 @@ const string[] chemNames = {
 	"ganjapod",
 	"pumpkin",
 	"grain",
-	"mat_carbon"
+	"mat_carbon",
+	"mat_steelingot"
 };
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)

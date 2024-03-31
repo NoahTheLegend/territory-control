@@ -37,7 +37,7 @@ void onTick(CBlob@ this)
     RunnerMoveVars@ moveVars;
     if (this.get("moveVars", @moveVars))
     {
-        moveVars.walkFactor *= 0.915f;
+        moveVars.walkFactor *= 0.95f;
     }
  
     CSpriteLayer@ milhelmet = this.getSprite().getSpriteLayer("carbonhelmet");
