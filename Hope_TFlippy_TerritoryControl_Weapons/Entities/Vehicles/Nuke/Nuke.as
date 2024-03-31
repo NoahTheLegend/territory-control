@@ -5,12 +5,10 @@
 
 const Vec2f arm_offset = Vec2f(-2, -4);
 
-const u8 explosions_max = 25;
+const u8 explosions_max = 30;
 
 void onInit(CBlob@ this)
 {
-
-
 	Vehicle_Setup(this,
 	              125, // move speed
 	              0.20f,  // turn speed
