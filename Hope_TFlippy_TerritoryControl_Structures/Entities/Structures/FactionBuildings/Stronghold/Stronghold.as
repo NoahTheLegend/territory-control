@@ -86,8 +86,8 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Repair", "$icon_repair$", "repair", "Repair this badly damaged building.\nRestores 5% of building's integrity.");	
-		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 6);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 12);		
+		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);		
 		s.customButton = true;
 		s.buttonwidth = 2;	
 		s.buttonheight = 2;
