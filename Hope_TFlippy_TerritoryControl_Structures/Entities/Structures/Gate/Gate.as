@@ -154,6 +154,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	params.write_bool(this.get_bool("state"));
 
 	if (this is null || caller is null) return;
+	if (this.getTeamNum() < 7 && caller.getTeamNum() != this.getTeamNum()) return;
 	if (this.getDistanceTo(caller) > 96.0f
 	|| (this.isFacingLeft() ? this.getPosition().x > caller.getPosition().x : this.getPosition().x < caller.getPosition().x)) return;
 
