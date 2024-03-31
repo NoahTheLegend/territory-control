@@ -79,7 +79,7 @@ void onTick(CBlob@ this)
 		}
 	}
 	
-	if (server)
+	//if (server)
 	{
 		if (top.x > (map.tilemapwidth * 8) - 8) this.server_Die();
 
@@ -93,7 +93,8 @@ void onTick(CBlob@ this)
 				    if (blobs[i] is null) continue;
 				    CBlob@ blob = blobs[i];
 					if (blob.getPosition().y >= this.getPosition().y-100 || blob.hasTag("aerial")) blob.AddForce((this.getPosition()-(blob.getPosition()+Vec2f(0, 50.0f+XORRandom(50))))*10*(blob.hasTag("aerial") ? 5 : 1));
-   				    this.server_Hit(blob, blob.getPosition(), Vec2f(), 0.05f, Hitters::builder, true);
+   				    
+					if (server) this.server_Hit(blob, blob.getPosition(), Vec2f(), 0.05f, Hitters::builder, true);
 			    }
 			}
 		}

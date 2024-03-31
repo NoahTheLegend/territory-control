@@ -71,10 +71,9 @@ void onInit(CBlob@ this)
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
-	if (this.getDistanceTo(caller) > 128.0f) return;
+	if (this.getDistanceTo(caller) > 156.0f) return;
     
     this.set_Vec2f("shop offset", Vec2f(-4, 84));
-
 	this.set_bool("shop available", this.get_u8("frameindex") < 11);
 
 	CBitStream params;
