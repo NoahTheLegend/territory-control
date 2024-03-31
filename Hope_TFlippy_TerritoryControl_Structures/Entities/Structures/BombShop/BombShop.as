@@ -178,6 +178,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Guided Missile", "$icon_guidedrocket$", "guidedrocket", "A self-guided missile used to down bombers. Due to poorly designed navigation systems, it may display unpredictable behaviour.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 750);
 		AddRequirement(s.requirements, "blob", "mat_methane", "Methane", 50);
+		AddRequirement(s.requirements, "blob", "mat_sulphur", "Sulphur", 100);
 
 		s.spawnNothing = true;
 	}
