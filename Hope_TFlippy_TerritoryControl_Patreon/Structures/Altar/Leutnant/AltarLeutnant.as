@@ -274,7 +274,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				{
 					if (isServer()) {
 						string[] new_fanatics;
-						if (!this.get("fanatics", @new_fanatics)) return;
+						if (!this.get("fanatics", new_fanatics)) return;
 						//print("got there");
 						if (new_fanatics.find(callerPlayer.getUsername())<0) {
 							
