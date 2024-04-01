@@ -59,7 +59,7 @@ void onRender(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
 	u8 deity_id = blob.get_u8("deity_id");
-	if (!blob.isMyPlayer() || deity_id != Deity::leutnant) return;
+	if (!blob.isMyPlayer() || deity_id == Deity::leutnant) return;
 
 	const int ticks = getGameTime() - blob.get_u32("mustard time");
 	const f32 mod = f32(blob.get_u8("mustard value") / 35.0f);
