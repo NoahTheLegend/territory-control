@@ -131,6 +131,15 @@ void onInit(CBlob@ this)
 				break;
 		}
 
+		gun_config = "noisemaker";
+		ammo_config = "mat_rifleammo";
+
+		this.set_u8("attackDelay", 15);
+		this.set_f32("chaseDistance", 128);
+		this.set_f32("minDistance", 128);
+		this.set_f32("maxDistance", 512);
+		this.set_bool("bomber", false);
+
 		CBlob@ phone = server_CreateBlob("phone", this.getTeamNum(), this.getPosition());
 		this.server_PutInInventory(phone);
 

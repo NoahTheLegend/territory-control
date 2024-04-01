@@ -120,6 +120,15 @@ void onInit(CBlob@ this)
 				break;
 		}
 
+		gun_config = "klaxon";
+		ammo_config = "mat_rifleammo";
+
+		this.set_u8("attackDelay", 2);
+		this.set_f32("chaseDistance", 128);
+		this.set_f32("minDistance", 128);
+		this.set_f32("maxDistance", 512);
+		this.set_bool("bomber", false);
+
 		// gun and ammo
 		CBlob@ ammo = server_CreateBlob(ammo_config, this.getTeamNum(), this.getPosition());
 		ammo.server_SetQuantity(ammo.maxQuantity * 2);
