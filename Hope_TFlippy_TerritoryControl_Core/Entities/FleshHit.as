@@ -135,6 +135,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			else if (headname == "bucket") armorMaxHealth = 10.0f;
 			else if (headname == "pumpkin") armorMaxHealth = 5.0f;
 			else if (headname == "minershelmet") armorMaxHealth = 10.0f;
+			bool cool_hat = headname == "stahlhelm";
 
 			if ((headname == "militaryhelmet" || headname == "nvd"))
 			{
@@ -159,8 +160,13 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						break;
 				}
 			}
-			else if (headname == "stahlhelm")
+			else if (cool_hat)
 			{
+				f32 deity_power = this.get_f32("deity_power");
+				u16 fakemax = 100;
+				u32 genocidal_points = Maths::Min(deity_power / 100, fakemax);
+				f32 additional_defense_percent = genocidal_points*0.001*5;
+				
 				switch (customData)
 				{
 					case HittersTC::radiation:
@@ -169,12 +175,12 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						
 					case HittersTC::bullet_low_cal:
 					case HittersTC::shotgun:
-						ratio = 0.80f;
+						ratio = 0.50f+additional_defense_percent;
 						break;
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.70f;
+						ratio = 0.50f+additional_defense_percent;
 						break;
 
 					default:
@@ -242,7 +248,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			else if (headname == "scubagear" || headname == "bucket" || headname == "pumpkin" || headname == "minershelmet")
 					ratio = 0.20f;
 			
-			if (headname != "stahlhelm") {
+			if (!cool_hat) {
 				f32 armorHealth = armorMaxHealth - this.get_f32(headname+"_health");
 				if (armorHealth < armorMaxHealth/3.5f) armorHealth = armorMaxHealth/3.5f;
 				ratio *= armorHealth / armorMaxHealth;

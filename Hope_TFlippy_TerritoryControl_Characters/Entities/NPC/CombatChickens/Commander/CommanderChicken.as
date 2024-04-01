@@ -146,7 +146,7 @@ void onInit(CBlob@ this)
 			this.server_PutInInventory(bp_sdr);
 		}
 		
-		if (XORRandom(100) < 20) 
+		if (XORRandom(100) < 100) //was 20 before 
 		{
 			MakeMat(this, this.getPosition(), "villaincap", 1);
 		}

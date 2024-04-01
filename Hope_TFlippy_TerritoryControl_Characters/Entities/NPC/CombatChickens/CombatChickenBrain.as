@@ -112,7 +112,9 @@ void onTick(CBrain@ this)
 				
 				// print("" + d);
 				
-				if (b.getTeamNum() != myTeam && d <= chaseDistanceSqr && !b.hasTag("dead") && b.hasTag("flesh") && !b.hasTag("invincible") && b.get_u8("deity_id") != Deity::foghorn && (isVisible(blob, b) || d < (48 * 48)))
+				bool has_cool_hat = b.get_string("equipment_head")=="villaincap";
+				
+				if (b.getTeamNum() != myTeam && d <= chaseDistanceSqr && !b.hasTag("dead") && b.hasTag("flesh") && !b.hasTag("invincible") && b.get_u8("deity_id") != Deity::foghorn && !has_cool_hat && (isVisible(blob, b) || d < (48 * 48)))
 				{
 					this.SetTarget(b);
 					blob.set_u32("nextAttack", getGameTime() + blob.get_u8("reactionTime"));
