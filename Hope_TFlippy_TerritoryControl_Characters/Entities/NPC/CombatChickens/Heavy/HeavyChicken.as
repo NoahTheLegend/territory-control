@@ -240,15 +240,6 @@ void onInit(CBlob@ this)
 			}
 		}
 
-		gun_config = "suszooka";
-		ammo_config = "mat_rifleammo";
-
-		this.set_u8("attackDelay", 15);
-		this.set_f32("chaseDistance", 128);
-		this.set_f32("minDistance", 128);
-		this.set_f32("maxDistance", 512);
-		this.set_bool("bomber", false);
-
 		// gun and ammo
 		CBlob@ ammo = server_CreateBlob(ammo_config, this.getTeamNum(), this.getPosition());
 		
