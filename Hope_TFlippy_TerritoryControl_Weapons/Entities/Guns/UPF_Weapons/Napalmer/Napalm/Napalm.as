@@ -54,6 +54,9 @@ void onTick(CBlob@ this)
 			}
 		}
 	}
+	
+	if (isServer() && XORRandom(100) < 4 && this.getTickSinceCreated()>45)
+		server_CreateBlob("firegas", this.getTeamNum(), this.getPosition()-Vec2f(0, 8));
 }
 
 void onTick(CSprite@ this)
@@ -69,6 +72,8 @@ void onTick(CSprite@ this)
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
+	if (isServer() && (solid && XORRandom(100) < 4 || blob !is null && blob.hasTag("flesh")))
+		server_CreateBlob("firegas", this.getTeamNum(), this.getPosition()-Vec2f(0, 8));
 	if (this.getTickSinceCreated() < 3 ? (blob !is null ? blob.getTeamNum() != this.getTeamNum() : true) : true)
 	{
 		CBlob@ attachedBlob = getBlobByNetworkID(this.get_u16("attached_blob"));
