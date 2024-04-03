@@ -77,6 +77,7 @@ void onTick(CBlob@ this)
 	if (this.get_u8("track_id") != 255)
 	{
 		sprite.SetEmitSoundPaused(false);
+		sprite.SetEmitSoundVolume(s_musicvolume);
 	}
 }
 
