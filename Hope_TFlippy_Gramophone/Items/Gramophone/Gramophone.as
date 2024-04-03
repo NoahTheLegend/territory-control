@@ -81,7 +81,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				{
 					sprite.RewindEmitSound();
 					sprite.SetEmitSound(record.filename);
-					sprite.SetEmitSoundVolume(record.volume);
 					sprite.SetEmitSoundPaused(false);
 					
 					sprite.SetAnimation("playing");
@@ -155,4 +154,28 @@ void onDie(CBlob@ this)
 {
 	CSprite@ sprite = this.getSprite();
 	sprite.SetEmitSoundPaused(true);
+}
+
+void onTick(CBlob@ this)
+{
+	{
+		if(isClient())
+		{
+			CSprite@ sprite = this.getSprite();
+
+			u8 track_id = this.get_u8("track_id");
+
+			if (track_id != 255)
+			{
+				GramophoneRecord@ record = records[track_id];
+				if (record !is null && s_musicvolume > 0)
+				{
+					sprite.SetEmitSoundPaused(false);
+					sprite.SetEmitSoundVolume(s_musicvolume);
+				}
+				else sprite.SetEmitSoundPaused(true);
+
+			}
+		}
+	}
 }
