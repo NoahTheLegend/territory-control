@@ -148,9 +148,18 @@ void createFor(CBlob@ this, string &in name, uint16 &in quantity)
 		item.server_SetQuantity(portion);
 
 		quantity -= portion;
-
-		if (this.server_PutInInventory(item)) continue;
-
+		if (inventory !is null && this.hasTag("player"))
+		{
+			CBlob@ item = inventory.getItem("apmagnet");
+			if (item is null)
+			{
+				if (this.server_PutInInventory(item)) continue;
+			}
+		}
+		else 
+		{ 
+			if (this.server_PutInInventory(item)) continue;
+		}
 		// Wasn't possible to insert into
 		// inventory. Attempt merge with
 		// surrounding materials
