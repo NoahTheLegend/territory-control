@@ -57,9 +57,13 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal)
 	{
 		if (blob !is null)
 		{
-			if (!blob.hasTag("plane")
-			&& !blob.isInInventory() && !blob.isAttached())
-				return;
+			s8 s_door = blob.getName().find("door");
+			if(s_door <= 0)
+			{	
+				if (!blob.hasTag("plane")
+				&& !blob.isInInventory() && !blob.isAttached())
+					return;
+			}
 		}
 		
 		Vec2f dir = -this.getOldVelocity();
