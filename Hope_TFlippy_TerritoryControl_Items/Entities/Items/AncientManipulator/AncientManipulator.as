@@ -16,7 +16,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
-	this.set_Vec2f("shop menu size", Vec2f(4, 4));
+	this.set_Vec2f("shop menu size", Vec2f(4, 5));
 	this.set_string("shop description", "Ancient manipulator");
 	this.set_u8("shop icon", 15);
 	this.Tag("heavy weight");
@@ -117,12 +117,20 @@ void onInit(CBlob@ this)
     }
 	{
 	    ShopItem@ s = addShopItem(this, "Covfefe", "$covfefe$", "covfefe", "Reconst a Nanobot's controller.");
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 35);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 50);
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 1000);
+		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 10);
+		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 15);
+		s.spawnNothing = true;
+    }
+	{
+		ShopItem@ s = addShopItem(this, "Reconstruct a Portable Molecular Fabricator", "$icon_molecularfabricator$", "molecularfabricator", "A highly advanced machine capable of restructuring molecules and atoms.");
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 50);
 		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 500);
 		AddRequirement(s.requirements, "blob", "lifematter", "Life Matter", 5);
 		AddRequirement(s.requirements, "blob", "energymatter", "Energy Matter", 10);
 		s.spawnNothing = true;
-    }
+	}
 }
 
 void addTokens(CBlob@ this)
@@ -130,12 +138,12 @@ void addTokens(CBlob@ this)
     AddIconToken("$icon_plasteel$", "Material_Plasteel.png", Vec2f(16, 16), 0);
 	AddIconToken("$lifematter$", "LifeMatter.png", Vec2f(7, 13), 0);
 	AddIconToken("$energymatter$", "EnergyMatter.png", Vec2f(7, 9), 0);
-	AddIconToken("$pheromones$", "Pheromones.png", Vec2f(5, 7), 0);
+	AddIconToken("$pheromones$", "Pheromones.png", Vec2f(9, 14), 0);
 	AddIconToken("$mat_wilmet$", "Material_Wilmet.png", Vec2f(16, 16), 0);
 	AddIconToken("$advancedengineertools$", "AdvancedEngineerTools.png", Vec2f(16, 16), 0);
 	AddIconToken("$lasersniper$", "LaserSniperRifle.png", Vec2f(35, 7), 0);
-	AddIconToken("$lasershotgun$", "LaserShotgun.png", Vec2f(20, 6), 0);
-	AddIconToken("$laserrifle$", "LaserRifle.png", Vec2f(21, 6), 0);
+	AddIconToken("$lasershotgun$", "LaserShotgun.png", Vec2f(23, 8), 0);
+	AddIconToken("$laserrifle$", "LaserRifle.png", Vec2f(22, 8), 0);
 	AddIconToken("$blaster$", "Blaster.png", Vec2f(24, 8), 0);
 }	
 
