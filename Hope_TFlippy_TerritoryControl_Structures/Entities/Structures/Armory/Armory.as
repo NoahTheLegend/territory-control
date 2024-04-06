@@ -446,12 +446,14 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			{
 				string blobName = spl[0];
 				
-				if (blobName.findFirst("repair_") == 0)
+				if (spll[0] == "repair")
 					{	
 						int type;
 						int armor;
 						int cost_coins;
 						string blob_name;
+						CBitStream reqs, missing;
+
 						//blobName = blobName.replace("repair_", "");
 						if (spll[1] == "nvd" || spll[1] == "jumpshoes")
 						{
@@ -471,28 +473,49 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						string torsoname = callerBlob.get_string("equipment_torso");
 						string torso2name = callerBlob.get_string("equipment2_torso");
 						string bootsname = callerBlob.get_string("equipment_boots");
-						
-						if (headname == blob_name) 
+						//print('headname: '+callerBlob.get_f32(headname+"_health"));
+						//print('torsoname: '+callerBlob.get_f32(torsoname+"_health"));
+						//print('torso2name: '+callerBlob.get_f32(torso2name+"_health"));
+						//print('bootsname: '+callerBlob.get_f32(bootsname+"_health"));
+
+
+						if (headname == blob_name && callerBlob.get_f32(headname+"_health") != 0) 
 						{
+							AddRequirement(reqs, "coin", "", "Coins", cost_coins);
+							server_TakeRequirements(callerBlob.getInventory(),reqs);
 							callerBlob.set_f32(headname+"_health", 0);
 							
 							return;
 						}
-						if (torsoname == blob_name) 
-						{
-							if (callerBlob.get_f32(torsoname+"_health") == 0 && callerBlob.exists(torso2name+"_health")) callerBlob.set_f32(torso2name+"_health", 0);	
-							else callerBlob.set_f32(torsoname+"_health", 0);	
-							
+						if ((torsoname == blob_name || torso2name == blob_name))	 
+						{	
+							if (torsoname == torso2name && (callerBlob.get_f32(torsoname+"_health") != 0 || callerBlob.get_f32(torso2name+"_health") != 0))
+							{
+								AddRequirement(reqs, "coin", "", "Coins", cost_coins*2);
+								callerBlob.set_f32(torsoname+"_health", 0);
+							}
+							else 
+							{
+								if (callerBlob.get_f32(blob_name+"_health") != 0)
+								{
+									AddRequirement(reqs, "coin", "", "Coins", cost_coins);
+									callerBlob.set_f32(blob_name+"_health", 0);
+								}
+							}
+
+							server_TakeRequirements(callerBlob.getInventory(),reqs);
 							return;
 						}
-						if (bootsname == blob_name) 
+						if (bootsname == blob_name && callerBlob.get_f32(bootsname+"_health") != 0) 
 						{
+							AddRequirement(reqs, "coin", "", "Coins", cost_coins);
+							server_TakeRequirements(callerBlob.getInventory(),reqs);
 							callerBlob.set_f32(bootsname+"_health", 0);
 							//this.getSprite().PlaySound("ConstructShort");
 							return;
 						}
 
-						CBitStream reqs, missing;
+						
 						AddRequirement(reqs, "blob", blob_name, blob_name, 1);
 						AddRequirement(reqs, "coin", "", "Coins", cost_coins);
 						if (hasRequirements(callerBlob.getInventory(), reqs, missing))
