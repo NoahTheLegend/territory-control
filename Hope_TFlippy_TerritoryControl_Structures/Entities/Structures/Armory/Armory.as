@@ -479,10 +479,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						string torsoname = callerBlob.get_string("equipment_torso");
 						string torso2name = callerBlob.get_string("equipment2_torso");
 						string bootsname = callerBlob.get_string("equipment_boots");
-						print('headname: '+callerBlob.get_f32(headname+"_health"));
-						print('torsoname: '+callerBlob.get_f32(torsoname+"_health"));
-						print('torso2name: '+callerBlob.get_f32(torso2name+"_health"));
-						print('bootsname: '+callerBlob.get_f32(bootsname+"_health"));
+						//print('headname: '+callerBlob.get_f32(headname+"_health"));
+						//print('torsoname: '+callerBlob.get_f32(torsoname+"_health"));
+						//print('torso2name: '+callerBlob.get_f32(torso2name+"_health"));
+						//print('bootsname: '+callerBlob.get_f32(bootsname+"_health"));
 
 
 						if (headname == blob_name && callerBlob.get_f32(headname+"_health") != 0) 
