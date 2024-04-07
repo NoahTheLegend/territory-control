@@ -61,7 +61,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 
 const f32 deg2rad = 0.0174533f;
 const f32 rad2deg = 57.2958f;
-const f32 pi = 1.5f;
+const f32 pi = 3.14159265359f;
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
