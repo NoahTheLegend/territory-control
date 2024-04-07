@@ -18,6 +18,7 @@ void onInit(CBlob@ this)
 	//this.set_u8("upkeep cap increase", 0);
 	//this.set_u8("upkeep cost", 5);
 
+	
 	this.getSprite().SetZ(-50); //background
 	this.getShape().getConsts().mapCollisions = false;
 
@@ -31,6 +32,8 @@ void onInit(CBlob@ this)
 
 	this.inventoryButtonPos = Vec2f(-8, 0);
 	this.addCommandID("sv_store");
+	this.addCommandID("make sound");
+	this.addCommandID("make sound1");
 
 	addTokens(this); //colored shop icons
 
@@ -47,9 +50,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Helmet", "$icon_militaryhelmet$", "militaryhelmet", "Repair combat helmet.");
-		AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 35);
+		ShopItem@ s = addShopItem(this, "Repair Helmet", "$icon_militaryhelmet$", "repair_head_steel", "Repair combat helmet.");
+		//AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 35);
 
 		s.spawnNothing = true;
 	}
@@ -61,9 +64,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Carbon Helmet", "$icon_carbonhelmet$", "carbonhelmet", "Repair carbon helmet.");
-		AddRequirement(s.requirements, "blob", "carbonhelmet", "Carbon Helmet", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 175);
+		ShopItem@ s = addShopItem(this, "Repair Carbon Helmet", "$icon_carbonhelmet$", "repair_head_carbon", "Repair carbon helmet.");
+		//AddRequirement(s.requirements, "blob", "carbonhelmet", "Carbon Helmet", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 175);
 
 		s.spawnNothing = true;
 	}
@@ -75,9 +78,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Wilmet Helmet", "$icon_wilmethelmet$", "wilmethelmet", "Repair wilmet helmet.");
-		AddRequirement(s.requirements, "blob", "wilmethelmet", "Wilmet Helmet", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+		ShopItem@ s = addShopItem(this, "Repair Wilmet Helmet", "$icon_wilmethelmet$", "repair_head_wilmet", "Repair wilmet helmet.");
+		//AddRequirement(s.requirements, "blob", "wilmethelmet", "Wilmet Helmet", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 300);
 
 		s.spawnNothing = true;
 	}
@@ -89,9 +92,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Vest", "$icon_bulletproofvest$", "bulletproofvest", "Repair ballistic vest.");
-		AddRequirement(s.requirements, "blob", "bulletproofvest", "Ballistic Vest", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+		ShopItem@ s = addShopItem(this, "Repair Vest", "$icon_bulletproofvest$", "repair_body_steel", "Repair ballistic vest.");
+		//AddRequirement(s.requirements, "blob", "bulletproofvest", "Ballistic Vest", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 75);
 
 		s.spawnNothing = true;
 	}
@@ -103,9 +106,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Carbon Vest", "$icon_carbonvest$", "carbonvest", "Repair carbon vest.");
-		AddRequirement(s.requirements, "blob", "carbonvest", "Carbon vest", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		ShopItem@ s = addShopItem(this, "Repair Carbon Vest", "$icon_carbonvest$", "repair_body_carbon", "Repair carbon vest.");
+		//AddRequirement(s.requirements, "blob", "carbonvest", "Carbon vest", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 100);
 
 		s.spawnNothing = true;
 	}
@@ -117,9 +120,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Wilmet Vest", "$icon_wilmetvest$", "wilmetvest", "Repair wilmet vest.");
-		AddRequirement(s.requirements, "blob", "wilmetvest", "Wilmet vest", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+		ShopItem@ s = addShopItem(this, "Repair Wilmet Vest", "$icon_wilmetvest$", "repair_body_wilmet", "Repair wilmet vest.");
+		//AddRequirement(s.requirements, "blob", "wilmetvest", "Wilmet vest", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 300);
 
 		s.spawnNothing = true;
 	}
@@ -130,9 +133,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Boots", "$icon_combatboots$", "combatboots", "Repair combat boots.");
-		AddRequirement(s.requirements, "blob", "combatboots", "Combat Boots", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 35);
+		ShopItem@ s = addShopItem(this, "Repair Boots", "$icon_combatboots$", "repair_boots_steel", "Repair combat boots.");
+		//AddRequirement(s.requirements, "blob", "combatboots", "Combat Boots", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 35);
 
 		s.spawnNothing = true;
 	}
@@ -144,9 +147,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Carbon Boots", "$icon_carbonboots$", "carbonboots", "Repair carbon boots.");
-		AddRequirement(s.requirements, "blob", "carbonboots", "Carbon Boots", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		ShopItem@ s = addShopItem(this, "Repair Carbon Boots", "$icon_carbonboots$", "repair_boots_carbon", "Repair carbon boots.");
+		//AddRequirement(s.requirements, "blob", "carbonboots", "Carbon Boots", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 100);
 
 		s.spawnNothing = true;
 	}
@@ -158,9 +161,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Wilmet Boots", "$icon_wilmetboots$", "wilmetboots", "Repair wilmet boots.");
-		AddRequirement(s.requirements, "blob", "wilmetboots", "Combat Boots", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 300);
+		ShopItem@ s = addShopItem(this, "Repair Wilmet Boots", "$icon_wilmetboots$", "repair_boots_wilmet", "Repair wilmet boots.");
+		//AddRequirement(s.requirements, "blob", "wilmetboots", "Combat Boots", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 300);
 
 		s.spawnNothing = true;
 	}
@@ -179,9 +182,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Night Vision Device", "$nvd$", "nvd", "Repair NVD.");
-		AddRequirement(s.requirements, "blob", "nvd", "Night Vision Device", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+		ShopItem@ s = addShopItem(this, "Repair Night Vision Device", "$nvd$", "repair_nvd", "Repair NVD.");
+		//AddRequirement(s.requirements, "blob", "nvd", "Night Vision Device", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 75);
 
 		s.spawnNothing = true;
 	}
@@ -195,9 +198,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Repair Jump Shoes", "$jumpshoes$", "jumpshoes", "Repair jump shoes.");
-		AddRequirement(s.requirements, "blob", "jumpshoes", "Jump Shoes", 1);
-		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		ShopItem@ s = addShopItem(this, "Repair Jump Shoes", "$jumpshoes$", "repair_jumpshoes", "Repair jump shoes.");
+		//AddRequirement(s.requirements, "blob", "jumpshoes", "Jump Shoes", 1);
+		//AddRequirement(s.requirements, "coin", "", "Coins", 150);
 
 		s.spawnNothing = true;
 	}
@@ -392,12 +395,17 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	}
 }
 
+const int[] costs = {75,150,50,250,250,150,500,500,500};
+const string[] repair_blobnames = {"militaryhelmet", "bulletproofvest", "combatboots", "carbonhelmet", "carbonvest", "carbonboots", "wilmethelmet", "wilmetvest", "wilmetboots"};
+
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
+	if (cmd == this.getCommandID("make sound")) this.getSprite().PlaySound("NoAmmo");
+	if (cmd == this.getCommandID("make sound1")) this.getSprite().PlaySound("ConstructShort");
 	if (cmd == this.getCommandID("shop made item"))
 	{
-		this.getSprite().PlaySound("ConstructShort");
-
+		//this.getSprite().PlaySound("ConstructShort");
+		
 		u16 caller, item;
 
 		if (!params.saferead_netid(caller) || !params.saferead_netid(item))
@@ -411,7 +419,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (isServer())
 		{
 			string[] spl = name.split("-");
-
+			string[] spll = name.split("_"); 
 			if (spl[0] == "coin")
 			{
 				CPlayer@ callerPlayer = callerBlob.getPlayer();
@@ -423,7 +431,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			{
 				CPlayer@ callerPlayer = callerBlob.getPlayer();
 				if (callerPlayer is null) return;
-
+				this.SendCommand(this.getCommandID("make sound1"));
 				MakeMat(callerBlob, this.getPosition(), spl[0], parseInt(spl[1]));
 
 				// CBlob@ mat = server_CreateBlob(spl[0]);
@@ -441,6 +449,147 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			else
 			{
 				string blobName = spl[0];
+				
+				if (spll[0] == "repair")
+					{	
+						
+
+						int type;
+						int armor;
+						int cost_coins;
+						string blob_name;
+						CBitStream reqs, missing;
+						
+						//blobName = blobName.replace("repair_", "");
+						if (spll[1] == "nvd" || spll[1] == "jumpshoes")
+						{
+							if (spll[1] == "nvd") cost_coins = 75;
+							else cost_coins = 150;
+							blob_name = spll[1];
+						}
+						else 
+						{
+							type = spll[1] == "head" ? 0 : spll[1] == "body" ? 1 : 2;
+							armor = spll[2] == "steel" ? 0 : spll[2] == "carbon" ? 1 : 2;
+							cost_coins = costs[type + 3*armor];
+							blob_name = repair_blobnames[type+3*armor];
+						}
+
+						string headname = callerBlob.get_string("equipment_head");
+						string torsoname = callerBlob.get_string("equipment_torso");
+						string torso2name = callerBlob.get_string("equipment2_torso");
+						string bootsname = callerBlob.get_string("equipment_boots");
+						//print('headname: '+callerBlob.get_f32(headname+"_health"));
+						//print('torsoname: '+callerBlob.get_f32(torsoname+"_health"));
+						//print('torso2name: '+callerBlob.get_f32(torso2name+"_health"));
+						//print('bootsname: '+callerBlob.get_f32(bootsname+"_health"));
+
+
+						if (headname == blob_name && callerBlob.get_f32(headname+"_health") != 0) 
+						{
+							AddRequirement(reqs, "coin", "", "Coins", cost_coins);
+							if (hasRequirements(callerBlob.getInventory(), reqs, missing)) 
+							{
+								server_TakeRequirements(callerBlob.getInventory(),reqs);
+								this.SendCommand(this.getCommandID("make sound1"));
+								callerBlob.set_f32(headname+"_health", 0);
+							}
+							else this.SendCommand(this.getCommandID("make sound"));
+							return;
+						}
+						if ((torsoname == blob_name || torso2name == blob_name))	 
+						{	
+							if (torsoname == torso2name && (callerBlob.get_f32(torsoname+"_health") != 0 || callerBlob.get_f32(torso2name+"_health") != 0))
+							{
+								AddRequirement(reqs, "coin", "", "Coins", cost_coins*2);
+								if (hasRequirements(callerBlob.getInventory(), reqs, missing)) 
+								{
+									server_TakeRequirements(callerBlob.getInventory(),reqs);
+									this.SendCommand(this.getCommandID("make sound1"));
+									callerBlob.set_f32(torsoname+"_health", 0);
+								}
+								else this.SendCommand(this.getCommandID("make sound"));
+							}
+							else 
+							{
+								if (callerBlob.get_f32(blob_name+"_health") != 0)
+								{
+									AddRequirement(reqs, "coin", "", "Coins", cost_coins);
+									if (hasRequirements(callerBlob.getInventory(), reqs, missing))
+									{
+										server_TakeRequirements(callerBlob.getInventory(),reqs);
+										this.SendCommand(this.getCommandID("make sound1"));
+										callerBlob.set_f32(blob_name+"_health", 0);
+										return;
+									}
+								}	
+								this.SendCommand(this.getCommandID("make sound"));
+							}
+							return;
+						}
+						if (bootsname == blob_name && callerBlob.get_f32(bootsname+"_health") != 0) 
+						{
+							AddRequirement(reqs, "coin", "", "Coins", cost_coins);
+							if (hasRequirements(callerBlob.getInventory(), reqs, missing))
+							{
+								server_TakeRequirements(callerBlob.getInventory(),reqs);
+								this.SendCommand(this.getCommandID("make sound1"));
+								callerBlob.set_f32(bootsname+"_health", 0);
+							}
+							else this.SendCommand(this.getCommandID("make sound"));
+							//this.getSprite().PlaySound("ConstructShort");
+							return;
+						}
+
+						if (callerBlob.getInventory().getItem(blob_name) !is null) 
+						{
+							CBlob@ item_blob = callerBlob.getInventory().getItem(blob_name);
+							if (item_blob.get_f32("health") != 0)
+							{
+								AddRequirement(reqs, "coin", "", "Coins", cost_coins);	
+								if (hasRequirements(callerBlob.getInventory(), reqs, missing))
+								{
+									server_TakeRequirements(callerBlob.getInventory(),reqs);
+									this.SendCommand(this.getCommandID("make sound1"));
+									item_blob.set_f32("health", 0);
+									return;
+								}			
+								else this.SendCommand(this.getCommandID("make sound"));
+							}
+							else 
+							{
+								this.SendCommand(this.getCommandID("make sound"));
+								return;				
+							}
+						}
+						
+						AddRequirement(reqs, "blob", blob_name, blob_name, 1);
+						AddRequirement(reqs, "coin", "", "Coins", cost_coins);
+						if (hasRequirements(callerBlob.getInventory(), reqs, missing))
+						{
+							server_TakeRequirements(callerBlob.getInventory(),reqs);
+							this.SendCommand(this.getCommandID("make sound1"));
+							blobName = blob_name;
+							//this.getSprite().PlaySound("ConstructShort");
+						}
+						else 
+						{
+							this.SendCommand(this.getCommandID("make sound")); //Sound::Play("NoAmmo.ogg");
+							return;
+						}
+						//if(blobName == "bulletproofvest" || blobName == "militaryhelmet" || blobName == "combatboots") 
+						//{
+						//	AddRequirement(reqs, "coin", "", "Coins", 100);
+						//}
+						//if(blobName.findFirst("carbon") > 0) AddRequirement(reqs, "coin", "", "Coins", 200);
+						//if(blobName.findFirst("wilmet") > 0) AddRequirement(reqs, "coin", "", "Coins", 300);	
+						//if (hasRequirements(callerBlob.getInventory(), reqs, missing)) 
+						//{
+						//	server_TakeRequirements(callerBlob.getInventory(),reqs);
+						//}
+						//else return;
+					}
+				
 				bool mask = false;
 				if (blobName == "bushyhelm")
 				{
@@ -448,6 +597,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					mask = true;
 				}
 
+				this.SendCommand(this.getCommandID("make sound1"));
 				CBlob@ blob = server_CreateBlob(blobName, callerBlob.getTeamNum(), this.getPosition());
 				if (mask) blob.Tag("bushy");
 

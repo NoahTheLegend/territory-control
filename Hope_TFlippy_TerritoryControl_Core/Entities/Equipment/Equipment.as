@@ -250,7 +250,7 @@ void removeHead(CBlob@ playerblob, string headname)
 	if (isServer())
 	{
 		CBlob@ oldeq = server_CreateBlob(headname, playerblob.getTeamNum(), playerblob.getPosition());
-		if (headname == "militaryhelmet")	//need to be after creating blob, bcos it sets hp to it
+		if (headname == "militaryhelmet" || headname == "nvd")	//need to be after creating blob, bcos it sets hp to it
 		{
 			if (playerblob.hasTag("bushy")) oldeq.Tag("bushy");
 			oldeq.set_f32("health", playerblob.get_f32(headname+"_health"));
