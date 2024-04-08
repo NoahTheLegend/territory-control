@@ -80,7 +80,9 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Johny", "Disc_Johny.ogg", 1.5f),
 	GramophoneRecord("Lucky Lucky Lucky Me", "Disc_LuckyLuckyLuckyMe.ogg", 3.0f),
 	GramophoneRecord("A man without love", "Disc_AManWithoutLove.ogg"),
-	GramophoneRecord("Gimme Gimme Gimme!", "Disc_GimmeGimmeGimme.ogg")
+	GramophoneRecord("Gimme Gimme Gimme!", "Disc_GimmeGimmeGimme.ogg"),
+	GramophoneRecord("Crapa Pelada", "Disc_CrapaPelada.ogg"),
+	GramophoneRecord("Boss Fight", "Disc_Cube.ogg")
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
