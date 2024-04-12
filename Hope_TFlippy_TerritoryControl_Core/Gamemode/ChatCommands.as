@@ -437,7 +437,7 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 								"caster: "+player.getUsername(),
 								"commentary: "+(tokens.length() >= 4 ? tokens[3] : "N/A")
 							};
-							printf("registered");
+							print("registered");
 							cfg.addArray_string(p.getUsername(), pairs);
 						}
 						else if (tokens.length >= 4 && tokens[1] == "compare")
