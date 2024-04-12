@@ -143,7 +143,7 @@ void DoExplosion(CBlob@ this)
 		Vec2f dir = this.getVelocity();
 		dir.Normalize();
 
-		LinearExplosion(this, dir, 48.0f + XORRandom(16.0f), 8, 48 + XORRandom(16.0f), 6.5f, Hitters::explosion);
+		LinearExplosion(this, dir, 64.0f, 8, 64.0f, 6.5f, Hitters::explosion);
 	}
 
 	if(isClient())
