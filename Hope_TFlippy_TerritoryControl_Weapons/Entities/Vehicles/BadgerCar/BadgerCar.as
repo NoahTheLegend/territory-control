@@ -28,6 +28,7 @@ void onInit(CBlob@ this)
 	
 	this.Tag("blocks sword");
 	this.Tag("ignore fall");
+	this.Tag("heat signature");
 	
 	Vehicle_SetupGroundSound(this, v, "car_engine_2", 1.0f, 1.0f);
 	Vehicle_addWheel(this, v, "Tire.png", 16, 16, 0, Vec2f(-10.0f, 10.0f));

@@ -47,20 +47,23 @@ void onTick(CBlob@ this)
 			{
 				CBlob@[] blobs;
 				getBlobsByTag("aerial", @blobs);
+				getBlobsByTag("heat signature", @blobs);
 
 				f32 distance = 90000.0f;
 				u32 index = 0;
 
 				const Vec2f mypos = this.getPosition();
-				Vec2f target;
+				Vec2f target = Vec2f_zero;
 
 				if (blobs.length > 0)
 				{
+					bool has_target = false;
+
 					for (int i = 0; i < blobs.length; i++)
 					{
 						if (blobs[i].getTeamNum() == this.getTeamNum() || blobs[i] is this) continue;
-
 						f32 bdist = (blobs[i].getPosition() - mypos).Length();
+						has_target = true;
 
 						if (bdist < distance)
 						{
@@ -69,25 +72,22 @@ void onTick(CBlob@ this)
 						}
 					}
 
-					target = blobs[index].getPosition();
-
-					dir = (target - mypos);
-					dir.Normalize();
+					if (has_target)
+					{
+						target = blobs[index].getPosition();
+						dir = (target - mypos);
+						dir.Normalize();
+					}
+					else dir = Vec2f(0, -1);
 				}
-				else
-				{
-					dir = Vec2f(0, -1);
-				}
+				else dir = Vec2f(0, -1);
 
 				if (isServer())
 				{
 					if (distance < 8) this.server_Die();
 				}
 			}
-			else
-			{
-				dir = Vec2f(0, -1);
-			}
+			else dir = Vec2f(0, -1);
 
 			const f32 ratio = 0.25f;
 

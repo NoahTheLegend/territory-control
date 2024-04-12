@@ -38,6 +38,7 @@ void onInit(CBlob@ this)
 	this.getShape().SetOffset(Vec2f(0, 8));
 
 	this.Tag("blocks sword");
+	this.Tag("heat signature");
 
 	CSprite@ sprite = this.getSprite();
 
