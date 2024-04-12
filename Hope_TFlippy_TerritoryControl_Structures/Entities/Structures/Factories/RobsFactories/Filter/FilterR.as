@@ -71,13 +71,13 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 	if (blob.isAttached() || blob.isInWater())return;
 	
 	if(server_isItemAccepted(this, blob.getName())){
-		blob.setVelocity(Vec2f(0.0f, 0.0f));
-		blob.setPosition(this.getPosition()+Vec2f(0,4));
-		this.getSprite().PlaySound("bridge_open.ogg");
-	} else {
-		if (Maths::Abs(blob.getVelocity().y) < 2.0f){
-			blob.setVelocity(Vec2f(this.isFacingLeft() ? -0.6f : 0.6f, -1.0f));
+		if (blob.getPosition().y > this.getPosition().y)
+		{
+			blob.getShape().checkCollisionsAgain = true;
 		}
+	}
+	if (Maths::Abs(blob.getVelocity().y) < 2.0f){
+		blob.setVelocity(Vec2f(this.isFacingLeft() ? -0.6f : 0.6f, -1.0f));
 	}
 }
 
