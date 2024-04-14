@@ -40,12 +40,6 @@ void onTick(CBlob@ this)
 		{
 			SetScreenFlash(255, 255, 255, 255, 1);
 			getMap().CreateSkyGradient("skygradient.png");
-			
-			CSprite@ sprite = this.getSprite();
-			sprite.SetEmitSound("");
-			sprite.SetEmitSoundVolume(1.00f);
-			sprite.SetEmitSoundSpeed(1.00f);
-			sprite.SetEmitSoundPaused(true);
 					
 			// Sound::Play("MLG_Airhorn.ogg");
 		}
