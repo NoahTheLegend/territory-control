@@ -42,6 +42,7 @@ void onInit(CBlob@ this)
 	this.Tag("aerial");
 	//this.Tag("helicopter");    					remind laika later when someone finally sees this
 	this.set_bool("lastTurn", false);
+	this.Tag("grapplable");
 
 	GunSettings settings = GunSettings();
 

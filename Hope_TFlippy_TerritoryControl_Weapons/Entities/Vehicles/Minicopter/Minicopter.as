@@ -34,6 +34,7 @@ void onInit(CBlob@ this)
 	this.Tag("aerial");
 	this.Tag("helicopter");
 	this.set_bool("lastTurn", false);
+	this.Tag("grapplable");
 
 	GunSettings settings = GunSettings();
 

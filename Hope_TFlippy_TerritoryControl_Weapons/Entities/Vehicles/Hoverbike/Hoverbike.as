@@ -6,6 +6,7 @@ void onInit(CBlob@ this)
 {
 	this.Tag("usable by anyone");
 	this.Tag("aerial");
+	this.Tag("grapplable");
 
 	// this.set_f32("map_damage_ratio", 0.5f);
 	// this.set_f32("map_damage_radius", 48.0f);

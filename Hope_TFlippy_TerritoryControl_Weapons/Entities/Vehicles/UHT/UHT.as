@@ -46,6 +46,7 @@ void onInit(CBlob@ this)
 	this.set_bool("lastTurn", false);
 	this.set_bool("music", false);
 	this.set_bool("glide", false);
+	this.Tag("grapplable");
 
 	GunSettings settings = GunSettings();
 
