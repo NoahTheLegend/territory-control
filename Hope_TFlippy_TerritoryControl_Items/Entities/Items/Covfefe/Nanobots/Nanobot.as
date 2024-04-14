@@ -221,6 +221,28 @@ void onTick(CBlob@ this)
 		
 		}
 		break;
+
+		case 2:
+		{
+			f32 dist = 40.0f;
+
+			CBlob@[] blobs;
+			if (map.getBlobsInRadius(pos, dist, @blobs))
+			{
+				for (int i = 0; i < blobs.length; i++)
+				{
+					CBlob@ blob = blobs[i];
+					if (blob !is null)
+					{
+						Vec2f dir = this.getPosition()-blob.getPosition();
+						Vec2f nDir = dir;
+						nDir.Normalize();
+						blob.AddForce(nDir*(Maths::Min(this.get_f32("fill"), blob.getMass()*(0.25f + (1.0f * (dir.Length()/dist))))));
+					}
+				}
+			}
+		}
+		break;
 	}
 }
 
