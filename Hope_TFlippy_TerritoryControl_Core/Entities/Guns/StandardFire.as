@@ -216,10 +216,12 @@ void onTick(CBlob@ this)
 			f32 oAngle = (aimangle % 360) + 180;
 
 			// Shooting
-			const bool can_shoot = holder.isAttached() && holder.getName() != "automat" ? 
-					   holder.isAttachedToPoint("PASSENGER") || holder.isAttachedToPoint("PILOT") : true;
+			const bool can_shoot = !holder.isAttachedToPoint("PILOT")
+						&& (holder.isAttached() && holder.getName() != "automat" ? 
+					    holder.isAttachedToPoint("PASSENGER") || holder.isAttachedToPoint("PILOT")
+					    : !holder.isAttachedToPoint("PILOT"));
 
-			// Keys
+			// Key
 			const bool pressing_shoot = (this.hasTag("CustomSemiAuto") ?
 					   point.isKeyJustPressed(key_action1) || holder.isKeyJustPressed(key_action1) : //automatic
 					   point.isKeyPressed(key_action1) || holder.isKeyPressed(key_action1)); //semiautomatic
