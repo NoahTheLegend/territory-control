@@ -21,6 +21,18 @@ void onInit(CBlob@ this)
 	this.Tag("gas immune");
 
 	this.set_u32("timer", 0);
+
+	if (getBlobByName('cube') is null || !isClient()) return;
+
+	for (u8 i = 0; i < 200; i++)
+	{
+		CSpriteLayer@ l = sprite.addSpriteLayer("l"+i, this.getSprite().getConsts().filename, 24, 24);
+		if (l !is null)
+		{
+			l.SetRelativeZ(sprite.getRelativeZ()-2000+i*20);
+			l.SetOffset(sprite.getOffset());
+		}
+	}
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -30,6 +42,7 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 
 void onTick(CBlob@ this)
 {
+	CSprite@ sprite = this.getSprite();
 	u8 knocked = getKnocked(this);
 	
 	if (this.isInInventory())
@@ -38,6 +51,24 @@ void onTick(CBlob@ this)
 	Vec2f pos = this.getPosition();
 	Vec2f aimpos = this.getAimPos();
 	const bool inair = (!this.isOnGround() && !this.isOnLadder());
+
+	if (isClient() && getBlobByName('cube') !is null)
+	{
+		for (u8 i = 0; i < 200; i++)
+		{
+			CSpriteLayer@ l = sprite.getSpriteLayer("l"+i);
+			if (l !is null)
+			{
+				l.SetFrameIndex(sprite.getFrameIndex());
+				f32 t = (getGameTime() + i) * 0.1f;
+				f32 x = Maths::Sin(t) * 15+Maths::Sin(t)*20;
+				f32 y = Maths::Sin(2 * t) * 15;
+				l.SetOffset(sprite.getOffset() + Vec2f(x, y));
+			}
+		}
+		sprite.SetVisible(false);
+	}
+	else sprite.SetVisible(false);
 
 	CMap@ map = getMap();
 

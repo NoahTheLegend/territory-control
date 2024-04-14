@@ -57,6 +57,8 @@ void onTick(CBlob@ this)
 	if(playerBlob !is null)
 	{
 		f32 dist = (playerBlob.getPosition() - this.getPosition()).getLength();
+		if (dist > 640.0f) return;
+		
 		dist /= soundMaxDist;
 		if(dist > 1.0f) dist = 1.0f;
 		dist = 1.0f - dist;
