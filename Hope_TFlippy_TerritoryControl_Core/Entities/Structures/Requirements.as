@@ -231,7 +231,7 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 				getBlobsByTag("smart_storage", @smartStorageBlobs);
 				for (int i = 0; i < smartStorageBlobs.length; i++)
 				{
-					if (smartStorageBlobs[i].getTeamNum() != playerTeam || (!storageEnabled && (smartStorageBlobs[i].getPosition() - playerBlob.getPosition()).Length() > 250.0f))
+					if (smartStorageBlobs[i].getTeamNum() != playerTeam || (!canPass && (smartStorageBlobs[i].getPosition() - playerBlob.getPosition()).Length() > 250.0f))
 					{
 						smartStorageBlobs.erase(i);
 						i--;
