@@ -329,6 +329,11 @@ void MakeParticle(CBlob@ this, const Vec2f pos, const string filename)
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {
+	if ((this.exists("vest_explode") && this.get_u32("vest_explode") > getGameTime()) && customData == Hitters::suicide)
+	{
+		return 0;
+	}
+	
 	if ((customData == Hitters::suicide || customData == Hitters::nothing) && (getKnocked(this) > 0 || this.hasTag("no_suicide")))
 	{
 		damage = 0;
