@@ -50,47 +50,6 @@ void client_UpdateName(CBlob@ this)
 	}
 }
 
-void onTick(CBlob@ this)
-{
-	this.getCurrentScript().tickFrequency = Maths::Max(1, 90.0f / (this.exists("gyromat_acceleration") ? this.get_f32("gyromat_acceleration") : 1));
-	
-	string resource_name = this.get_string("fetcher_resource");
-	
-	if (resource_name != "")
-	{
-		u8 my_team = this.getTeamNum();
-
-		CBlob@[] blobs;
-		if (getBlobsByTag("remote_storage", @blobs))
-		{
-			for (uint i = 0; i < blobs.length; i++)
-			{
-				CBlob@ b = blobs[i];
-
-				if(this.getDistanceTo(b) <= 250){
-					u8 team = b.getTeamNum();
-					
-					if(team == my_team || team >= 100){
-						if (b.isInventoryAccessible(this) && b.hasTag("extractable")){
-							CBlob@ item = b.getInventory().getItem(resource_name);
-							
-							if (item !is null){
-								if (isServer()){
-									b.server_PutOutInventory(item);
-									item.setPosition(this.getPosition());
-								}
-								if (isClient()) this.getSprite().PlaySound("bridge_open.ogg");
-
-								return;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	if (this.getDistanceTo(caller) > 96.0f) return;
