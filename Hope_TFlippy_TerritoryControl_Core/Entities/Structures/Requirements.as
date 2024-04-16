@@ -344,17 +344,19 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 		}
 		else if (req == "has armor")
 		{
-			if (playerBlob.getInventory().getItem(blobName) !is null) 
-				{
-					CBlob@ item_blob = playerBlob.getInventory().getItem(blobName);
-					if (item_blob.exists("health") && item_blob.get_f32("health") > 0) has = true;
-					else has = false;
-				}
-			else if (playerBlob.get_f32(blobName+"_health") == 0)
+			if (playerBlob.getInventory() !is null)
 			{
-				has = false;
+				if (playerBlob.getInventory().getItem(blobName) !is null) 
+					{
+						CBlob@ item_blob = playerBlob.getInventory().getItem(blobName);
+						if (item_blob.exists("health") && item_blob.get_f32("health") > 0) has = true;
+						else has = false;
+					}
+				if (playerBlob.get_f32(blobName+"_health") == 0)
+				{
+					has = false;
+				}
 			}
-
 		}
 		//else if (req == "altar power more than")
 		//{
