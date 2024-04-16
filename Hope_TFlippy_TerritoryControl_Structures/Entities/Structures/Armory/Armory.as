@@ -53,6 +53,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Helmet", "$icon_militaryhelmet$", "repair_head_steel", "Repair combat helmet.");
 		//AddRequirement(s.requirements, "blob", "militaryhelmet", "Combat Helmet", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 35);
+		AddRequirement(s.requirements, "has armor", "militaryhelmet", "Military Helmet", 0);
 
 		s.spawnNothing = true;
 	}
@@ -67,6 +68,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Carbon Helmet", "$icon_carbonhelmet$", "repair_head_carbon", "Repair carbon helmet.");
 		//AddRequirement(s.requirements, "blob", "carbonhelmet", "Carbon Helmet", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 175);
+		AddRequirement(s.requirements, "has armor", "carbonhelmet", "Carbon Helmet", 0);
 
 		s.spawnNothing = true;
 	}
@@ -81,6 +83,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Wilmet Helmet", "$icon_wilmethelmet$", "repair_head_wilmet", "Repair wilmet helmet.");
 		//AddRequirement(s.requirements, "blob", "wilmethelmet", "Wilmet Helmet", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 300);
+		AddRequirement(s.requirements, "has armor", "wilmethelmet", "Wilmet Helmet", 0);
 
 		s.spawnNothing = true;
 	}
@@ -95,7 +98,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Vest", "$icon_bulletproofvest$", "repair_body_steel", "Repair ballistic vest.");
 		//AddRequirement(s.requirements, "blob", "bulletproofvest", "Ballistic Vest", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 75);
-
+		AddRequirement(s.requirements, "has armor", "bulletproofvest", "Ballistic Vest", 0);
 		s.spawnNothing = true;
 	}
 	{
@@ -109,7 +112,8 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Carbon Vest", "$icon_carbonvest$", "repair_body_carbon", "Repair carbon vest.");
 		//AddRequirement(s.requirements, "blob", "carbonvest", "Carbon vest", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 100);
-
+		AddRequirement(s.requirements, "has armor", "carbonvest", "Carbon vest", 0);
+		
 		s.spawnNothing = true;
 	}
 	{
@@ -123,6 +127,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Wilmet Vest", "$icon_wilmetvest$", "repair_body_wilmet", "Repair wilmet vest.");
 		//AddRequirement(s.requirements, "blob", "wilmetvest", "Wilmet vest", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 300);
+		AddRequirement(s.requirements, "has armor", "wilmetvest", "Wilmet vest", 0);
 
 		s.spawnNothing = true;
 	}
@@ -136,6 +141,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Boots", "$icon_combatboots$", "repair_boots_steel", "Repair combat boots.");
 		//AddRequirement(s.requirements, "blob", "combatboots", "Combat Boots", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 35);
+		AddRequirement(s.requirements, "has armor", "combatboots", "Combat Boots", 0);
 
 		s.spawnNothing = true;
 	}
@@ -150,6 +156,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Carbon Boots", "$icon_carbonboots$", "repair_boots_carbon", "Repair carbon boots.");
 		//AddRequirement(s.requirements, "blob", "carbonboots", "Carbon Boots", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		AddRequirement(s.requirements, "has armor", "carbonboots", "Carbon Boots", 0);
 
 		s.spawnNothing = true;
 	}
@@ -164,6 +171,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Wilmet Boots", "$icon_wilmetboots$", "repair_boots_wilmet", "Repair wilmet boots.");
 		//AddRequirement(s.requirements, "blob", "wilmetboots", "Combat Boots", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 300);
+		AddRequirement(s.requirements, "has armor", "wilmetboots", "Combat Boots", 0);
 
 		s.spawnNothing = true;
 	}
@@ -185,6 +193,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Night Vision Device", "$nvd$", "repair_nvd", "Repair NVD.");
 		//AddRequirement(s.requirements, "blob", "nvd", "Night Vision Device", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 75);
+		AddRequirement(s.requirements, "has armor", "nvd", "Night Vision Device", 0);
 
 		s.spawnNothing = true;
 	}
@@ -201,6 +210,7 @@ void onInit(CBlob@ this)
 		ShopItem@ s = addShopItem(this, "Repair Jump Shoes", "$jumpshoes$", "repair_jumpshoes", "Repair jump shoes.");
 		//AddRequirement(s.requirements, "blob", "jumpshoes", "Jump Shoes", 1);
 		//AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		AddRequirement(s.requirements, "has armor", "jumpshoes", "Jump Shoes", 0);
 
 		s.spawnNothing = true;
 	}
