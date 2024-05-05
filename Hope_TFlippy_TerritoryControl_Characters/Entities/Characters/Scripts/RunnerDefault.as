@@ -15,6 +15,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("grapplable");
 
+	this.addCommandID("jetpackv1_effects_client");
 	this.addCommandID("jetpackv1_effects");
 	this.addCommandID("jetpackv2_effects");
 	this.addCommandID("jetpackv2_keypress");
@@ -551,21 +552,20 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
 	if (cmd == this.getCommandID("jetpackv1_effects"))
 	{
-		return; // requires a fix
-
 		bool init = params.read_bool();
-		u32 tmp;
-		if (!params.saferead_u32(tmp)) return;
-		if (init && isServer())
+
+		if (init)
 		{
-			CBitStream params;
-			params.write_bool(false);
-			params.write_u32(tmp);
-			this.SendCommand(this.getCommandID("jetpackv1_effects")); // at here
+			if (isServer())
+			{
+				CBitStream params1;
+				params1.write_bool(false);
+				this.SendCommand(this.getCommandID("jetpackv1_effects"), params1);
+			}
 		}
-		if (!init && isClient())
+		if (!init)
 		{
-			if (!this.isMyPlayer())
+			if (isClient() && !this.isMyPlayer())
 			{
 				this.set_u32("nextJetpack", getGameTime()+45);
 				Vec2f pos = this.getPosition() + Vec2f(0.0f, 4.0f);

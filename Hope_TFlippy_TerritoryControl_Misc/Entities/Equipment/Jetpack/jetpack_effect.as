@@ -52,7 +52,6 @@ void onTick(CBlob@ this)
 			{
 				CBitStream params;
 				params.write_bool(true);
-				params.write_u32(tmp);
 				this.SendCommand(this.getCommandID("jetpackv1_effects"), params);
 
 				MakeDustParticle(pos + Vec2f(2.0f, 0.0f), "Dust.png");
