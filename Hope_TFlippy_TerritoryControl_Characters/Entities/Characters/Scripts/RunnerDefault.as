@@ -547,10 +547,12 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 	return (forBlob !is this) && ((getKnocked(this) > 0) || (this.get_f32("babbyed") > 0) || (this.isKeyPressed(key_down)) || (this.hasTag("dead")));
 }
 
-void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
+void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
 	if (cmd == this.getCommandID("jetpackv1_effects"))
 	{
+		return; // requires a fix
+
 		bool init = params.read_bool();
 		u32 tmp;
 		if (!params.saferead_u32(tmp)) return;
@@ -559,7 +561,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			CBitStream params;
 			params.write_bool(false);
 			params.write_u32(tmp);
-			this.SendCommand(this.getCommandID("jetpackv1_effects"));
+			this.SendCommand(this.getCommandID("jetpackv1_effects")); // at here
 		}
 		if (!init && isClient())
 		{

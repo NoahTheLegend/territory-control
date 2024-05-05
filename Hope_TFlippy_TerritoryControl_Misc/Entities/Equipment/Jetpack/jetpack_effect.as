@@ -36,7 +36,7 @@ void onTick(CBlob@ this)
 	const bool isknocked = isKnocked(this);
 	u32 tmp = this.get_u32("nextJetpack");
 	const bool flying = tmp > getGameTime();
-
+	
 	if (!flying)
 	{
 		CControls@ controls = this.getControls();
