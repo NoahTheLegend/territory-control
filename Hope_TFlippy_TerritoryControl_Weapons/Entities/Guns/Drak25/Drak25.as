@@ -357,7 +357,7 @@ void onTick(CBlob@ this)
 						aimangle += XORRandom(2) != 0 ? -XORRandom(spr) : XORRandom(spr);
 					}
 					
-					if (holder.isMyPlayer() || (isServer() && holder.getPlayer() is null && holder.getBrain() !is null && holder.getBrain().isActive()))
+					if (isClient() || (isServer() && holder.getPlayer() is null && holder.getBrain() !is null && holder.getBrain().isActive()))
 					{
 						this.add_f32("heat", this.get_f32("heat_pershot"));
 						if (this.get_f32("heat") > this.get_f32("max_heat"))
@@ -372,7 +372,7 @@ void onTick(CBlob@ this)
 						this.set_u32("heat_lock", getGameTime()+5);
 
 						// Local hosts / clients will run this
-						if (isClient())
+						if (holder.isMyPlayer())
 						{
 							shootGun(this.getNetworkID(), aimangle, holder.getNetworkID(), sprite.getWorldTranslation() + fromBarrel);
 							
@@ -381,7 +381,7 @@ void onTick(CBlob@ this)
 							params.write_f32(this.get_f32("heat"));
 							this.SendCommand(this.getCommandID("sync_heat"), params);
 						}
-						else // Server will run this
+						else if (isServer()) // Server will run this
 						{
 							shootGun(this.getNetworkID(), aimangle, holder.getNetworkID(), this.getPosition() + fromBarrel);
 						}
