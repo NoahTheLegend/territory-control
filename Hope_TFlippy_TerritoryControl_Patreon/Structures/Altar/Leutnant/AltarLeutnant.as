@@ -335,7 +335,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 								callerPlayer.set_u8("deity_id", Deity::leutnant);
 								callerBlob.set_u8("deity_id", Deity::leutnant);
 
-								CBitStream param1s;
+								CBitStream params1;
 								params1.write_u8(Deity::leutnant);
 								params1.write_u16(callerBlob.getNetworkID());
 								this.SendCommand(this.getCommandID("sync_deity"), params1);
