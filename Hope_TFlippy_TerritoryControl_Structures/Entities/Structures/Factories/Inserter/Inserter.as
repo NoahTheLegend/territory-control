@@ -40,10 +40,12 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 
 void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 {
-	CBlob@ caller = getBlobByNetworkID(params.read_u16());
-	if (caller !is null)
+	if (cmd == this.getCommandID("use"))
 	{
-		if (cmd == this.getCommandID("use"))
+		u16 id;
+		if (!params.saferead_u16(id)) return;
+		CBlob@ caller = getBlobByNetworkID(id);
+		if (caller !is null)
 		{
 			this.SetFacingLeft(!this.isFacingLeft());
 		}

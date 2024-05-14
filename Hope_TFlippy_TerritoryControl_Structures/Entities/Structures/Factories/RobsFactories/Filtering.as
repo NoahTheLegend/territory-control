@@ -82,12 +82,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params){
 		if(isServer()){
 			string[]@ filter;
 			if(this.get("filtered_items", @filter)){
-				CBitStream params;
-				params.write_u16(caller.getNetworkID());
-				params.write_u8(filter.length());
-				for(int i = 0;i < filter.length();i++)params.write_string(filter[i]);
+				CBitStream params1;
+				params1.write_u16(caller.getNetworkID());
+				params1.write_u8(filter.length());
+				for(int i = 0;i < filter.length();i++)params1.write_string(filter[i]);
 				
-				this.SendCommand(this.getCommandID("send_filter"), params);
+				this.SendCommand(this.getCommandID("send_filter"), params1);
 			}
 		}
 	}
@@ -115,9 +115,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params){
 			
 			if (menu !is null){
 				for(int i = 0;i < length;i++){
-					CBitStream params;
-					params.write_u8(i);
-					menu.AddButton("$"+filter[i]+"$", "Remove", this.getCommandID("remove_filter_item"), Vec2f(1,1),params);
+					CBitStream params1;
+					params1.write_u8(i);
+					menu.AddButton("$"+filter[i]+"$", "Remove", this.getCommandID("remove_filter_item"), Vec2f(1,1),params1);
 				}
 				menu.AddButton(this.hasTag("whitelist") ? "$icon_whitelist$" : "$icon_blacklist$", "Swap list type", this.getCommandID("swap_list_type"), Vec2f(1,1));
 			}
