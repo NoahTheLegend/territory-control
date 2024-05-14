@@ -27,7 +27,6 @@ void onTick(CRules@ this)
 	{
 		if(isServer())
 		{
-			//do not move to onRestart, script is not init and cmd will not run
 			f32 x1, x2, y1, y2;
 			CBitStream cbs;
 			getBarrierPositions(x1, x2, y1, y2);

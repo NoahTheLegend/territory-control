@@ -252,11 +252,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							callerPlayer.set_u8("deity_id", Deity::tflippy);
 							callerBlob.set_u8("deity_id", Deity::tflippy);
 
-							CBitStream params;
-							params.write_u8(Deity::tflippy);
-							params.write_u16(callerBlob.getNetworkID());
-							params.write_f32(this.get_f32("deity_power"));
-							this.SendCommand(this.getCommandID("sync_deity"), params);
+							CBitStream params1;
+							params1.write_u8(Deity::tflippy);
+							params1.write_u16(callerBlob.getNetworkID());
+							params1.write_f32(this.get_f32("deity_power"));
+							this.SendCommand(this.getCommandID("sync_deity"), params1);
 						}
 					}
 					else

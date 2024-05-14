@@ -120,9 +120,9 @@ void SetMaxTime(CBlob@ this, CBlob@ lpad, u32 t)
 {
 	if (this !is null && t > 0)
 	{
-		CBitStream params;
-		params.write_u32(t);
-		lpad.SendCommand(lpad.getCommandID("set_max_time"), params);
+		CBitStream params1;
+		params1.write_u32(t);
+		lpad.SendCommand(lpad.getCommandID("set_max_time"), params1);
 	}
 }
 
@@ -172,9 +172,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					}
 					lpad.set_string("destination", "asteroid");
 
-					CBitStream params;
-					params.write_string("asteroid");
-					lpad.SendCommand(lpad.getCommandID("set_dest"), params);
+					CBitStream params1;
+					params1.write_string("asteroid");
+					lpad.SendCommand(lpad.getCommandID("set_dest"), params1);
 					//printf("rocket: lpad destination: "+lpad.get_string("destination"));
 				}
 				else if (this.get_string("destination") == "moon")
@@ -188,9 +188,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					}
 					lpad.set_string("destination", "moon");
 					
-					CBitStream params;
-					params.write_string("moon");
-					lpad.SendCommand(lpad.getCommandID("set_dest"), params);
+					CBitStream params1;
+					params1.write_string("moon");
+					lpad.SendCommand(lpad.getCommandID("set_dest"), params1);
 					//printf("rocket: lpad destination: "+lpad.get_string("destination"));
 				}
 				else if (this.get_string("destination") == "exoplanet")
@@ -204,9 +204,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					}
 					lpad.set_string("destination", "exoplanet");
 					
-					CBitStream params;
-					params.write_string("exoplanet");
-					lpad.SendCommand(lpad.getCommandID("set_dest"), params);
+					CBitStream params1;
+					params1.write_string("exoplanet");
+					lpad.SendCommand(lpad.getCommandID("set_dest"), params1);
 					//printf("rocket: lpad destination: "+lpad.get_string("destination"));
 				}
 				SetMaxTime(this, lpad, t);

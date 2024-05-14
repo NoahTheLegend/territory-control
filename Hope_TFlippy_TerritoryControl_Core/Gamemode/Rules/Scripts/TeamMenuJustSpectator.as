@@ -80,10 +80,10 @@ void ReadChangeTeam(CRules@ this, CBitStream @params, int team)
 		{
 			player.set_u32("teamkick_time", getGameTime() + 30 * 60 * 2.5f);
 			//player.Sync("teamkick_time", true); bad deltas
-			CBitStream params;
-			params.write_u16(player.getNetworkID());
-			params.write_u32(player.get_u32("teamkick_time"));
-			this.SendCommand(this.getCommandID("sync teamkick"), params);
+			CBitStream params1;
+			params1.write_u16(player.getNetworkID());
+			params1.write_u32(player.get_u32("teamkick_time"));
+			this.SendCommand(this.getCommandID("sync teamkick"), params1);
 		}
 	
 		player.server_setTeamNum(100 + XORRandom(100));

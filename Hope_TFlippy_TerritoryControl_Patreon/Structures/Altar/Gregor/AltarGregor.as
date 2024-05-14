@@ -131,11 +131,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							callerPlayer.set_u8("deity_id", Deity::gregor);
 							callerBlob.set_u8("deity_id", Deity::gregor);
 
-							CBitStream params;
-							params.write_u8(Deity::gregor);
-							params.write_u16(callerBlob.getNetworkID());
+							CBitStream params1;
+							params1.write_u8(Deity::gregor);
+							params1.write_u16(callerBlob.getNetworkID());
 	
-							this.SendCommand(this.getCommandID("sync_deity"), params);
+							this.SendCommand(this.getCommandID("sync_deity"), params1);
 						}
 					}
 					else

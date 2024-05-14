@@ -199,9 +199,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					}
 					lpad.set_string("destination", "asteroid");
 
-					CBitStream params;
-					params.write_string("asteroid");
-					lpad.SendCommand(lpad.getCommandID("set_dest"), params);
+					CBitStream params1;
+					params1.write_string("asteroid");
+					lpad.SendCommand(lpad.getCommandID("set_dest"), params1);
 					//printf("rocket: lpad destination: "+lpad.get_string("destination"));
 				}
 			}

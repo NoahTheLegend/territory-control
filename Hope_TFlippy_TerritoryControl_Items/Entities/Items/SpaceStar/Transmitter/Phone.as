@@ -470,11 +470,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 						ammo.set_u8("count", ammo_count);
 					}
 				}
-				else if (name == "nukevent")
-				{
-					CBitStream params;
-					getRules().SendCommand(getRules().getCommandID("callputin"), params);
-				}
 				else
 				{
 					print("rip " + spl[0]);

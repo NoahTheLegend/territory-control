@@ -364,7 +364,9 @@ void DoExplosion(CBlob@ this)
 
 bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 {
-	return (this.getTeamNum() == forBlob.getTeamNum() || this.getTeamNum() >= 7) && !this.getMap().rayCastSolid(forBlob.getPosition(), this.getPosition());
+	return (this.getTeamNum() == forBlob.getTeamNum() || this.getTeamNum() >= 7)
+		&& !this.getMap().rayCastSolid(forBlob.getPosition(), this.getPosition())
+		&& !this.get_bool("locked");
 }
 
 void server_Sync(CBlob@ this)

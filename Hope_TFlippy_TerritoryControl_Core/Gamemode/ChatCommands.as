@@ -488,11 +488,11 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						}
 						else if (online && tokens[1] == "localtime")
 						{
-							CBitStream params;
-							params.write_bool(true);
-							params.write_u16(p.getNetworkID());
-							params.write_s32(Time_Local()); // server time
-							this.SendCommand(this.getCommandID("get_localtime"), params);
+							CBitStream params1;
+							params1.write_bool(true);
+							params1.write_u16(p.getNetworkID());
+							params1.write_s32(Time_Local()); // server time
+							this.SendCommand(this.getCommandID("get_localtime"), params1);
 						}
 
 						cfg.saveFile("alt_registry.cfg");
@@ -549,8 +549,8 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 
 						if (getRules().hasTag("barrier"))
 						{
-							CBitStream params;
-							getRules().SendCommand(getRules().getCommandID("set_barrier"), params);
+							CBitStream params1;
+							getRules().SendCommand(getRules().getCommandID("set_barrier"), params1);
 						}
 					}
 				}
@@ -648,10 +648,10 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						{
 							if (isCool || blob.getName() == "grandpa")
 							{
-								CBitStream params;
-								params.write_u16(tpBlob.getNetworkID());
-								params.write_u16(destBlob.getNetworkID());
-								this.SendCommand(this.getCommandID("teleport"), params);
+								CBitStream params1;
+								params1.write_u16(tpBlob.getNetworkID());
+								params1.write_u16(destBlob.getNetworkID());
+								this.SendCommand(this.getCommandID("teleport"), params1);
 							}
 							else if (!isCool)
 							{
@@ -664,55 +664,10 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					}
 					return false;
 				}
-				else if ((tokens[0]=="!callputin"))
-				{
-					CBitStream params;
-					this.SendCommand(getRules().getCommandID("callputin"), params);
-					return false;
-				}
-				else if ((tokens[0]=="!nightevent"))
-				{
-					CBitStream params;
-					this.SendCommand(this.getCommandID("nightevent"), params);
-					this.SendCommand(getRules().getCommandID("alwaysnightevent"), params);
-
-					return false;
-				}
-				else if ((tokens[0]=="!cancelnightevent"))
-				{
-					CBitStream params;
-					this.SendCommand(getRules().getCommandID("alwaysnighteventcancel"), params);
-
-					return false;
-				}
 			}
 
 			if (isCool || isMod)
 			{
-				/*if (tokens[0]=="!awootism")
-				{
-					CBitStream params;
-					if (tokens.length > 1)
-					{	CPlayer@ toInfect = GetPlayer(tokens[1]);
-						if (toInfect !is null)
-						{
-							params.write_u16(toInfect.getNetworkID());
-						}
-					}
-					else
-					{
-						params.write_u16(player.getNetworkID());
-					}
-					this.SendCommand(this.getCommandID("startInfection"),params);
-					return false;
-				}
-				else if (tokens[0]=="!endawootism")
-				{
-
-					CBitStream params;
-					params.write_u16(player.getNetworkID());
-					this.SendCommand(this.getCommandID("endInfection"),params);
-				}*/
 				if (tokens[0]=="!coins")
 				{
 					int amount=	tokens.length>=2 ? parseInt(tokens[1]) : 100;
@@ -764,12 +719,12 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 				{
 					if (tokens.length < 2) return false;
 
-					CBitStream params;
-					params.write_string(tokens[1]);
-					params.write_f32(tokens.length > 2 ? parseFloat(tokens[2]) : 0.00f);
-					params.write_f32(tokens.length > 3 ? parseFloat(tokens[3]) : 1.00f);
+					CBitStream params1;
+					params1.write_string(tokens[1]);
+					params1.write_f32(tokens.length > 2 ? parseFloat(tokens[2]) : 0.00f);
+					params1.write_f32(tokens.length > 3 ? parseFloat(tokens[3]) : 1.00f);
 
-					this.SendCommand(this.getCommandID("playsound"), params);
+					this.SendCommand(this.getCommandID("playsound"), params1);
 				}
 				else if (tokens[0]=="!removebot" || tokens[0]=="!kickbot")
 				{
@@ -779,9 +734,9 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						CPlayer@ user=getPlayer(i);
 						if (user !is null && user.isBot())
 						{
-							CBitStream params;
-							params.write_u16(getPlayerIndex(user));
-							this.SendCommand(this.getCommandID("kickPlayer"),params);
+							CBitStream params1;
+							params1.write_u16(getPlayerIndex(user));
+							this.SendCommand(this.getCommandID("kickPlayer"),params1);
 						}
 					}
 				}
@@ -796,10 +751,10 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						botDisplayName+=" "+tokens[i];
 					}
 
-					CBitStream params;
-					params.write_string(botName);
-					params.write_string(botDisplayName);
-					this.SendCommand(this.getCommandID("addbot"),params);
+					CBitStream params1;
+					params1.write_string(botName);
+					params1.write_string(botDisplayName);
+					this.SendCommand(this.getCommandID("addbot"),params1);
 				}
 				else if (tokens[0]=="!teambot")
 				{
@@ -972,10 +927,10 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						CBlob@ tpBlob=		tpPlayer.getBlob();
 						if (tpBlob !is null)
 						{
-							CBitStream params;
-							params.write_u16(tpBlob.getNetworkID());
-							params.write_u16(blob.getNetworkID());
-							getRules().SendCommand(this.getCommandID("teleport"),params);
+							CBitStream params1;
+							params1.write_u16(tpBlob.getNetworkID());
+							params1.write_u16(blob.getNetworkID());
+							getRules().SendCommand(this.getCommandID("teleport"),params1);
 						}
 					}
 				}
@@ -1091,16 +1046,16 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 		}
 		if (errorMessage != "") // send error message to client
 		{
-			CBitStream params;
-			params.write_string(errorMessage);
+			CBitStream params1;
+			params1.write_string(errorMessage);
 
 			// List is reverse so we can read it correctly into SColor when reading
-			params.write_u8(errorColor.getBlue());
-			params.write_u8(errorColor.getGreen());
-			params.write_u8(errorColor.getRed());
-			params.write_u8(errorColor.getAlpha());
+			params1.write_u8(errorColor.getBlue());
+			params1.write_u8(errorColor.getGreen());
+			params1.write_u8(errorColor.getRed());
+			params1.write_u8(errorColor.getAlpha());
 
-			this.SendCommand(this.getCommandID("SendChatMessage"), params, player);
+			this.SendCommand(this.getCommandID("SendChatMessage"), params1, player);
 		}
 		return false;
 	}

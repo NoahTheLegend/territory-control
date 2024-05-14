@@ -89,8 +89,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		
 			printf("" + owner.getUsername() + "'s Nuke has been activated.");
 		
-			CBitStream params;
-			this.SendCommand(this.getCommandID("nuke_activate_cl"), params);
+			CBitStream params1;
+			this.SendCommand(this.getCommandID("nuke_activate_cl"), params1);
 		}
 		
 		if (cmd == this.getCommandID("nuke_ready_sv"))
