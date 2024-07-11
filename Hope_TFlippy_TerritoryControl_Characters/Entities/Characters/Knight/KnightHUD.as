@@ -1,7 +1,7 @@
 //knight HUD
 //by The Sopranos
 
-#include "/Entities/Common/GUI/ActorHUDStartPos.as";
+#include "/Entities/Common/GUI/nActorHUDStartPos.as";
 
 const string iconsFilename = "jclass.png";
 const int slotsSize = 6;
