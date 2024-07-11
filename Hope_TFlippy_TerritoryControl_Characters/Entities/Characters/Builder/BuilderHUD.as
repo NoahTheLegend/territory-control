@@ -1,7 +1,7 @@
 //archer HUD
 //by The Sopranos
 
-#include "/Entities/Common/GUI/nActorHUDStartPos.as";
+#include "/Entities/Common/GUI/ActorHUDStartPos.as";
 
 const string iconsFilename = "jclass.png";
 const int slotsSize = 6;
