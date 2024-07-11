@@ -2,7 +2,7 @@
 //by The Sopranos (edited by Frikman)
 
 #include "ArcherCommon.as";
-#include "nActorHUDStartPos.as";
+#include "ActorHUDStartPos.as";
 
 const string iconsFilename = "jclass.png";
 const int slotsSize = 6;
