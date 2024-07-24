@@ -342,6 +342,22 @@ bool hasRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &inout bs, C
 				has=false;
 			}
 		}
+		else if (req == "has armor")
+		{
+			if (playerBlob.getInventory() !is null)
+			{
+				if (playerBlob.getInventory().getItem(blobName) !is null) 
+					{
+						CBlob@ item_blob = playerBlob.getInventory().getItem(blobName);
+						if (item_blob.exists("health") && item_blob.get_f32("health") > 0) has = true;
+						else has = false;
+					}
+				if (playerBlob.get_f32(blobName+"_health") == 0)
+				{
+					has = false;
+				}
+			}
+		}
 		//else if (req == "altar power more than")
 		//{
 		//	f32 biggest_power = 0;

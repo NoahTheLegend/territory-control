@@ -79,6 +79,15 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$bricks_block$", "World.png", Vec2f(8, 8), CMap::tile_bricks);
 	AddIconToken("$castle_moss_block$", "World.png", Vec2f(8, 8), CMap::tile_castle_moss);
 	AddIconToken("$castle_back_moss_block$", "World.png", Vec2f(8, 8), CMap::tile_castle_back_moss);
+	AddIconToken("$tile_ground$", "World.png", Vec2f(8, 8), CMap::tile_ground);
+	
+	AddIconToken("$tile_ground_back$", "World.png", Vec2f(8, 8), CMap::tile_ground_back);
+	AddIconToken("$tile_gold$", "World.png", Vec2f(8, 8), CMap::tile_gold);
+	AddIconToken("$tile_stone$", "World.png", Vec2f(8, 8), CMap::tile_stone);
+	AddIconToken("$tile_bedrock$", "World.png", Vec2f(8, 8), CMap::tile_bedrock);
+	AddIconToken("$tile_thickstone$", "World.png", Vec2f(8, 8), CMap::tile_thickstone);
+	
+	
 	AddIconToken("$icon_buildershop$", "BuilderShop.png", Vec2f(40, 24), 0, teamnum);
 	AddIconToken("$icon_quarters$", "Quarters.png", Vec2f(40, 24), 2, teamnum);
 	AddIconToken("$icon_tinkertable$", "TinkerTable.png", Vec2f(40, 24), 0, teamnum);
@@ -389,6 +398,38 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
 		blocks[0].push_back(b);
 	}
+	{
+		BuildBlock b(CMap::tile_ground_back, "tile_ground_back", "$tile_ground_back$", ""); ///////////////
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_gold, "tile_gold", "$tile_gold$", "");
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_stone, "tile_stone", "$tile_stone$", "");
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_bedrock, "tile_bedrock", "$tile_bedrock$", "");
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_thickstone, "tile_thickstone", "$tile_thickstone$", "");
+		AddRequirement(b.reqs, "blob", "mat_dirt", "Dirt", 30);
+		blocks[0].push_back(b);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	BuildBlock[] page_1;
 	blocks.push_back(page_1);
