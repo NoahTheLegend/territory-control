@@ -276,9 +276,6 @@ shared void sendMode(CBlob@ this, bool mode)
 
 void onTick(CBlob@ this)
 {
-
-
-
 	AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
 	if(point is null) {return;}
 	CBlob@ playerblob = point.getOccupied();
@@ -338,7 +335,12 @@ void onTick(CBlob@ this)
 
         
 	if(!music_mode)
-	{  return; }
+	{
+		getRules().chat = true;
+		return; 
+	}
+
+	getRules().chat = false;
 
     if(layout_number == Layout::piano)
     {
@@ -638,6 +640,11 @@ void playNote(CBlob@ this, u8 instr_number, u8 note, f32 volume)
 
 }
 
+void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ ap)
+{
+	if (detached !is null && detached.isMyPlayer())
+		getRules().chat = true;
+}
 
 //sprite
 
