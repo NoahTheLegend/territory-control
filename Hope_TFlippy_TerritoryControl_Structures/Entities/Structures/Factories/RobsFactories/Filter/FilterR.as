@@ -33,7 +33,7 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 		if(map.getTile(this.getPosition()).type == 0)map.server_SetTile(this.getPosition(), CMap::tile_biron);
 	}
 	
-	if(!this.hasTag("no_up"))this.setPosition(this.getPosition()-Vec2f(0,3.5));
+	if(!this.hasTag("no_up"))this.setPosition(this.getPosition()-Vec2f(0,2.5f));
 	this.Tag("no_up");
 
 	sprite.SetOffset(Vec2f(0,-0.5));

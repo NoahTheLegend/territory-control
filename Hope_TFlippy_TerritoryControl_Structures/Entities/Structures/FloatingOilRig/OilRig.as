@@ -21,14 +21,6 @@ void onInit(CBlob@ this)
 	this.getSprite().getConsts().accurateLighting = true;
 	
 	this.set_string("mat_prop", XORRandom(4)==0?"mat_methane":"mat_oil");
-
-	if (isClient())
-	{
-		CBitStream params;
-		params.write_bool(false);
-		this.SendCommand(this.getCommandID("sync_prop"), params);
-	}
-
 	this.getCurrentScript().tickFrequency=1;//45*2;	//45 oil per minute
 
 	this.Tag("upkeep building");
@@ -67,6 +59,15 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 void onTick(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
+	if (blob.getTickSinceCreated() == 1)
+	{
+		if (isClient())
+		{
+			CBitStream params;
+			params.write_bool(false);
+			blob.SendCommand(blob.getCommandID("sync_prop"), params);
+		}
+	}
 
 	CSpriteLayer@ front = this.getSpriteLayer("frontlayer");
 	if (front !is null)
@@ -303,6 +304,8 @@ bool isInventoryAccessible(CBlob@ this,CBlob@ forBlob)
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
+	if (params is null) return;
+
 	if (cmd == this.getCommandID("write"))
 	{
 		if (isServer())
