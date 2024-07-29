@@ -373,7 +373,7 @@ void onTick(CBlob@ this)
 
 							if (isClient())
 							{
-								if (map.isTileBedrock(tile))
+								if (map.isTileBedrock(tile) || isTilePlasteel(tile))
 								{
 									sprite.PlaySound("metal_stone.ogg");
 									sparks(hi.hitpos, attackVel.Angle(), 1.0f);
