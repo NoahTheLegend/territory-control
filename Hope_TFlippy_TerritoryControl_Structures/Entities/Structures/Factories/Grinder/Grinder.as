@@ -12,7 +12,6 @@ void onInit(CSprite@ this)
 	this.SetEmitSoundVolume(0.3f);
 	this.SetEmitSoundSpeed(0.9f);
 	this.SetEmitSoundPaused(false);
-	this.getCurrentScript().tickFrequency = 2;
 	CSpriteLayer@ chop_left = this.addSpriteLayer("chop_left", "/Saw.png", 16, 16);
 
 	if (chop_left !is null)
@@ -91,7 +90,7 @@ void onTick(CBlob@ this)
 	}
 
 	CBlob@[] blobs;
-	if (getMap().getBlobsInRadius(this.getPosition()+Vec2f(0,-2) ,6.4f, @blobs))
+	if (getMap().getBlobsInRadius(this.getPosition()+Vec2f(0,-2), 6.4f, @blobs))
 	{
 		int length = (blobs.length > MAX_GRINDABLE_AT_ONCE ? MAX_GRINDABLE_AT_ONCE : blobs.length);
 
@@ -99,12 +98,13 @@ void onTick(CBlob@ this)
 		{
 			CBlob@ blob = blobs[i];
 			if (blob is null) { continue; }
-			if (blob.getName() == "ninja") continue;
+			if (blob.getName() == "ninja") continue; // feature sure
 
 			if (canSaw(this, blob))
 			{
 				Blend(this, blob);
-				if (isServer())
+				if (isServer() && (!blob.hasTag("material") || blob.hasTag("explosive"))
+					&& !blob.hasTag("invincible"))
 				{ 
 					this.server_Hit(blob, blob.getPosition(), Vec2f(0, -2), 2.00f, Hitters::saw, true); 
 				}
