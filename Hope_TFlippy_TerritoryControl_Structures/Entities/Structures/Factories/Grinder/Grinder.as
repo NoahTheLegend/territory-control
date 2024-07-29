@@ -171,18 +171,21 @@ void Blend(CBlob@ this, CBlob@ blob)
 	{
 		case 1062293841://log
 		{
+			kill = true;
+
 			if (isServer())
 			{
 				MakeMat(this, this.getPosition(), "mat_wood", 60 + XORRandom(40));
 			}
 
 			this.getSprite().PlaySound("SawLog.ogg", 0.8f, 0.9f);
-			kill = true;
 		}
 		break;
 
 		case 575725963://mat_stone
 		{
+			kill = true;
+
 			if (isServer())
 			{
 				u32 quantity = blob.getQuantity();
@@ -206,12 +209,13 @@ void Blend(CBlob@ this, CBlob@ blob)
 					ParticleAnimated("Smoke.png", this.getPosition() + Vec2f(8 - XORRandom(16), 8 - XORRandom(16)), Vec2f((100 - XORRandom(200)) / 100.0f, 0.5f), 0.0f, 1.5f, 3, 0.0f, true);
 				}
 			}
-			kill = true;
 		}
 		break;
 
 		case 1074492747://mat_dirt
 		{
+			kill = true;
+
 			if (isServer())
 			{
 				u32 quantity = blob.getQuantity();
@@ -240,24 +244,25 @@ void Blend(CBlob@ this, CBlob@ blob)
 					);
 				}
 			}
-			kill = true;
 		}
 		break;
 
 		case 881918781://scythergib
 		{
+			kill = true;
+			
 			if (isServer())
 			{
 				MakeMat(this, this.getPosition(), "mat_plasteel", 5 + XORRandom(20));
 				MakeMat(this, this.getPosition(), "mat_steelingot", 1 + XORRandom(3));
 			}
-			kill = true;
 		}
 		break;
 
 		case 336243301://steak
 		{
-
+			kill = true;
+			
 			if (isServer())
 			{
 				u8 quantity = blob.getQuantity();
@@ -266,7 +271,6 @@ void Blend(CBlob@ this, CBlob@ blob)
 			}
 
 			this.getSprite().PlaySound("SawLog.ogg", 0.8f, 1.0f);
-			kill = true;
 		}
 		break;
 
@@ -336,16 +340,21 @@ void Blend(CBlob@ this, CBlob@ blob)
 
 	if (kill)
 	{
-		blob.Tag("sawed");
-
-		CSprite@ s = blob.getSprite();
-		if (s !is null)
+		if (isClient())
 		{
-			s.Gib();
+			CSprite@ s = blob.getSprite();
+			if (s !is null)
+			{
+				s.Gib();
+			}
 		}
-
-		blob.server_SetHealth(-1.0f);
-		blob.server_Die();
+		
+		if (isServer())
+		{
+			blob.Tag("sawed");
+			blob.server_SetHealth(-1.0f);
+			blob.server_Die();
+		}
 	}
 }
 

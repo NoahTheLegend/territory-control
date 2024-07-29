@@ -30,7 +30,7 @@ void onInit(CBlob@ this)
 	this.set_u8("attackDelay", 0);
 	this.set_bool("bomber", false);
 	this.set_bool("raider", false);
-	this.getSprite().PlaySound("DFF-Intro.ogg", 2.0f);
+	this.getSprite().PlaySound("DFF-Intro.ogg", 3.0f);
 
 	// this.set_u32("next_event", getGameTime() + (30 * 60 * 5) + XORRandom(30 * 60 * 5));
 
