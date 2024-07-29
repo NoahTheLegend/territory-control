@@ -772,7 +772,6 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					if (tokens.length == 2) description = tokens[1];
 					else if (tokens.length >= 3) description = tokens[2];
 					server_MakeCrate(tokens[1],description,frame,-1,blob.getPosition());
-					return false;
 				}
 				else if (tokens[0]=="!disc")
 				{
