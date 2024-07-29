@@ -68,7 +68,7 @@ void onTick(CBlob@ this)
 		}
 		sprite.SetVisible(false);
 	}
-	else sprite.SetVisible(false);
+	else sprite.SetVisible(true);
 
 	CMap@ map = getMap();
 
