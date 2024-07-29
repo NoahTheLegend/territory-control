@@ -767,17 +767,12 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 				else if (tokens[0]=="!crate")
 				{
 					if (tokens.length<2) return false;
-					int frame = tokens[1]=="catapult" ? 1 : 0;
-					string description = tokens.length > 2 ? tokens[2] : tokens[1];
+					int frame = 0;
+					string description;
+					if (tokens.length == 2) description = tokens[1];
+					else if (tokens.length >= 3) description = tokens[2];
 					server_MakeCrate(tokens[1],description,frame,-1,blob.getPosition());
-				}
-				else if (tokens[0]=="!scroll")
-				{
-					if (tokens.length<2) return false;
-					string s = tokens[1];
-					for (uint i=2;i<tokens.length;i++) s+=" "+tokens[i];
-
-					server_MakePredefinedScroll(blob.getPosition(),s);
+					return false;
 				}
 				else if (tokens[0]=="!disc")
 				{

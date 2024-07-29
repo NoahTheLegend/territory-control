@@ -1,7 +1,7 @@
 // make a crate that when unpacked become blobName
 // inventoryName for GUI
 
-shared CBlob@ server_MakeCrate(string blobName, string inventoryName, int frameIndex, int team, Vec2f pos, bool init = true, u8 count = 1)
+CBlob@ server_MakeCrate(string blobName, string inventoryName, int frameIndex, int team, Vec2f pos, bool init = true, u8 count = 1)
 {
 	CBlob@ crate = server_CreateBlobNoInit("crate");
 
@@ -20,7 +20,7 @@ shared CBlob@ server_MakeCrate(string blobName, string inventoryName, int frameI
 	return crate;
 }
 
-shared CBlob@ server_MakeCrateOnParachute(string blobName, string inventoryName, int frameIndex, int team, Vec2f pos)
+CBlob@ server_MakeCrateOnParachute(string blobName, string inventoryName, int frameIndex, int team, Vec2f pos)
 {
 	CBlob@ crate = server_MakeCrate(blobName, inventoryName, frameIndex, team, pos, false);
 
@@ -36,14 +36,14 @@ shared CBlob@ server_MakeCrateOnParachute(string blobName, string inventoryName,
 	return crate;
 }
 
-shared Vec2f getDropPosition(Vec2f drop)
+Vec2f getDropPosition(Vec2f drop)
 {
 	drop.x += -16.0f + 32.0f * 0.01f * XORRandom(100);
 	drop.y = 32.0f + 8.0f * 0.01f * XORRandom(100); // sky
 	return drop;
 }
 
-shared void PackIntoCrate(CBlob@ this, int frameIndex)
+void PackIntoCrate(CBlob@ this, int frameIndex)
 {
 	server_MakeCrate(this.getName(), this.getInventoryName(), frameIndex, this.getTeamNum(), this.getPosition());
 	this.server_Die();
