@@ -19,6 +19,8 @@ void onInit(CBlob@ this)
 
 	this.Tag("train");
 	this.Tag("invincible");
+	this.Tag("ignore extractor");
+	this.Tag("ignore inserter");
 
 	this.SetLight(true);
 	this.SetLightRadius(64.0f);
