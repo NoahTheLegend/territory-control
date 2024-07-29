@@ -94,8 +94,9 @@ void Heal(CBlob@ this, CBlob@ blob)
 			case 1260223417:
 				heal_amount = 3; // more sense to use expensive food?
 				break;
-			// grain
+			// grain, ganjapod
 			case -1788840884:
+			case 1072895275:
 				heal_amount = 1;
 				break;
 			// ratfood
