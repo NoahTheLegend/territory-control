@@ -32,6 +32,10 @@ void onInit(CBlob@ this)
 		case -1788840884:
 			this.maxQuantity = 5;
 			break;
+		// ganjapod
+		case 1072895275:
+			this.maxQuantity = 1;
+			break;
 		// ratfood
 		case 1197821324:
 			this.maxQuantity = 1;
@@ -75,7 +79,7 @@ void Heal(CBlob@ this, CBlob@ blob)
 		string name = this.getName();
 		const int hash = name.getHash();
 		u8 heal_amount = 2; // things that might've been missed
-
+		printf(""+hash);
 		switch(hash)
 		{
 			// heart
@@ -94,8 +98,11 @@ void Heal(CBlob@ this, CBlob@ blob)
 			case 1260223417:
 				heal_amount = 3; // more sense to use expensive food?
 				break;
-			// grain, ganjapod
+			// grain
 			case -1788840884:
+				heal_amount = 1;
+				break;
+			// ganjapod
 			case 1072895275:
 				heal_amount = 1;
 				break;
