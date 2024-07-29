@@ -341,7 +341,8 @@ void onTick(CBlob@ this)
 								{
 									//tile destroyed last hit
 
-									if (tile >= 848 && tile <= 864 && XORRandom(7) != 0)
+									if ((tile >= 848 && tile <= 864 && XORRandom(7) != 0)
+										|| isTilePlasteel(tile)) // titanium
 									{
 										sprite.PlaySound("metal_stone.ogg", 1.0f, 1.1f);
 										sparks(hi.hitpos, attackVel.Angle(), 1.0f);
