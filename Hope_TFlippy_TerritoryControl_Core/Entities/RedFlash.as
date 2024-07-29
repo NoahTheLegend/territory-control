@@ -61,7 +61,7 @@ f32 angleLerp(f32 a0, f32 a1, f32 t)
 
 void onTick(CBlob@ this)
 {
-	if (this.isMyPlayer())
+	if (this.isMyPlayer() && getBlobByName("cube") is null)
 	{
 		CCamera@ cam = getCamera();
 	

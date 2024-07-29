@@ -22,7 +22,8 @@ void onInit(CBlob@ this)
 
 	this.set_u32("timer", 0);
 
-	if (getBlobByName('cube') is null || !isClient()) return;
+	if (!isClient()) return;
+	bool has_cube = getBlobByName('cube') !is null;
 
 	for (u8 i = 0; i < 200; i++)
 	{
@@ -31,6 +32,7 @@ void onInit(CBlob@ this)
 		{
 			l.SetRelativeZ(sprite.getRelativeZ()-2000+i*20);
 			l.SetOffset(sprite.getOffset());
+			l.SetVisible(has_cube);
 		}
 	}
 }
@@ -64,6 +66,7 @@ void onTick(CBlob@ this)
 				f32 x = Maths::Sin(t) * 15+Maths::Sin(t)*20;
 				f32 y = Maths::Sin(2 * t) * 15;
 				l.SetOffset(sprite.getOffset() + Vec2f(x, y));
+				l.SetVisible(true);
 			}
 		}
 		sprite.SetVisible(false);
