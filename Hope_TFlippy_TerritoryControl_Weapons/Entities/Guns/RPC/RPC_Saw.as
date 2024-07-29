@@ -24,7 +24,7 @@ void onInit(CBlob@ this)
 	CSprite@ sprite = this.getSprite();
 	sprite.SetEmitSound("RPC_Loop.ogg");
 	sprite.SetEmitSoundSpeed(1.0f);
-	sprite.SetEmitSoundVolume(10.0f);
+	sprite.SetEmitSoundVolume(2.0f);
 	sprite.SetEmitSoundPaused(false);
 	
 	this.SetLight(true);
