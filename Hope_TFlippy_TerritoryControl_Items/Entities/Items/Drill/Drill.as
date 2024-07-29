@@ -6,6 +6,7 @@
 #include "MaterialCommon.as";
 #include "ShieldCommon.as";
 #include "KnockedCommon.as";
+#include "CustomBlocks.as";
 
 const f32 speed_thresh = 2.4f;
 const f32 speed_hard_thresh = 2.6f;
