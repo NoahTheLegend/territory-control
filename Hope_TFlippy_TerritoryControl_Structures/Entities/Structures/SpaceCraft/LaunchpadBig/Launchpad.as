@@ -51,7 +51,6 @@ void onInit(CBlob@ this)
     this.inventoryButtonPos = Vec2f(-24, 86);
 
     this.Tag("builder always hit");
-    this.set_bool("update", true);
     this.Tag("launchpad");
 
     this.SetLightColor(SColor(255,255,255,255));
@@ -146,8 +145,12 @@ string uppercaseFirstLetter(string &in str)
 
 void onTick(CBlob@ this)
 {
+    if (this.getTickSinceCreated() == 1)
+    {
+        this.set_bool("update", true);
+    }
+    
     // setup locator anim
-
     if (this.get_u8("frameindex") == 11) this.setInventoryName("Ready");
     if (this.hasTag("unsuccess"))
     {
