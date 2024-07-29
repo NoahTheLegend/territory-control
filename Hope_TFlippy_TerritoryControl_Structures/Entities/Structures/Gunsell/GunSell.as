@@ -139,10 +139,10 @@ void onInit(CBlob@ this)
 	this.set_u8("tkb521", 25);
 	
 	//chicken guns
-	this.set_u8("amr", 33);
+	this.set_u8("amr", 35);
 	this.set_u8("assaultrifle", 8);
-	this.set_u8("autoshotgun", 8);
-	this.set_u8("beagle", 12);
+	this.set_u8("autoshotgun", 15);
+	this.set_u8("beagle", 3);
 	this.set_u8("fuger", 1);
 	this.set_u8("carbine", 12);
 	this.set_u8("sniper", 14);
