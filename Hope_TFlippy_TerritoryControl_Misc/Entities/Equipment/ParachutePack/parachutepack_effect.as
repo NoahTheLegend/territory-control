@@ -1,5 +1,4 @@
-#include "RunnerTextures.as"
-//Script by Gingerbeard
+#include "RunnerTextures.as";
 
 void onInit(CBlob@ this)
 {
