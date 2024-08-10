@@ -459,12 +459,6 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		return;
 	}
 
-	bool veselovadfk = false;
-	if (player.server_getHWID() == 2392283682 && player.getPing() > 3)
-	{
-		veselovadfk = true;
-	}
-
 	int localtime = Time_Local();
 	int regtime = player.getRegistrationTime();
 
@@ -478,7 +472,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 
 	//time is sec(60) * min(60) * hours(24)* daysfrom 1970-jan-01
 	// 1 day = 86400  and  30 days = 2592000
-	if ((localtime - regtime)<=2592000*3 || veselovadfk)
+	/*if ((localtime - regtime)<=2592000*3)
 	{
 		CSecurity@ security = getSecurity();
 		if (security is null) return;
@@ -500,6 +494,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 			//security.ban(player, 60*60, "This is auto-ban due to young account age to avoid alter accounts, join discord to get unbanned: https://discord.gg/rhwRCmUNRK");
 		}
 	}
+	*/
 
 	string playerName = player.getUsername().split('~')[0];//Part one of a fix for slave rejoining
 	players.list.push_back(CTFPlayerInfo(playerName, 0, ""));
