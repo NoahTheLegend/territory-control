@@ -482,7 +482,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	{
 		CSecurity@ security = getSecurity();
 		if (security is null) return;
-		bool can_ban = !security.checkAccess_Feature(player, "ban_immunity");
+		bool can_ban = !security.checkAccess_Feature(player, "whitelist");
 		//in security folder inside normal.cfg add newban; to end of features=
 		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
 		
