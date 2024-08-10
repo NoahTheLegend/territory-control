@@ -24,7 +24,7 @@ void onInit(CBlob@ this)
 	AddIconToken("$icon_trollbird_follower$", "InteractionIcons.png", Vec2f(32, 32), 11);
 	{
 		ShopItem@ s = addShopItem(this, "Become a real master of trolling", "$icon_trollbird_follower$", "follower", "I bet, it IS a worth investment!");
-		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold ingot", 1000);
+		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold ingot", 500);
 
 		s.customButton = true;
 		s.buttonwidth = 2;	
@@ -64,6 +64,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (isClient())
 		{
 			this.getSprite().PlaySound("littletrolling", 3.00f, 1.00f);
+		}
+		if (isServer())
+		{
+			CBlob@ yippe = server_CreateBlob(XORRandom(100) < 50 ? "yippedanger" : "yippe", 255, this.getPosition());
 		}
 	}
 }
