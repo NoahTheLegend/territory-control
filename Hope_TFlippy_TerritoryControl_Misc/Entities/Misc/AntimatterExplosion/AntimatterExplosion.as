@@ -111,7 +111,7 @@ void server_DestroyStuff(CBlob@ this, f32 radius, u32 count, Vec2f pos)
 			for (u32 i = 0; i < blobs.length; i++)
 			{
 				CBlob@ b = blobs[i];
-				if (b !is this && b !is null && !b.hasTag("no_die"))
+				if (b !is this && b !is null)
 				{
 					b.server_Die();
 				}
