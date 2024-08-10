@@ -80,21 +80,21 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal)
 
 bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 {
-	if (inventoryBlob !is null && (inventoryBlob.hasTag("flesh") || inventoryBlob.hasTag("player")) && this !is null)
-	{
-		CInventory@ inv = inventoryBlob.getInventory();
-		if (inv !is null)
-		{
-			u8 counter = 1;
-			u16 nukes = inv.getItemsCount();
-			for (u16 i = 0; i < nukes; i++)
-			{
-				CBlob@ item = inv.getItem(i);
-				if (item is null) continue;
-				if (item.getName() == "mat_explonuke") counter++;
-			}
-			return counter <= 5;
-		}
-	}
+	//if (inventoryBlob !is null && (inventoryBlob.hasTag("flesh") || inventoryBlob.hasTag("player")) && this !is null)
+	//{
+	//	CInventory@ inv = inventoryBlob.getInventory();
+	//	if (inv !is null)
+	//	{
+	//		u8 counter = 1;
+	//		u16 nukes = inv.getItemsCount();
+	//		for (u16 i = 0; i < nukes; i++)
+	//		{
+	//			CBlob@ item = inv.getItem(i);
+	//			if (item is null) continue;
+	//			if (item.getName() == "mat_explonuke") counter++;
+	//		}
+	//		return counter <= 5;
+	//	}
+	//}
 	return true;
 }
