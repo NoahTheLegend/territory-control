@@ -496,8 +496,8 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 			printf("|");
 			printf("|");
 			printf("|");
-			//BanPlayer(player, 60*100);
-			security.ban(player, 60*60, "This is auto-ban due to young account age to avoid alter accounts, join discord to get unbanned: https://discord.gg/rhwRCmUNRK");
+			BanPlayer(player, 60*100);
+			//security.ban(player, 60*60, "This is auto-ban due to young account age to avoid alter accounts, join discord to get unbanned: https://discord.gg/rhwRCmUNRK");
 		}
 	}
 
@@ -590,7 +590,6 @@ void onInit(CRules@ this)
 {
 	// Todo: Maybe let's not make it so obvious ;)
 	CSecurity@ sec = getSecurity();
-	sec.unBan("TFlippy");
 
 	if (sv_test && isClient() && isServer())
 		LoadMap("small.png");

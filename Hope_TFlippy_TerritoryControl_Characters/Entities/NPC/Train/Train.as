@@ -15,6 +15,7 @@ Vec2f smokeOffset = Vec2f(-28, -28);
 
 void onInit(CBlob@ this)
 {
+	this.Tag("invincible");
 	UpdateMinimap(this);
 
 	this.getShape().SetGravityScale(0.0f);

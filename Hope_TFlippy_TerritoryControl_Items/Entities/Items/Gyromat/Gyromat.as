@@ -15,7 +15,7 @@ void onInit(CBlob@ this)
 	sprite.RewindEmitSound();
 	sprite.SetEmitSound("Gyromat_Loop.ogg");
 	sprite.SetEmitSoundSpeed(Maths::Clamp(0.50f + acceleration / 5.00f, 0.50f, 2.00f));
-	sprite.SetEmitSoundVolume(0.15f * acceleration);
+	sprite.SetEmitSoundVolume(Maths::Clamp(0.15f * acceleration, 0.15f, 2.0f));
 	sprite.SetEmitSoundPaused(false);
 	
 	Animation@ animation = sprite.getAnimation("default");

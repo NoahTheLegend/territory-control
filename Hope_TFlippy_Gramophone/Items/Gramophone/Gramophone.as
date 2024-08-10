@@ -168,13 +168,12 @@ void onTick(CBlob@ this)
 			if (track_id != 255)
 			{
 				GramophoneRecord@ record = records[track_id];
-				if (record !is null && s_musicvolume > 0)
+				if (record !is null && (s_musicvolume > 0 || !s_gamemusic))
 				{
 					sprite.SetEmitSoundPaused(false);
-					sprite.SetEmitSoundVolume(s_musicvolume);
+					sprite.SetEmitSoundVolume(s_gamemusic ? s_musicvolume * 2 : record.volume);
 				}
 				else sprite.SetEmitSoundPaused(true);
-
 			}
 		}
 	}

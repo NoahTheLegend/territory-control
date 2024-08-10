@@ -46,7 +46,7 @@ void MegaHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ h
 	
 	f32 true_level = this.get_f32("foofed");		
 	f32 level = 1.00f + true_level;
-	if (level >= 10.0f) level = 10.0f;
+	if (level >= 15.0f) level = 15.0f;
 
 	// print("" + level);
 	
@@ -60,13 +60,13 @@ void MegaHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ h
 		dir.Normalize();
 		f32 angle = dir.Angle();
 		
-		int count = true_level * 5.00f;
+		int count = true_level * 7.50f;
 		
 		for (int i = 0; i < count; i++)
 		{
 			Vec2f pos = worldPoint + getRandomVelocity(0, XORRandom(Maths::Min(24.00f * true_level, 48)), 360);	
 			
-			if (client && XORRandom(100) < 50 / Maths::Sqrt(count / 5 + 1))
+			if (client && XORRandom(100) < 10 / Maths::Sqrt(count / 5 + 1))
 			{
 				MakeDustParticle(pos, "dust2.png");
 			}

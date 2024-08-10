@@ -345,13 +345,15 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			}
 			else if (name.findFirst("tips") != -1)
 			{
+				if (!isServer()) return;
 				CBlob@ paper = server_CreateBlobNoInit("t1_book");
 				if (paper !is null)
 				{
 					paper.server_setTeamNum(255);
 					paper.set_string("text", tips[XORRandom(tips.length)]);
-					paper.Sync("text", true);
 					callerBlob.server_PutInInventory(paper);
+					paper.Init();
+					paper.Sync("text", true);
 				}
 			}
 			else

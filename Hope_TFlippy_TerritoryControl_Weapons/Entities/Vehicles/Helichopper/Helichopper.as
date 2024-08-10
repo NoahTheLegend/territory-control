@@ -64,8 +64,8 @@ void onInit(CBlob@ this)
 		}
 	}
 
-	this.set_f32("max_fuel", 4000);
-	this.set_f32("fuel_consumption_modifier", 2.00f);
+	this.set_f32("max_fuel", 5000);
+	this.set_f32("fuel_consumption_modifier", 6.0f);
 
 	AttachmentPoint@[] aps;
 	if (this.getAttachmentPoints(@aps))
