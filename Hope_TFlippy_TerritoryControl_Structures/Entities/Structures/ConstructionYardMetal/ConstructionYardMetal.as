@@ -28,17 +28,16 @@ void onInit(CBlob@ this)
 	AddIconToken("$icon_howitzer$", "Icon_Vehicles.png", Vec2f(24, 24), 4);
 	AddIconToken("$icon_zeppelin$", "Zepplin.png", Vec2f(181, 90), 0);
 	AddIconToken("$icon_autocannon$", "AutocannonIcon.png", Vec2f(96, 48), 0);
+	AddIconToken("$icon_submarine$", "Submarine.png", Vec2f(90, 32), 0);
 
 	AddIconToken("$mat_ironingot$", "Material_IronIngot.png", Vec2f(16, 16), 1);
 	AddIconToken("$antiair", "AntiAC_top.png", Vec2f(32, 16), 3);
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 8));
-	this.set_Vec2f("shop menu size", Vec2f(10, 10));
+	this.set_Vec2f("shop menu size", Vec2f(12, 10));
 	this.set_string("shop description", "Buy");
 	this.set_u8("shop icon", 25);
-
-	
 }
 
 void onChangeTeam(CBlob@ this, const int oldTeam)
@@ -81,7 +80,7 @@ void addTokens(CBlob@ this)
 
 		s.crate_icon = 13;
 		s.customButton = true;
-		s.buttonwidth = 2;
+		s.buttonwidth = 4;
 		s.buttonheight = 4;
 	}
 	{
@@ -136,7 +135,7 @@ void addTokens(CBlob@ this)
 		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 
 		s.customButton = true;
-		s.buttonwidth = 3;
+		s.buttonwidth = 4;
 		s.buttonheight = 2;
 	}
 	{
@@ -147,7 +146,7 @@ void addTokens(CBlob@ this)
 
 		s.crate_icon = 0;
 		s.customButton = true;
-		s.buttonwidth = 3;
+		s.buttonwidth = 4;
 		s.buttonheight = 2;
 	}
 	{
@@ -170,7 +169,18 @@ void addTokens(CBlob@ this)
 
 		//s.crate_icon = 0;
 		s.customButton = true;
-		s.buttonwidth = 10;
+		s.buttonwidth = 8;
+		s.buttonheight = 4;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Submarine", "$icon_submarine$", "submarine", "$icon_submarine$\n\n\n\n\n\n\n\nUnderwater reinforcement with missile rack installed!", false, true);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 100);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 40);
+		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
+
+		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 4;
 		s.buttonheight = 4;
 	}
 }
