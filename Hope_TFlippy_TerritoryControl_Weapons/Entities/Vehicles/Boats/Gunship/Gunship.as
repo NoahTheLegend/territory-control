@@ -18,6 +18,7 @@ void onInit(CBlob@ this)
 	{
 		return;
 	}
+	this.Tag("save_detach_collision");
 	Vehicle_SetupWaterSound(this, v, "HoverBike_Loop",  // movement sound
 	                        1.25f, // movement sound volume modifier   0.0f = no manipulation
 	                        0.05f // movement sound pitch modifier     0.0f = no manipulation

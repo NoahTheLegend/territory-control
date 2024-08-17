@@ -70,7 +70,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal)
 
 void onThisRemoveFromInventory(CBlob@ this, CBlob@ missile) //cruise missile compatibility
 {
-	if (missile.getName() == "cruisemissile")
+	if (missile.hasTag("cruisemissile"))
 	{
 		this.setVelocity(missile.getVelocity() * 0.4f);
 		this.setAngleDegrees(missile.getAngleDegrees() + 180);

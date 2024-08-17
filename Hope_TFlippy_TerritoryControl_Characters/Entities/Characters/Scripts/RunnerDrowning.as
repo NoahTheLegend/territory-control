@@ -47,8 +47,11 @@ void onTick(CBlob@ this)
 	u16 aircount = this.get_u16("air_count");
 
 	this.getCurrentScript().tickFrequency = FREQ;
-
-	const bool inWater = this.isInWater() && this.getMap().isInWater(pos + Vec2f(0.0f, -this.getRadius() * 0.66f)) && !this.hasTag("scubagear") && !this.hasTag("no drown");
+	
+	bool airpocket = getMap().getSectorAtPosition(this.getPosition(), "airpocket") !is null;
+	const bool inWater = !airpocket && 
+		(this.isInWater() && this.getMap().isInWater(pos + Vec2f(0.0f, -this.getRadius() * 0.66f))
+			&& !this.hasTag("scubagear") && !this.hasTag("no drown"));
 	bool canBreathe = !inWater && !gassed;
 	
 	const bool server = isServer();				

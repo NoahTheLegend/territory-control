@@ -65,6 +65,7 @@ void onTick(CSprite@ this)
 		{
 			CBitStream params;
 			params.write_bool(false);
+			params.write_string("mat_oil");
 			blob.SendCommand(blob.getCommandID("sync_prop"), params);
 		}
 	}

@@ -45,10 +45,12 @@ void onTick(CMovement@ this)
 
 	const bool is_client = isClient();
 
+
 	//cache
 	const bool on_ladder = blob.isOnLadder();
 	const bool on_ground = blob.isOnGround();
-	const bool in_water  = blob.isInWater();
+	bool airpocket = getMap().getSectorAtPosition(blob.getPosition(), "airpocket") !is null;
+	const bool in_water  = !airpocket && blob.isInWater();
 	const bool onground  = on_ground || on_ladder;
 	const bool on_wall   = blob.isOnWall();
 	const bool on_map    = blob.isOnMap();
@@ -223,7 +225,7 @@ void onTick(CMovement@ this)
 		}
 
 		waterForce *= swimforce * moveVars.overallScale;
-		blob.AddForce(waterForce);
+		if (!airpocket) blob.AddForce(waterForce);
 
 		if (!on_ground && !on_ladder)
 		{

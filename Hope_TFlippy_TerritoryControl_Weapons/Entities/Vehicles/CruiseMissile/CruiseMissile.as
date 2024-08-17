@@ -9,6 +9,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("explosive");
 	this.Tag("heavy weight");
+	this.Tag("cruisemissile");
 
 	this.addCommandID("offblast");
 	this.addCommandID("emote");

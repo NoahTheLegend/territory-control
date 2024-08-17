@@ -8,7 +8,7 @@ void onInit(CBlob@ this)
 	{
 		for (uint i = 0; i < aps.length; i++)
 		{
-			InitSeatAttachment(aps[i]);
+			InitSeatAttachment(aps[i], this);
 		}
 	}
 
@@ -82,11 +82,11 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 	}
 }
 
-void InitSeatAttachment(AttachmentPoint@ ap)
+void InitSeatAttachment(AttachmentPoint@ ap, CBlob@ this)
 {
 	if (ap !is null && ap.socket)
 	{
-		ap.offsetZ = -10.0f;
+		ap.offsetZ = this.exists("ap_offsetz") ? this.get_f32("ap_offsetz") : -10.0f;
 		ap.customData = 0;
 
 		if (ap.name.find("PASSENGER") != -1)

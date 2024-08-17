@@ -521,6 +521,11 @@ bool isDangerous(CBlob@ blob)
 // set the Z back
 void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 {
+	if (detached !is null && detached.hasTag("save_detach_collision"))
+	{
+		this.IgnoreCollisionWhileOverlapped(null);
+		detached.IgnoreCollisionWhileOverlapped(null);
+	}
 	if (detached !is null && isServer())
 	{
 		CPlayer@ player = this.getPlayer();

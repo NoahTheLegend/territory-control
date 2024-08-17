@@ -194,6 +194,7 @@ const string[] teamBombs =
 	"firejob",
 	"fireboom",
 	"cruisemissile",
+	"advancedcruisemissile",
 	"guidedrocket"
 };
 
@@ -497,7 +498,7 @@ void RenderTeamInventoryHUD(CBlob@ this)
 			}
 
 			Vec2f itemPos = Vec2f(getScreenWidth() / 1.52 - 54 + b * 46, getScreenHeight() - 57) + hudPos2;
-			if (itemName == "cruisemissile" || itemName == "guidedrocket" || itemName == "mat_bigbomb" || 
+			if (bomb.hasTag("cruisemissile") || itemName == "guidedrocket" || itemName == "mat_bigbomb" || 
 			    itemName == "mat_bombita" || itemName == "fireboom")
 			{
 				int xPos = (itemName == "fireboom" || itemName == "mat_bombita"  ? -6 : 8);
@@ -880,7 +881,7 @@ void RenderTeamInventoryHUD(CBlob@ this)
 			}
 
 			Vec2f itemPos = Vec2f(getScreenWidth() / 1.52 - 54 + b * 46, getScreenHeight() - 57) + hudPos2;
-			if (itemName == "cruisemissile" || itemName == "guidedrocket" || itemName == "mat_bigbomb" || 
+			if (bomb.hasTag("cruisemissile") || itemName == "guidedrocket" || itemName == "mat_bigbomb" || 
 			    itemName == "mat_bombita" || itemName == "fireboom")
 			{
 				int xPos = (itemName == "fireboom" || itemName == "mat_bombita"  ? -6 : 8);

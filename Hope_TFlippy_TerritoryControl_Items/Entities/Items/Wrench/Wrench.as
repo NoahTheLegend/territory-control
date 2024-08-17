@@ -80,6 +80,10 @@ void onTick(CBlob@ this)
 								{
 									blob.server_Heal(6); //Remember this is halved
 								}
+								else if (blob.exists("wrench_repair"))
+								{
+									blob.server_Heal(blob.get_f32("wrench_repair_amount"));
+								}
 								else
 								{
 									blob.server_Heal(3); //Only heals a small amount, bizaarly the actual healing amount is half of this
