@@ -478,7 +478,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		if (security is null) return;
 		bool can_ban = !security.checkAccess_Feature(player, "whitelist");
 		//in security folder inside normal.cfg add newban; to end of features=
-		// inside preium.cfg add newban; to end of features= if you want preium uses to also registered less than 2 months to be ban
+		// inside preium.cfg add newban; to end of features=
 		
 		printf("New player joined. Account age:"+ regtime + " regdate:" + reg_year + "-" + reg_month + "-" + reg_day + " checkAccess_Feature:" + can_ban);
 		if(can_ban)
