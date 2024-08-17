@@ -42,10 +42,10 @@ void onInit(CBlob@ this)
 	}	
 
 	CShape@ shape = this.getShape();
-	Vec2f raw_offset = Vec2f(this.isFacingLeft() ? -8 : 8, 14);
+	Vec2f raw_offset = Vec2f(8, 14);
 
 	shape.SetOffset(raw_offset);
-	Vec2f pos_off = Vec2f(-16, -14) + raw_offset;
+	Vec2f pos_off = Vec2f(this.isFacingLeft() ? 16 : -16, -14) + raw_offset;
 	{
 		// back
 		Vec2f[] s = { Vec2f( -20.0f,  -21.0f ) -pos_off,

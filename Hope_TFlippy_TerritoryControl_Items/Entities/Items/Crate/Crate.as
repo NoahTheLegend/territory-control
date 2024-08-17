@@ -362,8 +362,6 @@ void Unpack(CBlob@ this)
 						factory.SendCommand(factory.getCommandID("track blob"), params);
 					}
 				}
-
-				blob.SetFacingLeft(this.isFacingLeft());
 			}
 		}
 	}
