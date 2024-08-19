@@ -190,7 +190,7 @@ void onTick(CBlob@ this)
 			if (b is null || b.hasTag("dead") || !b.hasTag("flesh") || b is this) continue;
 			
 			blobPos = b.getPosition();
-			f32 mod = (radius/3) * ((92.0f-(thisPos - blobPos).Length()) / (radius/30));
+			f32 mod = (radius/2) * ((92.0f-(thisPos - blobPos).Length()) / (radius/30));
 			Vec2f dir = blobPos - thisPos;
 			f32 dist = Maths::Abs(dir.Length());
 			dir.Normalize();
@@ -218,7 +218,7 @@ void onTick(CBlob@ this)
 		this.getSprite().PlaySound("Exosuit_Teleport.ogg", 1.0f, 0.75f+(XORRandom(15)*0.01f));
 
 		this.set_u16("zaps_amount", zaps_amount);
-		this.set_u32("next_ability", getGameTime()+225);
+		this.set_u32("next_ability", getGameTime()+150);
 	}
 	if (getGameTime() >= this.get_u32("next_ability")-223)
 	{
