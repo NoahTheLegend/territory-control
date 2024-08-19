@@ -111,7 +111,7 @@ void DoExplosion(CBlob@ this)
 	Explode(this, 64.0f + XORRandom(10), 7.5f);
 	f32 vellen = this.getOldVelocity().Length();
 
-	for (int i = 0; i < 24; i++) 
+	for (int i = 0; i < 20; i++) 
 	{
 		Vec2f dir = getRandomVelocity(angle, 1, 40);
 		LinearExplosion(this, dir, 32.0f + XORRandom(24) * vellen, 16 + XORRandom(24), 3, 0.5f, Hitters::explosion);

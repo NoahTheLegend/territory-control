@@ -127,7 +127,7 @@ void onTick(CBlob@ this)
 				CBlob@ boom = server_CreateBlobNoInit("nukeexplosion");
 				boom.setPosition(this.getPosition());
 				boom.set_u8("boom_start", 1);
-				boom.set_u8("boom_end", 25);
+				boom.set_u8("boom_end", 45);
 				boom.Init();
 				
 				this.server_Die();
