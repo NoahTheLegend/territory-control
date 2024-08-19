@@ -99,6 +99,8 @@ void onTick(CBlob@ this)
 			CBlob@ blob = blobs[i];
 			if (blob is null) { continue; }
 			if (blob.getName() == "ninja") continue; // feature sure
+			bool vulnerable = !blob.isAttached() && !blob.isInInventory();
+			if ((blob.hasTag("cruisemissile") || blob.hasTag("weapon")) && !vulnerable) continue;
 
 			if (canSaw(this, blob))
 			{
@@ -109,7 +111,7 @@ void onTick(CBlob@ this)
 					this.server_Hit(blob, blob.getPosition(), Vec2f(0, -2), 2.00f, Hitters::saw, true); 
 				}
 			}
-			else if ((blob.hasTag("material") && !blob.isAttached() && !blob.isInInventory()) ? !this.server_PutInInventory(blob) : true)
+			else if ((blob.hasTag("material") && vulnerable) ? !this.server_PutInInventory(blob) : true)
 			{
 				blob.setVelocity(Vec2f(4 - XORRandom(8), -4));
 
