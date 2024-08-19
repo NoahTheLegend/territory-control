@@ -615,6 +615,13 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 				//	player.Untag("customfreeze");
 				//	blob.Untag("customfreeze");
 				//}
+				else if (tokens[0] == "!alienship")
+				{
+					CMap@ map = getMap();
+					u8 rnd = XORRandom(100);
+					string blobname = rnd < 33 ? "ancientcapsule" : rnd < 66 ? "poisonship" : "ancientship";
+            		server_CreateBlob(blobname, -1, Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
+				}
 				else if (tokens[0] == "!blue")
 				{
 					CPlayer@ playerSubj = GetPlayer(tokens.length >= 2 ? tokens[1] : tokens[0]);
