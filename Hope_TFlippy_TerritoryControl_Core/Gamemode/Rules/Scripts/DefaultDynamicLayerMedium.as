@@ -9,6 +9,6 @@ void onInit(CSprite@ this)
 	{
 		Animation@ anim = front.addAnimation("default", 0, false);
 		anim.AddFrame(1);
-		front.SetRelativeZ(1000);
+		front.SetRelativeZ(190);
 	}
 }

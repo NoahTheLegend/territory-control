@@ -97,7 +97,7 @@ void setOpen(CBlob@ this, bool open, bool faceLeft = false)
 	}
 	else
 	{
-		sprite.SetZ(100.0f);
+		sprite.SetZ(250.0f);
 		sprite.SetAnimation("close");
 		this.getShape().getConsts().collidable = true;
 		this.getCurrentScript().tickFrequency = 0;
