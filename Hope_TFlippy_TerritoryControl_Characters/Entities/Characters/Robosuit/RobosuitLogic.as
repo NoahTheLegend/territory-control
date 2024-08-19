@@ -196,22 +196,22 @@ void onTick(CBlob@ this)
 			dir.Normalize();
 
 			b.AddForce(Vec2f(1, 0).RotateBy(-dir.Angle()) * mod);
-			SetKnocked(b, 15);
+			SetKnocked(b, 3);
 
 			if (isClient())
 			{
 				bool flip = this.isFacingLeft();
 
-				CSpriteLayer@ zap = this.getSprite().addSpriteLayer("zap"+i, "Zapper_Lightning.png", 128, 12);
-				if (zap !is null)
-				{
-					zap.ResetTransform();
-					zap.SetFrameIndex(0);
-					zap.ScaleBy(Vec2f(dist / 128.0f - 0.1f, 1.0f));
-					zap.TranslateBy(Vec2f((dist / 2), 2.0f));
-					zap.RotateBy(-dir.Angle(), Vec2f());
-					zap.SetVisible(true);
-				}
+				//CSpriteLayer@ zap = this.getSprite().addSpriteLayer("zap"+i, "Zapper_Lightning.png", 128, 12);
+				//if (zap !is null)
+				//{
+				//	zap.ResetTransform();
+				//	zap.SetFrameIndex(0);
+				//	zap.ScaleBy(Vec2f(dist / 128.0f - 0.1f, 1.0f));
+				//	zap.TranslateBy(Vec2f((dist / 2), 2.0f));
+				//	zap.RotateBy(-dir.Angle(), Vec2f());
+				//	zap.SetVisible(true);
+				//}
 			}
 		}
 
@@ -223,12 +223,12 @@ void onTick(CBlob@ this)
 	if (getGameTime() >= this.get_u32("next_ability")-223)
 	{
 		if (this.get_u16("zaps_amount") > 1000) this.set_u16("zaps_amount", 0);
-		for (u16 i = 0; i < this.get_u16("zaps_amount"); i++)
-		{
-			CSpriteLayer@ l = this.getSprite().getSpriteLayer("zap"+i);
-			if (l !is null) l.SetVisible(false);
-			this.getSprite().RemoveSpriteLayer("zap"+i);
-		}
+		//for (u16 i = 0; i < this.get_u16("zaps_amount"); i++)
+		//{
+		//	CSpriteLayer@ l = this.getSprite().getSpriteLayer("zap"+i);
+		//	if (l !is null) l.SetVisible(false);
+		//	this.getSprite().RemoveSpriteLayer("zap"+i);
+		//}
 		this.set_u16("zaps_amount", 0);
 	}
 }
