@@ -358,14 +358,14 @@ void GoToBlob(CBrain@ this, CBlob @target)
 				Repath(this);
 				if (XORRandom(100) == 0)
 				{
-					set_emote(blob, "frown");
+					set_emote(blob, Emotes::frown);
 					f32 dist = Maths::Abs(targetpos.x - mypos.x);
 					if (dist > 20.0f)
 					{
 						if (dist < 50.0f)
-							set_emote(blob, targetpos.y > mypos.y ? "down" : "up");
+							set_emote(blob, targetpos.y > mypos.y ? Emotes::down : Emotes::up);
 						else
-							set_emote(blob, targetpos.x > mypos.x ? "right" : "left");
+							set_emote(blob, targetpos.x > mypos.x ? Emotes::right : Emotes::left);
 					}
 				}
 				break;
@@ -375,9 +375,9 @@ void GoToBlob(CBrain@ this, CBlob @target)
 				if (XORRandom(100) == 0)
 				{
 					if (Maths::Abs(targetpos.x - mypos.x) < 50.0f)
-						set_emote(blob, targetpos.y > mypos.y ? "down" : "up");
+						set_emote(blob, targetpos.y > mypos.y ? Emotes::down : Emotes::up);
 					else
-						set_emote(blob, targetpos.x > mypos.x ? "right" : "left");
+						set_emote(blob, targetpos.x > mypos.x ? Emotes::right : Emotes::left);
 				}
 				break;
 		}

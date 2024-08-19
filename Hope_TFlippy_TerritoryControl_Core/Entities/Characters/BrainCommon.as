@@ -308,7 +308,7 @@ void onChangeTarget(CBlob@ blob, CBlob@ target, CBlob@ oldTarget)
 	if (oldTarget is null)
 	{
 		//set_emote(blob, Emotes::attn, 1);
-		set_emote(blob, "attn", 1);
+		set_emote(blob, Emotes::attn, 1);
 	}
 }
 
