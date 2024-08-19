@@ -199,7 +199,7 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)
 	this.SetDamageOwnerPlayer(attached.getPlayer());
 
 	attached.Tag("noLMB");
-	attached.Tag("noRMB");
+	//attached.Tag("noRMB");
 	attached.Tag("noShielding");
 
 	if (isClient() && this.exists("CustomSoundPickup"))
