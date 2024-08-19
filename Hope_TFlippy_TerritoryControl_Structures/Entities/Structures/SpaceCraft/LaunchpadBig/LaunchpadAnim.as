@@ -33,6 +33,7 @@ void onInit(CSprite@ this)
             CBlob@ blob = server_CreateBlob("scanner_ghost");
             blob.setPosition(this.getBlob().getPosition()+Vec2f(34, 80));
             this.getBlob().set_netid("scanner", blob.getNetworkID());
+            blob.getShape().SetStatic(true);
         }
 	}
     Animation@ ranim = this.addAnimation("building", 0, false);
