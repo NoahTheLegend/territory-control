@@ -61,7 +61,7 @@ void onDie(CBlob@ this)
 		boom.Tag("no fallout");
 		boom.setPosition(this.getPosition());
 		boom.set_u8("boom_start", 0);
-		boom.set_u8("boom_end", 8);
+		boom.set_u8("boom_end", 9);
 		boom.set_f32("flash_distance", 320);
 		// boom.Tag("no mithril");
 		// boom.Tag("no flash");

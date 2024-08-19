@@ -13,7 +13,7 @@ void onInit(CBlob@ this)
 
 	// this.set_string("custom_explosion_sound", "bigbomb_explosion.ogg");
 	this.set_bool("map_damage_raycast", true);
-	this.set_Vec2f("explosion_offset", Vec2f(0, 16));
+	this.set_Vec2f("explosion_offset", Vec2f(0, 0));
 
 	this.set_u8("stack size", 1);
 	this.set_f32("bomb angle", 90);
@@ -87,7 +87,7 @@ void DoExplosion(CBlob@ this)
 
 	Explode(this, 32.0f + random, 15.0f);
 
-	for (int i = 0; i < 4 * modifier; i++) 
+	for (int i = 0; i < 1 * modifier; i++) 
 	{
 		Vec2f dir = getRandomVelocity(angle, 1, 120);
 		dir.x *= 2;

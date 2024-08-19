@@ -20,6 +20,7 @@
 #include "ShieldCommon.as";
 #include "SplashWater.as";
 #include "BTL_Include.as";
+#include "CustomBlocks.as"
 
 bool isOwnerBlob(CBlob@ this, CBlob@ that)
 {
@@ -253,16 +254,21 @@ void Explode(CBlob@ this, f32 radius, f32 damage)
 							{
 								if (!map.isTileBedrock(tile))
 								{
-									if (dist >= rad_thresh || !canExplosionDestroy(this, map, tpos, tile)) // (this.hasTag("map_damage_dirt") ? true : !canExplosionDestroy(this, map, tpos, t))
+									bool do_hit = randomizeTileHit(tile);
+
+									if (do_hit)
 									{
-										if (hitmap) this.server_HitMap(tpos, Vec2f(0, 0), 1.0f, Hitters::explosion);
-										else map.server_DestroyTile(tpos, 1.0f, this);
-										
-									}
-									else
-									{
-										if (hitmap) this.server_HitMap(tpos, Vec2f(0, 0), 100.0f, Hitters::explosion);
-										else map.server_DestroyTile(tpos, 100.0f, this);
+										if (dist >= rad_thresh || !canExplosionDestroy(this, map, tpos, tile)) // (this.hasTag("map_damage_dirt") ? true : !canExplosionDestroy(this, map, tpos, t))
+										{
+											if (hitmap) this.server_HitMap(tpos, Vec2f(0, 0), 1.0f, Hitters::explosion);
+											else map.server_DestroyTile(tpos, 1.0f, this);
+
+										}
+										else
+										{
+											if (hitmap) this.server_HitMap(tpos, Vec2f(0, 0), 100.0f, Hitters::explosion);
+											else map.server_DestroyTile(tpos, 100.0f, this);
+										}
 									}
 								}
 							}
@@ -344,6 +350,7 @@ void LinearExplosion(CBlob@ this, Vec2f _direction, f32 length, const f32 width,
 	for (int step = 0; step <= steps; ++step)
 	{
 		bool damaged = false;
+		bool go_back = false;
 
 		Vec2f tpos = pos;
 		for (int width_step = 0; width_step < width_steps + 2; width_step++)
@@ -378,16 +385,31 @@ void LinearExplosion(CBlob@ this, Vec2f _direction, f32 length, const f32 width,
 					{
 						if (damage_dirt	? true : canExplosionDamage(map, tpos, t))
 						{
-							if (!justhurt) damaged = true;
+							TileType tile = map.getTile(tpos).type;
+							bool do_hit = randomizeTileHit(tile);
 
-							justhurt = justhurt || !(this.hasTag("map_damage_dirt") ? true : canExplosionDestroy(this, map, tpos, t));
+							if (do_hit)
+							{
+								if (!justhurt) damaged = true;
 
-							if (hitmap) this.server_HitMap(tpos, Vec2f(0, 0), justhurt ? 5.0f : 100.0f, Hitters::explosion);
-							else map.server_DestroyTile(tpos, justhurt ? 5.0f : 100.0f, this);
+								justhurt = justhurt || !(this.hasTag("map_damage_dirt") ? true : canExplosionDestroy(this, map, tpos, t));
+
+								if (hitmap) this.server_HitMap(tpos, Vec2f(0, 0), justhurt ? 5.0f : 100.0f, Hitters::explosion);
+								else map.server_DestroyTile(tpos, justhurt ? 5.0f : 100.0f, this);
+							}
+							else damaged = false;
 						}
 						else
 						{
 							damaged = true;
+						}
+
+						bool tile_destroyed = false;
+						TileType old_tile = map.getTile(tpos).type;
+						if (!(old_tile == CMap::tile_empty || old_tile == CMap::tile_ground_back))
+						{
+							go_back = true;
+							tpos -= normal;
 						}
 					}
 					break;
@@ -415,7 +437,7 @@ void LinearExplosion(CBlob@ this, Vec2f _direction, f32 length, const f32 width,
 			}
 		}
 
-		pos += direction;
+		if (!go_back) pos += direction;
 	}
 
 	if (!isserver) return; //EARLY OUT ---------------------------------------- SERVER ONLY BELOW HERE
@@ -721,4 +743,15 @@ bool WorldHitBlob(Vec2f position, CBlob@ hit_blob, f32 radius, f32 damage, const
 	}
 
 	return true;
+}
+
+bool randomizeTileHit(u16 tile)
+{
+	u8 ignore_rnd = XORRandom(100);
+	bool do_hit = true;
+	if (ignore_rnd > 35 && isTileReinforcedConcrete(tile)) do_hit = false;
+	if (ignore_rnd > 40 && isTilePlasteel(tile)) do_hit = false;
+	if (ignore_rnd > 45 && isTileTitanium(tile)) do_hit = false;
+	if (ignore_rnd > 50 && isTileIron(tile)) do_hit = false;
+	return do_hit;
 }

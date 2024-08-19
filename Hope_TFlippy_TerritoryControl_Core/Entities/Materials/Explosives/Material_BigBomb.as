@@ -84,7 +84,7 @@ void DoExplosion(CBlob@ this)
 	}
 
 	this.set_f32("map_damage_radius", 48.0f);
-	this.set_f32("map_damage_ratio", 0.4f);
+	this.set_f32("map_damage_ratio", 1.0f);
 	f32 angle = this.getAngleDegrees() - this.get_f32("bomb angle");
 
 	if (isServer())
@@ -108,12 +108,13 @@ void DoExplosion(CBlob@ this)
 		}
 	}
 
-	Explode(this, 50.0f + XORRandom(10), 7.5f);
+	Explode(this, 64.0f + XORRandom(10), 7.5f);
+	f32 vellen = this.getOldVelocity().Length();
 
-	for (int i = 0; i < 3; i++) 
+	for (int i = 0; i < 24; i++) 
 	{
 		Vec2f dir = getRandomVelocity(angle, 1, 40);
-		LinearExplosion(this, dir, 8.0f + XORRandom(16), 8 + XORRandom(24), 3, 0.125f, Hitters::explosion);
+		LinearExplosion(this, dir, 32.0f + XORRandom(24) * vellen, 16 + XORRandom(24), 3, 0.5f, Hitters::explosion);
 	}
 	if(!isClient()){return;}
 
