@@ -14,7 +14,6 @@ void onRender(CSprite@ this)
 		{
 			if (gun.hasTag("weapon"))
 			{
-
 				if(!hud.hasMenus())hud.HideCursor();
 
 				GunSettings@ settings;
@@ -24,33 +23,33 @@ void onRender(CSprite@ this)
 				Vec2f AimPos = blob.getAimPos()-gun.getInterpolatedPosition();
 				CursorPos.Normalize();
 				CursorPos = CursorPos*AimPos.Length();
+				f32 zoom = 2.5f * getCamera().targetDistance;
 				
-				Vec2f mouse_pos = getControls().getInterpMouseScreenPos();
+				Vec2f mouse_pos = getDriver().getWorldPosFromScreenPos(getControls().getInterpMouseScreenPos());
 				Vec2f virtual_pos = getDriver().getScreenPosFromWorldPos(gun.getInterpolatedPosition()+CursorPos);
-				if((mouse_pos-virtual_pos).Length() < 8.0f)virtual_pos = mouse_pos;
+				if((mouse_pos-virtual_pos).Length() < 8.0f) virtual_pos = mouse_pos;
 				
 				SColor Col = SColor(255,255,255,255);
-
-				Render::SetTransformScreenspace();
 				
-				u8 DefaultAimSpace = 10;
-				int AimSpace = DefaultAimSpace;
+				f32 DefaultAimSpace = 10.0f;
+				f32 AimSpace = DefaultAimSpace;
 				if (settings !is null){	
 					if (settings.TOTAL > 15) {
 						AimSpace = Maths::Max(settings.TOTAL-15, DefaultAimSpace);
 						
 						if (settings.TOTAL > 50)
-							AimSpace = 35;
+							AimSpace = 35.0f;
 					}else{
 						AimSpace = DefaultAimSpace;
 					}
 				}
+				AimSpace /= zoom;
 				Vertex[] cross_height_vertex;
 				for( int i = 0; i < 4; i += 1){
 					
 					float angle = i*90;
 					
-					Vec2f Dimensions = Vec2f(7,7);
+					Vec2f Dimensions = Vec2f(7,7) / zoom;
 					
 					Vec2f TopLeft = Vec2f(-Dimensions.x/2,-Dimensions.y/2)*2;
 					Vec2f TopRight = Vec2f(Dimensions.x/2,-Dimensions.y/2)*2;
@@ -87,7 +86,7 @@ void onRender(CSprite@ this)
 					
 					float angle = i*90;
 					
-					Vec2f Dimensions = Vec2f(7,7);
+					Vec2f Dimensions = Vec2f(7,7) / zoom;
 					
 					Vec2f TopLeft = Vec2f(-Dimensions.x/2,-Dimensions.y/2)*2;
 					Vec2f TopRight = Vec2f(Dimensions.x/2,-Dimensions.y/2)*2;
@@ -160,7 +159,7 @@ void onRender(CSprite@ this)
 					
 					float angle = i*360/maxammo-90.0f;
 					
-					Vec2f Dimensions = Vec2f(5,5);
+					Vec2f Dimensions = Vec2f(5,5) / zoom;
 					
 					Vec2f TopLeft = Vec2f(-Dimensions.x/2,-Dimensions.y/2)*2;
 					Vec2f TopRight = Vec2f(Dimensions.x/2,-Dimensions.y/2)*2;
@@ -173,7 +172,7 @@ void onRender(CSprite@ this)
 						BotRight.RotateByDegrees(angle);
 					}
 					
-					Vec2f DrawPos = Vec2f(AimSpace+10,0);
+					Vec2f DrawPos = Vec2f(AimSpace+10.0f/zoom,0);
 					DrawPos.RotateByDegrees(angle);
 					
 					DrawPos = mouse_pos+DrawPos;
