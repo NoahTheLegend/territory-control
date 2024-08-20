@@ -78,7 +78,7 @@ void onInit(CBlob@ this)
 
 const f32 power_fire_immunity_max = 100000.00f;
 
-const u32 stonks_update_frequency = 4;
+const u32 stonks_update_frequency = 300;
 // const u32 stonks_update_frequency = 3;
 const f32 stonks_base_value_min = 100.00f;
 const f32 stonks_base_value_max = 350.00f;
