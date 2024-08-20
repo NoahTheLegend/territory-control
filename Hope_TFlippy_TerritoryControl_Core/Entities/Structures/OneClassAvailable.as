@@ -1,6 +1,7 @@
 // OneClassAvailable.as
 
 #include "StandardRespawnCommand.as";
+#include "DeityCommon.as";
 
 const string req_class = "required class";
 const string req_tag = "required tag";
@@ -50,7 +51,8 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		params.write_u16(caller.getNetworkID());
 		write_classchange(params, caller.getNetworkID(), cfg);
 
-		bool tried_use_only_faction = this.hasTag("only faction") && caller.getTeamNum() > 6;
+		u8 deity_id = caller.get_u8("deity_id");
+		bool tried_use_only_faction = this.hasTag("only faction") && caller.getTeamNum() > 6 && deity_id != Deity::gregor;
 
 		CButton@ button = caller.CreateGenericButton(
 		"$change_class$",                           // icon token

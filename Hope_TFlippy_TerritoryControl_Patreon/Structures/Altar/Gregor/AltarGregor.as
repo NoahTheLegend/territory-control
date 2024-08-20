@@ -21,10 +21,10 @@ void onInit(CBlob@ this)
 	this.addCommandID("sync_deity");
 
 	CSprite@ sprite = this.getSprite();
-	// sprite.SetEmitSound("gregor_Music.ogg");
-	// sprite.SetEmitSoundVolume(0.4f);
-	// sprite.SetEmitSoundSpeed(1.0f);
-	// sprite.SetEmitSoundPaused(false);
+	sprite.SetEmitSound("Magic_AuraLoop04.ogg");
+	sprite.SetEmitSoundVolume(1.0f);
+	sprite.SetEmitSoundSpeed(1.0f);
+	sprite.SetEmitSoundPaused(false);
 					
 	this.set_Vec2f("shop menu size", Vec2f(4, 2));
 	
@@ -45,6 +45,7 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "peasant", "Peasant's Corpse", 1);
 		AddRequirement(s.requirements, "blob", "vodka", "Vodka", 1);
 		AddRequirement(s.requirements, "blob", "ratburger", "Rat Burger", 1);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 		s.customButton = true;
 		s.buttonwidth = 1;	
 		s.buttonheight = 1;
@@ -120,8 +121,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 							{
 								if (this.getDistanceTo(localBlob) < 128)
 								{
-									this.getSprite().PlaySound("Gregor_Offering.ogg", 2.00f, 1.00f);
-									SetScreenFlash(255, 255, 255, 255, 3.00f);
+									this.getSprite().PlaySound("packer_pack.ogg", 1.25f, 1.00f);
 								}
 							}
 						}
