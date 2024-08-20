@@ -40,7 +40,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	bool CanChange = true;
 	
 	if(this.exists(req_tag)){
-		if(!caller.hasTag(this.get_string(req_tag)))CanChange = false;
+		if(!caller.hasTag(this.get_string(req_tag))) CanChange = false;
 	}
 
 	string cfg = this.get_string(req_class);
@@ -50,13 +50,20 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		params.write_u16(caller.getNetworkID());
 		write_classchange(params, caller.getNetworkID(), cfg);
 
+		bool tried_use_only_faction = this.hasTag("only faction") && caller.getTeamNum() > 6;
+
 		CButton@ button = caller.CreateGenericButton(
 		"$change_class$",                           // icon token
 		this.get_Vec2f("class offset"),             // button offset
 		this,                                       // button attachment
 		SpawnCmd::changeClass,                      // command id
-		"Swap Class",                               // description
+		tried_use_only_faction ? "Only for factioneers" : "Swap Class",                               // description
 		params);                                    // bit stream
+
+		if (tried_use_only_faction)
+		{
+			button.SetEnabled(false);
+		}
 
 		button.enableRadius = this.get_u8("class button radius");
 	}
