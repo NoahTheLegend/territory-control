@@ -8,7 +8,7 @@ void onInit( CRules@ this )
 void onRender( CRules@ this )
 {
 	CPlayer@ player = getLocalPlayer();
-	if (player !is null && player.isMyPlayer() && player.get_bool("no_dashboard")) return;
+	if (player is null || player.get_bool("no_dashboard")) return;
 	
 	CBlob@ local = player.getBlob();
 	if (local !is null && local.getName() != "peasant")
