@@ -102,7 +102,7 @@ void onInit(CBlob@ this)
 			AddRequirement(s.requirements, "no more global", "altar_gregor", "Altar of Gregor Builder", 1);
 			AddRequirement(s.requirements, "blob", "builder", "Virgin Builder Corpse", 1);
 			AddRequirement(s.requirements, "blob", "foof", "Foof", 2);
-			AddRequirement(s.requirements, "coin", "", "Coins", 5000);
+			AddRequirement(s.requirements, "coin", "", "Coins", 4000);
 			s.customButton = true;
 			s.buttonwidth = 2;	
 			s.buttonheight = 2;
