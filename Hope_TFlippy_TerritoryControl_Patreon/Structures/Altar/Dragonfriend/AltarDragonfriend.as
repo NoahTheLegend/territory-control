@@ -78,11 +78,10 @@ void onInit(CBlob@ this)
 
 const f32 power_fire_immunity_max = 100000.00f;
 
-// const u32 stonks_update_frequency = 30 * 5;
-const u32 stonks_update_frequency = 30;
+const u32 stonks_update_frequency = 4;
 // const u32 stonks_update_frequency = 3;
 const f32 stonks_base_value_min = 100.00f;
-const f32 stonks_base_value_max = 2000.00f;
+const f32 stonks_base_value_max = 350.00f;
 
 f32[] graph = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 int graph_index = 0;
@@ -431,6 +430,7 @@ void onRender(CSprite@ this)
 			bool inRange = (blobPos - localPos).getLength() < 32.00f;
 			if (inRange)
 			{
+				GUI::SetFont("menu");
 				const f32 power = blob.get_f32("deity_power");
 			
 				f32 stonks_volatility = blob.get_f32("stonks_volatility");
@@ -449,7 +449,7 @@ void onRender(CSprite@ this)
 				
 				Vec2f pos = blob.getScreenPos() + Vec2f(-axis_x * 0.50f, 250);
 
-				GUI::DrawWindow(pos - Vec2f(8, axis_y + 8), pos + Vec2f(8 + axis_x, 8));
+				GUI::DrawSunkenPane(pos - Vec2f(8, axis_y + 8), pos + Vec2f(8 + axis_x, 8));
 				GUI::DrawLine2D(pos, pos + Vec2f(0, -axis_y), SColor(255, 196, 135, 58));
 				GUI::DrawLine2D(pos, pos + Vec2f(axis_x, 0), SColor(255, 196, 135, 58));
 				
@@ -466,7 +466,7 @@ void onRender(CSprite@ this)
 				GUI::SetFont("");
 				GUI::DrawText(text, pos + Vec2f(axis_x + 16, -axis_y - 0), SColor(255, 255, 255, 255));
 				
-				if (DrawButton("Buy", pos + Vec2f(axis_x + 16, -24), Vec2f(64, 32)) && !buy_pressed)
+				if (DrawButton("Buy ", pos + Vec2f(axis_x + 16, -24), Vec2f(64, 32)) && !buy_pressed)
 				{
 					buy_pressed = true;
 					
@@ -479,7 +479,7 @@ void onRender(CSprite@ this)
 					blob.SendCommand(blob.getCommandID("stonks_trade"), stream);
 				}
 				
-				if (DrawButton("Sell", pos + Vec2f(axis_x + 16 + 64, -24), Vec2f(64, 32)) && !sell_pressed)
+				if (DrawButton("Sell ", pos + Vec2f(axis_x + 16 + 64, -24), Vec2f(64, 32)) && !sell_pressed)
 				{
 					sell_pressed = true;
 				
@@ -502,8 +502,10 @@ void onRender(CSprite@ this)
 					Vec2f pos_a = Vec2f(4 + pos.x + ((i + 0) * step_x), pos.y - (value_a * axis_y));
 					Vec2f pos_b = Vec2f(4 + pos.x + ((i + 1) * step_x), pos.y - (value_b * axis_y));
 					
-					GUI::DrawLine2D(pos_a + Vec2f(2, 2), pos_b + Vec2f(2, 2), SColor(255, 196, 135, 58));
+					GUI::DrawLine2D(pos_a, pos_b, SColor(255, 196, 135, 58));
 					GUI::DrawLine2D(pos_a, pos_b, SColor(255, u8(Maths::Clamp((1.00f - value_b) * 500.00f, 0.00f, 255.00f)), u8(Maths::Clamp(value_b * 500.00f, 0.00f, 255.00f)), 0));
+					GUI::DrawLine2D(pos_a+Vec2f(1,1), pos_b+Vec2f(1,1), SColor(255, u8(Maths::Clamp((1.00f - value_b) * 500.00f, 0.00f, 255.00f)), u8(Maths::Clamp(value_b * 500.00f, 0.00f, 255.00f)), 0));
+					GUI::DrawLine2D(pos_a+Vec2f(2,2), pos_b+Vec2f(2,2), SColor(255, u8(Maths::Clamp((1.00f - value_b) * 500.00f, 0.00f, 255.00f)), u8(Maths::Clamp(value_b * 500.00f, 0.00f, 255.00f)), 0));
 				}
 			}
 		}
@@ -534,7 +536,10 @@ bool DrawButton(string text, Vec2f pos, Vec2f size)
 	{
 		GUI::DrawButton(tl, br);
 		
-		if (controls.isKeyJustPressed(KEY_LBUTTON))
+		CBlob@ blob = getLocalPlayerBlob();
+		if (blob is null) return false;
+
+		if (blob.isKeyJustPressed(key_action1))
 		{
 			pressed = true;
 		}
