@@ -664,7 +664,7 @@ void onRenderScoreboard(CRules@ this)
 			{
 				Sound::Play("option");
 
-				OpenWebsite("https://github.com/franktc1/territory-control");
+				OpenWebsite("https://github.com/NoahTheLegend/territory-control");
 				// Engine::AcceptWebsiteOpen(true);
 				// Menu::CloseAllMenus();
 			}
