@@ -72,7 +72,7 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg"),
 	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg"),
 	GramophoneRecord("Moyuru ōzora - Burning sky", "Disc_MoyuruOzora.ogg"),
-	GramophoneRecord("Cannon Fodder Intro", "Disc_CannonFodderIntro.ogg"),
+	GramophoneRecord("Cannon Fodder Intro", "Disc_CannonFodderIntro.ogg", 1.5f),
 	GramophoneRecord("Devil's Lab ", "Disc_DevilsLab.ogg"),
 	GramophoneRecord("Against The Odds", "Disc_AgainstTheOdds.ogg"),
 	GramophoneRecord("Guillaume David - Caestus Metalican (W40k)", "Disc_CaestusMetalican.ogg"),
@@ -83,7 +83,7 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Gimme Gimme Gimme!", "Disc_GimmeGimmeGimme.ogg", 2.0f),
 	GramophoneRecord("Crapa Pelada", "Disc_CrapaPelada.ogg", 1.0f),
 	GramophoneRecord("Boss Fight", "Disc_Cube.ogg"),
-	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg")
+	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg", 1.5f)
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE

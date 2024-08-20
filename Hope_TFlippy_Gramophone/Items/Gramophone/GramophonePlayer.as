@@ -43,9 +43,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 			if (isServer())
 			{
 				CBlob@ disc = server_CreateBlobNoInit("musicdisc");
+				disc.set_u8("track_id", this.get_u8("track_id"));
 				disc.Init();
 				disc.setPosition(this.getPosition() + Vec2f(0, -4));
-				disc.set_u8("track_id", this.get_u8("track_id"));
 				disc.setVelocity(Vec2f(0, -8));
 				disc.server_setTeamNum(this.getTeamNum());
 			}
