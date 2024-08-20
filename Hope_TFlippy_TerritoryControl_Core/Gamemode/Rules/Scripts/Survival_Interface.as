@@ -582,7 +582,7 @@ void onRenderScoreboard(CRules@ this)
 			{
 				Sound::Play("option");
 
-				OpenWebsite("https://discord.gg/EHArPN9UUn");
+				OpenWebsite("https://discord.gg/rhwRCmUNRK");
 				// Engine::AcceptWebsiteOpen(true);
 				// Menu::CloseAllMenus();
 			}
@@ -705,7 +705,7 @@ void onRenderScoreboard(CRules@ this)
 			{
 				Sound::Play("option");
 
-				OpenWebsite("https://discord.com/channels/939523236700508200/939523360956751912");
+				OpenWebsite("https://discord.gg/5Uk8s6PM7b");
 				// Engine::AcceptWebsiteOpen(true);
 				// Menu::CloseAllMenus();
 			}
