@@ -1,5 +1,4 @@
-
-int time;
+int time = 0;
 
 void onInit( CRules@ this )
 {
@@ -10,6 +9,13 @@ void onRender( CRules@ this )
 {
 	CPlayer@ player = getLocalPlayer();
 	if (player !is null && player.isMyPlayer() && player.get_bool("no_dashboard")) return;
+	
+	CBlob@ local = player.getBlob();
+	if (local !is null && local.getName() != "peasant")
+	{
+		return;
+	}
+
 	time++;
     const int endTime1 = getTicksASecond() * 20;
 	const int endTime2 = getTicksASecond() * 70;
