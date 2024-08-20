@@ -263,8 +263,8 @@ void onTick(CBlob@ this)
 	bool shieldState = isShieldState(knight.state);
 	bool specialShieldState = isSpecialShieldState(knight.state);
 	bool swordState = isSwordState(knight.state);
-	bool pressed_a1 = this.isKeyPressed(key_action1) && !this.hasTag("noLMB") && !(this.get_f32("babbyed") > 0);
-	bool pressed_a2 = this.isKeyPressed(key_action2) && !this.hasTag("noRMB") && !this.hasTag("noShielding") && !(this.get_f32("babbyed") > 0);
+	bool pressed_action1 = pressed_a1(this);
+	bool pressed_action2 = pressed_a2(this);
 	bool walking = (this.isKeyPressed(key_left) || this.isKeyPressed(key_right));
 
 	const bool myplayer = this.isMyPlayer();
@@ -282,8 +282,8 @@ void onTick(CBlob@ this)
 		knight.doubleslash = false;
 		this.set_s32("currentKnightState", 0);
 
-		pressed_a1 = false;
-		pressed_a2 = false;
+		pressed_action1 = false;
+		pressed_action2 = false;
 		walking = false;
 
 	}
@@ -343,7 +343,7 @@ void onTick(CBlob@ this)
 
 		// help
 
-		if (this.isKeyJustPressed(key_action1) && getGameTime() > 150)
+		if (pressed_action1 && getGameTime() > 150)
 		{
 			SetHelp(this, "help self action", "knight", getTranslatedString("$Slash$ Slash!    $KEY_HOLD$$LMB$"), "", 13);
 		}
@@ -472,12 +472,12 @@ class NormalState : KnightState
 
 	bool TickState(CBlob@ this, KnightInfo@ knight, RunnerMoveVars@ moveVars)
 	{
-		if (this.isKeyPressed(key_action1) && !moveVars.wallsliding)
+		if (pressed_a1(this) && !moveVars.wallsliding)
 		{
 			knight.state = KnightStates::sword_drawn;
 			return true;
 		}
-		else if (this.isKeyPressed(key_action2))
+		else if (pressed_a2(this))
 		{
 			if (canRaiseShield(this))
 			{
@@ -515,12 +515,12 @@ class ShieldingState : KnightState
 
 	bool TickState(CBlob@ this, KnightInfo@ knight, RunnerMoveVars@ moveVars)
 	{
-		if (this.isKeyPressed(key_action1))
+		if (pressed_a1(this))
 		{
 			knight.state = KnightStates::sword_drawn;
 			return true;
 		}
-		else if (!this.isKeyPressed(key_action2))
+		else if (!pressed_a2(this))
 		{
 			knight.state = KnightStates::normal;
 			return false;
@@ -562,12 +562,12 @@ class ShieldGlideState : KnightState
 
 	bool TickState(CBlob@ this, KnightInfo@ knight, RunnerMoveVars@ moveVars)
 	{
-		if (this.isKeyPressed(key_action1))
+		if (pressed_a1(this))
 		{
 			knight.state = KnightStates::sword_drawn;
 			return true;
 		}
-		else if (!this.isKeyPressed(key_action2))
+		else if (!pressed_a2(this))
 		{
 			knight.state = KnightStates::normal;
 			return false;
@@ -638,12 +638,12 @@ class ShieldSlideState : KnightState
 
 	bool TickState(CBlob@ this, KnightInfo@ knight, RunnerMoveVars@ moveVars)
 	{
-		if (this.isKeyPressed(key_action1))
+		if (pressed_a1(this))
 		{
 			knight.state = KnightStates::sword_drawn;
 			return true;
 		}
-		else if (!this.isKeyPressed(key_action2))
+		else if (!pressed_a2(this))
 		{
 			knight.state = KnightStates::normal;
 			return false;
@@ -815,7 +815,7 @@ class SwordDrawnState : KnightState
 		AttackMovement(this, knight, moveVars);
 		s32 delta = getSwordTimerDelta(knight);
 
-		if (!this.isKeyPressed(key_action1))
+		if (!pressed_a1(this))
 		{
 			if (delta < KnightVars::slash_charge)
 			{
@@ -964,7 +964,7 @@ class SlashState : KnightState
 		s32 delta = getSwordTimerDelta(knight);
 
 		if (knight.state == KnightStates::sword_power_super
-			&& this.isKeyJustPressed(key_action1))
+			&& pressed_a1(this))
 		{
 			knight.doubleslash = true;
 		}
@@ -1034,7 +1034,7 @@ class ResheathState : KnightState
 			return false;
 
 		}
-		else if (this.isKeyPressed(key_action1))
+		else if (pressed_a1(this))
 		{
 			knight.state = KnightStates::sword_drawn;
 			return true;
@@ -1829,4 +1829,14 @@ void CheckSelectedBombRemovedFromInventory(CBlob@ this, CBlob@ blob)
 	{
 		SetFirstAvailableBomb(this);
 	}
+}
+
+bool pressed_a1(CBlob@ this)
+{
+	return this.isKeyPressed(key_action1) && !this.hasTag("noLMB") && !(this.get_f32("babbyed") > 0);
+}
+
+bool pressed_a2(CBlob@ this)
+{
+	return this.isKeyPressed(key_action2) && !this.hasTag("noShielding") && !(this.get_f32("babbyed") > 0);
 }
