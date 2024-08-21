@@ -2,18 +2,20 @@
 #include "MapType.as";
 
 const string[] OffiMaps = {
+	"TFlippy_TC_Bobox",
+	"TFlippy_THD_TC_Kagtorio",
+	"TFlippy_TC_Derpo",
+	"TFlippy_TC_Fug",
+	"TFlippy_TC_Tenshi_Lakes",
+	"TFlippy_TC_Valley",
+	"TFlippy_Rob_TC_Socks",
 	"Vamfistorio_Noah",
 	"TFlippy_TC_Thomas",
     "Xeno_Plains&Hills",
 	"Xeno_TC_Graveyard",
 	"TFlippy_TC_Reign",
 	"TFlippy_TC_Mesa",
-	"TFlippy_TC_Bobox",
-	"TFlippy_TC_Derpo",
-	"TFlippy_TC_Fug",
-	"TFlippy_TC_Tenshi_Lakes",
-	"TFlippy_TC_Valley",
-	"TFlippy_Rob_TC_Socks",
+	"Tenshi_TC_DeadEchoSeven_v1",
 	"Imbalol_TC_OilRig",
 	"Imbalol_TC_UPFCargo",
 	"Ginger_TC_Bridge",
@@ -35,12 +37,12 @@ const string[] OffiMaps = {
 	"Goldy_TC_Sewers_v2",
 	"Goldy_TC_Netherland_v2",
 	"Skemonde_TC_Gooby_v3fM",
-	"Skemonde_TC_Morgenland_v3",
-	"NoahTheLegend_Deadborn.png"
+	"Skemonde_TC_Morgenland_v3"
 };
 
 const string[] MemeMaps = {
 	"TFlippy_THD_TC_Foghorn",
+	"TFlippy_SkyTown_v1",
 	//"Goldy_TC_DoubleVision", //too laggy to use
 	//"Goldy_TC_ThomsMega_Smoll", //E bug
 	//"Imbalol_TC_City_v1",
@@ -61,7 +63,6 @@ const string[] MemeMaps = {
 const string[] OldMaps = {
 	"Ginger_TC_Pirates",
 	"Imbalol_TC_ChickenKingdom_v2",
-	"Tenshi_TC_DeadEchoSeven_v1",
 	"Ginger_TC_Seaside",
 	"Ginger_TC_Highlands",
 	"Goldy_TC_Netherland_v2", //a bit unstable
@@ -71,7 +72,6 @@ const string[] OldMaps = {
 	"Imbalol_TC_OilRig",
 	"Imbalol_TC_UPFCargo",
 	"TFlippy_TC_Skynet",
-	"TFlippy_THD_TC_Kagtorio",
 	"Ginger_Tenshi_TC_Extinction",
 	"Goldy_TC_Hollows",
 	"Goldy_TC_Basement_v2",
