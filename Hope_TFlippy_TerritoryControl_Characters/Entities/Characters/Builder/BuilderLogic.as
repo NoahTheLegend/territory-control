@@ -729,3 +729,26 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 	}
 	return damage;
 }
+
+void onChangeTeam(CBlob@ this, const int oldTeam)
+{
+	if (!isServer()) return;
+	if (oldTeam < 7 && this.getTeamNum() >= 7)
+	{
+		if (this.getName() == "engineer" || this.getName() == "susengineer" || this.getName() == "advancedengineer")
+		{
+			CBlob@ newBlob = server_CreateBlob("builder",this.getTeamNum(),this.getPosition());
+			if (newBlob !is null)
+			{
+				CInventory@ inv = this.getInventory();
+				if (inv !is null)
+				{
+					this.MoveInventoryTo(newBlob);
+				}
+
+				if (this.getPlayer() !is null) this.server_SetPlayer(this.getPlayer());
+				this.server_Die();
+			}
+		}
+	}
+}
