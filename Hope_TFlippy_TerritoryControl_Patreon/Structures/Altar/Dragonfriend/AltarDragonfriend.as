@@ -155,13 +155,13 @@ void onTick(CBlob@ this)
 				const f32 power = this.get_f32("deity_power");
 		
 				f32 stonks_value_old = this.get_f32("stonks_value");
-				f32 stonks_value_delta = stonks_value / stonks_value_old;
+				f32 stonks_value_delta = stonks_value_new / stonks_value_old;
 
-				this.set_f32("stonks_volatility", stonks_volatility);
-				this.set_f32("stonks_growth", stonks_growth);
-				this.set_f32("stonks_value", Maths::Clamp(stonks_value, stonks_base_value_min, stonks_value_max));
+				this.set_f32("stonks_volatility", stonks_volatility_new);
+				this.set_f32("stonks_growth", stonks_growth_new);
+				this.set_f32("stonks_value", Maths::Clamp(stonks_value_new, stonks_base_value_min, stonks_value_max));
 
-				graph[graph_index] = stonks_value;
+				graph[graph_index] = stonks_value_new;
 				graph_index = Maths::FMod(graph_index + 1, graph.size());
 			}
 
