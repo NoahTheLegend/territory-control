@@ -746,7 +746,7 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 					this.MoveInventoryTo(newBlob);
 				}
 
-				if (this.getPlayer() !is null) this.server_SetPlayer(this.getPlayer());
+				if (this.getPlayer() !is null) newBlob.server_SetPlayer(this.getPlayer());
 				this.server_Die();
 			}
 		}
