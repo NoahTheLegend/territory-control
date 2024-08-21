@@ -422,7 +422,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 				if (p.getTeamNum() >= 100 && team_data !is null)
 				{
 					// bool deserter = p.get_u32("teamkick_time") > getGameTime();
-					bool upkeep_gud = team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 3 ? 1 : team_data.player_count)) <= team_data.upkeep_cap;
+					bool upkeep_gud = team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 2 ? 1 : team_data.player_count)) <= team_data.upkeep_cap;
 					bool recruitment_enabled = team_data.recruitment_enabled;
 					bool is_premium = p.getOldGold();
 
@@ -831,7 +831,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		{
 			// bool deserter = ply.get_u32("teamkick_time") > getGameTime();
 			bool recruitment_enabled = team_data.recruitment_enabled;
-			bool upkeep_gud = (team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 3 ? 1 : team_data.player_count))) <= team_data.upkeep_cap;
+			bool upkeep_gud = (team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 2 ? 1 : team_data.player_count))) <= team_data.upkeep_cap;
 			// bool is_premium = ply.getSupportTier() > 0;
 
 			//print("" + ply.getSupportTier());
