@@ -159,7 +159,7 @@ void onInit(CBlob@ this)
 
 	this.set_Vec2f("interruption_pos", Vec2f_zero);
 	this.set_u32("interruption_time", 0);
-	this.set_u8("interruption_default_time", 20);
+	this.set_u8("interruption_default_time", 30);
 }
 
 void onTick(CBlob@ this)
@@ -422,8 +422,8 @@ void DrawInterruption(CSprite@ this, CBlob@ blob)
                 Vec2f tpos2d = driver.getScreenPosFromWorldPos(tpos);
                 Vec2f tpos2d_rb = driver.getScreenPosFromWorldPos(tpos_rb);
 
-                f32 width = 4;
-                u8 alpha = Maths::Sin(diff * 0.1f) * 100;
+                f32 width = 3;
+                u8 alpha = Maths::Sin(diff * 0.1f) * 85;
 
                 f32 adjusted_distance = time_factor * (positions.size() - 1);
                 f32 alpha_mod = 1.0f - Maths::Abs(adjusted_distance - (positions.size() - i - width)) / width;
