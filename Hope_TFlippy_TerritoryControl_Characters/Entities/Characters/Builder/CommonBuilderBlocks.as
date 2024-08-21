@@ -616,7 +616,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "crusher", "$icon_crusher$", "Crusher\nSmashes rocks into concrete and dirt into sulphur with a lower yield");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 12);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 8);
-		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 32);
 		blocks[2].push_back(b);
@@ -642,7 +641,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "druglab", "$icon_druglab$", "Chemical Laboratory:\n\nA laboratory used for production of chemicals, ranging from methane to various kinds of drugs.");
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 10);
 		AddRequirement(b.reqs, "blob", "mat_copperingot", "Copper Ingot", 30);
-		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(32, 40);
 		blocks[2].push_back(b);
@@ -693,8 +691,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
 		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
 		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 5);
-		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
-		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
 		blocks[2].push_back(b);
@@ -853,7 +849,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "ceilinglamp", "$icon_ceilinglamp$", "Ceiling Lamp:\n\nIt's quite bright.\n\nCan be toggled by a Security Station.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 2);
-		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 
 		blocks[3].push_back(b);
 	}
