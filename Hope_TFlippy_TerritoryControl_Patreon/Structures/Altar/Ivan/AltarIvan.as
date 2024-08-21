@@ -102,9 +102,9 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	caller.CreateGenericButton(27, Vec2f(0, -10), this, this.getCommandID("turn_sounds"), "Turn sounds off/onn", params);
 	
 	if (this.hasTag("colourful"))
-		caller.CreateGenericButton(27, Vec2f(10, 0), this, ToggleButton, "STOP THE RAVE");
+		caller.CreateGenericButton(27, Vec2f(10, 0), this, ToggleButton, "STOP THE RAVE? >:(");
 	else
-			caller.CreateGenericButton(23, Vec2f(10, 0), this, ToggleButton, "LET'S GET THIS RAVE STARTED");
+			caller.CreateGenericButton(23, Vec2f(10, 0), this, ToggleButton, "LET'S GET THIS RAVE STARTED!!!");
 }
 
 void ToggleButton(CBlob@ this, CBlob@ caller)

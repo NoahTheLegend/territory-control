@@ -9,6 +9,7 @@
 #include "MakeCrate.as";
 #include "MapType.as";
 #include "neutral_team_assigner.as";
+#include "DeityCommon.as";
 
 const u32[] blacklist = {2581036929};
 
@@ -331,6 +332,9 @@ void onTick(CRules@ this)
 					player.server_setTeamNum(team);
 
 					string blobType = "peasant";
+					if (player.get_u8("deity_id") == Deity::ivan)
+						blobType = "builder";
+						
 					if (player.isBot() && player.get_string("classAtDeath") != "")
 					{
 						blobType = player.get_string("classAtDeath");

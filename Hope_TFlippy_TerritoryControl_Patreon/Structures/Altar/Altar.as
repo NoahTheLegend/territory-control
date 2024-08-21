@@ -87,7 +87,7 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 		}
 		{
-			ShopItem@ s = addShopItem(this, "Ivan, God of Ivan", "$icon_ivan$", "altar_ivan", "A squatter worshipped by anarchists, slavs and those who indulge in drinking.\n\nAfter annoying the Illuminati Council and being banished three times, a cult worshipping him formed.\n\n- Immunity to enslavement\n- Anti-faction field around altar\n- Running speed bonus\n- Build a blessed AK-47\n- Raise a Hobo");
+			ShopItem@ s = addShopItem(this, "Ivan, God of Ivan", "$icon_ivan$", "altar_ivan", "A squatter worshipped by anarchists, slavs and those who indulge in drinking.\n\nAfter annoying the Illuminati Council and being banished three times, a cult worshipping him formed.\n\n- Immunity to enslavement\n- Anti-faction field around altar\n- Running speed bonus\n- Build a blessed AK-47\n- Raise a Hobo\n- Respawn graduated");
 			AddRequirement(s.requirements, "no more global", "altar_ivan", "Altar of Ivan", 1);
 			AddRequirement(s.requirements, "blob", "vodka", "Vodka", 4);
 			AddRequirement(s.requirements, "coin", "", "Coins", 1500);
