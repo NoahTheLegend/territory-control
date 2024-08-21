@@ -65,11 +65,9 @@ void MakeGenericName(CBlob@ this)
             string name = "Hall \""+nato_alphabet[i]+"\"";
             this.set_string("new_camp_name", name);
             this.set_string("numeric_camp_name", nato_alphabet[i]);
-
 			this.setInventoryName(this.get_string("new_camp_name"));
-			this.Tag("camp_name_changed");
 
-            SyncBaseName(this, this);
+            SyncBaseName(this);
             
             //warn("SET NAME "+name+" NUMERIC "+nato_alphabet[i]);
             return;
@@ -80,12 +78,12 @@ void MakeGenericName(CBlob@ this)
 void SetMainHall(CBlob@ this, TeamData@ team_data)
 {
     if (team_data is null) return;
+
     team_data.main_hall_id = this.getNetworkID();
 	this.Tag("main_hall");
 
-    SyncMainData(this, this);
-
-    printf("Set main hall ("+this.getName()+") for team "+team_data.team+": "+this.getNetworkID());
+    SyncMainData(this);
+    //printf("Set main hall ("+this.getName()+") for team "+team_data.team+": "+this.getNetworkID());
 }
 
 bool canBlockBuilding(CBlob@ this)
@@ -140,41 +138,42 @@ void ResetMainHall(CBlob@ this, u8 team)
 			if (closest_hall !is null)
 			{
                 SetMainHall(closest_hall, team_data);
-                SyncMainData(closest_hall, closest_hall);
-
-				CPlayer@ local = getLocalPlayer();
-				if (isClient() && local !is null && local.getTeamNum() == team)
-				{
-					client_AddToChat("Your main hall is now "+closest_hall.getInventoryName(), SColor(255,255,33,33));
-				}
+                SyncMainData(closest_hall);
 			}
 		}
 	}
 	else
     {
         team_data.main_hall_id = 0;
-        SyncMainData(this, this, 0); // probably dangerous, its running in onDie() hook
+        SyncMainData(this, 0); // probably dangerous, its running in onDie() hook
     }
 }
 
-void SyncBaseName(CBlob@ this, CBlob@ to)
+const u8 init_sync_from_client_id = 199;
+const u8 sync_base_name_id = 200;
+const u8 sync_main_data_id = 201;
+
+void SyncBaseName(CBlob@ this)
 {
     if (!isServer()) return;
-    if (!to.hasCommandID("sync_base_name")) return;
 
     CBitStream params;
-    params.write_string(this.getInventoryName());
+    params.write_string(this.get_string("base_name"));
+    params.write_string(this.get_string("new_camp_name"));
     params.write_string(this.get_string("numeric_camp_name"));
-    to.SendCommand(to.getCommandID("sync_base_name"), params);
+    this.SendCommand(sync_base_name_id, params);
+
+    //printf("sent sync-"+sync_base_name_id+" (hall name); "+this.getName()+": "+this.getInventoryName());
 }
 
-void SyncMainData(CBlob@ this, CBlob@ to, int id = -1)
+void SyncMainData(CBlob@ this, int id = -1)
 {
     if (!isServer()) return;
-    if (!to.hasCommandID("sync_main_data")) return;
     
     CBitStream params;
-    params.write_u16(id == 0 ? id : to.getNetworkID());
+    params.write_u16(id == 0 ? id : this.getNetworkID());
     params.write_bool(this.hasTag("main_hall"));
-    to.SendCommand(to.getCommandID("sync_main_data"), params);
+    this.SendCommand(sync_main_data_id, params);
+
+    //printf("sent sync-"+sync_main_data_id+" (data); from "+this.getName()+": "+this.hasTag("main_hall"));
 }

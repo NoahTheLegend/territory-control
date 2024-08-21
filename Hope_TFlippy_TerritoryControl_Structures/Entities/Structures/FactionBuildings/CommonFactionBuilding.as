@@ -12,9 +12,6 @@ dictionary leaderMap;
 void onInit(CBlob@ this)
 {	
 	this.Tag("faction_base");
-
-	this.addCommandID("sync_base_name");
-	this.addCommandID("sync_main_data");
 	this.addCommandID("faction_captured");
 	this.addCommandID("faction_destroyed");
 	this.addCommandID("faction_menu_button");
@@ -44,12 +41,6 @@ void onInit(CBlob@ this)
 	{
 		old_name = GetTeamName(this.getTeamNum());
 		team_data.team_name = this.get_string("new_faction_name");
-	}
-
-	if (team_data.main_hall_id == 0
-		|| getBlobByNetworkID(team_data.main_hall_id) is null)
-	{
-		SetMainHall(this, team_data);
 	}
 
 	this.set_bool("base_demolition", false);
@@ -156,6 +147,492 @@ void onTick(CBlob@ this)
 		// 		}
 		// 	}
 		// }
+	}
+}
+
+void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
+{
+	if (cmd == this.getCommandID("faction_menu_button"))
+	{
+		CBlob@ caller = getBlobByNetworkID(inParams.read_u16());
+		const u8 type = inParams.read_u8();
+		const u8 data = inParams.read_u8();
+
+		if (caller !is null)
+		{
+			CPlayer@ ply = caller.getPlayer();
+
+			if (ply !is null)
+			{
+				if (this.getTeamNum() >= 7) return;
+				TeamData@ team_data;
+				GetTeamData(this.getTeamNum(), @team_data);
+
+				// Fuck this bug already, I'm fixing this for like 5th time
+				if (team_data is null) return;
+				if (ply.getTeamNum() > 6) return;
+
+				bool isLeader = ply.getUsername() == team_data.leader_name;
+
+				string teamName = GetTeamName(ply.getTeamNum());
+				SColor teamColor = getRules().getTeam(ply.getTeamNum()).color;
+
+				switch (type)
+				{
+					case 0:
+						if (data == 0 && isLeader)
+						{
+							client_AddToChat(ply.getUsername() + " has resigned as the leader of the " + teamName + "!", teamColor);
+							print_log(ply, "has resigned as the leader of the " + teamName);
+							leaderMap.delete(this.getTeamNum() + "");
+							team_data.leader_name = "";
+						}
+						else if (data == 1 && team_data.leader_name == "")
+						{
+							client_AddToChat(ply.getUsername() + " has become the leader of " + teamName + "!", teamColor);
+							print_log(ply, "has become the leader of " + teamName);
+							leaderMap.set(this.getTeamNum() + "", ply.getUsername());
+							team_data.leader_name = ply.getUsername();
+						}
+						break;
+
+					case 1:
+						if (isLeader) 
+						{
+							team_data.recruitment_enabled = data > 0;
+							print_log(ply, "set Recruitment to " + (data > 0));
+						}
+						break;
+
+					case 2:
+						if (isLeader) 
+						{
+							team_data.lockdown_enabled = data > 0;
+							print_log(ply, "set Lockdown to " + (data > 0));
+						}
+						break;
+
+					case 3:
+						if (isLeader) 
+						{
+							team_data.tax_enabled = data > 0;
+							print_log(ply, "set Murder Tax to " + (data > 0));
+						}
+						break;
+
+					case 4:
+						if (isLeader) 
+						{
+							team_data.storage_enabled = data > 0;
+							print_log(ply, "set Remote Storage to " + (data > 0));
+						}
+						break;
+
+					case 5:
+						if (isLeader) 
+						{
+							CBlob@[] other_halls;
+							if (hasOtherHalls(this, other_halls))
+							{
+								for (int i = 0; i < other_halls.size(); i++)
+								{
+									CBlob@ hall = other_halls[i];
+									if (hall is null) continue;
+
+									hall.Untag("main_hall");
+								}
+
+								SetMainHall(this, team_data);
+							}
+
+							print_log(ply, "set Main hall to " + (data > 0));
+						}
+						break;
+
+					case 6:
+						if (isLeader) 
+						{
+							team_data.slavery_enabled = data > 0;
+							print_log(ply, "set Slavery to " + (data > 0));
+						}
+						break;
+
+					case 7:
+						if (isLeader) 
+						{
+							team_data.reserved_1_enabled = data > 0;
+							print_log(ply, "set RESERVED1 to " + (data > 0));
+						}
+						break;
+
+					case 8:
+						if (isLeader) 
+						{
+							team_data.reserved_2_enabled = data > 0;
+							print_log(ply, "set RESERVED2 to " + (data > 0));
+						}
+						break;
+
+					case 9:
+						if (isLeader)
+						{
+							this.set_bool("base_demolition", data > 0);
+
+							print_log(ply, (data == 1 ? "commenced" : "cancelled") + " demolition of " + teamName + "'s " + this.getInventoryName());
+							
+							if (isServer()) this.Sync("base_demolition", true);
+							if (isClient())
+							{
+								client_AddToChat(ply.getUsername() + " has " + (data == 1 ? "commenced" : "cancelled") + " demolition of " + teamName + "'s " + this.getInventoryName() + "!", teamColor);
+
+								// if (ply !is null && this.getTeamNum() == ply.getTeamNum() && data > 0) 
+								// {
+									// client_AddToChat(ply.getUsername() + " has " + (data == 1 ? "commenced" : "cancelled") + " demolition of " + teamName + "'s " + this.getInventoryName() + "!", teamColor);
+								// }
+							}
+						}
+						break;
+
+					case 10:
+						if (isLeader)
+						{
+							this.set_bool("base_alarm_manual", data > 0);
+							if (isServer()) this.Sync("base_alarm_manual", true);
+
+							if (isClient())
+							{
+								SetAlarm(this, data > 0);
+
+								// client_AddToChat(ply.getUsername() + " has set off the alarm at one of your bases and requires your assistance!", teamColor);
+
+								// CPlayer@ ply = getLocalPlayer();
+								if (ply !is null && this.getTeamNum() == ply.getTeamNum() && data > 0) 
+								{
+									client_AddToChat(ply.getUsername() + " has set off the alarm at one of your bases ("+this.getInventoryName()+") and requires your assistance!", teamColor);
+								}
+							}
+						}
+						break;
+				}
+			}
+		}
+	}
+	else if (cmd == this.getCommandID("faction_player_button"))
+	{
+		const u8 type = inParams.read_u8();
+		const u16 caller_netid = inParams.read_u16();
+		const u16 player_netid = inParams.read_u16();
+
+		CPlayer@ caller = getPlayerByNetworkId(caller_netid);
+		CPlayer@ ply = getPlayerByNetworkId(player_netid);
+
+		CRules@ rules = getRules();
+
+		if (rules !is null && ply !is null && getRules() !is null && ply.getTeamNum() < 7)
+		{
+			CTeam@ team = rules.getTeam(ply.getTeamNum());
+
+			if (team is null) return;
+
+			if (this.getTeamNum() >= 7) return;
+			TeamData@ team_data;
+			GetTeamData(this.getTeamNum(), @team_data);
+
+			bool isLeader = caller.getUsername() == team_data.leader_name;
+			bool kickedIsLeader = ply.getUsername() == team_data.leader_name;
+
+			SColor teamColor = ply.getTeamNum() < 7 ? team.color : SColor(255, 128, 128, 128);
+
+			// SColor teamColor = ply.getTeamNum() < getRules().getTeamsNum() ? getRules().getTeam(ply.getTeamNum()).color : SColor(255, 128, 128, 128);
+
+			switch (type)
+			{
+				case 0:
+					if (isLeader)
+					{
+						string teamName = GetTeamName(caller.getTeamNum());
+						printf(ply.getUsername() + " has been kicked out of the " + teamName + " by " + caller.getUsername());
+						
+						if (kickedIsLeader) 
+						{
+							if (leaderMap.exists(this.getTeamNum() + "")) leaderMap.delete(this.getTeamNum() + "");
+							team_data.leader_name = "";
+						}
+
+						if (isServer())
+						{
+							ply.server_setTeamNum(100 + XORRandom(100));
+							if (ply.getBlob() !is null) ply.getBlob().server_Die();
+						}
+
+						if (isClient())
+						{
+							client_AddToChat(ply.getUsername() + " has been kicked out of the " + teamName + " by " + caller.getUsername() + "!", teamColor);
+						}
+					}
+					break;
+
+				case 1:
+					if (isLeader)
+					{
+						string teamName = GetTeamName(caller.getTeamNum());
+						printf(ply.getUsername() + " has been enslaved by " + caller.getUsername());
+
+						if (isServer())
+						{
+							CBlob@ playerBlob = ply.getBlob();
+
+							CBlob@ slave = server_CreateBlob("slave", this.getTeamNum(), playerBlob !is null ? playerBlob.getPosition() : this.getPosition());
+							slave.set_u8("slaver_team", this.getTeamNum());
+
+							if (slave !is null)
+							{
+								slave.server_SetPlayer(ply);
+								if (playerBlob !is null) playerBlob.server_Die();
+							}
+						}
+
+						if (isClient())
+						{
+							client_AddToChat(ply.getUsername() + " has been enslaved by " + caller.getUsername() + "!", teamColor);
+						}
+					}
+					break;
+			}
+		}
+	}
+	else if (cmd == this.getCommandID("button_join"))
+	{
+		u16 id;
+		if (!inParams.saferead_u16(id)) return;
+
+		CBlob@ blob = getBlobByNetworkID(id);
+
+		u8 myTeam = this.getTeamNum();
+
+		if (myTeam < 7 && blob !is null && this.isOverlapping(blob) && blob.hasTag("player") && !blob.hasTag("ignore_flags"))
+		{
+			CPlayer@ p = blob.getPlayer();
+			if (p !is null)
+			{
+				if (this.getTeamNum() >= 7) return;
+				TeamData@ team_data;
+				GetTeamData(myTeam, @team_data);
+
+				if (p.getTeamNum() >= 100 && team_data !is null)
+				{
+					// bool deserter = p.get_u32("teamkick_time") > getGameTime();
+					bool upkeep_gud = team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 3 ? 1 : team_data.player_count)) <= team_data.upkeep_cap;
+					bool recruitment_enabled = team_data.recruitment_enabled;
+					bool is_premium = p.getOldGold();
+
+					bool can_join = upkeep_gud && recruitment_enabled;
+
+					if (can_join)
+					{
+						this.getSprite().PlaySound("party_join.ogg");
+
+						if (isServer())
+						{
+							//tcpr("[PJT]  " + p.getUsername() + " has joined " + getRules().getTeam(myTeam).getName());
+							p.server_setTeamNum(myTeam);
+							CBlob@ newPlayer = server_CreateBlob("builder", myTeam, blob.getPosition());
+							newPlayer.server_SetPlayer(p);
+
+							blob.server_Die();
+						}
+					}
+				}
+			}
+		}
+	}
+	else if (cmd == this.getCommandID("rename_base") || cmd == this.getCommandID("rename_faction"))
+	{
+		CBlob @caller = getBlobByNetworkID(inParams.read_u16());
+		CBlob @carried = getBlobByNetworkID(inParams.read_u16());
+
+		if (caller !is null && carried !is null)
+		{
+			string old_name;
+			if (cmd == this.getCommandID("rename_base"))
+			{
+				this.set_string("new_camp_name", carried.get_string("text"));
+				old_name = this.getInventoryName();
+				this.setInventoryName(this.get_string("new_camp_name"));
+				this.set_string("numeric_camp_name", "");
+				this.Tag("camp_name_changed");
+			}
+			else
+			{
+				if (this.getTeamNum() >= 7) return;
+				this.set_string("new_faction_name", carried.get_string("text"));
+				TeamData@ team_data;
+				GetTeamData(this.getTeamNum(), @team_data);
+				if (team_data !is null)
+				{
+					old_name = GetTeamName(this.getTeamNum());
+					team_data.team_name = this.get_string("new_faction_name");
+					this.Tag("faction_name_changed");
+				}
+				
+				string new_name = this.get_string("new_faction_name");
+
+				string renamer_name = "Someone";
+				SColor message_color(255, 128, 128, 128);
+	
+				CPlayer@ player = caller.getPlayer();
+				if (player !is null)
+				{
+					renamer_name = player.getUsername();
+					CRules @rules = getRules();
+					if (rules !is null)
+					{
+						CTeam@ team = rules.getTeam(player.getTeamNum());
+						if (team !is null)
+						{
+							message_color = player.getTeamNum() < 7 ? team.color : SColor(255, 128, 128, 128);
+						}
+					}
+				}
+				client_AddToChat(renamer_name + " has renamed " + old_name + " to " + new_name, message_color);
+			}
+
+			carried.server_Die();
+		}
+	}
+	
+	if (isServer())
+	{
+		if (cmd == this.getCommandID("faction_captured") || cmd == this.getCommandID("faction_destroyed"))
+		{
+			int team = inParams.read_s32();
+			if (cmd == this.getCommandID("faction_captured"))
+			{
+				team = inParams.read_s32();
+			}
+
+			bool defeat = inParams.read_bool();
+			bool self_destroy = this.get_bool("base_demolition");
+
+			if (defeat)
+			{
+				if (self_destroy) 
+				{
+					peasant_team(team);
+				}
+				else 
+				{
+					uncap_team(team);
+				}
+			}
+		}
+		else if (cmd == this.getCommandID("sv_toggle"))
+		{
+			this.set_bool("isActive", !this.get_bool("isActive"));
+			bool isActive = this.get_bool("isActive");
+			this.SetLight(this.get_bool("isActive"));
+
+			CBitStream stream;
+			stream.write_bool(isActive);
+			this.SendCommand(this.getCommandID("cl_toggle"), stream);
+		}
+	}
+
+	if (isClient())
+	{
+		if (cmd == this.getCommandID("faction_captured"))
+		{
+			CRules@ rules = getRules();
+
+			int newTeam = inParams.read_s32();
+			int oldTeam = inParams.read_s32();
+			bool defeat = inParams.read_bool();
+
+			if (rules is null) return;
+
+			// if (!(oldTeam < getRules().getTeamsNum())) return;
+
+			if (oldTeam < 7 && newTeam < 7)
+			{
+				string oldTeamName = GetTeamName(oldTeam);
+				string newTeamName = GetTeamName(newTeam);
+
+				client_AddToChat(oldTeamName + "'s "+this.getInventoryName()+" has been captured by the " + newTeamName + "!", SColor(0xff444444));
+				if (defeat)
+				{
+					client_AddToChat(oldTeamName + " has been defeated by the " + newTeamName + "!", SColor(0xff444444));
+
+					CPlayer@ ply = getLocalPlayer();
+					int myTeam = ply.getTeamNum();
+
+					if (oldTeam == myTeam)
+					{
+						Sound::Play("FanfareLose.ogg");
+					}
+					else
+					{
+						Sound::Play("flag_score.ogg");
+					}
+				}
+			}
+		}
+		else if (cmd == this.getCommandID("faction_destroyed"))
+		{
+			CRules@ rules = getRules();
+
+			int team = inParams.read_s32();
+			bool defeat = inParams.read_bool();
+
+			if (rules is null) return;
+
+			if (team < 7) 
+			{
+				string teamName = GetTeamName(team);
+				client_AddToChat(teamName + "'s "+this.getInventoryName()+" has been destroyed!", SColor(0xff444444));
+
+				if (defeat) 
+				{
+					client_AddToChat(teamName + " has been defeated!", SColor(0xff444444));
+					CPlayer@ ply = getLocalPlayer();
+					int myTeam = ply.getTeamNum();
+
+					if (team == myTeam)
+					{
+						Sound::Play("FanfareLose.ogg");
+					}
+					else
+					{
+						Sound::Play("flag_score.ogg");
+					}
+				}
+			}
+		}
+		else if (cmd == this.getCommandID("cl_toggle"))
+		{		
+			this.getSprite().PlaySound("LeverToggle.ogg");
+		}
+	}
+
+	if (!(this.getTeamNum() >= 7))
+	{
+		if (cmd == this.getCommandID("faction_captured") || cmd == this.getCommandID("faction_destroyed"))
+		{
+			CBlob@[] forts;
+			getBlobsByTag("faction_base", @forts);
+			bool hasForts = false;
+			for (uint i = 0; i < forts.length; i++)
+			{
+				if (forts[i].getTeamNum() == this.getTeamNum()) hasForts = true;
+			}
+
+			if (!hasForts)
+			{
+				TeamData@ team_data;
+				GetTeamData(this.getTeamNum(), @team_data);
+				team_data.leader_name = "";
+				if (leaderMap.exists(this.getTeamNum() + "")) leaderMap.delete(this.getTeamNum() + "");
+			}
+		}
 	}
 }
 
@@ -641,519 +1118,6 @@ void Faction_Menu(CBlob@ this, CBlob@ caller)
 						}*/
 					}
 				}
-			}
-		}
-	}
-}
-
-void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
-{
-	if (cmd == this.getCommandID("faction_menu_button"))
-	{
-		CBlob@ caller = getBlobByNetworkID(inParams.read_u16());
-		const u8 type = inParams.read_u8();
-		const u8 data = inParams.read_u8();
-
-		if (caller !is null)
-		{
-			CPlayer@ ply = caller.getPlayer();
-
-			if (ply !is null)
-			{
-				if (this.getTeamNum() >= 7) return;
-				TeamData@ team_data;
-				GetTeamData(this.getTeamNum(), @team_data);
-
-				// Fuck this bug already, I'm fixing this for like 5th time
-				if (team_data is null) return;
-				if (ply.getTeamNum() > 6) return;
-
-				bool isLeader = ply.getUsername() == team_data.leader_name;
-
-				string teamName = GetTeamName(ply.getTeamNum());
-				SColor teamColor = getRules().getTeam(ply.getTeamNum()).color;
-
-				switch (type)
-				{
-					case 0:
-						if (data == 0 && isLeader)
-						{
-							client_AddToChat(ply.getUsername() + " has resigned as the leader of the " + teamName + "!", teamColor);
-							print_log(ply, "has resigned as the leader of the " + teamName);
-							leaderMap.delete(this.getTeamNum() + "");
-							team_data.leader_name = "";
-						}
-						else if (data == 1 && team_data.leader_name == "")
-						{
-							client_AddToChat(ply.getUsername() + " has become the leader of " + teamName + "!", teamColor);
-							print_log(ply, "has become the leader of " + teamName);
-							leaderMap.set(this.getTeamNum() + "", ply.getUsername());
-							team_data.leader_name = ply.getUsername();
-						}
-						break;
-
-					case 1:
-						if (isLeader) 
-						{
-							team_data.recruitment_enabled = data > 0;
-							print_log(ply, "set Recruitment to " + (data > 0));
-						}
-						break;
-
-					case 2:
-						if (isLeader) 
-						{
-							team_data.lockdown_enabled = data > 0;
-							print_log(ply, "set Lockdown to " + (data > 0));
-						}
-						break;
-
-					case 3:
-						if (isLeader) 
-						{
-							team_data.tax_enabled = data > 0;
-							print_log(ply, "set Murder Tax to " + (data > 0));
-						}
-						break;
-
-					case 4:
-						if (isLeader) 
-						{
-							team_data.storage_enabled = data > 0;
-							print_log(ply, "set Remote Storage to " + (data > 0));
-						}
-						break;
-
-					case 5:
-						if (isLeader) 
-						{
-							CBlob@[] other_halls;
-							if (hasOtherHalls(this, other_halls))
-							{
-								for (int i = 0; i < other_halls.size(); i++)
-								{
-									CBlob@ hall = other_halls[i];
-									if (hall is null) continue;
-
-									hall.Untag("main_hall");
-								}
-
-								SetMainHall(this, team_data);
-							}
-
-							print_log(ply, "set Main hall to " + (data > 0));
-						}
-						break;
-
-					case 6:
-						if (isLeader) 
-						{
-							team_data.slavery_enabled = data > 0;
-							print_log(ply, "set Slavery to " + (data > 0));
-						}
-						break;
-
-					case 7:
-						if (isLeader) 
-						{
-							team_data.reserved_1_enabled = data > 0;
-							print_log(ply, "set RESERVED1 to " + (data > 0));
-						}
-						break;
-
-					case 8:
-						if (isLeader) 
-						{
-							team_data.reserved_2_enabled = data > 0;
-							print_log(ply, "set RESERVED2 to " + (data > 0));
-						}
-						break;
-
-					case 9:
-						if (isLeader)
-						{
-							this.set_bool("base_demolition", data > 0);
-
-							print_log(ply, (data == 1 ? "commenced" : "cancelled") + " demolition of " + teamName + "'s " + this.getInventoryName());
-							
-							if (isServer()) this.Sync("base_demolition", true);
-							if (isClient())
-							{
-								client_AddToChat(ply.getUsername() + " has " + (data == 1 ? "commenced" : "cancelled") + " demolition of " + teamName + "'s " + this.getInventoryName() + "!", teamColor);
-
-								// if (ply !is null && this.getTeamNum() == ply.getTeamNum() && data > 0) 
-								// {
-									// client_AddToChat(ply.getUsername() + " has " + (data == 1 ? "commenced" : "cancelled") + " demolition of " + teamName + "'s " + this.getInventoryName() + "!", teamColor);
-								// }
-							}
-						}
-						break;
-
-					case 10:
-						if (isLeader)
-						{
-							this.set_bool("base_alarm_manual", data > 0);
-							if (isServer()) this.Sync("base_alarm_manual", true);
-
-							if (isClient())
-							{
-								SetAlarm(this, data > 0);
-
-								// client_AddToChat(ply.getUsername() + " has set off the alarm at one of your bases and requires your assistance!", teamColor);
-
-								// CPlayer@ ply = getLocalPlayer();
-								if (ply !is null && this.getTeamNum() == ply.getTeamNum() && data > 0) 
-								{
-									client_AddToChat(ply.getUsername() + " has set off the alarm at one of your bases ("+this.getInventoryName()+") and requires your assistance!", teamColor);
-								}
-							}
-						}
-						break;
-				}
-			}
-		}
-	}
-	else if (cmd == this.getCommandID("faction_player_button"))
-	{
-		const u8 type = inParams.read_u8();
-		const u16 caller_netid = inParams.read_u16();
-		const u16 player_netid = inParams.read_u16();
-
-		CPlayer@ caller = getPlayerByNetworkId(caller_netid);
-		CPlayer@ ply = getPlayerByNetworkId(player_netid);
-
-		CRules@ rules = getRules();
-
-		if (rules !is null && ply !is null && getRules() !is null && ply.getTeamNum() < 7)
-		{
-			CTeam@ team = rules.getTeam(ply.getTeamNum());
-
-			if (team is null) return;
-
-			if (this.getTeamNum() >= 7) return;
-			TeamData@ team_data;
-			GetTeamData(this.getTeamNum(), @team_data);
-
-			bool isLeader = caller.getUsername() == team_data.leader_name;
-			bool kickedIsLeader = ply.getUsername() == team_data.leader_name;
-
-			SColor teamColor = ply.getTeamNum() < 7 ? team.color : SColor(255, 128, 128, 128);
-
-			// SColor teamColor = ply.getTeamNum() < getRules().getTeamsNum() ? getRules().getTeam(ply.getTeamNum()).color : SColor(255, 128, 128, 128);
-
-			switch (type)
-			{
-				case 0:
-					if (isLeader)
-					{
-						string teamName = GetTeamName(caller.getTeamNum());
-						printf(ply.getUsername() + " has been kicked out of the " + teamName + " by " + caller.getUsername());
-						
-						if (kickedIsLeader) 
-						{
-							if (leaderMap.exists(this.getTeamNum() + "")) leaderMap.delete(this.getTeamNum() + "");
-							team_data.leader_name = "";
-						}
-
-						if (isServer())
-						{
-							ply.server_setTeamNum(100 + XORRandom(100));
-							if (ply.getBlob() !is null) ply.getBlob().server_Die();
-						}
-
-						if (isClient())
-						{
-							client_AddToChat(ply.getUsername() + " has been kicked out of the " + teamName + " by " + caller.getUsername() + "!", teamColor);
-						}
-					}
-					break;
-
-				case 1:
-					if (isLeader)
-					{
-						string teamName = GetTeamName(caller.getTeamNum());
-						printf(ply.getUsername() + " has been enslaved by " + caller.getUsername());
-
-						if (isServer())
-						{
-							CBlob@ playerBlob = ply.getBlob();
-
-							CBlob@ slave = server_CreateBlob("slave", this.getTeamNum(), playerBlob !is null ? playerBlob.getPosition() : this.getPosition());
-							slave.set_u8("slaver_team", this.getTeamNum());
-
-							if (slave !is null)
-							{
-								slave.server_SetPlayer(ply);
-								if (playerBlob !is null) playerBlob.server_Die();
-							}
-						}
-
-						if (isClient())
-						{
-							client_AddToChat(ply.getUsername() + " has been enslaved by " + caller.getUsername() + "!", teamColor);
-						}
-					}
-					break;
-			}
-		}
-	}
-	else if (cmd == this.getCommandID("button_join"))
-	{
-		u16 id;
-		if (!inParams.saferead_u16(id)) return;
-
-		CBlob@ blob = getBlobByNetworkID(id);
-
-		u8 myTeam = this.getTeamNum();
-
-		if (myTeam < 7 && blob !is null && this.isOverlapping(blob) && blob.hasTag("player") && !blob.hasTag("ignore_flags"))
-		{
-			CPlayer@ p = blob.getPlayer();
-			if (p !is null)
-			{
-				if (this.getTeamNum() >= 7) return;
-				TeamData@ team_data;
-				GetTeamData(myTeam, @team_data);
-
-				if (p.getTeamNum() >= 100 && team_data !is null)
-				{
-					// bool deserter = p.get_u32("teamkick_time") > getGameTime();
-					bool upkeep_gud = team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 3 ? 1 : team_data.player_count)) <= team_data.upkeep_cap;
-					bool recruitment_enabled = team_data.recruitment_enabled;
-					bool is_premium = p.getOldGold();
-
-					bool can_join = upkeep_gud && recruitment_enabled;
-
-					if (can_join)
-					{
-						this.getSprite().PlaySound("party_join.ogg");
-
-						if (isServer())
-						{
-							//tcpr("[PJT]  " + p.getUsername() + " has joined " + getRules().getTeam(myTeam).getName());
-							p.server_setTeamNum(myTeam);
-							CBlob@ newPlayer = server_CreateBlob("builder", myTeam, blob.getPosition());
-							newPlayer.server_SetPlayer(p);
-
-							blob.server_Die();
-						}
-					}
-				}
-			}
-		}
-	}
-	else if (cmd == this.getCommandID("sync_base_name"))
-	{
-		if (!isClient()) return;
-
-		string hall_name = inParams.read_string();
-		string numeric_name = inParams.read_string();
-
-		this.set_string("new_camp_name", hall_name);
-        this.set_string("numeric_camp_name", numeric_name);
-
-		this.setInventoryName(hall_name);
-	}
-	else if (cmd == this.getCommandID("sync_main_data"))
-	{
-		if (!isClient()) return;
-
-		u16 id = inParams.read_u16();
-		bool do_tag = inParams.read_bool();
-
-		TeamData@ team_data;
-		GetTeamData(this.getTeamNum(), @team_data);
-
-		team_data.main_hall_id = id;
-		if (do_tag) this.Tag("main_hall");
-		else this.Untag("main_hall");
-	}
-	else if (cmd == this.getCommandID("rename_base") || cmd == this.getCommandID("rename_faction"))
-	{
-		CBlob @caller = getBlobByNetworkID(inParams.read_u16());
-		CBlob @carried = getBlobByNetworkID(inParams.read_u16());
-
-		if (caller !is null && carried !is null)
-		{
-			string old_name;
-
-			if (cmd == this.getCommandID("rename_base"))
-			{
-				this.set_string("new_camp_name", carried.get_string("text"));
-				old_name = this.getInventoryName();
-				this.setInventoryName(this.get_string("new_camp_name"));
-				this.set_string("numeric_camp_name", "");
-				this.Tag("camp_name_changed");
-			}
-			else
-			{
-				if (this.getTeamNum() >= 7) return;
-				this.set_string("new_faction_name", carried.get_string("text"));
-				TeamData@ team_data;
-				GetTeamData(this.getTeamNum(), @team_data);
-				if (team_data !is null)
-				{
-					old_name = GetTeamName(this.getTeamNum());
-					team_data.team_name = this.get_string("new_faction_name");
-					this.Tag("faction_name_changed");
-				}
-				
-				string new_name = this.get_string("new_faction_name");
-
-				string renamer_name = "Someone";
-				SColor message_color(255, 128, 128, 128);
-	
-				CPlayer@ player = caller.getPlayer();
-				if (player !is null)
-				{
-					renamer_name = player.getUsername();
-					CRules @rules = getRules();
-					if (rules !is null)
-					{
-						CTeam@ team = rules.getTeam(player.getTeamNum());
-						if (team !is null)
-						{
-							message_color = player.getTeamNum() < 7 ? team.color : SColor(255, 128, 128, 128);
-						}
-					}
-				}
-				client_AddToChat(renamer_name + " has renamed " + old_name + " to " + new_name, message_color);
-			}
-
-			carried.server_Die();
-		}
-	}
-	
-	if (isServer())
-	{
-		if (cmd == this.getCommandID("faction_captured") || cmd == this.getCommandID("faction_destroyed"))
-		{
-			int team = inParams.read_s32();
-			if (cmd == this.getCommandID("faction_captured"))
-			{
-				team = inParams.read_s32();
-			}
-
-			bool defeat = inParams.read_bool();
-			bool self_destroy = this.get_bool("base_demolition");
-
-			if (defeat)
-			{
-				if (self_destroy) 
-				{
-					peasant_team(team);
-				}
-				else 
-				{
-					uncap_team(team);
-				}
-			}
-		}
-		else if (cmd == this.getCommandID("sv_toggle"))
-		{
-			this.set_bool("isActive", !this.get_bool("isActive"));
-			bool isActive = this.get_bool("isActive");
-			this.SetLight(this.get_bool("isActive"));
-
-			CBitStream stream;
-			stream.write_bool(isActive);
-			this.SendCommand(this.getCommandID("cl_toggle"), stream);
-		}
-	}
-
-	if (isClient())
-	{
-		if (cmd == this.getCommandID("faction_captured"))
-		{
-			CRules@ rules = getRules();
-
-			int newTeam = inParams.read_s32();
-			int oldTeam = inParams.read_s32();
-			bool defeat = inParams.read_bool();
-
-			if (rules is null) return;
-
-			// if (!(oldTeam < getRules().getTeamsNum())) return;
-
-			if (oldTeam < 7 && newTeam < 7)
-			{
-				string oldTeamName = GetTeamName(oldTeam);
-				string newTeamName = GetTeamName(newTeam);
-
-				client_AddToChat(oldTeamName + "'s "+this.getInventoryName()+" has been captured by the " + newTeamName + "!", SColor(0xff444444));
-				if (defeat)
-				{
-					client_AddToChat(oldTeamName + " has been defeated by the " + newTeamName + "!", SColor(0xff444444));
-
-					CPlayer@ ply = getLocalPlayer();
-					int myTeam = ply.getTeamNum();
-
-					if (oldTeam == myTeam)
-					{
-						Sound::Play("FanfareLose.ogg");
-					}
-					else
-					{
-						Sound::Play("flag_score.ogg");
-					}
-				}
-			}
-		}
-		else if (cmd == this.getCommandID("faction_destroyed"))
-		{
-			CRules@ rules = getRules();
-
-			int team = inParams.read_s32();
-			bool defeat = inParams.read_bool();
-
-			if (rules is null) return;
-
-			if (team < 7) 
-			{
-				string teamName = GetTeamName(team);
-				client_AddToChat(teamName + "'s "+this.getInventoryName()+" has been destroyed!", SColor(0xff444444));
-
-				if (defeat) 
-				{
-					client_AddToChat(teamName + " has been defeated!", SColor(0xff444444));
-					CPlayer@ ply = getLocalPlayer();
-					int myTeam = ply.getTeamNum();
-
-					if (team == myTeam)
-					{
-						Sound::Play("FanfareLose.ogg");
-					}
-					else
-					{
-						Sound::Play("flag_score.ogg");
-					}
-				}
-			}
-		}
-		else if (cmd == this.getCommandID("cl_toggle"))
-		{		
-			this.getSprite().PlaySound("LeverToggle.ogg");
-		}
-	}
-
-	if (!(this.getTeamNum() >= 7))
-	{
-		if (cmd == this.getCommandID("faction_captured") || cmd == this.getCommandID("faction_destroyed"))
-		{
-			CBlob@[] forts;
-			getBlobsByTag("faction_base", @forts);
-			bool hasForts = false;
-			for (uint i = 0; i < forts.length; i++)
-			{
-				if (forts[i].getTeamNum() == this.getTeamNum()) hasForts = true;
-			}
-
-			if (!hasForts)
-			{
-				TeamData@ team_data;
-				GetTeamData(this.getTeamNum(), @team_data);
-				team_data.leader_name = "";
-				if (leaderMap.exists(this.getTeamNum() + "")) leaderMap.delete(this.getTeamNum() + "");
 			}
 		}
 	}

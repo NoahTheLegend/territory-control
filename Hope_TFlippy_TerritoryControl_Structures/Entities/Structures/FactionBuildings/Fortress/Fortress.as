@@ -139,8 +139,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				newBlob.setPosition(pos);
 				newBlob.set_string("base_name", this.get_string("base_name"));
 				newBlob.Init();
-				SyncBaseName(this, newBlob);
-				SyncMainData(this, newBlob);
+				newBlob.Tag("need_sync");
 
 				this.MoveInventoryTo(newBlob);
 				this.server_Die();
