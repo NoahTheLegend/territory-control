@@ -234,7 +234,7 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
 	if (forBlob.getControls() is null) return;
 	Vec2f mscpos = forBlob.getControls().getMouseScreenPos(); 
 
-	Vec2f MENU_POS = mscpos+Vec2f(-232,-72);
+	Vec2f MENU_POS = mscpos+Vec2f(-266,-120);
 	CGridMenu@ sv = CreateGridMenu(MENU_POS, this, Vec2f(1, 1), "Store ");
 	
 	CBitStream params;
