@@ -156,6 +156,10 @@ void onInit(CBlob@ this)
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().runFlags |= Script::tick_myplayer;
 	this.getCurrentScript().removeIfTag = "dead";
+
+	this.set_Vec2f("interruption_pos", Vec2f_zero);
+	this.set_u32("interruption_time", 0);
+	this.set_u8("interruption_default_time", 20);
 }
 
 void onTick(CBlob@ this)
@@ -258,6 +262,8 @@ void onInit(CSprite@ this)
 void onRender(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
+	DrawInterruption(this, blob);
+	
 	if (getHUD().hasButtons())
 	{
 		return;
@@ -337,12 +343,135 @@ void onRender(CSprite@ this)
 	}
 }
 
+Vec2f[] positions;
+Vec2f[] positions_left;
+Vec2f[] positions_right;
+
+void DrawInterruption(CSprite@ this, CBlob@ blob)
+{
+    if (v_fastrender) return;
+    if (!blob.isMyPlayer()) return;
+
+    CMap@ map = getMap();
+    Driver@ driver = getDriver();
+
+    Vec2f pos = blob.getPosition();
+    Vec2f aimpos = blob.getAimPos() - Vec2f(4, 4);
+    Vec2f target = blob.get_Vec2f("interruption_pos");
+    u32 time = blob.get_u32("interruption_time");
+    u32 gt = getGameTime();
+
+    if (target != Vec2f_zero && time > gt)
+    {
+        int diff = time - gt;
+
+        if (positions.size() == 0)
+        {
+            Vec2f vec = target - aimpos;
+            f32 len = vec.Length();
+
+            vec.Normalize();
+            f32 step = 0.5f;
+            int last_tile_offset = -1;
+
+            for (f32 i = 0; i < len; i += step)
+            {
+                Vec2f new_pos = Vec2f(aimpos + vec * i);
+                Vec2f tpos = Vec2f(Maths::Round(new_pos.x * 0.125f) * 8.0f, Maths::Round(new_pos.y * 0.125f) * 8.0f);
+
+                u32 toffset = map.getTileOffset(tpos);
+                if (toffset != last_tile_offset)
+                {
+                    last_tile_offset = toffset;
+                    positions.push_back(tpos);
+
+					//if (len > 128.0f)
+					{
+                    	f32 progress = i / len;
+                    	f32 arc_height = Maths::Min(i*4, Maths::Min(len/4, 48));
+                    	f32 arc_offset = Maths::Sin(progress * Maths::Pi) * arc_height;
+
+                    	Vec2f perp_left = Vec2f(-vec.y, vec.x) * arc_offset;
+                    	Vec2f perp_right = Vec2f(vec.y, -vec.x) * arc_offset;
+
+                    	Vec2f left_pos = tpos + perp_left;
+                    	Vec2f right_pos = tpos + perp_right;
+
+                    	Vec2f centered_left = Vec2f(Maths::Round(left_pos.x * 0.125f) * 8.0f, Maths::Round(left_pos.y * 0.125f) * 8.0f);
+                    	Vec2f centered_right = Vec2f(Maths::Round(right_pos.x * 0.125f) * 8.0f, Maths::Round(right_pos.y * 0.125f) * 8.0f);
+
+                    	positions_left.push_back(centered_left);
+                    	positions_right.push_back(centered_right);
+					}
+                }
+            }
+        }
+        else
+        {
+            u8 dist = 2;
+            f32 time_factor = diff / f32(blob.get_u8("interruption_default_time"));
+
+            for (int i = 0; i < positions.size(); i++)
+            {
+                Vec2f pos = positions[i];
+                Vec2f next_pos = i < positions.size() - 1 ? positions[i + 1] : Vec2f_zero;
+
+                Vec2f tpos = pos + Vec2f(1, 1);
+                Vec2f tpos_rb = pos + Vec2f(7, 7);
+
+                Vec2f tpos2d = driver.getScreenPosFromWorldPos(tpos);
+                Vec2f tpos2d_rb = driver.getScreenPosFromWorldPos(tpos_rb);
+
+                f32 width = 4;
+                u8 alpha = Maths::Sin(diff * 0.1f) * 100;
+
+                f32 adjusted_distance = time_factor * (positions.size() - 1);
+                f32 alpha_mod = 1.0f - Maths::Abs(adjusted_distance - (positions.size() - i - width)) / width;
+
+                alpha_mod = Maths::Clamp(alpha_mod, 0.1f, 1.0f);
+                alpha *= alpha_mod;
+
+                // GUI::DrawRectangle(tpos2d, tpos2d_rb, SColor(alpha, 255, 55, 15));
+
+                if (i < positions_left.size() && i < positions_right.size())
+                {
+                    Vec2f tpos_left = positions_left[i] + Vec2f(1, 1);
+                    Vec2f tpos_rb_left = positions_left[i] + Vec2f(7, 7);
+
+                    Vec2f tpos2d_left = driver.getScreenPosFromWorldPos(tpos_left);
+                    Vec2f tpos2d_rb_left = driver.getScreenPosFromWorldPos(tpos_rb_left);
+
+                    GUI::DrawRectangle(tpos2d_left, tpos2d_rb_left, SColor(alpha, 255, 55, 15));
+
+                    Vec2f tpos_right = positions_right[i] + Vec2f(1, 1);
+                    Vec2f tpos_rb_right = positions_right[i] + Vec2f(7, 7);
+
+                    Vec2f tpos2d_right = driver.getScreenPosFromWorldPos(tpos_right);
+                    Vec2f tpos2d_rb_right = driver.getScreenPosFromWorldPos(tpos_rb_right);
+
+                    GUI::DrawRectangle(tpos2d_right, tpos2d_rb_right, SColor(alpha, 255, 55, 15));
+                }
+            }
+        }
+    }
+    else blob.Tag("update_interruption");
+
+    if (blob.hasTag("update_interruption"))
+    {
+        blob.Untag("update_interruption");
+        Vec2f[] empty;
+        positions = empty;
+        positions_left = empty;
+        positions_right = empty;
+    }
+}
+
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	if (isServer() && cmd == this.getCommandID("placeBlock"))
-	{
-		u8 index = params.read_u8();
-		Vec2f pos = params.read_Vec2f();
-		PlaceBlock(this, index, pos);
-	}
+    if (isServer() && cmd == this.getCommandID("placeBlock"))
+    {
+        u8 index = params.read_u8();
+        Vec2f pos = params.read_Vec2f();
+        PlaceBlock(this, index, pos);
+    }
 }

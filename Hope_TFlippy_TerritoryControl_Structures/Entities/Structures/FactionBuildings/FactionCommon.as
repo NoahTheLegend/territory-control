@@ -2,7 +2,7 @@
 
 f32 faction_control_range = 320.0f;
 const u8 MAX_HALL_AMOUNT = 3;
-const u8 min_level_to_be_main = 3; // camp is 0
+const u8 min_level_to_be_main = 2; // camp is 0
 
 int calc_extra_halls_per_member(TeamData@ team_data)
 {
@@ -88,11 +88,13 @@ void SetMainHall(CBlob@ this, TeamData@ team_data)
     printf("Set main hall ("+this.getName()+") for team "+team_data.team+": "+this.getNetworkID());
 }
 
-bool canBeMainHall(CBlob@ this)
+bool canBlockBuilding(CBlob@ this)
 {
     string name = this.getName();
 
-    if (name == "citadel" || name == "convent") return true; //todo: rework this to be automatic
+    if (name == "stronghold"
+        || name == "citadel"
+        || name == "convent") return true; //todo: rework this to be automatic
 
     return false;
 }

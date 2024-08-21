@@ -552,7 +552,7 @@ void Faction_Menu(CBlob@ this, CBlob@ caller)
 					params.write_u8(5);
 					params.write_u8(0);
 
-					bool enough_level_to_become_main = canBeMainHall(this);
+					bool enough_level_to_become_main = canBlockBuilding(this);
 
 					CGridButton@ butt = menu.AddButton("$faction_setmain$", this.hasTag("main_hall") ? "This is already your main base" : "Make this hall your Main base",
 						this.getCommandID("faction_menu_button"), Vec2f(1, 1), params);

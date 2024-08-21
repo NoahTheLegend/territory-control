@@ -55,7 +55,7 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 	}
 	else // BLOB
 	{
-		is_ladder = blob.hasTag("ladder");
+		is_ladder = blob.getName() == "ladder";
 		radius = blob.getRadius();
 	}
 	
@@ -74,8 +74,16 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 				CBlob@ main_hall = getBlobByNetworkID(team_data.main_hall_id);
 				f32 build_distance_limit = (team < 7 ? faction_control_range/2 : faction_control_range);
 
-				if (main_hall !is null && (main_hall.getPosition() - p).Length() < build_distance_limit)
+				if (main_hall !is null && canBlockBuilding(main_hall)
+					&& (main_hall.getPosition() - p).Length() < build_distance_limit)
 				{
+					if (this.isKeyJustPressed(key_action1))
+					{
+						this.set_Vec2f("interruption_pos", main_hall.getPosition());
+						this.set_u32("interruption_time", getGameTime()+this.get_u8("interruption_default_time"));
+						this.Tag("update_interruption");
+					}
+					
 					return false;
 				}
 			}
