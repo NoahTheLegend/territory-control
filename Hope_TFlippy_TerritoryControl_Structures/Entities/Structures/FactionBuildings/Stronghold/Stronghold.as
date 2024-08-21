@@ -4,7 +4,8 @@
 #include "ShopCommon.as";
 #include "Descriptions.as";
 #include "CustomBlocks.as";
-#include "Hitters.as"
+#include "Hitters.as";
+#include "FactionCommon.as";
 
 void onInit(CBlob@ this)
 {
@@ -143,7 +144,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				newBlob.setPosition(pos);
 				newBlob.set_string("base_name", this.get_string("base_name"));
 				newBlob.Init();
-
+				SyncBaseName(this, newBlob);
+				SyncMainData(this, newBlob);
 
 				this.MoveInventoryTo(newBlob);
 				this.server_Die();

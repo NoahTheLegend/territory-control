@@ -4,11 +4,12 @@
 #include "ShopCommon.as";
 #include "Descriptions.as";
 #include "Hitters.as";
+#include "FactionCommon.as";
+#include "Survival_Structs.as";
 
 void onInit(CBlob@ this)
 {
 	this.Tag("remote_storage");
-
 	this.Tag("ignore extractor");
 
 	this.Tag("upkeep building");
@@ -28,6 +29,9 @@ void onInit(CBlob@ this)
 
 	this.addCommandID("sv_store");
 	this.addCommandID("sv_hidemap");
+
+	this.set_string("numeric_camp_name", "init");
+	if (isServer() && this.getTeamNum() < 7) MakeGenericName(this);
 
 	this.Tag("minimap_large");
 	this.set_u8("minimap_index", 17);
@@ -139,6 +143,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				newBlob.setPosition(pos);
 				newBlob.set_string("base_name", this.get_string("base_name"));
 				newBlob.Init();
+
+				SyncBaseName(this, newBlob);
+				SyncMainData(this, newBlob);
 
 				this.MoveInventoryTo(newBlob);
 				this.server_Die();

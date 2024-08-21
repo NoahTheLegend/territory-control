@@ -2,7 +2,7 @@
 #include "Survival_Icons.as";
 #include "Hitters.as";
 #include "Logging.as";
-
+#include "FactionCommon.as";
 #include "uncap_team.as"
 
 const string raid_tag = "under raid";
@@ -13,6 +13,8 @@ void onInit(CBlob@ this)
 {	
 	this.Tag("faction_base");
 
+	this.addCommandID("sync_base_name");
+	this.addCommandID("sync_main_data");
 	this.addCommandID("faction_captured");
 	this.addCommandID("faction_destroyed");
 	this.addCommandID("faction_menu_button");
@@ -25,10 +27,13 @@ void onInit(CBlob@ this)
 	this.addCommandID("rename_faction");
 
 	this.set_string("initial_base_name", this.getInventoryName());
+	
 	string base_name = this.get_string("base_name");
 	if (base_name != "") this.setInventoryName(this.getInventoryName() + " \"" + base_name + "\"");
 	
 	string old_name;
+	TeamData@ team_data;
+	GetTeamData(this.getTeamNum(), @team_data);
 	
 	if (this.hasTag("camp_name_changed"))
 	{
@@ -37,10 +42,14 @@ void onInit(CBlob@ this)
 	}
 	if (this.hasTag("faction_name_changed"))
 	{
-		TeamData@ team_data;
-		GetTeamData(this.getTeamNum(), @team_data);
 		old_name = GetTeamName(this.getTeamNum());
 		team_data.team_name = this.get_string("new_faction_name");
+	}
+
+	if (team_data.main_hall_id == 0
+		|| getBlobByNetworkID(team_data.main_hall_id) is null)
+	{
+		SetMainHall(this, team_data);
 	}
 
 	this.set_bool("base_demolition", false);
@@ -67,6 +76,7 @@ void onInit(CBlob@ this)
 
 	AddIconToken("$faction_f2p_true$", "FactionIcons.png", Vec2f(16, 16), 12);
 	AddIconToken("$faction_f2p_false$", "FactionIcons.png", Vec2f(16, 16), 13);
+	AddIconToken("$faction_setmain$", "FactionIcons.png", Vec2f(16, 16), 12);
 
 	AddIconToken("$faction_slavery_true$", "FactionIcons.png", Vec2f(16, 16), 14);
 	AddIconToken("$faction_slavery_false$", "FactionIcons.png", Vec2f(16, 16), 15);
@@ -91,7 +101,6 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-	//SetLeader(this);
 	RemoveOldLeader(this);
 	SetMinimap(this);   //needed for under raid check
 	if (this.get_bool("base_alarm_manual") || this.hasTag(raid_tag))
@@ -217,8 +226,20 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 {
 	CBlob@[] forts;
 	getBlobsByTag("faction_base", @forts);
-
 	int newTeam = this.getTeamNum();
+
+	if (this.hasTag("main_hall"))
+	{
+		ResetMainHall(this, oldTeam);
+		
+		CBlob@[] halls;
+		if (this.hasTag("main_hall") && hasOtherHalls(this, halls))
+		{
+			this.Untag("main_hall");
+		}
+	}
+	if (isServer()) MakeGenericName(this);
+
 	int totalFortCount = forts.length;
 	int oldTeamForts = 0;
 	int newTeamForts = 0;
@@ -298,6 +319,11 @@ void onDie(CBlob@ this)
 	for (uint i = 0; i < forts.length; i++)
 	{
 		if (forts[i].getTeamNum() == team) teamForts++;
+	}
+
+	if (this.hasTag("main_hall"))
+	{
+		ResetMainHall(this, team);
 	}
 
 	if (teamForts <= 0 || this.get_string("base_name") != "")
@@ -524,11 +550,15 @@ void Faction_Menu(CBlob@ this, CBlob@ caller)
 					CBitStream params;
 					params.write_u16(caller.getNetworkID());
 					params.write_u8(5);
-					params.write_u8(f2p_enabled ? 0 : 1);
+					params.write_u8(0);
 
-					CGridButton@ butt = menu.AddButton("$faction_f2p_" + !f2p_enabled + "$", (f2p_enabled ? "Disable" : "Enable") + " Free to Play Recruitment", this.getCommandID("faction_menu_button"), Vec2f(1, 1), params);
-					butt.hoverText = (f2p_enabled ? "Disallows" : "Allows") + " Free-to-Play players to join your faction.";
-					butt.SetEnabled(isLeader);
+					bool enough_level_to_become_main = canBeMainHall(this);
+
+					CGridButton@ butt = menu.AddButton("$faction_setmain$", this.hasTag("main_hall") ? "This is already your main base" : "Make this hall your Main base",
+						this.getCommandID("faction_menu_button"), Vec2f(1, 1), params);
+
+					butt.hoverText = "Main hall will disallow building for enemies.\n\nThe range is "+(faction_control_range/8)+" tiles for neutrals and twice less for other factions."+(enough_level_to_become_main ? "" : "\n\n$RED$"+getRequiredMainHallName()+" is required!"+"$RED$");
+					butt.SetEnabled(isLeader && !this.hasTag("main_hall") && enough_level_to_become_main);
 				}
 				/*{
 					CBitStream params;
@@ -697,8 +727,21 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 					case 5:
 						if (isLeader) 
 						{
-							team_data.f2p_enabled = data > 0;
-							print_log(ply, "set F2P Recruitment to " + (data > 0));
+							CBlob@[] other_halls;
+							if (hasOtherHalls(this, other_halls))
+							{
+								for (int i = 0; i < other_halls.size(); i++)
+								{
+									CBlob@ hall = other_halls[i];
+									if (hall is null) continue;
+
+									hall.Untag("main_hall");
+								}
+
+								SetMainHall(this, team_data);
+							}
+
+							print_log(ply, "set Main hall to " + (data > 0));
 						}
 						break;
 
@@ -899,6 +942,32 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 			}
 		}
 	}
+	else if (cmd == this.getCommandID("sync_base_name"))
+	{
+		if (!isClient()) return;
+
+		string hall_name = inParams.read_string();
+		string numeric_name = inParams.read_string();
+
+		this.set_string("new_camp_name", hall_name);
+        this.set_string("numeric_camp_name", numeric_name);
+
+		this.setInventoryName(hall_name);
+	}
+	else if (cmd == this.getCommandID("sync_main_data"))
+	{
+		if (!isClient()) return;
+
+		u16 id = inParams.read_u16();
+		bool do_tag = inParams.read_bool();
+
+		TeamData@ team_data;
+		GetTeamData(this.getTeamNum(), @team_data);
+
+		team_data.main_hall_id = id;
+		if (do_tag) this.Tag("main_hall");
+		else this.Untag("main_hall");
+	}
 	else if (cmd == this.getCommandID("rename_base") || cmd == this.getCommandID("rename_faction"))
 	{
 		CBlob @caller = getBlobByNetworkID(inParams.read_u16());
@@ -913,6 +982,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 				this.set_string("new_camp_name", carried.get_string("text"));
 				old_name = this.getInventoryName();
 				this.setInventoryName(this.get_string("new_camp_name"));
+				this.set_string("numeric_camp_name", "");
 				this.Tag("camp_name_changed");
 			}
 			else

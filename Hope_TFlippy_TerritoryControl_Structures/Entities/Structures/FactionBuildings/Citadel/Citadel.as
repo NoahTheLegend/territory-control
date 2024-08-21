@@ -5,6 +5,7 @@
 #include "Descriptions.as";
 #include "Hitters.as"
 #include "CustomBlocks.as";
+#include "FactionCommon.as";
 
 void onInit(CBlob@ this)
 {
@@ -59,7 +60,7 @@ void onInit(CBlob@ this)
 	
 	for (int i = 0; i < this.getWidth(); i++)
 	{
-		if (!map.isTileSolid(offset + Vec2f(i, 0)) || map.isTileWood(map.getTile(offset + Vec2f(i, 0)).type)) map.server_SetTile(offset + Vec2f(i, 0), CMap::tile_concrete);
+		if (!map.isTileSolid(offset + Vec2f(i, 0)) || map.isTileWood(map.getTile(offset + Vec2f(i, 0)).type)) map.server_SetTile(offset + Vec2f(i, 0), CMap::tile_reinforcedconcrete);
 	}
 	
 	// Upgrading stuff
@@ -143,7 +144,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				newBlob.setPosition(pos);
 				newBlob.set_string("base_name", this.get_string("base_name"));
 				newBlob.Init();
-
+				SyncBaseName(this, newBlob);
+				SyncMainData(this, newBlob);
 
 				this.MoveInventoryTo(newBlob);
 				this.server_Die();

@@ -11,9 +11,9 @@
 #include "PlacementCommon.as";
 #include "CheckSpam.as";
 #include "GameplayEvents.as";
+#include "FactionCommon.as";
 
 const f32 allow_overlap = 2.0f;
-const u8 MAX_HALL_AMOUNT = 3;
 
 shared class HitData
 {
@@ -145,19 +145,19 @@ CBlob@ server_BuildBlob(CBlob@ this, BuildBlock[]@ blocks, uint index)
 						CBlob@ e = blobs[i];
 						Vec2f vector = e.getPosition() - pos;
 						f32 distance = vector.getLength();
-						if (e.hasTag("faction_base") && e.getTeamNum() != this.getTeamNum() && distance <= 320 && distance >= 8)
+						if (e.hasTag("faction_base") && e.getTeamNum() != this.getTeamNum() && distance <= faction_control_range && distance >= 8)
 						{
 							fail = true;
 							if (this.isMyPlayer()) client_AddToChat("There is an enemy faction base too close!", SColor(0xff444444));
 							break;
 						}
-						else if (e.hasTag("faction_base") && distance <= 320 && distance >= 8)
+						else if (e.hasTag("faction_base") && distance <= faction_control_range && distance >= 8)
 						{
 							fail = true;
 							if (this.isMyPlayer()) client_AddToChat("There is a faction base too close!", SColor(0xff444444));
 							break;
 						}
-						else if (e.hasTag("upf_base") && distance <= 256 && distance >= 8)
+						else if (e.hasTag("upf_base") && distance <= faction_control_range && distance >= 8)
 						{
 							fail = true;
 							if (this.isMyPlayer()) client_AddToChat("There is a UPF base too close!", SColor(0xff444444));
@@ -205,9 +205,7 @@ CBlob@ server_BuildBlob(CBlob@ this, BuildBlock[]@ blocks, uint index)
 				GetTeamData(this.getTeamNum(), @team_data);
 				if (team_data !is null)
 				{
-					//printf("c "+count);
-					//printf("max "+(MAX_HALL_AMOUNT + Maths::Floor(team_data.player_count/2)));
-					if (count < (MAX_HALL_AMOUNT + Maths::Floor(team_data.player_count/2)))
+					if (count < (MAX_HALL_AMOUNT + calc_extra_halls_per_member(team_data)))
 					{
 						return server_CreateBlob(b.name, this.getTeamNum(), pos);
 					}
@@ -218,14 +216,11 @@ CBlob@ server_BuildBlob(CBlob@ this, BuildBlock[]@ blocks, uint index)
 						w.server_SetQuantity(325);
 						CBlob@ s  = server_CreateBlob("mat_stone", 0, this.getPosition());
 						s.server_SetQuantity(175);
-						CPlayer@ p = this.getPlayer();
-						if (p !is null) p.server_setCoins(p.getCoins()+96);
 					}
 				}
 
 				if (this.getTeamNum() >= 100)
 				{
-
 					//there are only 7 teams, not 8
 					//u8[] teamForts = {0, 0, 0, 0, 0, 0, 0, 0};
 					u8[] teamForts = {0, 0, 0, 0, 0, 0, 0};

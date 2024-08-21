@@ -65,6 +65,7 @@ shared class TeamData
 	bool reserved_2_enabled;
 
 	u16 player_count;
+	u16 main_hall_id;
 
 	void Setup(u8 inTeam)
 	{
@@ -84,6 +85,7 @@ shared class TeamData
 		slavery_enabled = true;
 
 		player_count = 0;
+		main_hall_id = 0;
 	}
 
 	void Serialize(CBitStream@ stream)
