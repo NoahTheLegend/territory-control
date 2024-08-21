@@ -1,6 +1,8 @@
 //#include "LoaderUtilities.as";
 
 #include "CustomBlocks.as";
+#include "Survival_Structs.as";
+#include "FactionCommon.as";
 
 // const f32 MAX_BUILD_LENGTH = 4.0f;
 
@@ -45,6 +47,7 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 	f32 radius = 0.0f;
 	CMap@ map = this.getMap();
 	sameTile = false;
+	bool is_ladder = false;
 
 	if (blob is null) // BLOCKS
 	{
@@ -52,7 +55,31 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 	}
 	else // BLOB
 	{
+		is_ladder = blob.hasTag("ladder");
 		radius = blob.getRadius();
+	}
+	
+	if (!is_ladder)
+	{
+		u8 team = this.getTeamNum();
+		for (u8 i = 0; i < 6; i++)
+		{
+			if (team == i) continue;
+			
+			TeamData@ team_data;
+			GetTeamData(i, @team_data);
+
+			if (team_data.main_hall_id != 0)
+			{
+				CBlob@ main_hall = getBlobByNetworkID(team_data.main_hall_id);
+				f32 build_distance_limit = (team < 7 ? faction_control_range/2 : faction_control_range);
+
+				if (main_hall !is null && (main_hall.getPosition() - p).Length() < build_distance_limit)
+				{
+					return false;
+				}
+			}
+		}
 	}
 
 	//check height + edge proximity
