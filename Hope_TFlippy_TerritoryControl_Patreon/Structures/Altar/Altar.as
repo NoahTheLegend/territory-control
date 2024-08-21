@@ -101,9 +101,8 @@ void onInit(CBlob@ this)
 			ShopItem@ s = addShopItem(this, "Gregor Builder, God of Destruction", "$icon_gregor$", "altar_gregor", "A deranged inventor known for his bizarre contraptions - such as the deadly ebola rune.\n\nOne day after being beaten in a wizard duel, he threatened to wipe out the entire world. The Illuminati Council removed him from existence for one month instead.\n\n- No one knows how to summon him yet\n\n- The Ancient magic will magically let you to become an engineer");
 			AddRequirement(s.requirements, "no more global", "altar_gregor", "Altar of Gregor Builder", 1);
 			AddRequirement(s.requirements, "blob", "builder", "Virgin Builder Corpse", 1);
-			AddRequirement(s.requirements, "blob", "foof", "Foof", 4);
-			AddRequirement(s.requirements, "blob", "infernalstone", "Infernal Stone", 1);
-			AddRequirement(s.requirements, "coin", "", "Coins", 4000);
+			AddRequirement(s.requirements, "blob", "foof", "Foof", 1);
+			AddRequirement(s.requirements, "coin", "", "Coins", 2000);
 			s.customButton = true;
 			s.buttonwidth = 2;	
 			s.buttonheight = 2;
