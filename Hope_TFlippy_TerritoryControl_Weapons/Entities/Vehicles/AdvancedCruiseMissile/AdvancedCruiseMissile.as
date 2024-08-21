@@ -258,6 +258,8 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 	if (isServer())
 	{
 		if ((blob !is null ? !blob.isCollidable() || blob.hasTag("gas") : !solid)) return;
+		if (blob !is null && (blob.hasTag("platform") || blob.hasTag("gas") || blob.getName() == "flame")) return;
+
 		if (this.hasTag("offblast") && this.get_u32("no_explosion_timer") < getGameTime()) 
 		{
 			ResetPlayer(this);

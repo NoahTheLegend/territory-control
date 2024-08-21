@@ -14,6 +14,7 @@ void onInit(CBlob@ this)
 	shape.SetRotationsAllowed(false);
 
 	this.Tag("no beamtower damage");
+	this.Tag("platform");
 	
 	this.server_setTeamNum(-1); //allow anyone to break them
 

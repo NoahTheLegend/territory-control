@@ -23,7 +23,7 @@ namespace Builder
 		PAGE_ONE,
 		PAGE_TWO,
 		PAGE_THREE,
-		// PAGE_FOUR,
+		PAGE_FOUR,
 		PAGE_COUNT
 	};
 }
@@ -33,8 +33,8 @@ const string[] PAGE_NAME =
 	"Basic",
 	"Buildings",
 	"Automation",
+	"Production",
 	"Miscellaneous",
-	// "Mechanisms"
 };
 
 const u8 GRID_SIZE = 48;
@@ -64,7 +64,7 @@ void onInit(CInventory@ this)
 
 	for(u8 i = 0; i < Builder::PAGE_COUNT; i++)
 	{
-		AddIconToken("$"+PAGE_NAME[i]+"$", "BuilderPageIcons.png", Vec2f(48, 24), i);
+		AddIconToken("$"+PAGE_NAME[i]+"$", "EngineerPageIcons.png", Vec2f(48, 24), i);
 	}
 	
 	blob.set_Vec2f("backpack position", Vec2f_zero);

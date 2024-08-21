@@ -15,6 +15,8 @@ void onInit(CBlob@ this)
 		this.getCurrentScript().tickFrequency = 2;
 	}
 
+	this.Tag("fire");
+	
 	/*this.SetLight(true);
 	this.SetLightRadius(48.0f);
 	this.SetLightColor(SColor(255, 255, 200, 50));*/
