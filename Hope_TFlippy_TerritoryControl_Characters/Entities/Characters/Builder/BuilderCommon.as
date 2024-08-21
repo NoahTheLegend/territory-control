@@ -145,7 +145,14 @@ CBlob@ server_BuildBlob(CBlob@ this, BuildBlock[]@ blocks, uint index)
 						CBlob@ e = blobs[i];
 						Vec2f vector = e.getPosition() - pos;
 						f32 distance = vector.getLength();
-						if (e.hasTag("faction_base") && e.getTeamNum() != this.getTeamNum() && distance <= faction_control_range && distance >= 8)
+
+						if (areAllFactionsPicked(this))
+						{
+							fail = true;
+							if (this.isMyPlayer()) client_AddToChat("All factions are settled already, join one instead!", SColor(0xff444444));
+							break;
+						}
+						else if (e.hasTag("faction_base") && e.getTeamNum() != this.getTeamNum() && distance <= faction_control_range && distance >= 8)
 						{
 							fail = true;
 							if (this.isMyPlayer()) client_AddToChat("There is an enemy faction base too close!", SColor(0xff444444));
@@ -353,4 +360,19 @@ void ClearCarriedBlock(CBlob@ this)
 		carried.Untag("temp blob");
 		carried.server_Die();
 	}
+}
+
+bool areAllFactionsPicked(CBlob@ this)
+{
+	for (u8 i = 0; i < 6; i++)
+	{
+		TeamData@ team_data;
+		GetTeamData(i, @team_data);
+
+		string leader = team_data.leader_name;
+		if (leader == "" || getPlayerByUsername(leader) is null)
+			return false;
+	}
+
+	return true;
 }
