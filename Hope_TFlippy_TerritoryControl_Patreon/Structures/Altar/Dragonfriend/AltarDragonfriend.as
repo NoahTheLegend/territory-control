@@ -78,10 +78,9 @@ void onInit(CBlob@ this)
 
 const f32 power_fire_immunity_max = 100000.00f;
 
-const u32 stonks_update_frequency = 150;
-// const u32 stonks_update_frequency = 3;
+const u32 stonks_update_frequency = 90;
 const f32 stonks_base_value_min = 100.00f;
-const f32 stonks_base_value_max = 350.00f;
+const f32 stonks_base_value_max = 650.00f;
 
 f32[] graph = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 int graph_index = 0;
@@ -141,7 +140,6 @@ void onTick(CBlob@ this)
 			f32 stonks_volatility = this.get_f32("stonks_volatility");
 			f32 stonks_growth = this.get_f32("stonks_growth");
 			f32 stonks_value = this.get_f32("stonks_value");
-		
 			f32 stonks_value_max = stonks_base_value_max + (power / 100.00f);
 		
 			if (stonks_value == stonks_base_value_min || stonks_value == stonks_value_max) stonks_growth *= -Maths::Min(0.30f + stonks_volatility, 0.80f);
@@ -153,12 +151,24 @@ void onTick(CBlob@ this)
 			f32 stonks_growth_new = stonks_growth + (((1000 - XORRandom(2000)) / 1000.00f) * (stonks_volatility_new * stonks_volatility_new * 0.10f));
 			f32 stonks_value_new = Maths::Clamp(stonks_value * (1.00f + stonks_growth_new), stonks_base_value_min, stonks_value_max);
 		
+			{
+				const f32 power = this.get_f32("deity_power");
+		
+				f32 stonks_value_old = this.get_f32("stonks_value");
+				f32 stonks_value_delta = stonks_value / stonks_value_old;
+
+				this.set_f32("stonks_volatility", stonks_volatility);
+				this.set_f32("stonks_growth", stonks_growth);
+				this.set_f32("stonks_value", Maths::Clamp(stonks_value, stonks_base_value_min, stonks_value_max));
+
+				graph[graph_index] = stonks_value;
+				graph_index = Maths::FMod(graph_index + 1, graph.size());
+			}
+
 			CBitStream stream;
-			
 			stream.write_f32(stonks_volatility_new);
 			stream.write_f32(stonks_growth_new);
 			stream.write_f32(stonks_value_new);
-			
 			this.SendCommand(this.getCommandID("stonks_update"), stream);
 		}
 	}
@@ -299,7 +309,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			f32 stonks_volatility;
 			f32 stonks_growth;
 			f32 stonks_value;
-			
+
 			if (params.saferead_f32(stonks_volatility) && params.saferead_f32(stonks_growth) && params.saferead_f32(stonks_value))
 			{
 				const f32 power = this.get_f32("deity_power");
