@@ -51,7 +51,7 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Reverting saw", "$icon_tflippy_offering_0$", "offering_saw", "Revert a saw.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 2);
 		s.customButton = true;
 		s.buttonwidth = 1;	
 		s.buttonheight = 1;

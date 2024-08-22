@@ -62,8 +62,9 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Copper Wire (100)", "$mat_copperwire$", "mat_copperwire-100", "A bundle of copper wires. Kids' favourite toy.");
-		AddRequirement(s.requirements, "blob", "mat_copperingot", "Copper Ingot", 50);
+		ShopItem@ s = addShopItem(this, "Clown's Funny Klaxon", "$icon_klaxon$", "klaxon", "An infernal device housing thousands of lamenting souls.");
+		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold Ingot", 2);
+		AddRequirement(s.requirements, "coin", "", "Coins", 666);
 
 		s.spawnNothing = true;
 	}
@@ -200,11 +201,16 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
+	AddIconToken("$icon_tflippy_offering_0$", "AltarTFlippy_Icons.png", Vec2f(24, 24), 0);
 	{
-		ShopItem@ s = addShopItem(this, "Clown's Funny Klaxon", "$icon_klaxon$", "klaxon", "An infernal device housing thousands of lamenting souls.");
-		AddRequirement(s.requirements, "blob", "mat_goldingot", "Gold Ingot", 2);
-		AddRequirement(s.requirements, "coin", "", "Coins", 666);
-
+		ShopItem@ s = addShopItem(this, "Reverting saw", "$icon_tflippy_offering_0$", "offering_saw", "Revert a saw.");
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 500);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		s.customButton = true;
+		s.buttonwidth = 1;	
+		s.buttonheight = 1;
+		
 		s.spawnNothing = true;
 	}
 	{
