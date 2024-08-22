@@ -602,18 +602,21 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "rclimber", "$icon_rclimber$", "Climber:\n\nPulls items upwards.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 4);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 6);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		blocks[2].push_back(b);
 	}
 	{
 		BuildBlock b(0, "rseparator", "$icon_rseparator$", "Separator:\n\n$blue$Filtered$blue$ items are pulled upward.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 20);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 10);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		blocks[2].push_back(b);
 	}
 	{
 		BuildBlock b(0, "rjumper", "$icon_rjumper$", "Jumper:\n\n$blue$Filtered$blue$ items will be launched straight up.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 20);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		blocks[2].push_back(b);
 	}
 	{
@@ -636,6 +639,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "rcompactor", "$icon_rcompactor$", "Compactor:\n\nCan store enormous amounts of single resource.\nIs a part of team's remote storage.");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 300);
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 250);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 32);
 		blocks[2].push_back(b);
@@ -660,6 +664,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "fetcher", "$icon_fetcher$", "Fetcher:\n\nFetches specified item from inventories and ground.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 200);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 150);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
 		blocks[2].push_back(b);
@@ -668,6 +673,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "oiltank", "$icon_oiltank$", "Oil Tank:\n\nAutomatically collects oil from all of your team's pumpjacks.");
 		AddRequirement(b.reqs, "blob", "mat_wood","Wood", 250);
 		AddRequirement(b.reqs, "blob", "mat_ironingot","Iron Ingot", 2);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(32, 16);
 		blocks[2].push_back(b);
@@ -675,6 +681,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	{
 		BuildBlock b(0, "gastank", "$icon_gastank$", "Gas Tank:\n\nAutomatically collects gas from all of your team's gas collectors");
 		AddRequirement(b.reqs, "blob", "mat_ironingot","Iron Ingot", 15);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(16, 24);
 		blocks[2].push_back(b);
@@ -707,6 +714,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		BuildBlock b(0, "launcher", "$icon_launcher$", "Launcher:\n\nLaunches items to the eternity and beyond.");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 10);
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 20);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		blocks[2].push_back(b);
 	}
 	{
@@ -850,7 +858,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 20);
 		AddRequirement(b.reqs, "blob", "mat_mithril", "Mithril", 100);
 		AddRequirement(b.reqs, "blob", "mat_mithrilingot", "Mithril Ingot", 5);
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
 		blocks[3].push_back(b);
