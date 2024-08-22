@@ -203,7 +203,7 @@ void onInit(CBlob@ this)
 	}
 	AddIconToken("$icon_tflippy_offering_0$", "AltarTFlippy_Icons.png", Vec2f(24, 24), 0);
 	{
-		ShopItem@ s = addShopItem(this, "Reverting saw", "$icon_tflippy_offering_0$", "offering_saw", "Revert a saw.");
+		ShopItem@ s = addShopItem(this, "Saw", "$saw$", "saw", "Construct a saw.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 500);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 16);
 		AddRequirement(s.requirements, "coin", "", "Coins", 500);
