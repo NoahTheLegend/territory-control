@@ -241,10 +241,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 
 									hall.Untag("main_hall");
 								}
-
-								SetMainHall(this, team_data);
 							}
 
+							SetMainHall(this, team_data);
 							print_log(ply, "set Main hall to " + (data > 0));
 						}
 						break;

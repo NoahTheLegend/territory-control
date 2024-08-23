@@ -83,7 +83,7 @@ void SetMainHall(CBlob@ this, TeamData@ team_data)
 	this.Tag("main_hall");
 
     SyncMainData(this);
-    //printf("Set main hall ("+this.getName()+") for team "+team_data.team+": "+this.getNetworkID());
+    printf("Set main hall ("+this.getName()+") for team "+team_data.team+": "+this.getNetworkID());
 }
 
 bool canBlockBuilding(CBlob@ this)

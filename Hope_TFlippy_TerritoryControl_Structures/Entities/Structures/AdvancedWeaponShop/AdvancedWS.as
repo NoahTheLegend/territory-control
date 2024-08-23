@@ -135,25 +135,25 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
-	{	
-		ShopItem@ s = addShopItem(this, "Sniper Rifle Dragunova", "$svd$", "svd", "A strong semi-auto half-sniper rifle.\n\nUses High Power Rounds.");
-		AddRequirement(s.requirements, "blob",  "mat_wood", "Wood", 200);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
-		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
-
-		s.spawnNothing = true;
-	}
 	{
 		ShopItem@ s = addShopItem(this, "Mosin Nagant", "$mosin$", "mosin", "An old but reliable russian sniper rifle.\n\nUses High Power Rounds.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 12);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2000);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 6);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 6);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 
 		s.customButton = true;
 		s.buttonwidth = 2;
 		s.buttonheight = 1;
+
+		s.spawnNothing = true;
+	}
+	{	
+		ShopItem@ s = addShopItem(this, "Sniper Rifle Dragunova", "$svd$", "svd", "A strong semi-auto half-sniper rifle.\n\nUses High Power Rounds.");
+		AddRequirement(s.requirements, "blob",  "mat_wood", "Wood", 500);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 8);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
 		s.spawnNothing = true;
 	}

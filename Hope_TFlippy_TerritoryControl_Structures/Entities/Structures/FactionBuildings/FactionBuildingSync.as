@@ -30,6 +30,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 	    {
 	    	SetMainHall(this, team_data);
 	    }
+
+		SyncBaseName(this);
+		SyncMainData(this);
     }
 	else if (cmd == sync_main_data_id)
 	{
