@@ -219,6 +219,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 void onDie(CBlob@ this)
 {
+	if (!isServer()) return;
 	u8 self_deity_id = this.get_u8("deity_id");
 
 	int count = getPlayerCount();
@@ -235,6 +236,7 @@ void onDie(CBlob@ this)
 				if (blob !is null)
 				{
 					blob.set_u8("deity_id", 0);
+					blob.Sync("deity_id", true);
 				}
 			}
 		}

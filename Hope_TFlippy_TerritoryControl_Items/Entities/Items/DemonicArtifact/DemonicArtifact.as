@@ -57,7 +57,9 @@ void onInit(CSprite@ this)
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
 	if (this.get_u16("soulbound_netid") == 0) return true;
-
+	bool enemy = byBlob.get_u8("deity_id") != Deity::mithrios && byBlob.get_u8("deity_id") != Deity::gregor;
+	if (!enemy) return true;
+	
 	CPlayer@ ply = byBlob.getPlayer();
 	if (ply !is null && ply.getNetworkID() == this.get_u16("soulbound_netid"))
 	{

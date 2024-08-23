@@ -6,10 +6,10 @@
 
 void onInit(CBlob@ this)
 {
-	this.set_u8("deity_id", Deity::foghorn);
+	this.set_u8("deity_id", Deity::trollbird);
 	this.set_Vec2f("shop menu size", Vec2f(2, 2));
 
-		this.addCommandID("turn_sounds");
+	this.addCommandID("turn_sounds");
 	
 	CSprite@ sprite = this.getSprite();
 	sprite.SetEmitSound("Disc_Money.ogg");
