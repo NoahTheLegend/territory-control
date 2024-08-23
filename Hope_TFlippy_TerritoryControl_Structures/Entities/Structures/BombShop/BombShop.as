@@ -101,7 +101,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Small Bomb (2)", "$icon_smallbomb$", "mat_smallbomb-4", "A small iron bomb. Detonates upon strong impact.");
+		ShopItem@ s = addShopItem(this, "Small Bomb (2)", "$icon_smallbomb$", "mat_smallbomb-2", "A small iron bomb. Detonates upon strong impact.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 75);
 
 		s.spawnNothing = true;
