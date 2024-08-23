@@ -88,7 +88,7 @@ void onTick(CBlob@ this)
 		{
 			laser.ResetTransform();
 			laser.ScaleBy(Vec2f(length / 32.0f - 0.4, 1.0f));
-			laser.TranslateBy(Vec2f(length / 2 - 7, 0.0f));
+			laser.TranslateBy(Vec2f(length / 2, 0.0f));
 			laser.RotateBy((flip ? 180 : 0), Vec2f());
 			laser.SetVisible(true);
 		}
