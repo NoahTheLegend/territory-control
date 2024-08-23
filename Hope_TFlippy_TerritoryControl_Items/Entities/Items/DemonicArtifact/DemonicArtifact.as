@@ -85,7 +85,8 @@ void onTick(CBlob@ this)
 	CBlob@ playerBlob = getLocalPlayerBlob();
 	CSprite@ sprite = this.getSprite();
 	
-	if (playerBlob !is null && ply !is null && (ply.getNetworkID() == this.get_u16("soulbound_netid") || playerBlob.hasTag("mithrios")))
+	if (playerBlob !is null && playerBlob.getTeamNum() < 7 && ply !is null
+		&& (ply.getNetworkID() == this.get_u16("soulbound_netid") || playerBlob.hasTag("mithrios")))
 	{
 		sprite.SetFrameIndex(0);
 		sprite.SetEmitSoundPaused(false);

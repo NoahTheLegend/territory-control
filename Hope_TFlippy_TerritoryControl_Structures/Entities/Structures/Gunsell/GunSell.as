@@ -127,7 +127,7 @@ void onInit(CBlob@ this)
 	
 	//advanced
 	this.set_u8("bazooka", 3);
-	this.set_u8("bnak", 12);
+	this.set_u8("bnak", 4);
 	this.set_u8("svd", 22);
 	this.set_u8("grenadelauncher", 4);
 	this.set_u8("gaussrifle", 10);
