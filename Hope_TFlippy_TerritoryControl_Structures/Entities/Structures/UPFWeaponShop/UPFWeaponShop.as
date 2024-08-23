@@ -120,7 +120,7 @@ void onInit(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 16);
 		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 4);
         AddRequirement(s.requirements, "blob", "sar", "UPF SAR-12", 1);
-		AddRequirement(s.requirements, "blob", "illegalgunpart", "Definitely Legal Gun Part", 1);
+		//AddRequirement(s.requirements, "blob", "illegalgunpart", "Definitely Legal Gun Part", 1);
 
 		s.spawnNothing = true;
     }
