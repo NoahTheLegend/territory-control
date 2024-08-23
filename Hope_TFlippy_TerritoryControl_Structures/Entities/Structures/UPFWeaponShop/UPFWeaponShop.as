@@ -154,7 +154,7 @@ void onInit(CBlob@ this)
         ShopItem@ s = addShopItem(this, "UPF Suppressed AKM", "$silencedak$", "silencedak", "Reassemble two very good guns into better one!\n\nUses Highcal Rounds.");
         AddRequirement(s.requirements, "blob", "silencedrifle", "UPF Suppressed Rifle", 1);
 		AddRequirement(s.requirements, "blob", "bnak", "AKM", 1);
-		AddRequirement(s.requirements, "blob", "illegalgunpart", "Illegal Gun Part", 1);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 24);
 		
         s.spawnNothing = true;
     }
