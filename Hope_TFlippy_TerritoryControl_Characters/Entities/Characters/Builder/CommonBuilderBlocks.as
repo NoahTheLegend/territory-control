@@ -520,8 +520,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 16);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 16);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 50);
-
-		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
+		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
 		b.size.Set(24, 24);
 		blocks[1].push_back(b);
