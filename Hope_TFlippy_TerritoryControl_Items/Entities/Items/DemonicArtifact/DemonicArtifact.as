@@ -68,7 +68,8 @@ bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 void onAttach(CBlob@ this, CBlob@ blob, AttachmentPoint@ point)
 {
 	CPlayer@ ply = blob.getPlayer();
-	if (blob.get_u8("deity_id") != Deity::mithrios && this.get_u16("soulbound_netid") == 0)
+	bool enemy = blob.get_u8("deity_id") != Deity::mithrios && blob.get_u8("deity_id") != Deity::gregor;
+	if (enemy && this.get_u16("soulbound_netid") == 0)
 	{
 		this.set_u16("soulbound_netid", ply.getNetworkID());
 		
@@ -88,7 +89,7 @@ void onTick(CBlob@ this)
 	if (playerBlob !is null && playerBlob.getTeamNum() < 7 && ply !is null
 		&& (ply.getNetworkID() == this.get_u16("soulbound_netid") || playerBlob.hasTag("mithrios")))
 	{
-		sprite.SetFrameIndex(0);
+		//sprite.SetFrameIndex(0);
 		sprite.SetEmitSoundPaused(false);
 	
 		Vec2f diff = playerBlob.getPosition() - this.getPosition();
@@ -140,7 +141,7 @@ void onTick(CBlob@ this)
 	}
 	else
 	{
-		sprite.SetFrameIndex(1);
+		//sprite.SetFrameIndex(1);
 		sprite.SetEmitSoundPaused(true);
 	}
 
@@ -154,7 +155,11 @@ void onTick(CBlob@ this)
 		for (uint i = 0; i < blobs.length; i++)
 		{
 			CBlob@ b = blobs[i];
+			if (b is null) continue;
 			
+			bool enemy = b.get_u8("deity_id") != Deity::mithrios && b.get_u8("deity_id") != Deity::gregor;
+			if (!enemy) continue;
+
 			f32 dist = (b.getPosition() - this.getPosition()).Length();
 			if (dist < s_dist)
 			{
