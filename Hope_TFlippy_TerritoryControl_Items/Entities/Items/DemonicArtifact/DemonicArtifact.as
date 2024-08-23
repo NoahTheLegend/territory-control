@@ -17,6 +17,7 @@ void onInit(CBlob@ this)
 	this.getCurrentScript().tickFrequency = 1;
 	// this.getCurrentScript().runFlags |= Script::tick_not_ininventory | Script::tick_not_attached;
 	
+	this.Tag("medium weight");
 	this.set_u16("soulbound_netid", 0);
 }
 
@@ -189,8 +190,8 @@ void Smite(CBlob@ this, CBlob@ target)
 	
 	if (isServer())
 	{
-		f32 damage = target.getInitialHealth() * 0.75f;
-		this.server_Hit(target, target.getPosition(), dir, 1000.00f, Hitters::fire);
+		f32 damage = target.getHealth()*1.5f; // 0.75f actually
+		this.server_Hit(target, target.getPosition(), dir, damage, HittersTC::forcefield);
 	}
 	
 	if (isClient())
