@@ -18,6 +18,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 
         TeamData@ team_data;
 	    GetTeamData(this.getTeamNum(), @team_data);
+		if (team_data is null) return;
 
         if (this.getName() == "camp")
         {
@@ -43,6 +44,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 
 		TeamData@ team_data;
 		GetTeamData(this.getTeamNum(), @team_data);
+		if (team_data is null) return;
 
 		team_data.main_hall_id = id;
 		if (do_tag) this.Tag("main_hall");
