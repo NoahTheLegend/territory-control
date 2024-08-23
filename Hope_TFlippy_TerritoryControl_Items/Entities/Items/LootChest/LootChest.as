@@ -32,7 +32,7 @@ const LootItem@[] c_items =
 	LootItem("uzi", 1, 1, 198),
 	LootItem("pdw", 1, 1, 400),
 	LootItem("sar", 1, 1, 300),
-	LootItem("carbine", 1, 1, 3070),
+	LootItem("carbine", 1, 1, 370),
 	LootItem("beagle", 1, 1, 400),
 	LootItem("autoshotgun", 1, 0, 197),
 	LootItem("sgl", 1, 0, 100),
