@@ -21,6 +21,7 @@ const string[] scriptnames =
 	"Radpilled.as",
 	//"Rippioed.as",
 	"Schisked.as",
+	"Steroid_Effect.as",
 	"Stimed.as",
 	"Polymorphine_Effect.as",
 	"Sturded.as",
