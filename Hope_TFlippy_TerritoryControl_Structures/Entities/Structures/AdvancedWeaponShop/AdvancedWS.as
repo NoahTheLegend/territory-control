@@ -158,7 +158,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Nitro 700", "$nitro700$", "nitro700", "Strong shotgun used to take down buffalos, not badgers.\n\nUses High Power Rounds.");
+		ShopItem@ s = addShopItem(this, "Nitro 700", "$nitro700$", "nitro700", "Strong shotgun used to take down buffalos, not badgers.\n\nUses Shotgun Rounds.");
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 350);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 8);
 		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 16);
