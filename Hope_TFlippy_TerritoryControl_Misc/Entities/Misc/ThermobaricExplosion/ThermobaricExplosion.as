@@ -212,7 +212,7 @@ void onTick(CBlob@ this)
 					
 					if (modifier > 0.01f)
 					{	
-						Sound::Play("ThermobaricExplosion", getDriver().getWorldPosFromScreenPos(getDriver().getScreenCenterPos()), 2.0f - (0.2f * (1 - modifier)), modifier);
+						Sound::Play("ThermobaricExplosion", getDriver().getWorldPosFromScreenPos(getDriver().getScreenCenterPos()), 1.5f - (0.2f * (1 - modifier)), modifier);
 					}
 				}
 			}

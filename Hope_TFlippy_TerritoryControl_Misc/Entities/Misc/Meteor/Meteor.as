@@ -30,7 +30,7 @@ void onInit(CBlob@ this)
         CSprite@ sprite = this.getSprite();
         sprite.SetEmitSound("Rocket_Idle.ogg");
         sprite.SetEmitSoundPaused(false);
-        sprite.SetEmitSoundVolume(2.0f);
+        sprite.SetEmitSoundVolume(1.5f);
     }
 
     if (isClient())
