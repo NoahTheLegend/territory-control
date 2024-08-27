@@ -6,6 +6,9 @@
 	ResetBoard(this);
     RequestSync(this);
 
+	this.Tag("builder always hit");
+	this.Tag("change team on fort capture");
+
 	this.set_u8("selected_white", 64 - 4);
 	this.set_u8("selected_black", 4);
 	this.set_s8("captured_white", -1);
@@ -13,7 +16,6 @@
 	this.set_bool("reset_white", false); // both of players should send a command
 	this.set_bool("reset_black", false);
 
-	this.setPosition(this.getPosition()+Vec2f(0,8));
 	this.getSprite().SetRelativeZ(-50);
 	if (isClient()) this.set_f32("tilesize", 24.0f * getCamera().targetDistance);
 
@@ -26,6 +28,8 @@
 	ap1.SetKeysToTake(key_left | key_right | key_up | key_down | key_action1 | key_action2);
 
 	if (isServer()) ResetGameLog(this);
+
+	this.Tag("building");
 }
 
 void RequestSync(CBlob@ this)
@@ -1137,4 +1141,14 @@ void ResetBoard(CBlob@ this)
     @table.board_pieces[4][0] = MakePieceOnBoard(table, 6, 1);
 
     this.set("Table", @table);
+}
+
+bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
+{
+	return false;
+}
+
+bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
+{
+	return false;
 }

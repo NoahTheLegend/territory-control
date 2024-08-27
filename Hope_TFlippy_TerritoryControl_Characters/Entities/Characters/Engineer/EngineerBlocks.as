@@ -39,7 +39,7 @@ const string blocks_property = "blocks";
 const string inventory_offset = "inventory offset";
 
 void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
-{//
+{
 	AddIconToken("$glass_block$", "World.png", Vec2f(8, 8), CMap::tile_glass);
 	AddIconToken("$bglass_block$", "World.png", Vec2f(8, 8), CMap::tile_bglass);
 	AddIconToken("$concrete_block$", "World.png", Vec2f(8, 8), CMap::tile_concrete);
@@ -562,25 +562,12 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[1].push_back(b);
 	}
 	{
-		BuildBlock b(0, "bountiesterminal", "$icon_bountiesterminal$", "Bounties Terminal:\n\nHave illegal access to Bounty system, hacker fee included in the price.");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 150);
-		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 2);
-		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 1);
-		AddRequirement(b.reqs, "coin", "", "Coins", 200);
-		b.buildOnGround = true;
-		b.size.Set(40, 24);
-		blocks[1].push_back(b);
-	}
-	{
-		BuildBlock b(0, "mostwantedshop", "$icon_mostwantedshop$", "Most Wanted Shop:\n\nWant to kill a wanted player? Increase his bounty here.");
+		BuildBlock b(0, "chess", "$chess$", "Chess table:\n\n//EXPERIMENTAL; PRESS F1 FOR HELP//");
 		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 50);
-		AddRequirement(b.reqs, "coin", "", "Coins", 100);
 		b.buildOnGround = true;
-		b.size.Set(40, 24);
+		b.size.Set(24, 16);
 		blocks[1].push_back(b);
 	}
-	
 	 
 	BuildBlock[] page_2;
 	blocks.push_back(page_2);
