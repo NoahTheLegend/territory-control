@@ -39,7 +39,7 @@ const string blocks_property = "blocks";
 const string inventory_offset = "inventory offset";
 
 void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
-{//
+{
 	AddIconToken("$glass_block$", "World.png", Vec2f(8, 8), CMap::tile_glass);
 	AddIconToken("$bglass_block$", "World.png", Vec2f(8, 8), CMap::tile_bglass);
 	AddIconToken("$concrete_block$", "World.png", Vec2f(8, 8), CMap::tile_concrete);
