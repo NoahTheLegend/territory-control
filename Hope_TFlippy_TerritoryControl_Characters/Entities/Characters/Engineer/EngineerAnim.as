@@ -1,4 +1,4 @@
-// Engineer animations
+// Builder animations
 
 #include "BuilderCommon.as"
 #include "FireCommon.as"
@@ -13,19 +13,33 @@
 void onInit(CSprite@ this)
 {
 	addRunnerTextures(this, "engineer", "Engineer");
+	addRunnerTextures(this, "flag_engineer", "MarkossEngineer");
 
 	this.getCurrentScript().runFlags |= Script::tick_not_infire;
 }
 
 void onPlayerInfoChanged(CSprite@ this)
 {
-	addRunnerTextures(this, "engineer", "Engineer");
+	LoadSprites(this);
+}
+
+void LoadSprites(CSprite@ this)
+{
+	int armour = PLAYER_ARMOUR_STANDARD;
+
+	CPlayer@ p = this.getBlob().getPlayer();
+
+	if (p !is null && p.getUsername() == "NoahTheLegend")
+		ensureCorrectRunnerTexture(this, "flag_engineer", "MarkossEngineer");
+	else
+		ensureCorrectRunnerTexture(this, "engineer", "Engineer");
 }
 
 void onTick(CSprite@ this)
 {
 	// store some vars for ease and speed
 	CBlob@ blob = this.getBlob();
+	if (blob is null) return;
 
 	if (blob.hasTag("dead"))
 	{
