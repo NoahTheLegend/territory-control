@@ -25,7 +25,7 @@ void onTick(CBlob@ this)
 			if (b !is this && b.getName() == name)
 			{
 				lanternCount++;
-				if (lanternCount > 4)
+				if (lanternCount > 5)
 				{
 					SelfDamage(this);
 					break;
