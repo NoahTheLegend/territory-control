@@ -24,7 +24,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		this.getSprite().PlaySound("Gurgle2.ogg", 1.0f, 1.2f);
 
 		if (!isServer()) return;
-		f32 heal_amount = 5.0f;
+		f32 heal_amount = 100.0f;
 		CBlob@ caller = getBlobByNetworkID(params.read_u16());
 		if (caller !is null)
 		{
