@@ -7,31 +7,6 @@
 
 // A script by TFlippy
 
-// Mithrios
-	// Bonuses: Mithrios head for followers, +5% running speed with each follower, 20% damage resistance
-	// Offering: Meat
-	
-// Ivan
-	// Bonuses: Drunken speech for followers, shrine plays old tavern music, slaving immunity, ???
-	// Offering: Vodka
-	
-// Gregor Builder
-	// Bonuses: 
-	// Offering: 
-
-// Barsuk
-	// Bonuses: 
-	// Offering: 
-	
-// Barlth
-	// Bonuses: 
-	// Offering: 
-
-void onInit(CSprite@ this)
-{
-	
-}
-
 void onInit(CBlob@ this)
 {
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
@@ -87,7 +62,7 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 		}
 		{
-			ShopItem@ s = addShopItem(this, "Ivan, God of Ivan", "$icon_ivan$", "altar_ivan", "A squatter worshipped by anarchists, slavs and those who indulge in drinking.\n\nAfter annoying the Illuminati Council and being banished three times, a cult worshipping him formed.\n\n- Immunity to enslavement\n- Anti-faction field around altar\n- Running speed bonus\n- Build a blessed AK-47\n- Raise a Hobo\n- Respawn graduated");
+			ShopItem@ s = addShopItem(this, "Ivan, God of Ivan", "$icon_ivan$", "altar_ivan", "A squatter worshipped by anarchists, slavs and those who indulge in drinking.\n\nAfter annoying the Illuminati Council and being banished three times, a cult worshipping him formed.\n\n- Immunity to enslavement\n- Anti-faction field around altar\n- Running speed bonus\n- Build a blessed AK-47\n- Raise a Hobo\n- Respawn graduated\n- Knowledge to use engineer tools");
 			AddRequirement(s.requirements, "no more global", "altar_ivan", "Altar of Ivan", 1);
 			AddRequirement(s.requirements, "blob", "vodka", "Vodka", 4);
 			AddRequirement(s.requirements, "coin", "", "Coins", 1500);
@@ -98,7 +73,7 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 		}
 		{
-			ShopItem@ s = addShopItem(this, "Gregor Builder, God of Destruction", "$icon_gregor$", "altar_gregor", "A deranged inventor known for his bizarre contraptions - such as the deadly ebola rune.\n\nOne day after being beaten in a wizard duel, he threatened to wipe out the entire world. The Illuminati Council removed him from existence for one month instead.\n\n- No one knows how to summon him yet\n\n- The Ancient magic will magically let you to become an engineer");
+			ShopItem@ s = addShopItem(this, "Gregor Builder, God of Destruction", "$icon_gregor$", "altar_gregor", "A deranged inventor known for his bizarre contraptions - such as the deadly ebola rune.\n\nOne day after being beaten in a wizard duel, he threatened to wipe out the entire world. The Illuminati Council removed him from existence for one month instead.\n\n- No one knows how to summon him yet");
 			AddRequirement(s.requirements, "no more global", "altar_gregor", "Altar of Gregor Builder", 1);
 			AddRequirement(s.requirements, "blob", "builder", "Virgin Builder Corpse", 1);
 			AddRequirement(s.requirements, "blob", "foof", "Foof", 1);

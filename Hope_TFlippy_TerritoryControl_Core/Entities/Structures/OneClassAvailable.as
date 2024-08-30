@@ -52,7 +52,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		write_classchange(params, caller.getNetworkID(), cfg);
 
 		u8 deity_id = caller.get_u8("deity_id");
-		bool tried_use_only_faction = this.hasTag("only faction") && caller.getTeamNum() > 6 && deity_id != Deity::gregor;
+		bool tried_use_only_faction = this.hasTag("only faction") && caller.getTeamNum() > 6 && deity_id != Deity::ivan;
 
 		CButton@ button = caller.CreateGenericButton(
 		"$change_class$",                           // icon token

@@ -30,7 +30,7 @@ void onInit(CBlob@ this)
 	
 	AddIconToken("$icon_gregor_follower$", "InteractionIcons.png", Vec2f(32, 32), 11);
 	{
-		ShopItem@ s = addShopItem(this, "Rite of gregor", "$icon_gregor_follower$", "follower", "Gain gregor's goodwill by offering him a bottle of vodka.");
+		ShopItem@ s = addShopItem(this, "Rite of gregor", "$icon_gregor_follower$", "follower", "Gain Gregor's goodwill by offering him a bottle of vodka.");
 		AddRequirement(s.requirements, "blob", "vodka", "Vodka", 1);
 		s.customButton = true;
 		s.buttonwidth = 2;	
@@ -50,6 +50,25 @@ void onInit(CBlob@ this)
 		s.buttonwidth = 1;	
 		s.buttonheight = 1;
 		
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Infernal Stone", "$infernalstone$", "infernalstone", "It's hot!");
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 350);
+		AddRequirement(s.requirements, "blob", "fire_cards", "Fire Card", 4);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Mysterious Gadget", "$drone$", "drone", "Something is wrong here.");
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 100);
+		AddRequirement(s.requirements, "blob", "steam_cards", "Steam Card", 2);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Transmutation", "$mat_mithrilenriched$", "mat_mithrilenriched-7", "Transmutate 50 wilmet into 7 enriched mithril.");
+		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 50);
 		s.spawnNothing = true;
 	}
 }
@@ -96,73 +115,90 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	else if (cmd == this.getCommandID("shop made item"))
 	{
 		u16 caller, item;
-		if (params.saferead_netid(caller) && params.saferead_netid(item))
-		{
-			string data = params.read_string();
-			CBlob@ callerBlob = getBlobByNetworkID(caller);
-			if (callerBlob !is null)
-			{
-				CPlayer@ callerPlayer = callerBlob.getPlayer();
-				if (callerPlayer !is null)
-				{
-					if (data == "follower")
-					{
-						this.add_f32("deity_power", 50);
-						
-						if (isClient())
-						{
-							// if (callerBlob.get_u8("deity_id") != Deity::mithrios)
-							// {
-								// client_AddToChat(callerPlayer.getCharacterName() + " has become a follower of gregor_builder.", SColor(255, 255, 0, 0));
-							// }
-							
-							CBlob@ localBlob = getLocalPlayerBlob();
-							if (localBlob !is null)
-							{
-								if (this.getDistanceTo(localBlob) < 128)
-								{
-									this.getSprite().PlaySound("packer_pack.ogg", 1.25f, 1.00f);
-								}
-							}
-						}
-						
-						if (isServer())
-						{
-							callerPlayer.set_u8("deity_id", Deity::gregor);
-							callerBlob.set_u8("deity_id", Deity::gregor);
 
-							CBitStream params1;
-							params1.write_u8(Deity::gregor);
-							params1.write_u16(callerBlob.getNetworkID());
-	
-							this.SendCommand(this.getCommandID("sync_deity"), params1);
-						}
-					}
-					else
+		if(!params.saferead_netid(caller) || !params.saferead_netid(item))
+			return;
+
+		string name = params.read_string();
+		CBlob@ callerBlob = getBlobByNetworkID(caller);
+		CPlayer@ callerPlayer = callerBlob.getPlayer();
+
+		if (callerBlob is null) return;
+
+		// if (isServer())
+		{
+			string[] spl = name.split("-");
+
+			if (spl[0] == "follower")
+			{
+				this.add_f32("deity_power", 50);
+				
+				if (isClient())
+				{
+
+					CBlob@ localBlob = getLocalPlayerBlob();
+					if (localBlob !is null)
 					{
-						u8 deity_id = callerPlayer.get_u8("deity_id");
-					
-						if (data == "offering_hobo")
+						if (this.getDistanceTo(localBlob) < 128)
 						{
-							this.add_f32("deity_power", 25);
-							if (isServer()) this.Sync("deity_power", false);
-							
-							if (isServer())
-							{
-								CMap@ map = getMap();
-							
-								float x = this.getPosition().x + (128 - XORRandom(256));
-								Vec2f pos;
-								
-								if(map.rayCastSolid(Vec2f(x, 0.0f), Vec2f(x, map.tilemapheight * map.tilesize), pos))
-								{
-									CBlob@ artifact = server_CreateBlob("demonicartifact", this.getTeamNum(), pos);
-									CBlob@ lightning = server_CreateBlob("lightningbolt", this.getTeamNum(), pos);
-								}
-							}
+							this.getSprite().PlaySound("packer_pack.ogg", 1.25f, 1.00f);
 						}
 					}
-				}				
+				}
+				
+				if (isServer())
+				{
+					callerPlayer.set_u8("deity_id", Deity::gregor);
+					callerBlob.set_u8("deity_id", Deity::gregor);
+
+					CBitStream params1;
+					params1.write_u8(Deity::gregor);
+					params1.write_u16(callerBlob.getNetworkID());
+	
+					this.SendCommand(this.getCommandID("sync_deity"), params1);
+				}
+			}
+			if (isServer())
+			{
+				if (spl[0] == "coin")
+				{
+					CPlayer@ callerPlayer = callerBlob.getPlayer();
+					if (callerPlayer is null) return;
+
+					callerPlayer.server_setCoins(callerPlayer.getCoins() +  parseInt(spl[1]));
+				}
+				else if (name.findFirst("mat_") != -1)
+				{
+					CPlayer@ callerPlayer = callerBlob.getPlayer();
+					if (callerPlayer is null) return;
+
+					CBlob@ mat = server_CreateBlob(spl[0]);
+
+					if (mat !is null)
+					{
+						mat.Tag("do not set materials");
+						mat.server_SetQuantity(parseInt(spl[1]));
+						if (!callerBlob.server_PutInInventory(mat))
+						{
+							mat.setPosition(callerBlob.getPosition());
+						}
+					}
+				}
+				else
+				{
+					CBlob@ blob = server_CreateBlob(spl[0], callerBlob.getTeamNum(), this.getPosition());
+
+					if (blob is null) return;
+
+					if (!blob.canBePutInInventory(callerBlob))
+					{
+						callerBlob.server_Pickup(blob);
+					}
+					else if (callerBlob.getInventory() !is null && !callerBlob.getInventory().isFull())
+					{
+						callerBlob.server_PutInInventory(blob);
+					}
+				}
 			}
 		}
 	}
