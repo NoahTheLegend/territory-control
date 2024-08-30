@@ -136,7 +136,7 @@ void onTick(CBlob@ this)
 				{
 					// print("whisper");
 				
-					this.set_u32("next_whisper", getGameTime() + 30 * 10);
+					this.set_u32("next_whisper", getGameTime() + 30 * 5);
 					this.getSprite().PlaySound("dem_whisper_" + XORRandom(6), 0.75f * factor, 0.75f);
 				}
 			}
@@ -188,7 +188,7 @@ void Smite(CBlob@ this, CBlob@ target)
 	
 	target.setVelocity(Vec2f(dir.x, dir.y) * 7.0f);
 	SetKnocked(target, 90);
-	target.set_u32("next smite", getGameTime() + 30);
+	target.set_u32("next smite", getGameTime() + 150);
 	
 	if (isServer())
 	{
