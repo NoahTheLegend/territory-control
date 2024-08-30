@@ -386,8 +386,9 @@ void onInit(CSprite@ this)
 // render block placement
 void onRender(CSprite@ this)
 {
-
 	CBlob@ blob = this.getBlob();
+	if (!blob.isMyPlayer() || blob.isAttached() || !blob.hasAttached()) return;
+
 	if (getHUD().hasButtons())
 	{
 		return;
