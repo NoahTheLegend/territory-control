@@ -51,6 +51,7 @@ void onInit(CBlob@ this)
 	this.set_f32("inaccuracy", 0.00f);
 	this.set_u8("reactionTime", 0);
 	this.set_u8("attackDelay", 0);
+	this.Tag("ignore saw");
 
 	this.set_bool("raider", true);
 

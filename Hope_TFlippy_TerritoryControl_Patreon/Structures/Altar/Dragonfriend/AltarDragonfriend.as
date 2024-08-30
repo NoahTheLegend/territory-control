@@ -4,6 +4,7 @@
 #include "DeityCommon.as";
 #include "MakeMat.as";
 #include "Explosion.as";
+#include "FireballCommon.as";
 
 void onInit(CBlob@ this)
 {
@@ -108,12 +109,12 @@ void onTick(CBlob@ this)
 		else if (stonks_volatility > 0.40f) volatility_text = "medium";
 		else if (stonks_volatility > 0.20f) volatility_text = "low";
 		else volatility_text = "very low";
-		
+
 		string text = "Altar of the Dragon\n";
 		text += "\nDragon Power: " + power;
 		text += "\nFire Resistance: " + Maths::Min(power / power_fire_immunity_max * 100.00f, 100.00f) + "%";
 		text += "\nMaximum Stonks Value: " + Maths::Ceil(stonks_base_value_max + (power / 100.00f)) + " coins";
-		text += "\nFireball Power: " + Maths::Round((1.00f + Maths::Sqrt(power * 0.00002f)) * 100.00f) + "%";
+		text += "\nFireball Power: " + (getFireballPower(this) * 100.00f) + "%";
 		// text += "\n\nStonks:";
 		// text += "\nVolatility: " + volatility_text;
 		// text += "\nGrowth: " + (stonks_growth >= 0 ? "+" : "-") + (Maths::Abs(s32(stonks_growth * 10000.00f) * 0.01f)) + "%";
@@ -210,7 +211,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 						//if (callerBlob.getTeamNum() < 7)
 						if (true)
 						{
-							this.add_f32("deity_power", 899);
+							this.add_f32("deity_power", 199);
 							
 							if (isClient())
 							{
@@ -284,7 +285,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 						{
 							if (isServer())
 							{
-								this.add_f32("deity_power", 7999);
+								this.add_f32("deity_power", 799);
 							
 								f32 map_width = getMap().tilemapwidth * 8.00f;
 								CBlob@ item = server_CreateBlob("meteor", this.getTeamNum(), Vec2f(XORRandom(map_width), 0));

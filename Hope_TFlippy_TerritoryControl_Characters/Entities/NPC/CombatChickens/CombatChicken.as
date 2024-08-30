@@ -42,6 +42,12 @@ void onInit(CBlob@ this)
 
 	this.Tag("dangerous");
 	this.Tag("chicken");
+	this.Tag("ignore saw");
+}
+
+void onSetPlayer(CBlob@ this, CPlayer@ player)
+{
+	this.Untag("ignore saw");
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)

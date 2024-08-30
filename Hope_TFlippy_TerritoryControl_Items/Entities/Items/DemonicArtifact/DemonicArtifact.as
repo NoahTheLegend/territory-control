@@ -136,7 +136,7 @@ void onTick(CBlob@ this)
 				{
 					// print("whisper");
 				
-					this.set_u32("next_whisper", getGameTime() + 30 * 5);
+					this.set_u32("next_whisper", getGameTime() + 30 * 10);
 					this.getSprite().PlaySound("dem_whisper_" + XORRandom(6), 0.75f * factor, 0.75f);
 				}
 			}
@@ -212,9 +212,4 @@ void Smite(CBlob@ this, CBlob@ target)
 		shield.RotateBy(dir.Angle() * -1.00f, Vec2f());
 		shield.TranslateBy(dir * ((radius * 0.50f) - 8.0f));
 	}
-}
-
-f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
-{
-	return 0;
 }

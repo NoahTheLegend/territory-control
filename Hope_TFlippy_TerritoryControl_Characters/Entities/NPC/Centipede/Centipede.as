@@ -38,6 +38,7 @@ void onInit(CBlob@ this)
 	this.set_string("custom_explosion_sound", "MithrilBomb_Explode.ogg");
 	this.set_bool("map_damage_raycast", true);
 	this.set_Vec2f("explosion_offset", Vec2f(0, 0));
+	this.Tag("ignore saw");
 
 	this.set_f32("bomb angle", 90);
 	this.Tag("map_damage_dirt");

@@ -1,6 +1,7 @@
 #include "Hitters.as";
 #include "HittersTC.as";
 #include "Explosion.as";
+#include "FireballCommon.as";
 
 string[] particles = 
 {
@@ -60,7 +61,7 @@ void DoExplosion(CBlob@ this)
 	}
 	
 	f32 random = XORRandom(8);
-	f32 modifier = this.get_f32("power");
+	f32 modifier = getFireballPower(this);
 	// print("Modifier: " + modifier);
 
 	this.set_f32("map_damage_radius", (16.0f + random) * Maths::Sqrt(modifier));

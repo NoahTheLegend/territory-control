@@ -386,6 +386,7 @@ void onInit(CSprite@ this)
 // render block placement
 void onRender(CSprite@ this)
 {
+
 	CBlob@ blob = this.getBlob();
 	if (getHUD().hasButtons())
 	{
