@@ -67,6 +67,7 @@ void onRender(CSprite@ this)
 		return;
 
 	CBlob@ blob = this.getBlob();
+	if (!blob.isMyPlayer()) return;
 	// Vec2f dim = Vec2f(320,64);
 	// Vec2f ul( getScreenWidth()/2.0f - dim.x/2.0f, getScreenHeight() - dim.y + 12 );
 	// Vec2f lr( ul.x + dim.x, ul.y + dim.y );

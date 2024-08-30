@@ -26,6 +26,8 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
+	if (!this.isMyPlayer()) return;
+
 	if (this.isInInventory() || getKnocked(this) > 0)
 	{
 		this.clear("pickup blobs");
@@ -382,7 +384,7 @@ void onInit(CSprite@ this)
 void onRender(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
-
+	if (!blob.isMyPlayer()) return;
 	// render item held when in inventory
 
 	if (blob.isKeyPressed(key_inventory))

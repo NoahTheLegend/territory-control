@@ -164,7 +164,7 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
-	if (this.isInInventory())
+	if (this.isInInventory() || !this.isMyPlayer() || this.isAttached())
 	{
 		return;
 	}
@@ -262,6 +262,12 @@ void onInit(CSprite@ this)
 void onRender(CSprite@ this)
 {
 	CBlob@ blob = this.getBlob();
+
+	if (blob.isInInventory() || !blob.isMyPlayer() || blob.isAttached())
+	{
+		return;
+	}
+
 	DrawInterruption(this, blob);
 	
 	if (getHUD().hasButtons())

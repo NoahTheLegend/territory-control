@@ -129,6 +129,7 @@ void ButtonOrMenuClick(CBlob@ this, Vec2f pos, bool clear, bool doClosestClick)
 
 void onTick(CBlob@ this)
 {
+	if (!this.isMyPlayer()) return;
 	if (getCamera() is null)
 	{
 		return;

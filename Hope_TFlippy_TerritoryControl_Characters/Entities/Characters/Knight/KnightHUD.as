@@ -39,6 +39,8 @@ void onRender( CSprite@ this )
 	CBlob@ blob = this.getBlob();
 	CPlayer@ player = blob.getPlayer();
 
+	if (!blob.isMyPlayer()) return;
+
 	ManageCursors( blob );
 
 	// draw inventory

@@ -17,6 +17,8 @@ void onRender(CSprite@ this)
 		return;
 	}
 
+	if (!blob.isMyPlayer()) return;
+
 	//draw air bubbles
 	s32 extra = 1;
 	s32 offset = -30;
