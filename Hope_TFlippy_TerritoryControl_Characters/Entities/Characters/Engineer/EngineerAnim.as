@@ -29,7 +29,7 @@ void LoadSprites(CSprite@ this)
 
 	CPlayer@ p = this.getBlob().getPlayer();
 
-	if (p !is null && p.getUsername() == "NoahTheLegend")
+	if (p !is null && p.getUsername() == "Markoss")
 		ensureCorrectRunnerTexture(this, "flag_engineer", "MarkossEngineer");
 	else
 		ensureCorrectRunnerTexture(this, "engineer", "Engineer");
