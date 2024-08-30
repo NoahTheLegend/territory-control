@@ -3,6 +3,14 @@
 
 void onInit(CBlob@ this)
 {
+	if (isServer())
+	{
+		if (team_data.main_hall_id == 0
+	    	|| getBlobByNetworkID(team_data.main_hall_id) is null)
+	    {
+	    	SetMainHall(this, team_data);
+	    }
+	}
     if (isClient())
     {
         CBitStream params;
