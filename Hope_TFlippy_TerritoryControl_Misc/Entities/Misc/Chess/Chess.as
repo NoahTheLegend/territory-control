@@ -324,14 +324,14 @@ void onRender(CSprite@ sprite)
 		for (u8 i = 0; i < 8; i++)
 		{
 			f32 row_offset = (area/8)*(i+1);
-			GUI::DrawTextCentered(""+(i+1), tl+Vec2f(-16, area - row_offset + (area/8)/2) - 1.5f, SColor(225,255,255,255));
+			GUI::DrawTextCentered(""+(i+1), tl+Vec2f(-16, area - row_offset + (area/8)/2 - 1.5f), SColor(225,255,255,255));
 		}
 
 		// cols
 		for (u8 i = 0; i < 8; i++)
 		{
 			f32 col_offset = (area/8)*i;
-			GUI::DrawTextCentered(cols[i], tl+Vec2f(col_offset + (area/8)/2, area + 16) - 4.0f, SColor(225,255,255,255));
+			GUI::DrawTextCentered(cols[i], tl+Vec2f(col_offset + (area/8)/2, area + 16 - 4.0f), SColor(225,255,255,255));
 		}
 
 		// movement history
@@ -357,12 +357,12 @@ void onRender(CSprite@ sprite)
 			    string[] spl = chess_player[actual_index].split("_");
 			    string text = (spl[0] == "-1" ? "Rules" : spl[0] == "0" ? "White" : "Black") + ": " + cols[from_x] + "" + from_y + " - " + cols[to_x] + "" + to_y;
 
-			    GUI::DrawText(text, tl + Vec2f(area + 16, row_offset - (area / 8)) + 1.5f, SColor(225, 255, 255, 255));
+			    GUI::DrawText(text, tl + Vec2f(area + 16, row_offset - (area / 8) + 1.5f), SColor(225, 255, 255, 255));
 			}
 		}
 
 		// F1 help menu
-		bool reset = my_p0 ? this.get_bool("reset_white") : this.get_bool("reset_black");
+		bool reset = my_p0 ? this.get_bool("reset_white") : my_p1 ? this.get_bool("reset_black") : false;
 		if ((reset || u_showtutorial) && (my_p0 || my_p1))
 		{
 			GUI::DrawTextCentered(reset ? "Waiting for opponent to reset the game..."
@@ -954,7 +954,7 @@ class Board // breaks solid, but who cares
 			}
 		}
 		
-		end_turn(p.color);
+		if (p.color == 0 || p.color == 1) end_turn(p.color);
 	}
 
 	// another unnecessary hook
@@ -1207,8 +1207,16 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			return;
 		}
 
-		if (side == 0) this.set_bool("reset_white", !this.get_bool("reset_white"));
-		else if (side == 1) this.set_bool("reset_black", !this.get_bool("reset_black"));
+		if (side == 0)
+		{
+			this.set_bool("reset_white", !this.get_bool("reset_white"));
+			this.Sync("reset_white", true);
+		}
+		else if (side == 1)
+		{
+			this.set_bool("reset_black", !this.get_bool("reset_black"));
+			this.Sync("reset_black", true);
+		}
 
 		// reset event check
 		if (this.get_bool("reset_white") && this.get_bool("reset_black"))
@@ -1345,8 +1353,6 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 // avoid shitty exploiting when two objects are plugged into each other
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 {
-	this.getShape().getConsts().mapCollisions = false;
-
 	if (attached is this)
 	{
 		AttachmentPoint@ ap0 = this.getAttachments().getAttachmentPointByName("PLAYER0");
@@ -1365,7 +1371,6 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 // reset visuals
 void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 {
-	this.getShape().getConsts().mapCollisions = true;
 	this.setAngleDegrees(0);
 }
 
