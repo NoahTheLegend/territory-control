@@ -36,6 +36,15 @@ void onTick(CBlob@ this)
 	const bool isknocked = isKnocked(this);
 	u32 tmp = this.get_u32("nextJetpack");
 	const bool flying = tmp > getGameTime();
+
+	string torsoname = this.get_string("equipment_torso");
+	string torso2name = this.get_string("equipment2_torso");
+
+	f32 mod = 1.0f;
+	if (torsoname == "jetpack" && torso2name == "jetpack")
+	{
+		mod = 1.5f;
+	}
 	
 	if (!flying)
 	{
@@ -45,7 +54,7 @@ void onTick(CBlob@ this)
 			Vec2f dir = this.getAimPos() - this.getPosition();
 			dir.Normalize();
 
-			this.setVelocity(dir * 8.00f);
+			this.setVelocity(dir * 8.00f * mod);
 
 			Vec2f pos = this.getPosition()+  Vec2f( 0.0f, 4.0f);
 			if (isClient())
