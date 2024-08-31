@@ -72,14 +72,14 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	{
 		CBitStream params;
 		params.write_bool(false);
-		{CButton@ button = caller.CreateGenericButton(16, Vec2f(0, -16), this, this.getCommandID("pitch_scroll"), "Increase pitch ("+Maths::Round(pitch*100)+"%)", params);}
+		{CButton@ button = caller.CreateGenericButton(16, Vec2f(0, -18), this, this.getCommandID("pitch_scroll"), "Increase pitch ("+Maths::Round(pitch*100)+"%)", params);}
 	}
 
 	if (pitch > min_pitch)
 	{
 		CBitStream params;
 		params.write_bool(true);
-		{CButton@ button = caller.CreateGenericButton(19, Vec2f(0, 8), this, this.getCommandID("pitch_scroll"), "Decrease pitch ("+Maths::Round(pitch*100)+"%)", params);}
+		{CButton@ button = caller.CreateGenericButton(19, Vec2f(0, 10), this, this.getCommandID("pitch_scroll"), "Decrease pitch ("+Maths::Round(pitch*100)+"%)", params);}
 	}
 
 	CBitStream params;
