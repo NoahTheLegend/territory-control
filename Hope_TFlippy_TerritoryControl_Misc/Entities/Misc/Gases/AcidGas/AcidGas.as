@@ -5,6 +5,7 @@
 void onInit(CBlob@ this)
 {
 	this.Tag("gas");
+	this.Tag("acid");
 
 	this.getShape().SetGravityScale(0.60f);
 

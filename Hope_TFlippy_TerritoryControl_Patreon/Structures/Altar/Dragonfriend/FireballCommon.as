@@ -1,4 +1,4 @@
-const f32 fireball_max_power = 1000000.0f;
+const f32 fireball_max_power = 100000.0f;
 
 f32 getFireballPower(CBlob@ this)
 {

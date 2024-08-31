@@ -380,7 +380,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 		case Deity::dragonfriend:
 		{
-			if ((customData == Hitters::fire || customData == Hitters::burn))
+			if ((customData == Hitters::fire || customData == Hitters::burn) && !hitterBlob.hasTag("acid"))
 			{
 				CBlob@ altar = getBlobByName("altar_dragonfriend");
 				if (altar !is null)
