@@ -52,7 +52,7 @@ void onTick(CMovement@ this)
 	bool up = blob.isKeyPressed(key_up);
 	bool ride = false;
 
-	if (blob.hasTag("tameable"))
+	if (blob.hasTag("Tameable"))
 	{
 		AttachmentPoint@ ap = blob.getAttachments().getAttachmentPointByName("SADDLE");
     	if (ap !is null && ap.getOccupied() !is null)

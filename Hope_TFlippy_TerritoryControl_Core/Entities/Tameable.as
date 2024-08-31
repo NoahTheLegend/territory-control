@@ -1,7 +1,7 @@
 void onInit(CBlob@ this)
 {
     this.addCommandID("tame");
-    this.Tag("tameable");
+    this.Tag("Tameable");
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
