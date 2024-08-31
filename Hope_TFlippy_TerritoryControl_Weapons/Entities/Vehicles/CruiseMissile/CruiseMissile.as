@@ -97,6 +97,15 @@ void onRemoveFromInventory(CBlob@ this, CBlob@ blob )
 		this.SetInventoryIcon(sprite.getConsts().filename, 0, Vec2f(16, 32));
 		this.setInventoryName("Cruise Missile");
 	}
+
+	if (isServer())
+	{
+		if (this.hasTag("offblast") && blob.hasTag("explosive"))
+		{
+			blob.Tag("DoExplode");
+			blob.server_Die();
+		}
+	}
 }
 
 void onTick(CBlob@ this)
@@ -246,7 +255,7 @@ void onDie(CBlob@ this)
 			CBlob@ b = inv.getItem(i);
 			if (b !is null && b.hasTag("explosive"))
 			{
-				//b.server_PutOutInventory(this);
+				b.server_PutOutInventory(this);
 				b.Tag("DoExplode");
 				b.server_Die();
 			}
