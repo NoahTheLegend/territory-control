@@ -81,7 +81,22 @@ void onInit(CBlob@ this)
 	{
 		ShopItem@ s = addShopItem(this, "Squat of Kalashnikov", "$icon_ivan_offering_1$", "offering_ak47", "Bless your AK47 with Ivan's power.");
 		AddRequirement(s.requirements, "blob", "log", "Log", 2);
-		AddRequirement(s.requirements, "blob", "vodka", "Vodka", 4);
+		AddRequirement(s.requirements, "blob", "vodka", "Vodka", 2);
+		s.customButton = true;
+		s.buttonwidth = 1;
+		s.buttonheight = 1;
+
+		s.spawnNothing = true;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "High Caliber Ammunition (10)", "$icon_rifleammo$", "mat_rifleammo-10", "Bullets for rifles. Effective against armored targets.");
+		AddRequirement(s.requirements, "coin", "", "Coins", 50);
+
+		
+	{
+		ShopItem@ s = addShopItem(this, "Squat of Badger", "$icon_badgercar$", "offering_ak47", "Bless your AK47 with Ivan's power.");
+		AddRequirement(s.requirements, "blob", "badger", "Badger", 4);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 		s.customButton = true;
 		s.buttonwidth = 1;
 		s.buttonheight = 1;
