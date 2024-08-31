@@ -78,7 +78,7 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 
 void onTick(CBlob@ this)
 {
-	if (this.get_u8("deity_id") == 4) // mason
+	if (this.get_u8("deity_id") == 4 && this.get_u32("build delay") >= 4) // mason
 	{
 		this.set_u32("build delay", 3);
 	}
