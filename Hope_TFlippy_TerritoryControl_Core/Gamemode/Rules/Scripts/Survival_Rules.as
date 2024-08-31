@@ -58,27 +58,6 @@ void DrawOverlay(const string file, const SColor color = SColor(255, 255, 255, 2
 	// }
 // }
 
-void onBlobCreated(CRules@ this, CBlob@ blob)
-{
-	if (isServer() && getGameTime() > 150 && !blob.hasTag("material"))
-	{
-		//tcpr("[NBM] " + blob.getName());
-	}
-}
-
-void onBlobDie(CRules@ this, CBlob@ blob)
-{
-	if (isServer() && getGameTime() > 150 && !blob.hasTag("material"))
-	{
-		//tcpr("[NBD] " + blob.getName());
-	}
-}
-
-// void onBlobCreated(CRules@ this, CBlob@ blob)
-// {
-	// blob.AddScript("DisableInventoryCollisions");
-// }
-
 void onPlayerLeave(CRules@ this, CPlayer@ player)
 {
 	CBlob@ blob = player.getBlob();
@@ -514,7 +493,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 		for (u32 i = 0; i < sleepers.length; i++)
 		{
 			CBlob@ sleeper = sleepers[i];
-			if (sleeper !is null && !sleeper.hasTag("dead") && sleeper.get_bool("sleeper_sleeping") && sleeper.get_string("sleeper_name") == name)
+			if (sleeper !is null && !sleeper.hasTag("dead") && sleeper.get_string("sleeper_name") == name)
 			{
 				CBlob@ oldBlob = player.getBlob(); // It's glitchy and spawns empty blobs on rejoin
 				if (oldBlob !is null) oldBlob.server_Die();
