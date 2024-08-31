@@ -49,7 +49,6 @@ void onInit(CBlob@ this)
 		//	this.set_u8("mining_hardness", 3);
 		//}
 	}
-	
 
 	if (!this.exists("max_build_length")) this.set_f32("max_build_length", 4.00f);
 	if (!this.exists("build delay")) this.set_u32("build delay", 4);
@@ -79,6 +78,11 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 
 void onTick(CBlob@ this)
 {
+	if (this.get_u8("deity_id") == 4) // mason
+	{
+		this.set_u32("build delay", 3);
+	}
+
 	if (this.get_u32("timer") > 1) this.set_u32("timer", this.get_u32("timer") - 1);
 	//attachment bug fixixing try
 	if (getGameTime() % 30 == 0)
