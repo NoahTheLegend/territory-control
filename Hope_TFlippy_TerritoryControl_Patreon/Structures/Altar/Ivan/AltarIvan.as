@@ -94,7 +94,7 @@ void onInit(CBlob@ this)
 	}	
 	AddIconToken("$icon_badgercar$", "Badger.png", Vec2f(32, 16), 0);
 	{
-		ShopItem@ s = addShopItem(this, "Squat of Badger", "$icon_badgercar$", "offering_ak47", "Just don't hit it once");
+		ShopItem@ s = addShopItem(this, "Squat of Badger", "$icon_badgercar$", "badgercar", "Just don't hit it once", false, true);
 		AddRequirement(s.requirements, "blob", "badger", "Badger", 4);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 		s.customButton = true;
@@ -223,7 +223,6 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("turn_sounds"))
 	{
-
 		u16 caller;
 		if (params.saferead_netid(caller))
 		{
@@ -254,94 +253,145 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	else if (cmd == this.getCommandID("shop made item"))
 	{
 		u16 caller, item;
-		if (params.saferead_netid(caller) && params.saferead_netid(item))
+
+		if(!params.saferead_netid(caller) || !params.saferead_netid(item))
+			return;
+
+		string name = params.read_string();
+		CBlob@ callerBlob = getBlobByNetworkID(caller);
+		CPlayer@ callerPlayer = callerBlob.getPlayer();
+
+		if (callerBlob is null) return;
+
+		// if (isServer())
 		{
-			string data = params.read_string();
-			CBlob@ callerBlob = getBlobByNetworkID(caller);
-			if (callerBlob !is null)
+			string[] spl = name.split("-");
+
+			if (name == "follower")
 			{
-				CPlayer@ callerPlayer = callerBlob.getPlayer();
-				if (callerPlayer !is null)
+				this.add_f32("deity_power", 50);
+
+				if (isClient())
 				{
-					if (data == "follower")
+					// if (callerBlob.get_u8("deity_id") != Deity::mithrios)
+					// {
+						// client_AddToChat(callerPlayer.getCharacterName() + " has become a follower of Ivan.", SColor(255, 255, 0, 0));
+					// }
+
+					CBlob@ localBlob = getLocalPlayerBlob();
+					if (localBlob !is null)
 					{
-						this.add_f32("deity_power", 50);
-
-						if (isClient())
+						if (this.getDistanceTo(localBlob) < 128)
 						{
-							// if (callerBlob.get_u8("deity_id") != Deity::mithrios)
-							// {
-								// client_AddToChat(callerPlayer.getCharacterName() + " has become a follower of Ivan.", SColor(255, 255, 0, 0));
-							// }
-
-							CBlob@ localBlob = getLocalPlayerBlob();
-							if (localBlob !is null)
-							{
-								if (this.getDistanceTo(localBlob) < 128)
-								{
-									this.getSprite().PlaySound("Ivan_Offering.ogg", 2.00f, 1.00f);
-									SetScreenFlash(255, 255, 255, 255, 3.00f);
-								}
-							}
-						}
-
-						if (isServer())
-						{
-							callerPlayer.set_u8("deity_id", Deity::ivan);
-							callerBlob.set_u8("deity_id", Deity::ivan);
-
-							CBitStream params1;
-							params1.write_u8(Deity::ivan);
-							params1.write_u16(callerBlob.getNetworkID());
-							this.SendCommand(this.getCommandID("sync_deity"), params1);
+							this.getSprite().PlaySound("Ivan_Offering.ogg", 2.00f, 1.00f);
+							SetScreenFlash(255, 255, 255, 255, 3.00f);
 						}
 					}
-					else
+				}
+
+				if (isServer())
+				{
+					callerPlayer.set_u8("deity_id", Deity::ivan);
+					callerBlob.set_u8("deity_id", Deity::ivan);
+
+					CBitStream params1;
+					params1.write_u8(Deity::ivan);
+					params1.write_u16(callerBlob.getNetworkID());
+					this.SendCommand(this.getCommandID("sync_deity"), params1);
+				}
+
+				return;
+			}
+			else
+			{
+				if (name == "offering_hobo")
+				{
+					this.add_f32("deity_power", 25);
+
+					if (isServer())
 					{
-						if (data == "offering_hobo")
+						CBlob@ hobo = server_CreateBlob("hobo", this.getTeamNum(), this.getPosition());
+					}
+
+					if (isClient())
+					{
+						CBlob@ localBlob = getLocalPlayerBlob();
+						if (localBlob !is null)
 						{
-							this.add_f32("deity_power", 25);
-
-							if (isServer())
+							if (this.getDistanceTo(localBlob) < 128)
 							{
-								CBlob@ hobo = server_CreateBlob("hobo", this.getTeamNum(), this.getPosition());
-							}
-
-							if (isClient())
-							{
-								CBlob@ localBlob = getLocalPlayerBlob();
-								if (localBlob !is null)
-								{
-									if (this.getDistanceTo(localBlob) < 128)
-									{
-										this.getSprite().PlaySound("Ivan_Offering.ogg", 2.00f, 1.00f);
-										SetScreenFlash(255, 255, 255, 255, 3.00f);
-									}
-								}
+								this.getSprite().PlaySound("Ivan_Offering.ogg", 2.00f, 1.00f);
+								SetScreenFlash(255, 255, 255, 255, 3.00f);
 							}
 						}
-						else if (data == "offering_ak47")
+					}
+					return;
+				}
+				else if (name == "offering_ak47")
+				{
+					this.add_f32("deity_power", 100);
+
+					if (isServer())
+					{
+						CBlob@ gun = server_CreateBlob("ivanak47", this.getTeamNum(), this.getPosition());
+					}
+
+					if (isClient())
+					{
+						CBlob@ localBlob = getLocalPlayerBlob();
+						if (localBlob !is null)
 						{
-							this.add_f32("deity_power", 100);
-
-							if (isServer())
+							if (this.getDistanceTo(localBlob) < 128)
 							{
-								CBlob@ gun = server_CreateBlob("ivanak47", this.getTeamNum(), this.getPosition());
-							}
-
-							if (isClient())
-							{
-								CBlob@ localBlob = getLocalPlayerBlob();
-								if (localBlob !is null)
-								{
-									if (this.getDistanceTo(localBlob) < 128)
-									{
-										this.getSprite().PlaySound("Ivan_Offering.ogg", 2.00f, 1.00f);
-										SetScreenFlash(255, 255, 255, 255, 3.00f);
-									}
-								}
+								this.getSprite().PlaySound("Ivan_Offering.ogg", 2.00f, 1.00f);
+								SetScreenFlash(255, 255, 255, 255, 3.00f);
 							}
 						}
+					}
+					return;
+				}
+			}
+
+			this.getSprite().PlaySound("ConstructShort");
+			if (isServer())
+			{
+				if (spl[0] == "coin")
+				{
+					CPlayer@ callerPlayer = callerBlob.getPlayer();
+					if (callerPlayer is null) return;
+
+					callerPlayer.server_setCoins(callerPlayer.getCoins() +  parseInt(spl[1]));
+				}
+				else if (name.findFirst("mat_") != -1)
+				{
+					CPlayer@ callerPlayer = callerBlob.getPlayer();
+					if (callerPlayer is null) return;
+
+					CBlob@ mat = server_CreateBlob(spl[0]);
+
+					if (mat !is null)
+					{
+						mat.Tag("do not set materials");
+						mat.server_SetQuantity(parseInt(spl[1]));
+						if (!callerBlob.server_PutInInventory(mat))
+						{
+							mat.setPosition(callerBlob.getPosition());
+						}
+					}
+				}
+				else
+				{
+					CBlob@ blob = server_CreateBlob(spl[0], callerBlob.getTeamNum(), this.getPosition());
+
+					if (blob is null) return;
+
+					if (!blob.canBePutInInventory(callerBlob) && blob.canBePickedUp(callerBlob))
+					{
+						callerBlob.server_Pickup(blob);
+					}
+					else if (callerBlob.getInventory() !is null && !callerBlob.getInventory().isFull())
+					{
+						callerBlob.server_PutInInventory(blob);
 					}
 				}
 			}
