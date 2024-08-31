@@ -14,6 +14,8 @@ void onInit(CBlob@ this)
 	{
 		ap.SetKeysToTake(key_action1 | key_action2);
 	}
+
+	this.Tag("automat_activable");
 }
 
 string[] getRestrictedPlayers()
