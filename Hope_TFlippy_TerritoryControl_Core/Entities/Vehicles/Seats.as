@@ -36,7 +36,7 @@ void onTick(CBlob@ this)
 				CBlob@ occBlob = ap.getOccupied();
 				if (occBlob !is null)
 				{
-					occBlob.SetFacingLeft(facing);
+					if (!this.hasTag("seat turn around")) occBlob.SetFacingLeft(facing);
 					occBlob.setAngleDegrees(angle);
 				}
 			}
