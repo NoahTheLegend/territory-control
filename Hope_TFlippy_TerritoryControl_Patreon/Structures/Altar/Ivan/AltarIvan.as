@@ -89,11 +89,12 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "High Caliber Ammunition (10)", "$icon_rifleammo$", "mat_rifleammo-10", "Bullets for rifles. Effective against armored targets.");
+		ShopItem@ s = addShopItem(this, "High Caliber Ammunition (10)", "$icon_rifleammo$", "mat_rifleammo-10", "Saint bullets for saint rifles.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 	}	
+	AddIconToken("$icon_badgercar$", "Badger.png", Vec2f(32, 16), 0);
 	{
-		ShopItem@ s = addShopItem(this, "Squat of Badger", "$icon_badgercar$", "offering_ak47", "Bless your AK47 with Ivan's power.");
+		ShopItem@ s = addShopItem(this, "Squat of Badger", "$icon_badgercar$", "offering_ak47", "Just don't hit it once");
 		AddRequirement(s.requirements, "blob", "badger", "Badger", 4);
 		AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 		s.customButton = true;
