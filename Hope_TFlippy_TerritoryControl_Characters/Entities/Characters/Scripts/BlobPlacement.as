@@ -485,6 +485,7 @@ void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 {
 	// set visible in case of detachment and was invisible for HUD
 	detached.SetVisible(true);
+	detached.Untag("temp blob");
 
 	if (detached.hasTag("temp blob placed"))  // wont happen on client
 	{

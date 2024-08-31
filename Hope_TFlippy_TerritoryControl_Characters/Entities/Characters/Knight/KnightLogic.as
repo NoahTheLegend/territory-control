@@ -896,7 +896,7 @@ class CutState : KnightState
 			{
 				attackarc *= 0.9f;
 			}
-
+			
 			DoAttack(this, 1.0f, attackAngle, attackarc, Hitters::sword, delta, knight);
 		}
 		else if (delta >= 9)
@@ -1257,6 +1257,7 @@ void DoAttack(CBlob@ this, f32 damage, f32 aimangle, f32 arcdegrees, u8 type, in
 
 			if (b !is null)
 			{
+				if (b is this) continue;
 				if (b.hasTag("ignore sword")) continue;
 				if (!canHit(this, b)) continue;
 				if (knight_has_hit_actor(this, b)) continue;
@@ -1272,7 +1273,7 @@ void DoAttack(CBlob@ this, f32 damage, f32 aimangle, f32 arcdegrees, u8 type, in
 				for (int j = 0; j < rayInfos.size(); j++)
 				{
 					CBlob@ rayb = rayInfos[j].blob;
-					
+	
 					if (rayb is null) break; // means we ran into a tile, don't need blobs after it if there are any
 					if (b.hasTag("ignore sword")) continue;
 					if (!canHit(this, rayb)) continue;
@@ -1351,7 +1352,7 @@ void DoAttack(CBlob@ this, f32 damage, f32 aimangle, f32 arcdegrees, u8 type, in
 					bool tnt = (hi.tile == CMap::tile_tnt ? true : false);
 					bool kudzu = isTileKudzu(hi.tile);
 				
-					if (ground || wood || dirt_stone || gold)
+					if (glass || ground || wood || dirt_stone || gold)
 					{
 						Vec2f tpos = map.getTileWorldPosition(hi.tileOffset) + Vec2f(4, 4);
 						Vec2f offset = (tpos - blobPos);
@@ -1363,7 +1364,6 @@ void DoAttack(CBlob@ this, f32 damage, f32 aimangle, f32 arcdegrees, u8 type, in
 							dif += 360;
 
 						dif = Maths::Abs(dif);
-						//print("dif: "+dif);
 
 						if (dif < 20.0f)
 						{
@@ -1792,7 +1792,6 @@ void SetFirstAvailableBomb(CBlob@ this)
 // Blame Fuzzle.
 bool canHit(CBlob@ this, CBlob@ b)
 {
-
 	if (b.hasTag("invincible") || b.hasTag("temp blob"))
 		return false;
 
