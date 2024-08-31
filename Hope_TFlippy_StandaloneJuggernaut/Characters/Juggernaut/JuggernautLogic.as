@@ -466,6 +466,7 @@ void PlaySoundRanged(CBlob@ this, string sound, int range, float volume, float p
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {
 	if (this.hasTag("invincible")) return 0.0f;
+	if (customData == Hitters::explosion) damage *= 0.25f;
 	if (customData == Hitters::water_stun || customData == Hitters::fire)
 	{
 		SetKnocked(this, 5); //also releases any players that are carried

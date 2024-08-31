@@ -79,7 +79,7 @@ void Heal(CBlob@ this, CBlob@ blob)
 		string name = this.getName();
 		const int hash = name.getHash();
 		u8 heal_amount = 2; // things that might've been missed
-		printf(""+hash);
+
 		switch(hash)
 		{
 			// heart
