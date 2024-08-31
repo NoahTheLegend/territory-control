@@ -88,6 +88,22 @@ void onTick(CBlob@ this)
 						if (isServer())
 						{
 							carried.server_DetachFromAll();
+
+							CInventory@ inv = this.getInventory();
+							if (inv !is null)
+							{
+								for (u8 i = 0; i < 50; i++)
+								{
+									CBlob@ item = inv.getItem(i);
+									if (item is null) continue;
+
+									if (item.getName() == carried.getName())
+									{
+										this.server_PutOutInventory(item);
+										this.server_AttachTo(item, "PICKUP");
+									}
+								}
+							}
 						}
 					}
 				}
