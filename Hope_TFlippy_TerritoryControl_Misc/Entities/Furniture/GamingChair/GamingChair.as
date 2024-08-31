@@ -5,7 +5,7 @@ void onInit(CBlob@ this)
 	if (back !is null)
 	{
 		back.SetRelativeZ(-1.0f);
-		back.SetOffset(Vec2f(0, 0));
+		back.SetOffset(Vec2f(1, 0));
 		back.SetFrameIndex(1);
 	}
 
