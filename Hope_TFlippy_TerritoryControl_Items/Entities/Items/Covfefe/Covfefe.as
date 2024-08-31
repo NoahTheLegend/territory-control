@@ -4,6 +4,7 @@ void onInit(CBlob@ this)
 {
 	this.Tag("ignore fall");
 	this.Tag("builder always hit");
+	this.Tag("automat_activable");
 
 	this.set_f32("pickup_priority", 0.125f); // The lower, the higher priority
 	

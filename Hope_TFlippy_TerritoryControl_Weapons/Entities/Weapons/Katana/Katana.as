@@ -10,6 +10,7 @@ void onInit(CBlob@ this)
 	this.set_u32("dash time", 0);
 	this.set_u16("holderid", 0);
 	this.Tag("no_bullet_collision");
+	this.Tag("automat_activable");
 
 	AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PICKUP");
 	if (ap !is null)
@@ -126,8 +127,8 @@ void onTick(CBlob@ this)
 		}
 		
 		if (getKnocked(holder) <= 0)
-		{		
-			if (point.isKeyPressed(key_action1) && getGameTime() > this.get_u32("dash time"))
+		{
+			if ((point.isKeyPressed(key_action1) || holder.isKeyPressed(key_action1)) && getGameTime() >= this.get_u32("dash time"))
 			{
 				u8 team = holder.getTeamNum();
 				

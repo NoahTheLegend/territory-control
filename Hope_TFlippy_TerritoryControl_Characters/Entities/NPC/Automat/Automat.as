@@ -80,7 +80,7 @@ void onTick(CBlob@ this)
 							}
 						}
 					}
-					else if (getGameTime()%30==0)
+					else if (carried.hasTag("explosive") && getGameTime()%30==0)
 					{
 						CBitStream params;
 						params.write_u16(this.getNetworkID());
@@ -123,7 +123,7 @@ void onTick(CBlob@ this)
 			if (visibleTarget && distance < max_distance && !target.hasTag("dead"))
 			{
 				this.setAimPos(target.getPosition() + Vec2f(0, 4));
-				this.setKeyPressed(key_action1, visibleTarget && this.getTickSinceCreated() % 6 == 0);
+				this.setKeyPressed(key_action1, visibleTarget);
 
 				this.getCurrentScript().tickFrequency = 1;
 			}

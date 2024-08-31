@@ -29,6 +29,8 @@ void onInit(CBlob@ this)
 	whip.Idle();
     this.set("whip", @whip);
 	int render_id = Render::addBlobScript(Render::layer_prehud, this, "Whip.as", "DrawWhip");
+
+	this.Tag("automat_activable");
 }
 
 class Whip
@@ -300,17 +302,16 @@ void onTick(CBlob@ this)
 	{
 		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
 		CBlob@ holder = point.getOccupied();
-		
 		if (holder is null) return;
 		
 		if (getKnocked(holder) <= 0)
 		{
-			if (point.isKeyJustPressed(key_action1) || whip.start_time > 0)
+			if ((point.isKeyPressed(key_action1) || holder.isKeyPressed(key_action1)) || whip.start_time > 0)
 			{
 				if (whip.start_time == 0) whip.Start();
 				whip.Update(this);
 			}
-			else if (point.isKeyJustReleased(key_action1))
+			else if (point.isKeyJustReleased(key_action1) || holder.isKeyJustReleased(key_action1))
 			{
 				whip.Idle();
 			}
