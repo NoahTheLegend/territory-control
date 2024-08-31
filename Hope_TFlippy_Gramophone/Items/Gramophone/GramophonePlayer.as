@@ -19,8 +19,10 @@ void onTick(CBlob@ this)
 			GramophoneRecord@ record = records[track_id];
 			if (record !is null && (s_musicvolume > 0 || !s_gamemusic))
 			{
+				f32 pitch = this.exists("pitch") ? this.get_f32("pitch") : 1.0f;
 				sprite.SetEmitSoundPaused(false);
 				sprite.SetEmitSoundVolume(s_gamemusic ? s_musicvolume * 2 : record.volume);
+				sprite.SetEmitSoundSpeed(pitch);
 			}
 			else sprite.SetEmitSoundPaused(true);
 		}

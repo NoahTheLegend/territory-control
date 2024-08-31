@@ -5,6 +5,9 @@
 #include "CTFShopCommon.as";
 #include "GramophoneCommon.as";
 
+const f32 min_pitch = 0.5f;
+const f32 max_pitch = 1.95f;
+
 void onInit(CBlob@ this)
 {
 	this.set_TileType("background tile", CMap::tile_castle_back);
@@ -40,6 +43,16 @@ void onInit(CBlob@ this)
 
 	this.set_u8("track_id", 255);
 	this.addCommandID("set_disc");
+
+	this.addCommandID("pitch_scroll");
+	this.addCommandID("request_sync");
+	if (!this.exists("pitch")) this.set_f32("pitch", 1.0f);
+
+	if (isClient())
+	{
+		CBitStream params;
+		this.SendCommand(this.getCommandID("request_sync"), params);
+	}
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
@@ -52,6 +65,22 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	u8 track_id = this.get_u8("track_id");
 	bool insert = carried !is null && carried.getName() == "musicdisc";
 	bool eject = carried is null && track_id != 255;
+
+	f32 pitch = this.get_f32("pitch");
+
+	if (pitch < max_pitch)
+	{
+		CBitStream params;
+		params.write_bool(false);
+		{CButton@ button = caller.CreateGenericButton(16, Vec2f(0, -16), this, this.getCommandID("pitch_scroll"), "Increase pitch ("+Maths::Round(pitch*100)+"%)", params);}
+	}
+
+	if (pitch > min_pitch)
+	{
+		CBitStream params;
+		params.write_bool(true);
+		{CButton@ button = caller.CreateGenericButton(19, Vec2f(0, 8), this, this.getCommandID("pitch_scroll"), "Decrease pitch ("+Maths::Round(pitch*100)+"%)", params);}
+	}
 
 	CBitStream params;
 	params.write_u16(caller.getNetworkID());
@@ -133,6 +162,19 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				blob.Init();	
 			}
 		}
+	}
+	else if (cmd == this.getCommandID("pitch_scroll"))
+	{
+		if (!isServer()) return;
+
+		bool decrease = params.read_bool();
+		this.add_f32("pitch", decrease ? -0.05f : 0.05f);
+		this.Sync("pitch", true);
+	}
+	else if (cmd == this.getCommandID("request_sync"))
+	{
+		if (!isServer()) return;
+		this.Sync("pitch", true);
 	}
 }
 
