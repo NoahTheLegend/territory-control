@@ -1,7 +1,7 @@
 // Script by brewskidafixer
 #include "SmartStorageHelpers.as";
 
-const u8 MaxItems = 20;
+const u8 MaxItems = 8;
 //string[] GitemsArray; //this same global array for all instances of script
 //bool Gsynced = false;
 void onInit(CBlob@ this)
@@ -60,7 +60,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 				if (isServer()) 
 				{
 					u32 cur_quantity = this.get_u32("SS_"+blobName);
-					if (cur_quantity > 1)
+					if (cur_quantity > 0)
 					{
 						cur_quantity = cur_quantity - 1; //remove offset
 						CBlob@ blob = server_CreateBlob(blobName, -1, this.getPosition());
@@ -224,7 +224,7 @@ void smartStorageAdd(CBlob@ this, CBlob@ blob)
 		}
 		else{
 			//increase storage of item by blobQuantity
-			this.add_u32("SS_"+blobName,blobQuantity);
+			this.add_u32("SS_"+blobName, blobQuantity);
 			
 		}
 		this.Sync("SS_"+blobName, true);
@@ -261,7 +261,7 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu @gridmenu)
 		u8 scale = itemslength/inv_posx;
 		Vec2f pos(gridmenu.getUpperLeftPosition().x + 0.5f * (gridmenu.getLowerRightPosition().x - gridmenu.getUpperLeftPosition().x),// - 156.0f,
               gridmenu.getUpperLeftPosition().y - 72 - (24 * scale));
-		CGridMenu@ menu = CreateGridMenu(pos, this, Vec2f(inv_posx, 1 + scale), "\n(Secondary Storage)\nItems: (" + itemslength + " / " + MaxItems + ")");
+		CGridMenu@ menu = CreateGridMenu(pos, this, Vec2f(inv_posx, (Maths::Min(MaxItems / inv_posx, 1 + scale))), "\n(Secondary Storage)\nItems: (" + itemslength + " / " + MaxItems + ")");
 		if (menu !is null)
 		{
 			
