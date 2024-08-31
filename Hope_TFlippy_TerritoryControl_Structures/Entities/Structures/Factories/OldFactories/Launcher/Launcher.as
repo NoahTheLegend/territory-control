@@ -4,6 +4,7 @@
 void onInit(CBlob@ this){
 	
 	this.set_bool("whitelist", false);
+	this.Tag("place norotate");
 }
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid)

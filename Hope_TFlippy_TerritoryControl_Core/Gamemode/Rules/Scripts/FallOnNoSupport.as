@@ -1,6 +1,42 @@
-// FallOnNoSupport.as
+void StaticOn(CBlob@ this)
+{
+	if (this is null) return;
 
-#include "StaticToggleCommon.as";
+	CShape@ shape = this.getShape();
+	if (shape is null) return;
+
+	shape.SetStatic(true);
+	shape.SetGravityScale(0.0f);
+}
+
+void StaticOff(CBlob@ this)
+{
+	if (this is null) return;
+	
+	CShape@ shape = this.getShape();
+	if (shape is null) return;
+
+	shape.SetStatic(false);
+	shape.SetGravityScale(1.0f);
+
+	ShapeConsts@ consts = shape.getConsts();
+	if (consts is null) return;
+	consts.mapCollisions = true;
+
+	if (!this.hasTag("fallen"))
+	{
+		this.Tag("fallen");
+		this.server_SetTimeToDie(3.0f);
+
+		ShapeVars@ vars = shape.getVars();
+		if (vars is null) return;
+
+		if (vars.isladder)
+		{
+			vars.isladder = false;
+		}
+	}
+}
 
 void onInit(CBlob@ this)
 {

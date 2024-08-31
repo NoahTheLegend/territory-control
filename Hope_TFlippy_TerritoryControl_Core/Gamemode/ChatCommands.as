@@ -962,14 +962,6 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						print(getFilePath(getCurrentScriptName()));
 					}
 				}
-				else if (tokens[0]=="!nextmap") LoadNextMap();
-				else if (tokens[0]=="!randommap")
-				{
-					string[]@ OffiMaps;
-					getRules().get("maptypes-offi", @OffiMaps);
-					LoadMap(OffiMaps[XORRandom(OffiMaps.length)]);
-				}
-				else if (tokens[0]=="!loadmap") LoadMap(getMap(),"lol.png");
 				else if (tokens[0]=="!savemap")
 				{
 					// SaveMap(getMap(),"lol.png");
