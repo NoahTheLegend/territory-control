@@ -148,10 +148,6 @@ void ReloadHead(CSprite@ this)
 			blob.Tag("mithrios");
 		
 			head_index = 101;
-			
-			blob.SetLight(true);
-			blob.SetLightRadius(16.0f);
-			blob.SetLightColor(SColor(255, 255, 0, 0));
 		}
 		
 		if (ply.getUsername() == "PURPLExeno")
@@ -170,12 +166,7 @@ void ReloadHead(CSprite@ this)
 		
 		if (ply.getUsername() == "Killy07")
 		{	
-		
 			head_index = 111;
-
-			blob.SetLight(true);
-			blob.SetLightRadius(16.0f);
-			blob.SetLightColor(SColor(255, 255, 0, 0));
 		}
 		
 		if (ply.getUsername() == "reqzites")
