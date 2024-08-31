@@ -113,9 +113,26 @@ void MakeParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSt
 
 void onDie(CBlob@ this)
 {
-	//drop mats here
-	if (this.getPosition().y < 0) return;
-	Explode(this, 64.0f, 0.5f);
+	Vec2f pos = this.getPosition();
+	if (pos.y < 0)
+	{
+		if (isClient())
+		{
+			CPlayer@ local = getLocalPlayer();
+			if (local !is null)
+			{
+				Vec2f sc = getDriver().getWorldPosFromScreenPos(getDriver().getScreenCenterPos());
+				string text = sc.x > pos.x ? "west" : "east";
+
+				client_AddToChat("You see a small spaceship in the "+text+" leaving the sky", SColor(255,0,0,0));
+			}
+		}
+
+		return;
+	}
+
+	Explode(this, 156.0f, 5.0f);
+
 	if (this.exists("motherlaunchpadid"))
 	{
 		CBlob@ lpad = getBlobByNetworkID(this.get_u16("motherlaunchpadid"));

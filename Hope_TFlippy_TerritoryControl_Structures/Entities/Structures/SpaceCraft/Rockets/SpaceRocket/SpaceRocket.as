@@ -58,9 +58,26 @@ void onTick(CBlob@ this)
 
 void onDie(CBlob@ this)
 {
-	//drop mats here
-	if (this.getPosition().y < 0) return;
-	Explode(this, 128.0f, 0.5f);
+	Vec2f pos = this.getPosition();
+	if (pos.y < 0)
+	{
+		if (isClient())
+		{
+			CPlayer@ local = getLocalPlayer();
+			if (local !is null)
+			{
+				Vec2f sc = getDriver().getWorldPosFromScreenPos(getDriver().getScreenCenterPos());
+				string text = sc.x > pos.x ? "west" : "east";
+				
+				client_AddToChat("You see a big spaceship in the "+text+" leaving the sky", SColor(255,0,0,0));
+			}
+		}
+
+		return;
+	}
+
+	Explode(this, 356.0f, 10.0f);
+
 	if (this.exists("motherlaunchpadid"))
 	{
 		CBlob@ lpad = getBlobByNetworkID(this.get_u16("motherlaunchpadid"));

@@ -120,7 +120,6 @@ void onTick(CBlob@ this)
     if (this.hasTag("unsuccess"))
     {
         this.Untag("unsuccess");
-        printf(""+this.hasTag("unsuccess"));
     }
     // rocket is in space, handle logic
     bool hasrocket = false;
