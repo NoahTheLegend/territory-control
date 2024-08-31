@@ -93,6 +93,19 @@ void onTick(CBlob@ this)
 	JuggernautInfo@ juggernaut;
 	if (!this.get("JuggernautInfo", @juggernaut)) return;
 
+	// activate/throw
+	if(this.isMyPlayer())
+	{
+		if(this.isKeyJustPressed(key_action3))
+		{
+			CBlob@ carried = this.getCarriedBlob();
+			if(carried is null || !carried.hasTag("temp blob"))
+			{
+				client_SendThrowOrActivateCommand(this);
+			}
+		}
+	}
+
 	juggernaut.prevState = juggernaut.state;
 
 	Vec2f vec;
