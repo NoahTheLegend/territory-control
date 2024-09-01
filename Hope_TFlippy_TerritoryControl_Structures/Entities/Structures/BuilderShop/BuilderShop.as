@@ -157,6 +157,13 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
+	{
+		ShopItem@ s = addShopItem(this, "Chess Table", "$chess$", "chess", "Chess table:\n\n//EXPERIMENTAL; PRESS F1 FOR HELP//", true);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 500);
+
+		s.spawnNothing = true;
+	}
+
 	// {
 	// 	ShopItem@ s = addShopItem(this, "Cowboy Hat", "$cowboyhat$", "cowboyhat", "A hat gives you +99 shooting accuracy!", true);
 	// 	AddRequirement(s.requirements, "coin", "", "Coins", 250);

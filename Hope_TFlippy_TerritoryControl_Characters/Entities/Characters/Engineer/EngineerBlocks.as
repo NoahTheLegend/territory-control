@@ -561,13 +561,6 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		b.size.Set(40, 24);
 		blocks[1].push_back(b);
 	}
-	{
-		BuildBlock b(0, "chess", "$chess$", "Chess table:\n\n//EXPERIMENTAL; PRESS F1 FOR HELP//");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 250);
-		b.buildOnGround = true;
-		b.size.Set(24, 16);
-		blocks[1].push_back(b);
-	}
 	 
 	BuildBlock[] page_2;
 	blocks.push_back(page_2);

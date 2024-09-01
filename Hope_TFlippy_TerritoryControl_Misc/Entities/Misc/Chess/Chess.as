@@ -335,6 +335,7 @@ void onRender(CSprite@ sprite)
 		}
 
 		// movement history
+		/*
 		string[]@ chess_player;
 		u8[] game_from;
 		u8[] game_to;
@@ -360,6 +361,7 @@ void onRender(CSprite@ sprite)
 			    GUI::DrawText(text, tl + Vec2f(area + 16, row_offset - (area / 8) + 1.5f), SColor(225, 255, 255, 255));
 			}
 		}
+		*/
 
 		// F1 help menu
 		bool reset = my_p0 ? this.get_bool("reset_white") : my_p1 ? this.get_bool("reset_black") : false;
