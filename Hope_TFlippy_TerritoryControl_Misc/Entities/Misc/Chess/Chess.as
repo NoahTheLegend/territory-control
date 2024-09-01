@@ -18,6 +18,7 @@ void onInit(CBlob@ this)
 	// "signal" commands to communicate between server and client 
 	this.addCommandID("sync");
 	this.addCommandID("reset");
+	this.addCommandID("sync_log");
 
 	// first initialize, if we're client send a request for individual sync
 	ResetBoard(this);
@@ -51,21 +52,15 @@ void onInit(CBlob@ this)
 
 	// initialize log props
 	ResetGameLog(this);
+	this.getShape().getConsts().net_threshold_multiplier = 0.5f;
 }
 
 void onTick(CBlob@ this)
 {
-	if (isServer())
-	{
-		// the delay for sync (hack, read TODO)
-		if (this.get_u32("sync_time") >= getGameTime())
-		{
-			SendSyncFromServer(this);
-
-			this.set_u32("sync_time", 0);
-			this.set_u16("sync_pid", 0);
-		}
-	}
+	u8 sw = this.get_u8("selected_white");
+	s8 cw = this.get_s8("captured_white");
+	u8 sb = this.get_u8("selected_black");
+	s8 cb = this.get_s8("captured_black");
 	
 	// visuals
 	if (this.isAttached())
@@ -106,9 +101,6 @@ void onTick(CBlob@ this)
 		{
 			u16 p0_id = p0.getNetworkID();
 			u16 cplayer_id = p0.getPlayer() is null ? 0 : p0.getPlayer().getNetworkID();
-
-			u8 sw = this.get_u8("selected_white");
-			s8 cw = this.get_s8("captured_white");
 
 			if (ap0.isKeyJustPressed(key_left) && sw % 8 != 0) sw -= 1;
 			if (ap0.isKeyJustPressed(key_right) && sw % 8 != 7) sw += 1;
@@ -158,15 +150,6 @@ void onTick(CBlob@ this)
 					Sync(this, false, p0_id);
 				}
 			}
-
-			// not needed to sync the whole board
-			if (isServer())
-			{
-				this.set_u8("selected_white", sw);
-				this.Sync("selected_white", true);
-				this.set_s8("captured_white", cw);
-				this.Sync("captured_white", true);
-			}
 		}
 	}
 
@@ -189,9 +172,6 @@ void onTick(CBlob@ this)
 		{
 			u16 p1_id = p1.getNetworkID();
 			u16 cplayer_id = p1.getPlayer() is null ? 0 : p1.getPlayer().getNetworkID();
-
-			u8 sb = this.get_u8("selected_black");
-			s8 cb = this.get_s8("captured_black");
 
 			if (ap1.isKeyJustPressed(key_left) && sb % 8 != 0) sb -= 1;
 			if (ap1.isKeyJustPressed(key_right) && sb % 8 != 7) sb += 1;
@@ -241,15 +221,28 @@ void onTick(CBlob@ this)
 					Sync(this, false, p1_id);
 				}
 			}
-
-			if (isServer())
-			{
-				this.set_u8("selected_black", sb);
-				this.Sync("selected_black", true);
-				this.set_s8("captured_black", cb);
-				this.Sync("captured_black", true);
-			}
 		}
+	}
+
+	if (isServer())
+	{
+		// the delay for sync (hack, read TODO)
+		if (this.get_u32("sync_time") >= getGameTime())
+		{
+			SendSyncFromServer(this);
+
+			this.set_u32("sync_time", 0);
+			this.set_u16("sync_pid", 0);
+		}
+
+		this.set_u8("selected_white", sw);
+		this.Sync("selected_white", true);
+		this.set_s8("captured_white", cw);
+		this.Sync("captured_white", true);
+		this.set_u8("selected_black", sb);
+		this.Sync("selected_black", true);
+		this.set_s8("captured_black", cb);
+		this.Sync("captured_black", true);
 	}
 }
 
@@ -257,9 +250,11 @@ const SColor col_white = SColor(215,255,255,255);
 const SColor col_black = SColor(215,15,15,15);
 const SColor col_selection = SColor(140,255,255,0);
 const SColor col_selection_disabled = col_enemy;
-const SColor col_captured = SColor(140,0,0,255);
+const SColor col_captured = SColor(140,55,55,255);
 const SColor col_enemy = SColor(140,255,0,0);
 const SColor col_path = SColor(140,0,255,0);
+const SColor col_recent_from = SColor(215,155,155,255);
+const SColor col_recent_to = SColor(215,225,135,135);
 const string[] cols = {"A","B","C","D","E","F","G","H"};
 
 f32 old_factor = 0;
@@ -283,8 +278,7 @@ void onRender(CSprite@ sprite)
 	f32 area = tilesize * 8;
 
 	// position on screen
-	Vec2f pos2d = driver.getScreenPosFromWorldPos(Vec2f_lerp(this.getOldPosition() + offset, thispos + offset, getInterpolationFactor()));
-	
+	Vec2f pos2d = driver.getScreenPosFromWorldPos(Vec2f_lerp(this.getOldPosition() + offset, thispos + offset, getInterpolationFactor()));	
 	CBlob@ local = getLocalPlayerBlob();
 
 	AttachmentPoint@ ap0 = this.getAttachments().getAttachmentPointByName("PLAYER0");
@@ -331,11 +325,15 @@ void onRender(CSprite@ sprite)
 		for (u8 i = 0; i < 8; i++)
 		{
 			f32 col_offset = (area/8)*i;
-			GUI::DrawTextCentered(cols[i], tl+Vec2f(col_offset + (area/8)/2, area + 16 - 4.0f), SColor(225,255,255,255));
+			GUI::DrawTextCentered(cols[i], tl+Vec2f(col_offset + (area/8)/2 - 3.0f, area + 16 - 4.0f), SColor(225,255,255,255));
 		}
 
-		// movement history
-		/*
+		bool turn_white = table.turn_white;
+		bool turn_black = !table.turn_white;
+		s8 recent_enemy_move_from = -1;
+		s8 recent_enemy_move_to = -1;
+
+		// movement history + mark recent enemy move
 		string[]@ chess_player;
 		u8[] game_from;
 		u8[] game_to;
@@ -355,13 +353,20 @@ void onRender(CSprite@ sprite)
 			    s8 to_x = game_to[actual_index] % 8;
 			    s8 to_y = 8 - Maths::Floor(game_to[actual_index] / 8);
 
+				if (i == s-1)
+				{
+					recent_enemy_move_from = game_from[actual_index];
+					recent_enemy_move_to = game_to[actual_index];
+				}
+
 			    string[] spl = chess_player[actual_index].split("_");
 			    string text = (spl[0] == "-1" ? "Rules" : spl[0] == "0" ? "White" : "Black") + ": " + cols[from_x] + "" + from_y + " - " + cols[to_x] + "" + to_y;
-
+				
 			    GUI::DrawText(text, tl + Vec2f(area + 16, row_offset - (area / 8) + 1.5f), SColor(225, 255, 255, 255));
 			}
 		}
-		*/
+
+		GUI::DrawTextCentered(my_p0 && turn_white ? "Your turn" : my_p1 && turn_black ? "Your turn" : "", tl + Vec2f(area/2,-20), SColor(255,255,255,255));
 
 		// F1 help menu
 		bool reset = my_p0 ? this.get_bool("reset_white") : my_p1 ? this.get_bool("reset_black") : false;
@@ -423,6 +428,12 @@ void onRender(CSprite@ sprite)
 				}
 			}
 
+			if ((i == recent_enemy_move_from || i == recent_enemy_move_to)
+				&& ((!my_p0 && !my_p1) || (my_p0 && turn_white) || (my_p1 && turn_black)))
+			{
+				col = i == recent_enemy_move_from ? col_recent_from : col_recent_to;
+			}
+
 			Vec2f tile_offset = Vec2f(f32(x) * tilesize, f32(y) * tilesize) + tl;
 			GUI::DrawRectangle(tile_offset, tile_offset + Vec2f(tilesize, tilesize), col);
 		}
@@ -462,6 +473,7 @@ void onRender(CSprite@ sprite)
 		}
 	}
 
+	f32 lerp = this.isAttached() ? 0.66f : 0.33f;
 	// draw icons
 	for (u8 i = 0; i < 64; i++)
 	{
@@ -476,8 +488,8 @@ void onRender(CSprite@ sprite)
 		{
 			Vec2f pos = driver.getWorldPosFromScreenPos(tile_offset - Vec2f(7,8) * factor);
 			if (p.icon_pos == Vec2f_zero) p.icon_pos = pos;
-
-			p.icon_pos = Vec2f_lerp(p.icon_pos, pos, 0.33f);
+			
+			p.icon_pos = Vec2f_lerp(p.icon_pos, pos, lerp);
 			if (rendering) p.render_icon(factor);
 		}
 	}
@@ -853,7 +865,7 @@ class Board // breaks solid, but who cares
 		@board_pieces[x][y] = MakePieceOnBoard(table, 0, -1);
 		
 		set_board(board_pieces);
-		on_move_tile(pos, dest);
+		on_move_tile(pos, dest, !force);
 		log(blob, pos, dest, pid, on_pos.color);
 
 		if (on_dest.type == 6) end_game(on_dest.color);
@@ -861,7 +873,7 @@ class Board // breaks solid, but who cares
 	}
 	
 	// default hook to semantically separate code
-	void on_move_tile(s8 pos, s8 dest)
+	void on_move_tile(s8 pos, s8 dest, bool do_end_turn)
 	{
 		Board@[][] board_pieces = get_board();
 
@@ -956,7 +968,7 @@ class Board // breaks solid, but who cares
 			}
 		}
 		
-		if (p.color == 0 || p.color == 1) end_turn(p.color);
+		if (do_end_turn) end_turn(p.color);
 	}
 
 	// another unnecessary hook
@@ -974,16 +986,28 @@ class Board // breaks solid, but who cares
 	// logging for tcpr bot
 	void log(CBlob@ blob, s8 pos, s8 dest, s8 pid = 0, s8 team = -1)
 	{
+		if (!isServer()) return;
+
 		string[]@ chess_player;
 		u8[] game_from;
 		u8[] game_to;
 		if (blob !is null && blob.get("chess_player", @chess_player) && blob.get("game_from", game_from) && blob.get("game_to", game_to))
 		{
 			CPlayer@ player = pid == 0 ? null : getPlayerByNetworkId(pid);
+			string text = pid == 0 ? "-1_Chess rules" : (player !is null ? team+"_"+player.getUsername() : "-1_Unknown");
+			
+			s8 moved_from = Maths::Clamp(pos, 0, 63);
+			s8 moved_to = Maths::Clamp(dest, 0, 63);
 
-			chess_player.push_back(pid == 0 ? "-1_Chess rules" : (player !is null ? team+"_"+player.getUsername() : "-1_Unknown"));
-			game_from.push_back(Maths::Clamp(pos, 0, 63));
-			game_to.push_back(Maths::Clamp(dest, 0, 63));
+			CBitStream params;
+			params.write_string(text);
+			params.write_s8(moved_from);
+			params.write_s8(moved_to);
+			blob.SendCommand(blob.getCommandID("sync_log"), params);
+
+			chess_player.push_back(text);
+			game_from.push_back(moved_from);
+			game_to.push_back(moved_to);
 
 			blob.set("chess_player", @chess_player);
 			blob.set("game_from", game_from);
@@ -1198,6 +1222,30 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			this.set("Table", @table);
 		}
 	}
+	else if (cmd == this.getCommandID("sync_log"))
+	{
+		if (isClient() && isServer()) return; // prevent localhost from executing this twice
+		if (!isClient()) return;
+
+		string text = params.read_string();
+		s8 moved_from = params.read_s8();
+		s8 moved_to = params.read_s8();
+
+		string[]@ chess_player;
+		u8[] game_from;
+		u8[] game_to;
+
+		bool assign = this.get("chess_player", @chess_player) && this.get("game_from", game_from) && this.get("game_to", game_to);
+		if (!assign) return;
+
+		chess_player.push_back(text);
+		game_from.push_back(moved_from);
+		game_to.push_back(moved_to);
+
+		this.set("chess_player", @chess_player);
+		this.set("game_from", game_from);
+		this.set("game_to", game_to);
+	}
 	else if (cmd == this.getCommandID("reset"))
 	{
 		if (!isServer()) return;
@@ -1349,7 +1397,7 @@ bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
-	return false;
+	return blob !is null && !blob.hasTag("flesh") && !blob.hasTag("arrow") && !blob.hasTag("explosive");
 }
 
 // avoid shitty exploiting when two objects are plugged into each other
@@ -1357,6 +1405,8 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 {
 	if (attached is this)
 	{
+		this.setAngleDegrees(this.isFacingLeft() ? 90 : -90);
+
 		AttachmentPoint@ ap0 = this.getAttachments().getAttachmentPointByName("PLAYER0");
 		AttachmentPoint@ ap1 = this.getAttachments().getAttachmentPointByName("PLAYER1");
 
