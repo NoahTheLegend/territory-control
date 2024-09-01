@@ -339,12 +339,12 @@ void onRender(CSprite@ sprite)
 		u8[] game_to;
 		if (this.get("chess_player", @chess_player) && this.get("game_from", game_from) && this.get("game_to", game_to))
 		{
-			s8 s = Maths::Min(chess_player.size(), 8);
-			s8 start_index = Maths::Max(0, chess_player.size() - 8); 
+			int s = Maths::Min(chess_player.size(), 8);
+			int start_index = Maths::Max(0, chess_player.size() - 8); 
 
 			for (s8 i = 0; i < s; i++)
 			{
-			    s8 actual_index = start_index + i;
+			    int actual_index = Maths::Min(start_index + i, chess_player.size()-1);
 			    f32 row_offset = (area / 8) * (s - i);
 
 			    s8 from_x = game_from[actual_index] % 8;
