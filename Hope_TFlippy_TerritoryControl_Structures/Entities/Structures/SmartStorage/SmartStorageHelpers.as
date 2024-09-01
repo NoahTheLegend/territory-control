@@ -2,7 +2,7 @@
 u32 smartStorageTake(CBlob@ this, string blobName, u32 quantity)
 {
 	u32 cur_quantity = this.get_u32("SS_"+blobName);
-	if (cur_quantity > 0)
+	if (cur_quantity > 1)
 	{
 		cur_quantity--;//remove offset
 		u32 amount = Maths::Min(cur_quantity, quantity);

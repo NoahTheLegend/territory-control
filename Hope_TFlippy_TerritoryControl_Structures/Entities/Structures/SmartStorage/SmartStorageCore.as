@@ -60,7 +60,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 				if (isServer()) 
 				{
 					u32 cur_quantity = this.get_u32("SS_"+blobName);
-					if (cur_quantity > 0)
+					if (cur_quantity > 1)
 					{
 						cur_quantity = cur_quantity - 1; //remove offset
 						CBlob@ blob = server_CreateBlob(blobName, -1, this.getPosition());
