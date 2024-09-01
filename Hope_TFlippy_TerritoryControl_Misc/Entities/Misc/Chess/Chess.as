@@ -333,6 +333,7 @@ void onRender(CSprite@ sprite)
 		s8 recent_enemy_move_from = -1;
 		s8 recent_enemy_move_to = -1;
 
+		/*
 		// movement history + mark recent enemy move
 		string[]@ chess_player;
 		u8[] game_from;
@@ -365,6 +366,7 @@ void onRender(CSprite@ sprite)
 			    GUI::DrawText(text, tl + Vec2f(area + 16, row_offset - (area / 8) + 1.5f), SColor(225, 255, 255, 255));
 			}
 		}
+		*/
 
 		GUI::DrawTextCentered(my_p0 && turn_white ? "Your turn" : my_p1 && turn_black ? "Your turn" : "", tl + Vec2f(area/2,-20), SColor(255,255,255,255));
 
