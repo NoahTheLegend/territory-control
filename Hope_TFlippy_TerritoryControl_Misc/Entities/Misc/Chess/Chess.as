@@ -1387,7 +1387,7 @@ void ResetBoard(CBlob@ this)
 
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
-	return !this.hasAttached();
+	return true;
 }
 
 bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
@@ -1405,8 +1405,6 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 {
 	if (attached is this)
 	{
-		this.setAngleDegrees(this.isFacingLeft() ? 90 : -90);
-
 		AttachmentPoint@ ap0 = this.getAttachments().getAttachmentPointByName("PLAYER0");
 		AttachmentPoint@ ap1 = this.getAttachments().getAttachmentPointByName("PLAYER1");
 
@@ -1418,12 +1416,6 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 		if (p0 !is null) p0.server_DetachFrom(this);
 		if (p1 !is null) p1.server_DetachFrom(this);
 	}
-}
-
-// reset visuals
-void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
-{
-	this.setAngleDegrees(0);
 }
 
 f32 getRandomPitch()
