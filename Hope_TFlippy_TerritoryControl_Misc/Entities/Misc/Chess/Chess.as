@@ -360,7 +360,7 @@ void onRender(CSprite@ sprite)
 				}
 
 			    string[] spl = chess_player[actual_index].split("_");
-			    string text = (spl[0] == "-1" ? "Rules" : spl[0] == "0" ? "White" : "Black") + ": " + cols[from_x] + "" + from_y + " - " + cols[to_x] + "" + to_y;
+			    string text = spl[0]+": " + cols[from_x] + "" + from_y + " - " + cols[to_x] + "" + to_y;
 				
 			    GUI::DrawText(text, tl + Vec2f(area + 16, row_offset - (area / 8) + 1.5f), SColor(225, 255, 255, 255));
 			}
@@ -984,7 +984,7 @@ class Board // breaks solid, but who cares
 	}
 
 	// logging for tcpr bot
-	void log(CBlob@ blob, s8 pos, s8 dest, s8 pid = 0, s8 team = -1)
+	void log(CBlob@ blob, s8 pos, s8 dest, s8 pid = 0, const s8 team = -1)
 	{
 		if (!isServer()) return;
 
@@ -993,17 +993,13 @@ class Board // breaks solid, but who cares
 		u8[] game_to;
 		if (blob !is null && blob.get("chess_player", @chess_player) && blob.get("game_from", game_from) && blob.get("game_to", game_to))
 		{
-			CPlayer@ player = pid == 0 ? null : getPlayerByNetworkId(pid);
-			string text = pid == 0 ? "-1_Chess rules" : (player !is null ? team+"_"+player.getUsername() : "-1_Unknown");
-			
+			//CPlayer@ player = pid == 0 ? null : getPlayerByNetworkId(pid); // crashes the game
+			//string text = pid == 0 ? "-1_Chess rules" : (player !is null ? team+"_"+player.getUsername() : "-1_Unknown");
+
+			string text = team == 0 ? "White" : team == 1 ? "Black" : "Rules";
+
 			s8 moved_from = Maths::Clamp(pos, 0, 63);
 			s8 moved_to = Maths::Clamp(dest, 0, 63);
-
-			CBitStream params;
-			params.write_string(text);
-			params.write_s8(moved_from);
-			params.write_s8(moved_to);
-			blob.SendCommand(blob.getCommandID("sync_log"), params);
 
 			chess_player.push_back(text);
 			game_from.push_back(moved_from);
@@ -1012,6 +1008,12 @@ class Board // breaks solid, but who cares
 			blob.set("chess_player", @chess_player);
 			blob.set("game_from", game_from);
 			blob.set("game_to", game_to);
+
+			CBitStream params;
+			params.write_string(text);
+			params.write_s8(moved_from);
+			params.write_s8(moved_to);
+			blob.SendCommand(blob.getCommandID("sync_log"), params);
 		}
 	}
 };
@@ -1327,9 +1329,9 @@ void PrintGameLog(CBlob@ this)
 			text = text+"\n"+conc;
 		}
 		
-		print(text);
+		//print(text);
 		//print(tcpr_text);
-		tcpr(tcpr_text);
+		//tcpr(tcpr_text);
 	}
 }
 
@@ -1387,7 +1389,7 @@ void ResetBoard(CBlob@ this)
 
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
-	return true;
+	return !this.hasAttached();
 }
 
 bool canBePutInInventory(CBlob@ this, CBlob@ inventoryBlob)
@@ -1405,6 +1407,8 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 {
 	if (attached is this)
 	{
+		this.setAngleDegrees(this.isFacingLeft() ? 90 : -90);
+
 		AttachmentPoint@ ap0 = this.getAttachments().getAttachmentPointByName("PLAYER0");
 		AttachmentPoint@ ap1 = this.getAttachments().getAttachmentPointByName("PLAYER1");
 
@@ -1416,6 +1420,12 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 		if (p0 !is null) p0.server_DetachFrom(this);
 		if (p1 !is null) p1.server_DetachFrom(this);
 	}
+}
+
+// reset visuals
+void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
+{
+	this.setAngleDegrees(0);
 }
 
 f32 getRandomPitch()
