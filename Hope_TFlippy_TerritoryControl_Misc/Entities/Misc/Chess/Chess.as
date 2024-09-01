@@ -344,7 +344,7 @@ void onRender(CSprite@ sprite)
 
 			for (s8 i = 0; i < s; i++)
 			{
-			    int actual_index = Maths::Min(start_index + i, chess_player.size()-1);
+			    int actual_index = start_index + i;
 			    f32 row_offset = (area / 8) * (s - i);
 
 			    s8 from_x = game_from[actual_index] % 8;
