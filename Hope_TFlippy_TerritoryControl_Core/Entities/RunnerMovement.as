@@ -49,7 +49,7 @@ void onTick(CMovement@ this)
 	//cache
 	const bool on_ladder = blob.isOnLadder();
 	const bool on_ground = blob.isOnGround();
-	bool airpocket = getMap().getSectorAtPosition(blob.getPosition(), "airpocket") !is null;
+	bool airpocket = blob.getPlayer() !is null && getMap().getSectorAtPosition(blob.getPosition(), "airpocket") !is null;
 	const bool in_water  = !airpocket && blob.isInWater();
 	const bool onground  = on_ground || on_ladder;
 	const bool on_wall   = blob.isOnWall();
