@@ -181,7 +181,7 @@ void onTick(CBlob@ this)
 		if (this.getHealth() < 0)
 		{
 			this.getSprite().SetAnimation("dead");
-			this.getSprite().PlaySound("CowoDie", 200.00f, 1.0f);
+			this.getSprite().PlaySound("CowoDie", 0.75f, 1.0f);
 			this.Tag("dead");
 			// this.getCurrentScript().removeIfTag = "dead";
 		}
