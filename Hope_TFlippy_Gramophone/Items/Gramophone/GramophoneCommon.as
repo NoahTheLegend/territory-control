@@ -69,8 +69,8 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Kitasakaba", "Disc_Kitasakaba.ogg"),
 	GramophoneRecord("Battotai - Imperial Japanese Army March", "Disc_Battotai.ogg"),
 	GramophoneRecord("Super Idol", "SUPER_IDOL!!11!!!1.ogg"),
-	GramophoneRecord("Kalambur", "Disc_Kalambur.ogg"),
 	GramophoneRecord("Red Sun in The Sky", "Disc_RedSunInTheSky.ogg", 1.5f),
+	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg", 1.5f),
 	GramophoneRecord("Moyuru ōzora - Burning sky", "Disc_MoyuruOzora.ogg"),
 	GramophoneRecord("Cannon Fodder Intro", "Disc_CannonFodderIntro.ogg", 1.5f),
 	GramophoneRecord("Devil's Lab ", "Disc_DevilsLab.ogg"),
@@ -83,7 +83,17 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Gimme Gimme Gimme!", "Disc_GimmeGimmeGimme.ogg", 2.0f),
 	GramophoneRecord("Crapa Pelada", "Disc_CrapaPelada.ogg", 1.0f),
 	GramophoneRecord("Boss Fight", "Disc_Cube.ogg"),
-	GramophoneRecord("Puppy Love", "Disc_PuppyLove.ogg", 1.5f)
+	GramophoneRecord("Megalovania", "Disc_Megalovania.ogg", 1.25f),
+	GramophoneRecord("Beethoven - Moonlight Sonata", "Disc_BeethovenMoonlightSonata.ogg"),
+	GramophoneRecord("Beethoven - Symphony No. 5", "Disc_BeethovenSymphony5.ogg", 1.5f),
+	GramophoneRecord("Tchaikovsky - Nutcracker", "Disc_TchaikovskyNutcraker.ogg", 1.5f),
+	GramophoneRecord("Tchaikovsky - Swan Lake", "Disc_TchaikovskySwanLake.ogg", 1.5f),
+	GramophoneRecord("Vivaldi - The Four Seasons No. 4", "Disc_VivaldiTheFourSeasonsN4.ogg", 1.75f),
+	GramophoneRecord("Chopin - Nocturne No. 2", "Disc_ChopinNocturneN2.ogg", 1.75f),
+	GramophoneRecord("Handel - Andante", "Disc_HandelAndante.ogg", 1.5f),
+	GramophoneRecord("Bach - Toccata and Fugue", "Disc_BachToccataAndFugue.ogg", 1.33f),
+	GramophoneRecord("Strauss - An Der Schönen", "Disc_StraussAnDerSchonen.ogg", 1.5f),
+	GramophoneRecord("Beethoven - Fur Elise", "Disc_BeethovenFurElise.ogg")
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
