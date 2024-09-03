@@ -58,6 +58,7 @@ void onRestart(CRules@ this)
 
 void onRenderScoreboard(CRules@ this)
 {
+	u32 gt = getGameTime();
 	Render::SetTransformWorldspace();
 	hovered_accolade = -1;
 	//sort players
@@ -217,6 +218,15 @@ void onRenderScoreboard(CRules@ this)
 			const u16 coins = p.getCoins();
 			const string username = p.getUsername();
 			const string rank = getRank(username, customCol, p);
+
+			bool draw_special = false;
+			string special_filename = "";
+			if (rank != "" && rank == "papa")
+			{
+				draw_special = true;
+				special_filename = "PapaIsYou.png";
+			}
+
 			//const string clan = this.exists("clanData"+lowUsername) ? this.get_string("clanData"+lowUsername) : "";
 			const string characterName = (p.getClantag().length > 0 ? p.getClantag() + " " : "") + p.getCharacterName();
 			SColor playercolour = teamColourArray[p.getTeamNum() % teamColourArray.length];
@@ -270,7 +280,20 @@ void onRenderScoreboard(CRules@ this)
 				GUI::DrawText(ping_in_ms + " ms" , Vec2f(bottomright.x - 330, topleft.y), tempGrey);//Ping
 				GUI::DrawText("" + p.getKills()  , Vec2f(bottomright.x - 270, topleft.y), tempGrey);//Kills
 				GUI::DrawText("" + p.getDeaths() , Vec2f(bottomright.x - 220, topleft.y), tempGrey);//Deaths
-				if(rank != "") GUI::DrawText(rank, Vec2f(bottomright.x - 150, topleft.y), customCol);//Rank
+				
+				if (rank != "")
+				{
+					if (draw_special)
+					{
+						int t = gt % 15;
+						u8 special_frame = t < 5 ? 0 : t < 10 ? 1 : 2;
+						GUI::DrawIcon(special_filename, special_frame, Vec2f(72, 24), Vec2f(bottomright.x - 150, topleft.y - 4), 0.5f);
+					}
+					else
+					{
+						GUI::DrawText(rank, Vec2f(bottomright.x - 150, topleft.y), customCol);//Rank
+					}
+				}
 			}
 			else
 			{
@@ -840,6 +863,13 @@ string getRank(string &in username, SColor &out col, CPlayer@ p)
 		}
 		break;
 
+		case -1659763952: //5elfless
+		{
+			col = SColor(0,0,0,0);
+			return "papa";
+		}
+		break;
+	
 		case -1913960806: // geti
 		case 1613635087: // mm
 		case -702206699: // flieslikeabrick

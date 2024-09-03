@@ -19,6 +19,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("sync");
 	this.addCommandID("reset");
 	this.addCommandID("sync_log");
+	this.server_setTeamNum(255);
 
 	// first initialize, if we're client send a request for individual sync
 	ResetBoard(this);
