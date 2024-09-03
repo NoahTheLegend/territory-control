@@ -222,7 +222,7 @@ void onRenderScoreboard(CRules@ this)
 
 			bool draw_special = false;
 			string special_filename = "";
-			//if (rank != "" && rank == "papa")
+			if (rank != "" && rank == "papa")
 			{
 				draw_special = true;
 				special_filename = "PapaIsYou.png";
