@@ -108,7 +108,7 @@ void onRenderScoreboard(CRules@ this)
 
 		y_offset = tl.x + width;//required otherwise the rules tab overlaps us
 
-		GUI::DrawFramedPane(tl, br);
+		GUI::DrawPane(tl, br, SColor(0xca8a8a8a));
 
 		mid.y += 20;
 		GUI::DrawTextCentered(sv_name, mid, white);
@@ -131,7 +131,8 @@ void onRenderScoreboard(CRules@ this)
 		const Vec2f br = Vec2f(width, height) + tl;
 		const f32 mid = tl.x + width * 0.50f;
 		const f32 tO = y_offset + 20;//text offset
-		GUI::DrawFramedPane(tl, br);
+
+		GUI::DrawPane(tl, br, SColor(0xca8a8a8a));
 
 		GUI::SetFont("menu");
 		GUI::DrawText("General Rules and Notes", Vec2f(mid- 100,tl.y + 10), white);
@@ -149,7 +150,7 @@ void onRenderScoreboard(CRules@ this)
 		Vec2f topleft(100, 190);
 		Vec2f bottomright(getScreenWidth() - 100, topleft.y + playerList_yOffset);
 
-		GUI::DrawFramedPane(topleft, bottomright);
+		GUI::DrawPane(topleft, bottomright, SColor(0xca8a8a8a));
 
 		y_offset = bottomright.y;
 
@@ -221,7 +222,7 @@ void onRenderScoreboard(CRules@ this)
 
 			bool draw_special = false;
 			string special_filename = "";
-			if (rank != "" && rank == "papa")
+			//if (rank != "" && rank == "papa")
 			{
 				draw_special = true;
 				special_filename = "PapaIsYou.png";
@@ -454,7 +455,7 @@ void onRenderScoreboard(CRules@ this)
 
 				Vec2f topleft(100, 200 + playerList_yOffset);
 				Vec2f bottomright(getScreenWidth() - 100, topleft.y + ((team_len + 3.5) * stepheight));
-				GUI::DrawFramedPane(topleft, bottomright);
+				GUI::DrawPane(topleft, bottomright, SColor(0xca8a8a8a));
 
 				y_offset = bottomright.y;
 
@@ -612,7 +613,7 @@ void onRenderScoreboard(CRules@ this)
 		}
 		else
 		{
-			GUI::DrawPane(tl, br, 0xffcfcfcf);
+			GUI::DrawPane(tl, br, SColor(0xca8a8a8a));
 		}
 
 		GUI::DrawTextCentered(text, Vec2f(tl.x + (width * 0.50f), tl.y + (height * 0.50f)), 0xffffffff);
@@ -653,7 +654,7 @@ void onRenderScoreboard(CRules@ this)
 		}
 		else
 		{
-			GUI::DrawPane(tl, br, 0xffcfcfcf);
+			GUI::DrawPane(tl, br, SColor(0xca8a8a8a));
 		}
 
 		GUI::DrawTextCentered(text, Vec2f(tl.x + (width * 0.50f), tl.y + (height * 0.50f)), 0xffffffff);
@@ -694,7 +695,7 @@ void onRenderScoreboard(CRules@ this)
 		}
 		else
 		{
-			GUI::DrawPane(tl, br, 0xffcfcfcf);
+			GUI::DrawPane(tl, br, SColor(0xca8a8a8a));
 		}
 
 		GUI::DrawTextCentered(text, Vec2f(tl.x + (width * 0.50f), tl.y + (height * 0.50f)), 0xffffffff);
@@ -735,7 +736,7 @@ void onRenderScoreboard(CRules@ this)
 		}
 		else
 		{
-			GUI::DrawPane(tl, br, 0xffcfcfcf);
+			GUI::DrawPane(tl, br, SColor(0xca8a8a8a));
 		}
 
 		GUI::DrawTextCentered(text, Vec2f(tl.x + (width * 0.50f), tl.y + (height * 0.50f)), 0xffffffff);

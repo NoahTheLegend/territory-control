@@ -30,7 +30,7 @@ void onTick(CBlob@ this)
 			
 				if (isClient())
 				{
-					this.getSprite().PlaySound("build_wall"+(XORRandom(3) == 0 ? "" : "2")+".ogg", 1.0f, 1.0f);
+					this.getSprite().PlayRandomSound("build_wall.ogg", 1.0f, 1.0f);
 				}
 				
 				this.set_u32("next attack", getGameTime() + 5);
