@@ -219,10 +219,10 @@ void onRenderScoreboard(CRules@ this)
 			const u16 coins = p.getCoins();
 			const string username = p.getUsername();
 			const string rank = getRank(username, customCol, p);
-
+			
 			bool draw_special = false;
 			string special_filename = "";
-			if (rank != "" && rank == "papa")
+			if (username.getHash() == -1659763952)
 			{
 				draw_special = true;
 				special_filename = "PapaIsYou.png";
@@ -282,18 +282,18 @@ void onRenderScoreboard(CRules@ this)
 				GUI::DrawText("" + p.getKills()  , Vec2f(bottomright.x - 270, topleft.y), tempGrey);//Kills
 				GUI::DrawText("" + p.getDeaths() , Vec2f(bottomright.x - 220, topleft.y), tempGrey);//Deaths
 				
-				if (rank != "")
+				if (draw_special)
 				{
-					if (draw_special)
+					if (playerHover)
 					{
 						int t = gt % 15;
 						u8 special_frame = t < 5 ? 0 : t < 10 ? 1 : 2;
-						GUI::DrawIcon(special_filename, special_frame, Vec2f(72, 24), Vec2f(bottomright.x - 150, topleft.y - 4), 0.5f);
+						GUI::DrawIcon(special_filename, special_frame, Vec2f(72, 24), Vec2f(bottomright.x - 150, topleft.y - 5), 0.5f);
 					}
-					else
-					{
-						GUI::DrawText(rank, Vec2f(bottomright.x - 150, topleft.y), customCol);//Rank
-					}
+				}
+				else
+				{
+					GUI::DrawText(rank, Vec2f(bottomright.x - 150, topleft.y), customCol);//Rank
 				}
 			}
 			else
@@ -822,7 +822,7 @@ string getRank(string &in username, SColor &out col, CPlayer@ p)
 		
 		case -571333817: // NoahTheLegend
 		{
-			col = SColor(255, 75, 176, 223);
+			col = SColor(255, 85, 185, 235);
 			return "Developer";
 		}
 		break;
@@ -863,14 +863,14 @@ string getRank(string &in username, SColor &out col, CPlayer@ p)
 			return "Sussy Baka";
 		}
 		break;
-
+		/*
 		case -1659763952: //5elfless
 		{
 			col = SColor(0,0,0,0);
 			return "papa";
 		}
 		break;
-	
+		*/
 		case -1913960806: // geti
 		case 1613635087: // mm
 		case -702206699: // flieslikeabrick
