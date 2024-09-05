@@ -74,7 +74,7 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Moyuru ōzora - Burning sky", "Disc_MoyuruOzora.ogg"),
 	GramophoneRecord("Cannon Fodder Intro", "Disc_CannonFodderIntro.ogg", 1.5f),
 	GramophoneRecord("Devil's Lab ", "Disc_DevilsLab.ogg"),
-	GramophoneRecord("Against The Odds", "Disc_AgainstTheOdds.ogg"),
+	//GramophoneRecord("Against The Odds", "Disc_AgainstTheOdds.ogg"),
 	GramophoneRecord("Guillaume David - Caestus Metalican (W40k)", "Disc_CaestusMetalican.ogg", 2.0f),
 	GramophoneRecord("Guillaume David - Noosphere (W40k)", "Disc_Noosphere.ogg", 1.5f),
 	GramophoneRecord("Johny", "Disc_Johny.ogg", 1.5f),
@@ -93,7 +93,8 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Handel - Andante", "Disc_HandelAndante.ogg", 1.5f),
 	GramophoneRecord("Bach - Toccata and Fugue", "Disc_BachToccataAndFugue.ogg", 1.33f),
 	GramophoneRecord("Strauss - An Der Schönen", "Disc_StraussAnDerSchonen.ogg", 1.5f),
-	GramophoneRecord("Beethoven - Fur Elise", "Disc_BeethovenFurElise.ogg")
+	GramophoneRecord("Beethoven - Fur Elise", "Disc_BeethovenFurElise.ogg"),
+	GramophoneRecord("Dmitry Shostakovich - Waltz No. 2", "Disc_ShostakovichWaltzN2.ogg")
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
