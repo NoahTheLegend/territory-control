@@ -94,7 +94,7 @@ const GramophoneRecord@[] records =
 	GramophoneRecord("Bach - Toccata and Fugue", "Disc_BachToccataAndFugue.ogg", 1.33f),
 	GramophoneRecord("Strauss - An Der Schönen", "Disc_StraussAnDerSchonen.ogg", 1.5f),
 	GramophoneRecord("Beethoven - Fur Elise", "Disc_BeethovenFurElise.ogg"),
-	GramophoneRecord("Dmitry Shostakovich - Waltz No. 2", "Disc_ShostakovichWaltzN2.ogg")
+	GramophoneRecord("Dmitry Shostakovich - Waltz No. 2", "Disc_Shostakovich_WaltzN2.ogg", 1.5f)
 };
 
 // type !disc NUMBER_OF_TRACK_FROM_LIST_ABOVE
