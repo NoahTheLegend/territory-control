@@ -36,6 +36,7 @@ array<string> wordreplace =
 	"why", "vo_why.ogg",
 	"yes", "vo_yes.ogg",
 	"ye", "vo_yes.ogg",
+	"yeah", "vo_yes.ogg",
 	"lol", "vo_haha.ogg",
 	"pls", "vo_please.ogg",
 	"plz", "vo_please.ogg",
