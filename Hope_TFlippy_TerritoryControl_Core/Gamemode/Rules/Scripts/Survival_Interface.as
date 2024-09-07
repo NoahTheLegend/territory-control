@@ -855,14 +855,8 @@ string getRank(string &in username, SColor &out col, CPlayer@ p)
 			col = SColor(255, 255, 0, 0);
 			return "Betrayal quintessence";
 		}
-		case 285285759: //PURPLEXeno
 		// case -1528101978: // ollimarrex
 		// case 1931891399: // sniper2001
-		{
-			col = SColor(255, 188, 84, 155);
-			return "Sussy Baka";
-		}
-		break;
 		/*
 		case -1659763952: //5elfless
 		{
