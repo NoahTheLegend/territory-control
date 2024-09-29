@@ -3,7 +3,7 @@
 #include "BuilderCommon.as";
 #include "PlacementCommon.as";
 #include "Help.as";
-#include "AlienBuilderBlocks.as";
+#include "AdvancedEngineerBlocks.as";
 
 namespace Builder
 {
@@ -13,8 +13,8 @@ namespace Builder
 		TOOL_CLEAR = 31,
 		PAGE_SELECT = 32,
 
-		make_block = 59,
-		make_reserved = 99
+		make_block = 56,
+		make_reserved = 98
 	};
 
 	enum Page
@@ -23,7 +23,7 @@ namespace Builder
 		PAGE_ONE,
 		PAGE_TWO,
 		PAGE_THREE,
-		// PAGE_FOUR,
+		PAGE_FOUR,
 		PAGE_COUNT
 	};
 }
@@ -33,6 +33,7 @@ const string[] PAGE_NAME =
 	"Basic",
 	"Buildings",
 	"Automation",
+	"Production",
 	"Miscellaneous",
 	// "Mechanisms"
 };
@@ -40,7 +41,7 @@ const string[] PAGE_NAME =
 const u8 GRID_SIZE = 48;
 const u8 GRID_PADDING = 12;
 
-const Vec2f MENU_SIZE(6, 8);
+const Vec2f MENU_SIZE(6, 7);
 const u32 SHOW_NO_BUILD_TIME = 90;
 
 void onInit(CInventory@ this)
@@ -51,7 +52,7 @@ void onInit(CInventory@ this)
 	if(!blob.exists(blocks_property))
 	{
 		BuildBlock[][] blocks;
-		addCommonBuilderBlocks(blocks);
+		addCommonBuilderBlocks(blocks, 7);
 		blob.set(blocks_property, blocks);
 	}
 
@@ -64,11 +65,11 @@ void onInit(CInventory@ this)
 
 	for(u8 i = 0; i < Builder::PAGE_COUNT; i++)
 	{
-		AddIconToken("$"+PAGE_NAME[i]+"$", "BuilderPageIcons.png", Vec2f(48, 24), i);
+		AddIconToken("$"+PAGE_NAME[i]+"$", "EngineerPageIcons.png", Vec2f(48, 24), i);
 	}
 
 	blob.set_Vec2f("backpack position", Vec2f_zero);
-	blob.set_Vec2f("secondary backpack position", Vec2f(-370, 0));
+	blob.set_Vec2f("secondary backpack position", Vec2f(-327, 0));
 
 	blob.set_u8("build page", 0);
 
@@ -86,25 +87,29 @@ void MakeBlocksMenu(CInventory@ this, const Vec2f &in INVENTORY_CE)
 	CBlob@ blob = this.getBlob();
 	if(blob is null) return;
 
-	BuildBlock[][]@ blocks;
-	blob.get(blocks_property, @blocks);
+	int teamnum = blob.getTeamNum();
+	if (blob.getTeamNum() > 6) teamnum = 7;
+
+	BuildBlock[][] blocks;
+	addCommonBuilderBlocks(blocks, teamnum);
+	blob.get(blocks_property, blocks);
 	if(blocks is null) return;
 
 	const Vec2f MENU_CE = Vec2f(0, MENU_SIZE.y * -GRID_SIZE - GRID_PADDING + 48) + INVENTORY_CE;
 
-	CGridMenu@ menu = CreateGridMenu(MENU_CE, blob, MENU_SIZE, "Build");
+	const u8 PAGE = blob.get_u8("build page");
+
+	CGridMenu@ menu = CreateGridMenu(MENU_CE, blob, MENU_SIZE, PAGE_NAME[PAGE]);
 	if(menu !is null)
 	{
 		menu.deleteAfterClick = false;
-
-		const u8 PAGE = blob.get_u8("build page");
 
 		for(u8 i = 0; i < blocks[PAGE].length; i++)
 		{
 			BuildBlock@ b = blocks[PAGE][i];
 			if(b is null) continue;
 
-			CGridButton@ button = menu.AddButton(b.icon, "\n" + b.description, Builder::make_block + i);
+			CGridButton@ button = menu.AddButton(b.icon, PAGE_NAME[PAGE], Builder::make_block + i);
 			if(button is null) continue;
 
 			button.selectOneOnClick = true;
@@ -112,6 +117,7 @@ void MakeBlocksMenu(CInventory@ this, const Vec2f &in INVENTORY_CE)
 			CBitStream missing;
 			if(hasRequirements(this, b.reqs, missing))
 			{
+				//print("true");
 				button.hoverText = b.description + "\n" + getButtonRequirementsText(b.reqs, false);
 			}
 			else
@@ -199,67 +205,107 @@ void onCommand(CInventory@ this, u8 cmd, CBitStream@ params)
 	CBlob@ blob = this.getBlob();
 	if(blob is null) return;
 
-	if(cmd >= Builder::make_block && cmd < Builder::make_reserved)
+	if (blob.get_bool("binding"))
 	{
-		const bool isServer = getNet().isServer();
-
-		BuildBlock[][]@ blocks;
-		if(!blob.get(blocks_property, @blocks)) return;
-
-		uint i = cmd - Builder::make_block;
-
-		const u8 PAGE = blob.get_u8("build page");
-		if(blocks !is null && i >= 0 && i < blocks[PAGE].length)
+		if(cmd >= Builder::make_block && cmd < Builder::make_reserved)
 		{
-			BuildBlock@ block = @blocks[PAGE][i];
+    	    const bool is_server = isServer();
 
-			if(!canBuild(blob, @blocks[PAGE], i)) return;
+			BuildBlock[][]@ blocks;
+			if(!blob.get(blocks_property, @blocks)) return;
 
-			// put carried in inventory thing first
-			if(isServer)
+			uint i = cmd - Builder::make_block;
+
+			const u8 PAGE = blob.get_u8("build page");
+			if(blocks !is null && i >= 0 && i < blocks[PAGE].length)
 			{
-				CBlob@ carryBlob = blob.getCarriedBlob();
-				if(carryBlob !is null)
-				{
-					// check if this isn't what we wanted to create
-					if(carryBlob.getName() == block.name)
-					{
-						return;
-					}
+				BuildBlock@ block = @blocks[0][i];
+			}
 
-					if(carryBlob.hasTag("temp blob"))
+			blob.Sync("bind_req", true);
+    	    u8 r = blob.get_u8("bind_req");
+
+    	    ConfigFile@ cfg = ConfigFile();
+    	    cfg.loadFile("../Cache/TCBlocks.cfg");
+    	    if (cfg !is null)
+    	    {
+    	        cfg.remove("b"+r);
+    	        cfg.add_string("b"+r, ""+i);
+    	        blob.set_string("b"+r, ""+i);
+				blob.Sync("b"+r, true);
+    	        //printf("blob b"+r+": "+i);
+    	    }
+    	    cfg.saveFile("TCBlocks.cfg");
+	
+    	    CBitStream e;
+			blob.SendCommand(blob.getCommandID("reset_binding"), e);
+			//printf("cfg b"+r+": "+cfg.read_string("b"+r));
+    	}
+	}
+	else
+	{
+		if(cmd >= Builder::make_block && cmd < Builder::make_reserved)
+		{
+			const bool is_server = isServer();
+
+			BuildBlock[][]@ blocks;
+			if(!blob.get(blocks_property, @blocks)) return;
+
+			uint i = cmd - Builder::make_block;
+
+			const u8 PAGE = blob.get_u8("build page");
+			if(blocks !is null && i >= 0 && i < blocks[PAGE].length)
+			{
+				BuildBlock@ block = @blocks[PAGE][i];
+
+				if(!canBuild(blob, @blocks[PAGE], i)) return;
+
+				// put carried in inventory thing first
+				if(is_server)
+				{
+					CBlob@ carryBlob = blob.getCarriedBlob();
+					if(carryBlob !is null)
 					{
-						carryBlob.Untag("temp blob");
-						carryBlob.server_Die();
-					}
-					else
-					{
-						// try put into inventory whatever was in hands
-						// creates infinite mats duplicating if used on build block, not great :/
-						if(!block.buildOnGround && !blob.server_PutInInventory(carryBlob))
+						// check if this isn't what we wanted to create
+						if(carryBlob.getName() == block.name)
 						{
-							carryBlob.server_DetachFromAll();
+							return;
+						}
+
+						if(carryBlob.hasTag("temp blob"))
+						{
+							carryBlob.Untag("temp blob");
+							carryBlob.server_Die();
+						}
+						else
+						{
+							// try put into inventory whatever was in hands
+							// creates infinite mats duplicating if used on build block, not great :/
+							if(!block.buildOnGround && !blob.server_PutInInventory(carryBlob))
+							{
+								carryBlob.server_DetachFromAll();
+							}
 						}
 					}
 				}
-			}
 
-			if(block.tile == 0)
-			{
-				server_BuildBlob(blob, @blocks[PAGE], i);
-			}
-			else
-			{
-				blob.set_TileType("buildtile", block.tile);
-			}
+				if(block.tile == 0)
+				{
+					server_BuildBlob(blob, @blocks[PAGE], i);
+				}
+				else
+				{
+					blob.set_TileType("buildtile", block.tile);
+				}
 
-			if(blob.isMyPlayer())
-			{
-				SetHelp(blob, "help self action", "builder", "$Build$Build/Place  $LMB$", "", 3);
+				if(blob.isMyPlayer())
+				{
+					SetHelp(blob, "help self action", "builder", "$Build$Build/Place  $LMB$", "", 3);
+				}
 			}
 		}
 	}
-	else if(cmd == Builder::TOOL_CLEAR)
+	if(cmd == Builder::TOOL_CLEAR)
 	{
 		u16 id;
 		if(!params.saferead_u16(id)) return;
@@ -295,9 +341,11 @@ void onCommand(CInventory@ this, u8 cmd, CBitStream@ params)
 void onRender(CSprite@ this)
 {
 	CMap@ map = getMap();
-
 	CBlob@ blob = this.getBlob();
 	CBlob@ localBlob = getLocalPlayerBlob();
+
+	if(map is null || blob is null || localBlob is null) return;
+
 	if(localBlob is blob)
 	{
 		// no build zone show
