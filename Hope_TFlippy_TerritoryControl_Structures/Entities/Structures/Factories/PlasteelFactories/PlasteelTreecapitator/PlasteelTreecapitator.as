@@ -53,7 +53,7 @@ void onTick(CBlob@ this)
 					{
 						if (tree.height == tree.max_height)
 						{
-							this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 1.00f, Hitters::saw);
+							this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 2.50f, Hitters::saw);
 						}
 					}
 				}
