@@ -89,24 +89,6 @@ void onInit(CBlob@ this)
 				this.server_PutInInventory(blob);
 			}
 		}
-
-		for (int i = 1; i < 3; i++)
-		{
-			if (XORRandom(100) < 100)
-			{
-				CBlob@ blob = server_CreateBlob("lifematter", this.getTeamNum(), this.getPosition());
-				this.server_PutInInventory(blob);
-			}
-		}
-
-		for (int i = 2; i < 6; i++)
-		{
-			if (XORRandom(100) < 100)
-			{
-				CBlob@ blob = server_CreateBlob("energymatter", this.getTeamNum(), this.getPosition());
-				this.server_PutInInventory(blob);
-			}
-		}
 		
 				for (int i = 1; i < 2; i++)
 		{
@@ -120,6 +102,7 @@ void onInit(CBlob@ this)
 		MakeMat(this, this.getPosition(), "mat_plasteel", 400 + XORRandom(300));
 		MakeMat(this, this.getPosition(), "mat_mithril", 300 + XORRandom(750));
 		MakeMat(this, this.getPosition(), "mat_wilmet", 400 + XORRandom(300));
+		MakeMat(this, this.getPosition(), "mat_wilmetingot", 100 + XORRandom(30));
 
 		this.set_u8("wreckage_count", 0);
 		this.set_u8("wreckage_count_max", 10 + XORRandom(20));
