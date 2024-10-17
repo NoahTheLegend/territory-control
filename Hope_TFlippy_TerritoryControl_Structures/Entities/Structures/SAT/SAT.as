@@ -43,6 +43,7 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 
 void onTick(CBlob@ this)
 {
+	return; // crashes server when a target is far enough, todo: fix
 	CBlob@[] blobs;
 	getBlobsByTag("faction_base", @blobs);
 	

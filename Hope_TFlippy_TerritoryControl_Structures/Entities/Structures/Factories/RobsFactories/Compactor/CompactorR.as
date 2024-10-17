@@ -49,6 +49,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (this is null || blob is null) return;
 	if (this.get_string("filtername") != "anything" && blob.getName() != this.get_string("filtername")) return;
+
 	if (!blob.isAttached() && !blob.hasTag("dead") && (blob.hasTag("material") || blob.hasTag("hopperable")))
 	{
 		string compactor_resource = this.get_string("compactor_resource");
@@ -151,6 +152,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 						this.set_string("compactor_resource", "");
 						this.set_string("compactor_resource_name", "");
 					}
+					
 					server_Sync(this);
 				}
 			}
