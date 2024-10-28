@@ -225,12 +225,6 @@ void onInit(CBlob@ this)
 			s.spawnNothing = true;
 			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
 		}
-	    {  
-		    ShopItem@ s = addShopItem(this, "SUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUSUS", "$icon_sugoma$", "amogusplushie", "Amogus Plushie");
-			AddRequirement(s.requirements, "coin", "", "Coins", 500);
-			s.spawnNothing = true;
-			this.set_u32("shop_space", this.get_u32("shop_space") + 1);
-		}
 	}
 
 	// Nature Trader
