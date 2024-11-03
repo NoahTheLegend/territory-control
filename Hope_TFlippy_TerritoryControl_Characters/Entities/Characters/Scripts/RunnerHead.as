@@ -222,6 +222,12 @@ void ReloadHead(CSprite@ this)
 			head_index = 119;
 
 		}
+		if (ply.getUsername() == "strangelizard")
+		{	
+		
+			head_index = 126;
+
+		}
 		
 		u8 deity_id = blob.get_u8("deity_id");
 		switch (deity_id)
