@@ -108,7 +108,7 @@ class Bullet
                 CBlob@ altar = getBlobByName("altar_swaglag");
                 if (altar !is null)
                 {
-                    damage *= 1.00f + Maths::Min(altar.get_f32("deity_power") * 0.01f, 2.00f);
+                    damage *= 1.00f + Maths::Min(altar.get_f32("deity_power") * 0.0001f, 2.00f);
                 }
             }
 
