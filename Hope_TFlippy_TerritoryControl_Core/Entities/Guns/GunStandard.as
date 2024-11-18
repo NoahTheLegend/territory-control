@@ -6,6 +6,8 @@
 //  count and despawning
 //
 
+#include "Hitters.as";
+
 void shootGun(const u16 gunID, const f32 aimangle, const u16 hoomanID, const Vec2f pos) 
 {
 	CRules@ rules = getRules();
@@ -170,6 +172,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 					blob.set_u8("arrow type", 2);
 				else if (this.hasTag("bombarrows"))
 					blob.set_u8("arrow type", 3);
+			}
+			if (this.hasTag("ignite owner"))
+			{
+				this.server_Hit(holder, holder.getPosition(), Vec2f_zero, 0.0f, Hitters::fire, true);
 			}
 			blob.setVelocity(dir * settings.B_SPEED);
 			blob.SetDamageOwnerPlayer(holder.getPlayer());

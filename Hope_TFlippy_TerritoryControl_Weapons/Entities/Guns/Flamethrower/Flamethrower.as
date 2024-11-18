@@ -13,8 +13,8 @@ void onInit(CBlob@ this)
 	//General
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
 	settings.TOTAL = 50; //Max amount of ammo that can be in a clip
-	settings.FIRE_INTERVAL = 3; //Time in between shots
-	settings.RELOAD_TIME = 75; //Time it takes to reload (in ticks)
+	settings.FIRE_INTERVAL = 4; //Time in between shots
+	settings.RELOAD_TIME = 90; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_oil"; //Ammunition the gun takes
 
 	//Bullet
@@ -41,6 +41,7 @@ void onInit(CBlob@ this)
 	settings.MUZZLE_OFFSET = Vec2f(-20, -2); //Where the muzzle flash appears
 
 	this.set("gun_settings", @settings);
+	this.Tag("ignite owner");
 
 	//Custom
 	this.set_string("CustomCase", "");
