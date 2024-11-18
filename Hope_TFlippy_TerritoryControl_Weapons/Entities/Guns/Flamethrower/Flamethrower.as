@@ -14,7 +14,7 @@ void onInit(CBlob@ this)
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
 	settings.TOTAL = 50; //Max amount of ammo that can be in a clip
 	settings.FIRE_INTERVAL = 3; //Time in between shots
-	settings.RELOAD_TIME = 70; //Time it takes to reload (in ticks)
+	settings.RELOAD_TIME = 75; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_oil"; //Ammunition the gun takes
 
 	//Bullet
@@ -48,7 +48,7 @@ void onInit(CBlob@ this)
 	this.set_u32("CustomGunRecoil", 0);
 	//this.set_f32("CustomReloadPitch", 0.65f);
 	this.set_string("ProjBlob", "flame");
-	this.set_Vec2f("ProjOffset", Vec2f(-12, -1));
+	this.set_Vec2f("ProjOffset", Vec2f(0, -1));
 	this.Tag("CustomSoundLoop");
 	this.Tag("powerful");
 }
