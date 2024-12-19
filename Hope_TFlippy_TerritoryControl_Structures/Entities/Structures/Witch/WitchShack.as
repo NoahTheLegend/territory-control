@@ -21,6 +21,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("change team on fort capture");
 	this.addCommandID("write");
+	this.Tag("can be captured by neutral");
 
 	getMap().server_SetTile(this.getPosition(), CMap::tile_castle_back);
 
