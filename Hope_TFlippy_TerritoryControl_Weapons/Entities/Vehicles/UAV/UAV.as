@@ -55,6 +55,7 @@ void onInit(CBlob@ this)
 	this.Tag("aerial");
 	this.Tag("vehicle");
 	this.Tag("heavy weight");
+	this.Tag("uav");
 	
 	this.set_u16("controller_blob_netid", 0);
 	this.set_u16("controller_player_netid", 0);

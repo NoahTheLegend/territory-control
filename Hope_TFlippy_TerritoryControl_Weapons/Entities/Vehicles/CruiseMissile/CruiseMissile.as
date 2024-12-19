@@ -300,6 +300,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.hasTag("offblast")) return;
+	if (caller.hasTag("uav") || caller.hasTag("cruisemissile")) return;
 	if (caller.getTeamNum() != this.getTeamNum()) return;
 
 	CPlayer@ ply = caller.getPlayer();

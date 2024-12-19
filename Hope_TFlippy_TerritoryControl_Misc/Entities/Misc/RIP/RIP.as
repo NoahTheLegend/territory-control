@@ -166,6 +166,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (this.hasTag("offblast")) return;
 	if (this.getTickSinceCreated() < 90) return;
+	if (caller.hasTag("uav") || caller.hasTag("cruisemissile")) return;
 
 	CPlayer@ ply = caller.getPlayer();
 	if (ply !is null)
