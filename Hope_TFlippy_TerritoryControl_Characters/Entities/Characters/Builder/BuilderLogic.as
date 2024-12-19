@@ -18,6 +18,8 @@
 //can't be <2 - needs one frame less for gathering infos
 const s32 hit_frame = 2;
 const f32 hit_damage = 0.5f;
+const f32 hit_damage_slave = 0.25f;
+const f32 hit_damage_engineer = 0.5f;
 
 void onInit(CBlob@ this)
 {
@@ -402,7 +404,7 @@ void Pickaxe(CBlob@ this)
 				CBlob@ b = getBlobByNetworkID(hitdata.blobID);
 				if (b !is null)
 				{
-					SendHitCommand(this, b, (b.getPosition() + this.getPosition()) * 0.5f, attackVel, this.getName() == "builder" ? hit_damage : hit_damage * 0.50f);
+					SendHitCommand(this, b, (b.getPosition() + this.getPosition()) * 0.5f, attackVel, this.getName() == "builder" ? hit_damage : this.getName() == "slave" ? hit_damage_slave : hit_damage_engineer);
 				}
 			}
 		}
