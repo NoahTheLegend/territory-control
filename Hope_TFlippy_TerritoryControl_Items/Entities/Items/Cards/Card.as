@@ -237,18 +237,35 @@ void onDie(CBlob@ this)
 					
 					if (!map.isTileSolid(t) && map.isTileGround(map.getTile(tpos+Vec2f(0,8)).type))
 					{
-						if(XORRandom(2) == 0)server_CreateBlob("bush", -1, tpos);
-						else {
-							CBlob @flow = server_CreateBlob("flowers", -1, tpos);
-							flow.Tag("instant_grow");
-						}
-						if(XORRandom(4) == 0){
-							CBlob@ grain = server_CreateBlobNoInit( "grain_plant" );
-							if(grain !is null)
+						CBlob@[] plants;
+						map.getBlobsAtPosition(tpos, @plants);
+
+						bool has_plant = false;
+						for (u16 k = 0; k < plants.size(); k++)
+						{
+							CBlob@ b = plants[k];
+							if (b !is null && b.hasTag("plant"))
 							{
-								grain.Tag("instant_grow");
-								grain.setPosition(tpos);
-								grain.Init();
+								has_plant = true;
+								k = plants.size(); // break;
+							}
+						}
+						
+						if (!has_plant)
+						{
+							if(XORRandom(2) == 0)server_CreateBlob("bush", -1, tpos);
+							else {
+								CBlob @flow = server_CreateBlob("flowers", -1, tpos);
+								flow.Tag("instant_grow");
+							}
+							if(XORRandom(4) == 0){
+								CBlob@ grain = server_CreateBlobNoInit( "grain_plant" );
+								if(grain !is null)
+								{
+									grain.Tag("instant_grow");
+									grain.setPosition(tpos);
+									grain.Init();
+								}
 							}
 						}
 					}
