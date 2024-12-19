@@ -34,7 +34,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
         if (!isServer()) return;
 
 		u16 pid = 0;
-		if (!params.saferead_u16(pid)) {}
+		if (!inParams.saferead_u16(pid)) {}
 
         TeamData@ team_data;
 	    GetTeamData(this.getTeamNum(), @team_data);
@@ -62,7 +62,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 
 		u16 id = inParams.read_u16();
 		bool do_tag = inParams.read_bool();
-		u16 pid = inParams.read_u16();
+
+		u16 pid = 0;
+		if (!inParams.saferead_u16(pid)) {}
 
 		if (pid != 0 && getPlayer(pid) !is null && !getPlayer(pid).isMyPlayer())
 			return;

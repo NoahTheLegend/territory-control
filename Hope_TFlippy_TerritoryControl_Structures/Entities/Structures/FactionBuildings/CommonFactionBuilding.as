@@ -1033,7 +1033,7 @@ void Faction_Menu(CBlob@ this, CBlob@ caller)
 					CGridButton@ butt = menu.AddButton("$faction_setmain$", this.hasTag("main_hall") ? "This is already your main base" : "Make this hall your Main base",
 						this.getCommandID("faction_menu_button"), Vec2f(1, 1), params);
 
-					butt.hoverText = "Main hall will disallow building for enemies.\n\nThe range is "+(faction_control_range/8)+" tiles for neutrals and twice less for other factions."+(enough_level_to_become_main ? "" : "\n\n$RED$"+getRequiredMainHallName()+" is required!"+"$RED$");
+					butt.hoverText = "Main hall will disallow building for enemies.\n\nThe range is "+(faction_control_range/8)+" tiles for neutrals and twice shorter for other factions."+(enough_level_to_become_main ? "" : "\n\n$RED$"+getRequiredMainHallName()+" is required!"+"$RED$");
 					butt.SetEnabled(isLeader && !this.hasTag("main_hall") && enough_level_to_become_main);
 				}
 				/*{
