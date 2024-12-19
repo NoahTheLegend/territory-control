@@ -207,7 +207,7 @@ void onTick(CRules@ this)
 					u8 team = p.getTeamNum();
 					if (team >= maxTeams) continue;
 					
-					team_list[team].upkeep += team_list[team].player_count-(team_list[team].player_count > 1 ? 1 : 0); //+ (team_list[team].player_count * 5);
+					team_list[team].upkeep += team_list[team].player_count-(team_list[team].player_count > 2 ? 1 : 0); //+ (team_list[team].player_count * 5);
 					team_list[team].player_count++;
 					team_list[team].wealth += p.getCoins();
 				}
