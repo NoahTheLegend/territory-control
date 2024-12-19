@@ -184,7 +184,20 @@ void onTick(CRules@ this)
 				team.wealth = 0;
 				team.controlled_count = 0;
 			}
-				
+			
+			CBlob@[] sleepers;
+			getBlobsByTag("sleeps", @sleepers);
+			for (u32 i = 0; i < sleepers.size(); i++)
+			{
+				CBlob@ s = sleepers[i];
+				if (s is null || s.hasTag("dead")) continue;
+
+				u8 team = s.getTeamNum();
+				if (team >= maxTeams) continue;
+
+				team_list[team].player_count += 1;
+			}
+
 			for (u32 i = 0; i < getPlayersCount(); i++)
 			{
 				CPlayer@ p = getPlayer(i);

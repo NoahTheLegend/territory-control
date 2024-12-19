@@ -69,6 +69,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @bt)
 		bool sleeping = bt.read_bool();
 		
 		this.set_bool("sleeper_sleeping", sleeping);
+		if (sleeping) this.Tag("sleeps");
+		else this.Untag("sleeps");
+
 		SetKnocked(this, 0);
 		this.Untag("dazzled");
 

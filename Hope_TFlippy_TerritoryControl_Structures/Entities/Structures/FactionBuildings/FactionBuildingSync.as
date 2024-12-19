@@ -13,18 +13,27 @@ void onInit(CBlob@ this)
 	    	|| getBlobByNetworkID(team_data.main_hall_id) is null)
 	    {
 	    	SetMainHall(this, team_data);
+			SyncMainData(this);
 	    }
 	}
-    if (isClient())
-    {
-		CPlayer@ local = getLocalPlayer();
-		if (local !is null)
-		{
-        	CBitStream params;
-			params.write_u16(local.getNetworkID());
-        	this.SendCommand(init_sync_from_client_id, params);
-		}
-    }
+    //if (isClient())
+    //{
+	//	CPlayer@ local = getLocalPlayer();
+	//	if (local !is null)
+	//	{
+    //    	CBitStream params;
+	//		params.write_u16(local.getNetworkID());
+    //    	this.SendCommand(init_sync_from_client_id, params);
+	//	}
+    //}
+}
+
+void onTick(CBlob@ this)
+{
+	if (isServer() && getGameTime() % 150 == 0)
+	{
+		SyncMainData(this);
+	}
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
