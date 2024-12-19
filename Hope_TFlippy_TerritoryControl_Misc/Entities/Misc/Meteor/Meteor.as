@@ -240,14 +240,14 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
     if (isServer())
     {
-        MakeMat(hitterBlob, worldPoint, "mat_stone", (10 + XORRandom(50)));
-        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_copper", (5 + XORRandom(15)));
-        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_iron", (10 + XORRandom(40)));
-        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_mithril", (5 + XORRandom(20)));
-        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_gold", (XORRandom(30)));
-        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_titanium", (XORRandom(35)));
-        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_plasteel", (XORRandom(3)));
-        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_wilmet", (XORRandom(4)));
+        MakeMat(hitterBlob, worldPoint, "mat_stone", (10 + XORRandom(50)) * damage);
+        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_copper", (5 + XORRandom(15)) * damage);
+        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_iron", (10 + XORRandom(40)) * damage);
+        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_mithril", (5 + XORRandom(20)) * damage);
+        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_gold", (XORRandom(30)) * damage);
+        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_titanium", (XORRandom(35)) * damage);
+        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_plasteel", (XORRandom(3)) * damage);
+        if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_wilmet", (XORRandom(4)) * damage);
     }
     return damage;
 }

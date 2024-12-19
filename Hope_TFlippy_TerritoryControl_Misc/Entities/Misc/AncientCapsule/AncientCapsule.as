@@ -306,11 +306,11 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 	if(customData != Hitters::builder && customData != Hitters::drill)
 		return 0.0f;
 
-	if (isServer())
+	if (isServer() && damage >= 0.5f)
 	{
-		MakeMat(hitterBlob, worldPoint, "mat_steelingot", XORRandom(4));
-		MakeMat(hitterBlob, worldPoint, "mat_ironingot", XORRandom(6));
-		MakeMat(hitterBlob, worldPoint, "mat_plasteel", XORRandom(20));
+		if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_steelingot", (XORRandom(4) * damage));
+		if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_ironingot", (XORRandom(6) * damage));
+		if (XORRandom(2) == 0) MakeMat(hitterBlob, worldPoint, "mat_plasteel", (XORRandom(10) * damage));
 
 		if (XORRandom(100) < 70)
 		{
