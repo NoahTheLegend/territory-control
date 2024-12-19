@@ -124,7 +124,7 @@ void onDie(CBlob@ this)
 				Vec2f sc = getDriver().getWorldPosFromScreenPos(getDriver().getScreenCenterPos());
 				string text = sc.x > pos.x ? "west" : "east";
 
-				client_AddToChat("You see a small spaceship in the "+text+" leaving the sky", SColor(255,0,0,0));
+				client_AddToChat("You see a small spaceship in the "+text+" leaving the sky", SColor(255,255,0,0));
 			}
 		}
 
