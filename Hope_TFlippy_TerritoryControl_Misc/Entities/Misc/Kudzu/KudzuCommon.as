@@ -197,12 +197,15 @@ void UpgradeTile(CBlob@ this, Vec2f pos, CMap@ map, Random@ rand)
 	Vec2f distance = this.getPosition() - pos;
 	if (getGameTime() > this.get_u32("Duplication Time") && this.get_u32("Duplication Time") != 0 && rand.NextRanged(30) == 0 && distance.Length() > 8.0f * 15) //Minimum distance for offshoots
 	{
-		CBlob@ core = server_CreateBlob("kudzucore", 0, pos);
-		if (core != null)
+		if (isServer())
 		{
-			core.getShape().SetStatic(true);
-			ApplyResistanceMutations(this, core); //Offspring cores inherit: Resistances and No Light mutation
-			Mutate(core); //Offspring start with 1 random mutation
+			CBlob@ core = server_CreateBlob("kudzucore", 0, pos);
+			if (core != null)
+			{
+				core.getShape().SetStatic(true);
+				ApplyResistanceMutations(this, core); //Offspring cores inherit: Resistances and No Light mutation
+				Mutate(core); //Offspring start with 1 random mutation
+			}
 		}
 		this.set_u32("Duplication Time", 0); //No more duplicating after the first one
 	}
@@ -212,42 +215,54 @@ void UpgradeTile(CBlob@ this, Vec2f pos, CMap@ map, Random@ rand)
 
 		if (this.hasTag("Mut_Badgers") && rand.NextRanged(150) == 0)
 		{
-			CBlob@ node = server_CreateBlob("kudzubadger", 0, pos);
-			if (node != null)
+			if (isServer())
 			{
-				node.getShape().SetStatic(true);
-				if (this.hasTag("Mut_Explosive")) node.Tag("Mut_Explosive");
-				ApplyResistanceMutations(this, node);
+				CBlob@ node = server_CreateBlob("kudzubadger", 0, pos);
+				if (node != null)
+				{
+					node.getShape().SetStatic(true);
+					if (this.hasTag("Mut_Explosive")) node.Tag("Mut_Explosive");
+					ApplyResistanceMutations(this, node);
+				}
 			}
 			this.set_u32("Upgrade Time", getGameTime() + 1500 / UpgradeSpeed);
 		}
 		else if (this.hasTag("Mut_Explosive") && rand.NextRanged(50) == 0)
 		{
-			CBlob@ node = server_CreateBlob("kudzuexplosive", 0, pos);
-			if (node != null)
+			if (isServer())
 			{
-				node.getShape().SetStatic(true);
-				ApplyResistanceMutations(this, node);
+				CBlob@ node = server_CreateBlob("kudzuexplosive", 0, pos);
+				if (node != null)
+				{
+					node.getShape().SetStatic(true);
+					ApplyResistanceMutations(this, node);
+				}
 			}
 			this.set_u32("Upgrade Time", getGameTime() + 600 / UpgradeSpeed);
 		}
 		else if (this.hasTag("Mut_Gold") && rand.NextRanged(70) == 0)
 		{
-			CBlob@ node = server_CreateBlob("kudzugold", 0, pos);
-			if (node != null)
+			if (isServer())
 			{
-				node.getShape().SetStatic(true);
-				ApplyResistanceMutations(this, node);
+				CBlob@ node = server_CreateBlob("kudzugold", 0, pos);
+				if (node != null)
+				{
+					node.getShape().SetStatic(true);
+					ApplyResistanceMutations(this, node);
+				}
 			}
 			this.set_u32("Upgrade Time", getGameTime() + 900 / UpgradeSpeed);
 		}
 		else if (this.hasTag("Mut_MysteryBox") && rand.NextRanged(300) == 0)
 		{
-			CBlob@ node = server_CreateBlob("kudzumysterybox", 0, pos);
-			if (node != null)
+			if (isServer())
 			{
-				node.getShape().SetStatic(true);
-				ApplyResistanceMutations(this, node);
+				CBlob@ node = server_CreateBlob("kudzumysterybox", 0, pos);
+				if (node != null)
+				{
+					node.getShape().SetStatic(true);
+					ApplyResistanceMutations(this, node);
+				}
 			}
 			this.set_u32("Upgrade Time", getGameTime() + 1500 / UpgradeSpeed);
 		}
