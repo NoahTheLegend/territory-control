@@ -177,3 +177,16 @@ void SyncMainData(CBlob@ this, int id = -1)
 
     //printf("sent sync-"+sync_main_data_id+" (data); from "+this.getName()+": "+this.hasTag("main_hall"));
 }
+
+void SyncMainDataToPlayer(CBlob@ this, int id = -1, u16 pid = 0)
+{
+    if (!isServer()) return;
+    
+    CBitStream params;
+    params.write_u16(id == 0 ? id : this.getNetworkID());
+    params.write_bool(this.hasTag("main_hall"));
+    params.write_u16(pid);
+    this.SendCommand(sync_main_data_id, params);
+
+    //printf("sent sync-"+sync_main_data_id+" (data); from "+this.getName()+": "+this.hasTag("main_hall"));
+}

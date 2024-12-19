@@ -21,7 +21,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 {
 	if (blob !is null && blob.hasTag("flesh"))
 	{
-		if (isServer()) this.server_Hit(blob, this.getPosition(), Vec2f(0, 0), 0.125f, Hitters::spikes, true);
+		if (isServer()) this.server_Hit(blob, blob.getPosition(), Vec2f(0, 0), 0.125f, Hitters::spikes, true);
 	}
 }
 

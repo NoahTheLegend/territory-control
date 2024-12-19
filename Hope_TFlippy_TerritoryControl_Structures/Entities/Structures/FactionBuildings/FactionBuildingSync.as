@@ -17,8 +17,13 @@ void onInit(CBlob@ this)
 	}
     if (isClient())
     {
-        CBitStream params;
-        this.SendCommand(init_sync_from_client_id, params);
+		CPlayer@ local = getLocalPlayer();
+		if (local !is null)
+		{
+        	CBitStream params;
+			params.write_u16(local.getNetworkID());
+        	this.SendCommand(init_sync_from_client_id, params);
+		}
     }
 }
 
@@ -27,6 +32,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
     if (cmd == init_sync_from_client_id)
     {
         if (!isServer()) return;
+
+		u16 pid = 0;
+		if (!params.saferead_u16(pid)) {}
 
         TeamData@ team_data;
 	    GetTeamData(this.getTeamNum(), @team_data);
@@ -45,7 +53,8 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 	    }
 
 		SyncBaseName(this);
-		SyncMainData(this);
+		if (pid == 0) SyncMainData(this);
+		else SyncMainDataToPlayer(this, -1, pid);
     }
 	else if (cmd == sync_main_data_id)
 	{
@@ -53,6 +62,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 
 		u16 id = inParams.read_u16();
 		bool do_tag = inParams.read_bool();
+		u16 pid = inParams.read_u16();
+
+		if (pid != 0 && getPlayer(pid) !is null && !getPlayer(pid).isMyPlayer())
+			return;
 
 		TeamData@ team_data;
 		GetTeamData(this.getTeamNum(), @team_data);
