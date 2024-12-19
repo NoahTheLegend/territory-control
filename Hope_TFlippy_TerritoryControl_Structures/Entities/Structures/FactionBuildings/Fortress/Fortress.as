@@ -123,29 +123,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		
 		string data = params.read_string();
 		
-		if (data == "stronghold")
-		{
-			Vec2f pos = this.getPosition();
-			u8 team = this.getTeamNum();
-		
-			this.Tag("upgrading");
-			this.getSprite().PlaySound("/Construct.ogg");
-			this.getSprite().getVars().gibbed = true;
-			
-			if (isServer())
-			{
-				CBlob@ newBlob = server_CreateBlobNoInit("stronghold");
-				newBlob.server_setTeamNum(team);
-				newBlob.setPosition(pos);
-				newBlob.set_string("base_name", this.get_string("base_name"));
-				newBlob.Init();
-				newBlob.Tag("need_sync");
-
-				this.MoveInventoryTo(newBlob);
-				this.server_Die();
-			}
-		}
-		else if (data == "repair")
+		if (data == "repair")
 		{
 			this.getSprite().PlaySound("/ConstructShort.ogg");
 			

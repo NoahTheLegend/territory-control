@@ -16,28 +16,64 @@ void onInit(CBlob@ this)
 			SyncMainData(this);
 	    }
 	}
-    //if (isClient())
-    //{
-	//	CPlayer@ local = getLocalPlayer();
-	//	if (local !is null)
-	//	{
-    //    	CBitStream params;
-	//		params.write_u16(local.getNetworkID());
-    //    	this.SendCommand(init_sync_from_client_id, params);
-	//	}
-    //}
-}
-
-void onTick(CBlob@ this)
-{
-	if (isServer() && getGameTime() % 150 == 0)
-	{
-		SyncMainData(this);
-	}
+    if (isClient())
+    {
+		CPlayer@ local = getLocalPlayer();
+		if (local !is null)
+		{
+        	CBitStream params;
+			params.write_u16(local.getNetworkID());
+        	this.SendCommand(init_sync_from_client_id, params);
+		}
+    }
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 {
+	if (cmd == this.getCommandID("shop made item"))
+	{
+		u16 caller, item;
+
+		if(!inParams.saferead_netid(caller) || !inParams.saferead_netid(item)) return;
+		string data = inParams.read_string();
+
+		if (data == "fortress" || data == "stronghold" || data == "citadel" || data == "convent")
+		{
+			Vec2f pos = this.getPosition();
+			u8 team = this.getTeamNum();
+
+			this.Tag("upgrading");
+			this.getSprite().PlaySound("/Construct.ogg");
+			this.getSprite().getVars().gibbed = true;
+
+			if (isServer())
+			{
+				CBlob@ newBlob = server_CreateBlobNoInit(data);
+				newBlob.server_setTeamNum(team);
+				newBlob.setPosition(pos);
+				newBlob.Init();
+
+				if (this.hasTag("main_hall"))
+				{
+					TeamData@ team_data;
+	   				GetTeamData(this.getTeamNum(), @team_data);
+					if (team_data !is null)
+					{
+						SetMainHall(newBlob, team_data);
+						SyncMainData(newBlob);
+					}
+				}
+
+				newBlob.set_string("base_name", this.get_string("base_name"));
+				newBlob.set_string("new_camp_name", this.get_string("new_camp_name"));
+				newBlob.set_string("numeric_camp_name", this.get_string("numeric_camp_name"));
+				newBlob.Tag("need_sync");
+
+				this.MoveInventoryTo(newBlob);
+				this.server_Die();
+			}
+		}
+	}
     if (cmd == init_sync_from_client_id)
     {
         if (!isServer()) return;
