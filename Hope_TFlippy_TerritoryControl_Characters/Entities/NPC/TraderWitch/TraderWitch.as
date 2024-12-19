@@ -116,6 +116,8 @@ void onInit(CBlob@ this)
 	this.set_u8("shop icon", 25);
 	this.getSprite().addSpriteLayer("isOnScreen", "NoTexture.png", 1, 1);
 
+	this.Tag("can be captured by neutral");
+
 	this.set_u32("lastDanger", 0);
 
 	// Resource Trader

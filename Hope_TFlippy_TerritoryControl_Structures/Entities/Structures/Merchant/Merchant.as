@@ -51,6 +51,8 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("shop offset", Vec2f(0, 0));
 	this.set_Vec2f("shop menu size", Vec2f(6, 6));
 	this.set_string("shop description", "Merchant");
+
+	this.Tag("can be captured by neutral");
 	
 	if (this.hasTag("name_changed"))
 	{

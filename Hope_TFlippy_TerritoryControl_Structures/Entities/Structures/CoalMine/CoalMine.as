@@ -51,7 +51,6 @@ void onInit(CBlob@ this)
 	this.Tag("no_die");
 
 	this.Tag("upkeep building");
-	this.set_u8("upkeep cap increase", 1);
 	this.set_u8("upkeep cost", 0);
 
 	if (isServer())
