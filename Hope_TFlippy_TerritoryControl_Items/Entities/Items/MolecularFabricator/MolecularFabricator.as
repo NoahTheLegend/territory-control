@@ -156,9 +156,10 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Reconstruct a Partical Cannon", "$forceray$", "forceray", "A partical cannon that uses mithril.");
-		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 200);
-		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 75);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 50);
+		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 500);
+		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 500);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 100);
+		AddRequirement(s.requirements, "blob", "covfefe", "Nanobots Controller", 1);
 		s.spawnNothing = true;
 	}
 	/*
@@ -209,9 +210,9 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Reconstruct an Exosuit", "$icon_exosuit$", "exosuititem", "A Model II Exosuit with a shield module.");
-		AddRequirement(s.requirements, "blob", "mat_matter", "Amazing Technicolor Dust", 100);
-		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 50);
-		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 8);
+		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel Sheet", 200);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 50);
+		AddRequirement(s.requirements, "blob", "mat_mithrilingot", "Mithril Ingot", 50);
 		s.spawnNothing = true;
 	}
 	{
