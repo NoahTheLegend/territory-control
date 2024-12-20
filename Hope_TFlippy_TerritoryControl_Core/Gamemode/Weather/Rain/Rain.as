@@ -127,7 +127,7 @@ void onTick(CBlob@ this)
 	fog = Lerp(fog, fogTarget, 0.001f);
 		
 	sine = (Maths::Sin((getGameTime() * 0.0125f)) * 8.0f);
-	Vec2f sineDir = Vec2f(0, 1).RotateBy(sine * 20);
+	Vec2f sineDir = Vec2f(0, 1).RotateBy(sine * 10);
 	
 	CBlob@[] vehicles;
 	getBlobsByTag("aerial", @vehicles);
@@ -143,7 +143,7 @@ void onTick(CBlob@ this)
 		}
 	}
 		
-	Vec2f dir = Vec2f(0, 1).RotateBy(70);
+	Vec2f dir = Vec2f(0, 1).RotateBy(35);
 
 	if (isClient())
 	{	
