@@ -304,15 +304,15 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 		{
 			if (getRules().get_bool("raining"))
 			{
-				getMap().CreateSkyGradient("skygradient_rain.png");
+				//getMap().CreateSkyGradient("skygradient_rain.png");
 			}
 			else
 			{
-				if (getBlobByName("info_dead") !is null)
-					getMap().CreateSkyGradient("Dead_skygradient.png");	
-				else if (getBlobByName("info_magmacore") !is null)
-					getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
-				else
+				//if (getBlobByName("info_dead") !is null)
+				//	getMap().CreateSkyGradient("Dead_skygradient.png");	
+				//else if (getBlobByName("info_magmacore") !is null)
+				//	getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
+				//else
 					getMap().CreateSkyGradient("skygradient.png");	
 			}
 		}
