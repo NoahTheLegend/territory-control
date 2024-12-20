@@ -224,9 +224,9 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Scorcher", "$icon_flamethrower$", "flamethrower", "A tool used for incinerating plants, buildings and people.\n\nUses Oil.");
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 24);
-		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 32);
-		AddRequirement(s.requirements, "coin", "", "Coins", 2500);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 32);
+		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1500);
 
 		s.customButton = true;
 		s.buttonwidth = 2;
