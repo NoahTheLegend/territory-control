@@ -42,10 +42,8 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 bool canPickup(CBlob@ this, CBlob@ blob)
 {
 	if (this.get_u8("itemsnum") >= MaxItems) return false;
-	return !blob.isAttached() && !blob.hasTag("dead") && !blob.hasTag("weapon") && (blob.hasTag("ammo") || blob.hasTag("material") || blob.hasTag("hopperable") || blob.hasTag("drug"));
+	return !blob.isAttached() && !blob.hasTag("dead") && !blob.hasTag("big explosive") && !blob.hasTag("weapon") && (blob.hasTag("ammo") || blob.hasTag("material") || blob.hasTag("hopperable") || blob.hasTag("drug"));
 }
-
-
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
