@@ -919,10 +919,25 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 						}
 					}
 				}
+				else if (tokens[0]=="!playerteam")
+				{
+					if (tokens.length!=3) return false;
+					CPlayer@ user = GetPlayer(tokens[1]);
+
+					if (user !is null)
+					{
+						user.server_setTeamNum(parseInt(tokens[2]));
+						CBlob@ userBlob=user.getBlob();
+						if (userBlob !is null)
+						{
+							userBlob.server_setTeamNum(parseInt(tokens[2]));
+						}
+					}
+				}
 				else if (tokens[0]=="!tphere")
 				{
 					if (tokens.length!=2) return false;
-					CPlayer@ tpPlayer=		GetPlayer(tokens[1]);
+					CPlayer@ tpPlayer =	GetPlayer(tokens[1]);
 					if (tpPlayer !is null)
 					{
 						CBlob@ tpBlob=		tpPlayer.getBlob();

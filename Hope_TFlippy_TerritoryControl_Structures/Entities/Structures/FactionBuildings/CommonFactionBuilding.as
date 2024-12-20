@@ -15,6 +15,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("faction_captured");
 	this.addCommandID("faction_destroyed");
 	this.addCommandID("faction_menu_button");
+	this.addCommandID("faction_team_change_button");
 	this.addCommandID("faction_player_button");
 	this.addCommandID("button_join");
 	this.addCommandID("sv_toggle");
@@ -24,6 +25,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("rename_faction");
 
 	this.set_string("initial_base_name", this.getInventoryName());
+	this.set_u32("next_team_change", 0);
 	
 	string base_name = this.get_string("base_name");
 	if (base_name != "") this.setInventoryName(this.getInventoryName() + " \"" + base_name + "\"");
@@ -94,6 +96,7 @@ void onTick(CBlob@ this)
 {
 	RemoveOldLeader(this);
 	SetMinimap(this);   //needed for under raid check
+
 	if (this.get_bool("base_alarm_manual") || this.hasTag(raid_tag))
 	{	
 		if (this.get_bool("base_allow_alarm") && !this.get_bool("base_alarm"))
@@ -157,7 +160,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 		CBlob@ caller = getBlobByNetworkID(inParams.read_u16());
 		const u8 type = inParams.read_u8();
 		const u8 data = inParams.read_u8();
-
+		
 		if (caller !is null)
 		{
 			CPlayer@ ply = caller.getPlayer();
@@ -314,6 +317,71 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 						break;
 				}
 			}
+		}
+	}
+	else if (cmd == this.getCommandID("faction_team_change_button"))
+	{
+		if (this.get_u32("next_team_change") > getGameTime()) return;
+
+		CBlob@ caller = getBlobByNetworkID(inParams.read_u16());
+		const u8 team = inParams.read_u8();
+
+		if (team >= 7) return;
+
+		bool can_change = true;
+		CBlob@[] team_halls;
+		getBlobsByTag("faction_base", @team_halls);
+
+		for (u16 j = 0; j < team_halls.size(); j++)
+		{
+			CBlob@ h = team_halls[j];
+			if (h is null) continue;
+
+			if (h.getTeamNum() == team || (h.getTeamNum() == this.getTeamNum() && h !is this))
+			{
+				can_change = false;
+			}
+		}
+
+		if (!can_change) return;
+		this.set_u32("next_team_change", getGameTime()+150);
+		this.Tag("just_switched_team");
+
+		if (isClient())
+		{
+			client_AddToChat(getRules().getTeam(this.getTeamNum()).getName() + " has changed to " + getRules().getTeam(team).getName()+"!", SColor(255,255,0,0));
+		}
+		if (isServer())
+		{
+			for (u8 i = 0; i < getPlayersCount(); i++)
+			{
+				CPlayer@ p = getPlayer(i);
+				if (p is null) continue;
+
+				if (p.getTeamNum() != this.getTeamNum()) continue;
+				p.server_setTeamNum(team);
+				
+				CBlob@ b = p.getBlob();
+				if (b is null) continue;
+
+				b.server_setTeamNum(team);
+			}
+
+			CBlob@[] sleepers;
+			getBlobsByTag("sleeps", @sleepers);
+
+			for (u16 i = 0; i < sleepers.size(); i++)
+			{
+				CBlob@ s = sleepers[i];
+				if (s is null) continue;
+
+				if (s.getTeamNum() == this.getTeamNum())
+				{
+					s.server_setTeamNum(team);
+				}
+			}
+
+			this.server_setTeamNum(team);
 		}
 	}
 	else if (cmd == this.getCommandID("faction_player_button"))
@@ -500,7 +568,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 		}
 	}
 	
-	if (isServer())
+	if (isServer()) // should not cause bad cbitstream on server
 	{
 		if (cmd == this.getCommandID("faction_captured") || cmd == this.getCommandID("faction_destroyed"))
 		{
@@ -536,80 +604,79 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 			this.SendCommand(this.getCommandID("cl_toggle"), stream);
 		}
 	}
-
-	if (isClient())
+	if (cmd == this.getCommandID("faction_captured"))
 	{
-		if (cmd == this.getCommandID("faction_captured"))
+		if (!isClient()) return;
+		CRules@ rules = getRules();
+
+		s32 newTeam = inParams.read_s32();
+		s32 oldTeam = inParams.read_s32();
+		bool defeat = inParams.read_bool();
+
+		if (rules is null) return;
+
+		// if (!(oldTeam < getRules().getTeamsNum())) return;
+
+		if (oldTeam < 7 && newTeam < 7)
 		{
-			CRules@ rules = getRules();
+			string oldTeamName = GetTeamName(oldTeam);
+			string newTeamName = GetTeamName(newTeam);
 
-			int newTeam = inParams.read_s32();
-			int oldTeam = inParams.read_s32();
-			bool defeat = inParams.read_bool();
-
-			if (rules is null) return;
-
-			// if (!(oldTeam < getRules().getTeamsNum())) return;
-
-			if (oldTeam < 7 && newTeam < 7)
+			client_AddToChat(oldTeamName + "'s "+this.getInventoryName()+" has been captured by the " + newTeamName + "!", SColor(0xff444444));
+			if (defeat)
 			{
-				string oldTeamName = GetTeamName(oldTeam);
-				string newTeamName = GetTeamName(newTeam);
+				client_AddToChat(oldTeamName + " has been defeated by the " + newTeamName + "!", SColor(0xff444444));
 
-				client_AddToChat(oldTeamName + "'s "+this.getInventoryName()+" has been captured by the " + newTeamName + "!", SColor(0xff444444));
-				if (defeat)
+				CPlayer@ ply = getLocalPlayer();
+				int myTeam = ply.getTeamNum();
+
+				if (oldTeam == myTeam)
 				{
-					client_AddToChat(oldTeamName + " has been defeated by the " + newTeamName + "!", SColor(0xff444444));
-
-					CPlayer@ ply = getLocalPlayer();
-					int myTeam = ply.getTeamNum();
-
-					if (oldTeam == myTeam)
-					{
-						Sound::Play("FanfareLose.ogg");
-					}
-					else
-					{
-						Sound::Play("flag_score.ogg");
-					}
+					Sound::Play("FanfareLose.ogg");
+				}
+				else
+				{
+					Sound::Play("flag_score.ogg");
 				}
 			}
 		}
-		else if (cmd == this.getCommandID("faction_destroyed"))
+	}
+	else if (cmd == this.getCommandID("faction_destroyed"))
+	{
+		if (!isClient()) return;
+		CRules@ rules = getRules();
+
+		int team = inParams.read_s32();
+		bool defeat = inParams.read_bool();
+
+		if (rules is null) return;
+
+		if (team < 7) 
 		{
-			CRules@ rules = getRules();
+			string teamName = GetTeamName(team);
+			client_AddToChat(teamName + "'s "+this.getInventoryName()+" has been destroyed!", SColor(0xff444444));
 
-			int team = inParams.read_s32();
-			bool defeat = inParams.read_bool();
-
-			if (rules is null) return;
-
-			if (team < 7) 
+			if (defeat) 
 			{
-				string teamName = GetTeamName(team);
-				client_AddToChat(teamName + "'s "+this.getInventoryName()+" has been destroyed!", SColor(0xff444444));
+				client_AddToChat(teamName + " has been defeated!", SColor(0xff444444));
+				CPlayer@ ply = getLocalPlayer();
+				int myTeam = ply.getTeamNum();
 
-				if (defeat) 
+				if (team == myTeam)
 				{
-					client_AddToChat(teamName + " has been defeated!", SColor(0xff444444));
-					CPlayer@ ply = getLocalPlayer();
-					int myTeam = ply.getTeamNum();
-
-					if (team == myTeam)
-					{
-						Sound::Play("FanfareLose.ogg");
-					}
-					else
-					{
-						Sound::Play("flag_score.ogg");
-					}
+					Sound::Play("FanfareLose.ogg");
+				}
+				else
+				{
+					Sound::Play("flag_score.ogg");
 				}
 			}
 		}
-		else if (cmd == this.getCommandID("cl_toggle"))
-		{		
-			this.getSprite().PlaySound("LeverToggle.ogg");
-		}
+	}
+	else if (cmd == this.getCommandID("cl_toggle"))
+	{	
+		if (!isClient()) return;	
+		this.getSprite().PlaySound("LeverToggle.ogg");
 	}
 
 	if (!(this.getTeamNum() >= 7))
@@ -700,6 +767,8 @@ void RemoveOldLeader(CBlob@ this)
 
 void onChangeTeam(CBlob@ this, const int oldTeam)
 {
+	this.set_u32("next_team_change", getGameTime()+150);
+	
 	CBlob@[] forts;
 	getBlobsByTag("faction_base", @forts);
 	int newTeam = this.getTeamNum();
@@ -738,7 +807,7 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 		}
 	}
 
-	if (oldTeamForts <= 0 || this.get_string("base_name") != "")
+	if ((oldTeamForts <= 0 || this.get_string("base_name") != "") && !this.hasTag("just_switched_team"))
 	{
 		if (isServer())
 		{
@@ -748,22 +817,10 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 			bt.write_bool(oldTeamForts == 0);
 
 			this.SendCommand(this.getCommandID("faction_captured"), bt);
-
-			// for(u8 i = 0; i < getPlayerCount(); i++)
-			// {
-				// CPlayer@ p = getPlayer(i);
-				// if(p !is null && p.getTeamNum() == oldTeam)
-				// {
-					// p.server_setTeamNum(XORRandom(100)+100);
-					// CBlob@ b = p.getBlob();
-					// if(b !is null)
-					// {
-						// b.server_Die();
-					// }
-				// }
-			// }
 		}
 	}
+
+	if (this.hasTag("just_switched_team")) this.Untag("just_switched_team");
 }
 
 void SetNearbyBlobsToTeam(CBlob@ this, const int oldTeam, const int newTeam)
@@ -845,7 +902,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 				if (!upkeep_gud) msg += "Faction's upkeep is too high.\n";
 				//if (!is_premium) msg += "Factions are restricted to Premium accounts only.\n";
 			}
-			if(this.isOverlapping(caller))
+			if (this.isOverlapping(caller))
 			{
 				CBitStream params;
 				params.write_u16(caller.getNetworkID());
@@ -867,6 +924,45 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 			params_menu.write_u16(caller.getNetworkID());
 			// CButton@ button_menu = caller.CreateGenericButton(11, Vec2f(14, 5), this, this.getCommandID("faction_menu"), "Faction Management", params_menu);
 			CButton@ button_menu = caller.CreateGenericButton(11, Vec2f(1, -32), this, Faction_Menu, "Faction Management");
+			
+			bool can_change_team = true;
+			CBlob@[] halls;
+			getBlobsByTag("faction_base", @halls);
+			
+			for (u16 i = 0; i < halls.size(); i++)
+			{
+				CBlob@ h = halls[i];
+				if (h is null || h is this) continue;
+
+				if (h.getTeamNum() == this.getTeamNum())
+				{
+					can_change_team = false;
+					break;
+				}
+			}
+
+			TeamData@ team_data;
+			GetTeamData(this.getTeamNum(), @team_data);
+
+			bool isLeader = false;
+			CPlayer@ myPly = caller.getPlayer();
+			if (myPly !is null && caller.isMyPlayer())
+			{
+				isLeader = team_data.leader_name == myPly.getUsername();
+			}
+			
+			if (can_change_team && isLeader)
+			{
+				u32 gt = getGameTime();
+				u32 change_delay = this.get_u32("next_team_change");
+				bool delayed = change_delay>gt;
+
+				CButton@ button_team = caller.CreateGenericButton(8, Vec2f(28, -32), this, Faction_Team, "Change Faction Team"+(can_change_team?delayed?"\nWaiting...":"":"\nYou have more than 1 hall!"));
+				if (button_team !is null)
+				{
+					button_team.SetEnabled(can_change_team && !delayed);
+				}
+			}
 
 			CBlob@ carried = caller.getCarriedBlob();
 			if (carried !is null && carried.getName() == "paper")
@@ -875,18 +971,14 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 				params_menu.write_u16(caller.getNetworkID());
 				params_menu.write_u16(carried.getNetworkID());
 
-				caller.CreateGenericButton("$icon_paper$", Vec2f(7, -8), this, this.getCommandID("rename_base"), "Rename the base", params_menu);
+				caller.CreateGenericButton("$icon_paper$", Vec2f(8, -8), this, this.getCommandID("rename_base"), "Rename the base", params_menu);
 
-				CPlayer@ myPly = caller.getPlayer();
 				if (myPly !is null && caller.isMyPlayer())
 				{
 					if (this.getTeamNum() >= 7) return;
-					TeamData@ team_data;
-					GetTeamData(this.getTeamNum(), @team_data);
 					if (team_data !is null)
 					{
-						const bool isLeader = team_data.leader_name == myPly.getUsername();
-						CButton@ butt = caller.CreateGenericButton("$icon_paper$", Vec2f(-7, -8), this, this.getCommandID("rename_faction"), "Rename the faction", params_menu);
+						CButton@ butt = caller.CreateGenericButton("$icon_paper$", Vec2f(-8, -8), this, this.getCommandID("rename_faction"), "Rename the faction", params_menu);
 						butt.SetEnabled(isLeader);
 					}
 				}
@@ -918,6 +1010,48 @@ void SetAlarm(CBlob@ this, bool inState)
 		sprite.SetEmitSoundPaused(false);
 		sprite.RewindEmitSound();
 		sprite.PlaySound("LeverToggle.ogg");
+	}
+}
+
+void Faction_Team(CBlob@ this, CBlob@ caller)
+{
+	if (caller.isMyPlayer())
+	{
+		CGridMenu@ menu = CreateGridMenu(getDriver().getScreenCenterPos() + Vec2f(0.0f, 0.0f), this, Vec2f(7, 1), "Choose team");
+		
+		if (menu !is null)
+		{
+			for (uint i = 0; i < 7; i++)
+			{
+				CBitStream params;
+				params.write_u16(caller.getNetworkID());
+				params.write_u8(i);
+				
+				AddIconToken("$icon_team"+i+"$", "FactionTeams.png", Vec2f(16, 16), i);
+				
+				bool capped = false;
+				CBlob@[] team_halls;
+				getBlobsByTag("faction_base", @team_halls);
+
+				for (u16 j = 0; j < team_halls.size(); j++)
+				{
+					CBlob@ h = team_halls[j];
+					if (h is null) continue;
+
+					if (h.getTeamNum() == i)
+					{
+						capped = true;
+						j = team_halls.size();
+					}
+				}
+
+				CGridButton@ butt = menu.AddButton("$icon_team"+i+"$", "Switch team", this.getCommandID("faction_team_change_button"), params);
+				if (butt !is null && capped)
+				{
+					butt.SetEnabled(false);
+				}
+			}
+		}
 	}
 }
 
