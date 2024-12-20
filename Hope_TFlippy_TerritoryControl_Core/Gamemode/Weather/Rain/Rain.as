@@ -176,7 +176,7 @@ void onTick(CBlob@ this)
 			modifier = Lerp(modifier, modifierTarget, 0.10f);
 			fogHeightModifier = 1.00f - (cam_pos.y / (map.tilemapheight * map.tilesize));
 			
-			if (level > 0.5f && getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.01f * level * modifier, 90 * level, cam.getPosition());
+			if (level > 0.6f && getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.01f * level * modifier, 90 * level, cam.getPosition());
 			
 			this.getSprite().SetEmitSoundSpeed(0.25f + XORRandom(21)*0.001f + modifier * Maths::Min(max_level, level) * 0.5f);
 			f32 fadein_volume = this.getTickSinceCreated() * volume_smooth * level;
@@ -190,7 +190,40 @@ void onTick(CBlob@ this)
 		fogDarkness = 85;
 	}
 
-	if (getGameTime() % (45 - (23 * (level/max_level))) == 0) DecayStuff();
+	if (isServer())
+	{
+		CMap@ map = getMap();
+		u32 rand = XORRandom(1000);
+		
+		if (rand == 0 && level > 0.6f)
+		{
+			f32 x = XORRandom(map.tilemapwidth);
+			Vec2f pos = Vec2f(x, map.getLandYAtX(x)) * 8;
+			
+			CBlob@ blob = server_CreateBlob("lightningbolt", -1, pos);
+		}	
+		
+		if (XORRandom(25) == 0)
+		{
+			CBlob@[] blobs;
+			getBlobsByTag("gas", @blobs);
+			
+			if (blobs.length > 0)
+			{
+				CBlob@ b = blobs[XORRandom(blobs.length - 1)];
+				if (b !is null)
+				{
+					Vec2f pos = b.getPosition();
+					if (!map.rayCastSolidNoBlobs(Vec2f(pos.x, 0), pos))
+					{
+						b.server_Die();
+					}
+				}
+			}
+		}
+		
+		if (getGameTime() % (45 - (23 * (level/max_level))) == 0) DecayStuff();
+	}
 }
 
 void RenderRain(CBlob@ this, int id)
