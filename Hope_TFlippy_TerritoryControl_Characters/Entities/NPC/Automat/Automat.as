@@ -52,12 +52,12 @@ void onTick(CBlob@ this)
 	if (isServer())
 	{
 		CBlob@ target = brain.getTarget();
+		AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PICKUP");
 
 		if (target !is null)
 		{
 			const f32 distance = (target.getPosition() - this.getPosition()).Length();
 			const bool visibleTarget = isVisible(this, target);
-			AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PICKUP");
 			if (ap !is null && ap.getOccupied() !is null)
 			{
 				CBlob@ carried = ap.getOccupied();
@@ -140,7 +140,11 @@ void onTick(CBlob@ this)
 			{
 				this.setAimPos(target.getPosition() + Vec2f(0, 4));
 				this.setKeyPressed(key_action1, visibleTarget);
-
+				if (ap.getOccupied() !is null)
+				{
+					if (visibleTarget) ap.getOccupied().Tag("pressing");
+					else ap.getOccupied().Untag("pressing");
+				}
 				this.getCurrentScript().tickFrequency = 1;
 			}
 			else
@@ -154,6 +158,9 @@ void onTick(CBlob@ this)
 		else
 		{
 			this.setKeyPressed(key_action1, false);
+
+			if (ap !is null && ap.getOccupied() !is null)
+				ap.getOccupied().Untag("pressing");
 
 			Search(brain, this);
 			if (!this.isAttached()) this.getCurrentScript().tickFrequency = 15;

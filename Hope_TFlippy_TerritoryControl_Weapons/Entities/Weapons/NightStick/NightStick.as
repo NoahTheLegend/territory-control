@@ -36,11 +36,12 @@ void onTick(CBlob@ this)
 			
 			return;
 		}
-		
+
 		if (getKnocked(holder) <= 0)
-		{		
-			if (point.isKeyJustPressed(key_action1))
+		{
+			if (point.isKeyJustPressed(key_action1) || (this.hasTag("pressing") && XORRandom(20) == 0))
 			{
+				this.Untag("pressing");
 				u8 team = holder.getTeamNum();
 				
 				HitInfo@[] hitInfos;

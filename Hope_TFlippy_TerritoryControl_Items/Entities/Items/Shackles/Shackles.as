@@ -59,8 +59,10 @@ void onTick(CBlob@ this)
 			// print("" + slavery_enabled);
 		}
 		
-		if (point.isKeyJustPressed(key_action1))
+		if (point.isKeyJustPressed(key_action1) || this.hasTag("pressing"))
 		{
+			this.Untag("pressing");
+
 			if (slavery_enabled && getGameTime() >= this.get_u32("next attack") && getKnocked(holder) <= 0)
 			{
 				HitInfo@[] hitInfos;

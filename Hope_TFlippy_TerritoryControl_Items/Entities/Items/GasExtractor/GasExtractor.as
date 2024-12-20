@@ -39,7 +39,27 @@ void onTick(CBlob@ this)
 			CSprite@ sprite = this.getSprite();
 
 			bool lmb = point.isKeyPressed(key_action1);
-			bool rmb = point.isKeyPressed(key_action2);
+			bool rmb = point.isKeyPressed(key_action2) || this.hasTag("pressing");
+			
+			if (!this.hasTag("pressing"))
+			{
+				sprite.SetEmitSoundPaused(true);
+				if (this.hasTag("was_press"))
+				{
+					this.getSprite().PlaySound("/gasextractor_end.ogg");
+					this.Untag("was_press");
+				}
+			}
+			
+			if (this.hasTag("pressing"))
+			{
+				if (!this.hasTag("was_press"))
+				{
+					this.getSprite().PlaySound("/gasextractor_start.ogg");
+					this.Tag("was_press");
+				}
+			}
+			this.Untag("pressing");
 
 			if ((!rmb && point.isKeyJustPressed(key_action1)) || (!lmb && point.isKeyJustPressed(key_action2)))
 			{
