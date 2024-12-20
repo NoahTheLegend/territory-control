@@ -1,7 +1,7 @@
 #include "Survival_Structs.as"
 
-f32 faction_control_range = 320.0f;
-const u8 MAX_HALL_AMOUNT = 3;
+f32 faction_control_range = 256.0f;
+const u8 MAX_HALL_AMOUNT = 2;
 const u8 min_level_to_be_main = 2; // camp is 0
 
 int calc_extra_halls_per_member(TeamData@ team_data)
