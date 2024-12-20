@@ -9,7 +9,7 @@
 const f32 volume_smooth = 0.001f;
 const u16 min_lifetime = 1.5f*60*30;
 const f32 fadeout_ttd = min_lifetime;
-const f32 fadein_tsc = min_lifetime*2;
+const f32 fadein_tsc = min_lifetime*1.5f;
 
 void onInit(CBlob@ this)
 {
@@ -23,7 +23,7 @@ void onInit(CBlob@ this)
 
     if (isServer())
     {
-        this.server_SetTimeToDie((min_lifetime + XORRandom(2.5f*60*30)) / 30);
+        this.server_SetTimeToDie((min_lifetime + XORRandom(3.0f*60*30)) / 30);
     }
 
 	this.addCommandID("sync");
@@ -120,11 +120,11 @@ void onTick(CBlob@ this)
 		windTarget = 50 + XORRandom(200);
 		nextWindShift = getGameTime() + 30 + XORRandom(300);
 		
-		fogTarget = 10 + XORRandom(5);
+		fogTarget = 30 + XORRandom(20);
 	}
 	
 	wind = Lerp(wind, windTarget * factor, 0.025f);
-	fog = Lerp(fog, fogTarget, 0.001f);
+	fog = Lerp(fog, fogTarget * factor, 0.001f);
 		
 	sine = (Maths::Sin((getGameTime() * 0.0125f)) * 8.0f);
 	Vec2f sineDir = Vec2f(0, 1).RotateBy(sine * 10);
@@ -180,14 +180,14 @@ void onTick(CBlob@ this)
 			
 			this.getSprite().SetEmitSoundSpeed(0.25f + XORRandom(21)*0.001f + modifier * Maths::Min(max_level, level) * 0.5f);
 			f32 fadein_volume = this.getTickSinceCreated() * volume_smooth * level;
-			this.getSprite().SetEmitSoundVolume(level > 0.5f ? Maths::Lerp(fadein_volume, level, 0.1f) : Maths::Min(level, fadein_volume));
+			this.getSprite().SetEmitSoundVolume(Maths::Lerp(fadein_volume, level, 0.1f));
 		}
 
 		f32 t = map.getDayTime();
 		f32 time_mod = (1.0f - (t > 0.9f ? Maths::Abs(t-1.0f) : Maths::Min(0.1f, t))*10);
 		this.set_f32("time_mod", time_mod);
 		f32 base_darkness = 200;
-		fogDarkness = 55;
+		fogDarkness = 85;
 	}
 
 	if (getGameTime() % (45 - (23 * (level/max_level))) == 0) DecayStuff();
