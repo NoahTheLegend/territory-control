@@ -78,7 +78,7 @@ void DestroyStuff(CBlob@ this, f32 radius, u32 count, Vec2f pos)
 					f32 lenSqr = dir.LengthSquared();
 					dir.Normalize();
 				
-					if (lenSqr < (boom_size_sqr * 0.50f) && !blob.hasTag("invincible"))
+					if (lenSqr < (boom_size_sqr * 0.15f) && !blob.hasTag("invincible"))
 					{
 						map.server_setFireWorldspace(bpos, true);
 						blob.server_Hit(blob, bpos, Vec2f(0, 0), 8.0f, Hitters::fire);
@@ -87,7 +87,7 @@ void DestroyStuff(CBlob@ this, f32 radius, u32 count, Vec2f pos)
 					if (!map.rayCastSolid(pos, bpos))
 					{
 						blob.AddForce(dir * Maths::Min(1000.0f, blob.getMass() * 1.50f) * force_sign);
-						blob.server_Hit(blob, bpos, Vec2f(0, 0), 0.125f, Hitters::crush);
+						blob.server_Hit(blob, bpos, Vec2f(0, 0), 0.25f, Hitters::crush);
 					}
 				}
 			}
