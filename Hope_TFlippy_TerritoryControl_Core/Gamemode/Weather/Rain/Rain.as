@@ -189,6 +189,8 @@ void onTick(CBlob@ this)
 		f32 base_darkness = 200;
 		fogDarkness = 55;
 	}
+
+	if (getGameTime() % (45 - (23 * (level/max_level))) == 0) DecayStuff();
 }
 
 void RenderRain(CBlob@ this, int id)
