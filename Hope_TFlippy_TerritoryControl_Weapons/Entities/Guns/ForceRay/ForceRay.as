@@ -110,7 +110,7 @@ void onTick(CBlob@ this)
 
 							if (isServer())
 							{
-								this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 5.00f * mod, Hitters::crush, true);
+								this.server_Hit(b, b.getPosition(), Vec2f(0, 0), 1.0f * mod, Hitters::crush, true);
 							}
 
 							b.AddForce(force * 1.50f * mod);
