@@ -349,7 +349,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
 
 		if (isClient())
 		{
-			client_AddToChat(getRules().getTeam(this.getTeamNum()).getName() + " has changed to " + getRules().getTeam(team).getName()+"!", SColor(255,255,0,0));
+			client_AddToChat(getRules().getTeam(this.getTeamNum()).getName() + " has changed team to " + getRules().getTeam(team).getName()+"!", SColor(255,255,0,0));
 		}
 		if (isServer())
 		{
@@ -768,7 +768,7 @@ void RemoveOldLeader(CBlob@ this)
 void onChangeTeam(CBlob@ this, const int oldTeam)
 {
 	this.set_u32("next_team_change", getGameTime()+150);
-	
+
 	CBlob@[] forts;
 	getBlobsByTag("faction_base", @forts);
 	int newTeam = this.getTeamNum();
