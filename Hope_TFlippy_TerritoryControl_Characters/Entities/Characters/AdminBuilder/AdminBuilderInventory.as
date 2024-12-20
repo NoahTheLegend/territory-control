@@ -189,9 +189,7 @@ void onCreateInventoryMenu(CInventory@ this, CBlob@ forBlob, CGridMenu@ menu)
 
 	blob.ClearGridMenusExceptInventory();
 
-	MakeBlocksMenu(this, INVENTORY_CE);
-
-	
+	MakeBlocksMenu(this, INVENTORY_CE);	
 }
 
 void onCommand(CInventory@ this, u8 cmd, CBitStream@ params)
