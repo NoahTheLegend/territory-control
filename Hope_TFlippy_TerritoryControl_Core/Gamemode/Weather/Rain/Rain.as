@@ -6,7 +6,7 @@
 #include "MakeSeed.as";
 #include "CustomBlocks.as";
 
-const f32 volume_smooth = 0.0005f;
+const f32 volume_smooth = 0.001f;
 const u16 min_lifetime = 1.5f*60*30;
 const f32 fadeout_ttd = min_lifetime;
 const f32 fadein_tsc = min_lifetime*2;
@@ -176,7 +176,7 @@ void onTick(CBlob@ this)
 			
 			if (level > 0.5f && getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.01f * level * modifier, 90 * level, cam.getPosition());
 			
-			this.getSprite().SetEmitSoundSpeed(0.265f + XORRandom(16)*0.001f + modifier * Maths::Min(max_level, level) * 0.5f);
+			this.getSprite().SetEmitSoundSpeed(0.25f + XORRandom(21)*0.001f + modifier * Maths::Min(max_level, level) * 0.5f);
 			f32 fadein_volume = this.getTickSinceCreated() * volume_smooth * level;
 			this.getSprite().SetEmitSoundVolume(level > 0.5f ? Maths::Lerp(fadein_volume, level, 0.1f) : Maths::Min(level, fadein_volume));
 		}
@@ -213,7 +213,7 @@ void RenderRain(CBlob@ this, int id)
 		f32 tsc = f32(this.getTickSinceCreated());
 		f32 tsc_mod = Maths::Min(tsc/fadein_tsc, 1.0f);
 		f32 alpha = Maths::Clamp(Maths::Min((tsc-256.0f)*0.1f, Maths::Max(fog, 255) * modifier), 0, 200*Maths::Min(1.0f, level));
-		f32 rain_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 10, 155);
+		f32 rain_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 10, 120);
 		f32 fadeout_ttd_s = fadeout_ttd/30;
 		f32 ttd = this.getTimeToDie();
 		if (ttd<fadeout_ttd_s)
