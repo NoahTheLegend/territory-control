@@ -7,9 +7,9 @@
 #include "CustomBlocks.as";
 
 const f32 volume_smooth = 0.001f;
-const u16 min_lifetime = 1.5f*60*30;
+const u16 min_lifetime = 2.0f*60*30;
 const f32 fadeout_ttd = min_lifetime;
-const f32 fadein_tsc = min_lifetime*1.5f;
+const f32 fadein_tsc = min_lifetime*1.33f;
 
 void onInit(CBlob@ this)
 {
@@ -54,9 +54,9 @@ void onInit(CBlob@ this)
         Fog_vs = BigQuad;
     }
 
-    this.set_f32("min_level", 0.15f);
-    this.set_f32("level", 0.15f);
-    this.set_f32("max_level", 0.8f);
+    this.set_f32("min_level", 0.1f);
+    this.set_f32("level", 0.1f);
+    this.set_f32("max_level", 1.0f);
     this.set_f32("level_increase", 1.0001f + this.getTimeToDie() / 500000);
 
     if (isClient())
@@ -176,7 +176,7 @@ void onTick(CBlob@ this)
 			modifier = Lerp(modifier, modifierTarget, 0.10f);
 			fogHeightModifier = 1.00f - (cam_pos.y / (map.tilemapheight * map.tilesize));
 			
-			if (level > 0.6f && getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.01f * level * modifier, 90 * level, cam.getPosition());
+			if (level > 0.85f && getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.01f * level * modifier, 90 * level, cam.getPosition());
 			
 			this.getSprite().SetEmitSoundSpeed(0.25f + XORRandom(21)*0.001f + modifier * Maths::Min(max_level, level) * 0.5f);
 			f32 fadein_volume = this.getTickSinceCreated() * volume_smooth * level;
@@ -264,7 +264,7 @@ void RenderRain(CBlob@ this, int id)
 		Rain_vs[2].col.setAlpha(rain_alpha);
 		Rain_vs[3].col.setAlpha(rain_alpha);
 
-		Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha * 0.25f, fogDarkness, fogDarkness, fogDarkness);
+		Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha * 0.5f, fogDarkness, fogDarkness, fogDarkness);
 		if (current_h >= -512.0f) Render::RawQuads("FOG", Fog_vs);
 	}
 }

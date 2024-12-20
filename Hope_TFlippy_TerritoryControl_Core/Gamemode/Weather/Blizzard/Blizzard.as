@@ -7,7 +7,7 @@
 #include "CustomBlocks.as";
 
 const f32 volume_smooth = 0.00015f;
-const u16 min_lifetime = 1.5f*60*30;
+const u16 min_lifetime = 2.0f*60*30;
 const f32 fadeout_ttd = min_lifetime;
 const f32 fadein_tsc = 45*30;
 
@@ -21,7 +21,7 @@ void onInit(CBlob@ this)
 
 	if (isServer())
 	{
-		this.server_SetTimeToDie((min_lifetime + XORRandom(4.0f*60*30)) / 30);
+		this.server_SetTimeToDie((min_lifetime + XORRandom(5.0f*60*30)) / 30);
 	}
 
 	if (isClient())
