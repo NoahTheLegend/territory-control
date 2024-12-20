@@ -176,6 +176,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		case Hitters::builder:
 		case Hitters::stab:
 		case Hitters::fall:
+		case Hitters::burn:
 			damage = 0.00f;
 			break;
 	}

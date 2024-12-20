@@ -1105,7 +1105,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		AddRequirement(b.reqs, "blob", "bp_energetics", "Blueprint (Energetics)", 1);
 		AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
-		b.size.Set(24, 96);
+		b.size.Set(32, 96);
 		blocks[4].push_back(b);
 	}
 	{
