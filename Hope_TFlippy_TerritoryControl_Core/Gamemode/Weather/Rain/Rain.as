@@ -193,7 +193,7 @@ void onTick(CBlob@ this)
 	if (isServer())
 	{
 		CMap@ map = getMap();
-		u32 rand = XORRandom(1000);
+		u32 rand = XORRandom(800);
 		
 		if (rand == 0 && level > 0.6f)
 		{
