@@ -103,7 +103,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 		}
 		else if (blob !is null && blob.isCollidable())
 		{
-			if (this.getTeamNum() != blob.getTeamNum()) this.server_Hit(blob, this.getPosition(), Vec2f(0, 0), 0.50f, Hitters::fire, false);
+			this.server_Hit(blob, this.getPosition(), Vec2f(0, 0), 0.50f, Hitters::fire, true);
 		}
 	}
 }
