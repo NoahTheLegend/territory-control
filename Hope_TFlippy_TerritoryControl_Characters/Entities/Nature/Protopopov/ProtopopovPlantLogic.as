@@ -11,7 +11,7 @@ void onInit(CBlob@ this)
 	this.Tag("nature");
 	this.Tag("plant");
 	
-	this.set_u8(growth_time, 60);
+	this.set_u8(growth_time, 30+XORRandom(10));
 	this.set_u8(grown_amount, 8);
 	
 	if (this.hasTag("instant_grow"))
