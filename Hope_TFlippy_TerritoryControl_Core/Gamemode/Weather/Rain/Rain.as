@@ -26,6 +26,8 @@ void onInit(CBlob@ this)
         this.server_SetTimeToDie((min_lifetime + XORRandom(2.5f*60*30)) / 30);
     }
 
+	this.addCommandID("sync");
+
     if (isClient())
     {
         Render::addBlobScript(Render::layer_postworld, this, "Rain.as", "RenderRain");
@@ -229,29 +231,6 @@ void RenderRain(CBlob@ this, int id)
 
 		Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha * 0.25f, fogDarkness, fogDarkness, fogDarkness);
 		if (current_h >= -512.0f) Render::RawQuads("FOG", Fog_vs);
-	}
-}
-
-void onCommand(CBlob@ this,u8 cmd,CBitStream @params)
-{
-	if(cmd==this.getCommandID("removeAwootism")) 
-	{
-		u16 blob1,player1;
-
-		if(!params.saferead_u16(blob1)) {
-			return;
-		}
-		if(!params.saferead_u16(player1)) {
-			return;
-		}
-
-		CBlob@ ourBlob = getBlobByNetworkID(blob1);
-		CPlayer@ player = getPlayerByNetworkId(player1);
-
-		player.Untag("awootism");
-		player.Sync("awootism",false);
-		ourBlob.Tag("infectOver");
-		ourBlob.Sync("infectOver",false);
 	}
 }
 
@@ -560,4 +539,31 @@ u32 getTaggedBlobsInRadius(CMap@ map, const Vec2f pos, const f32 radius, const s
 f32 Lerp(f32 v0, f32 v1, f32 t) 
 {
 	return v0 + t * (v1 - v0);
+}
+
+void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
+{
+	if (cmd == this.getCommandID("sync"))
+	{
+		bool sync = params.read_bool();
+		if (isServer() && !sync)
+		{
+			CBitStream params1;
+			params1.write_bool(true);
+			params1.write_f32(this.get_f32("level"));
+			params1.write_f32(this.get_f32("level_increase"));
+			params1.write_f32(this.getTimeToDie());
+			this.SendCommand(this.getCommandID("sync"), params1);
+		}
+		if (isClient() && sync)
+		{
+			f32 level = params.read_f32();
+			f32 increase = params.read_f32();
+			f32 ttd = params.read_f32();
+
+			this.set_f32("level", level);
+			this.set_f32("level_increase", increase);
+			this.server_SetTimeToDie(ttd);
+		}
+	}
 }
