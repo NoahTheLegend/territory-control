@@ -47,21 +47,11 @@ void onTick(CRules@ this)
 						}
 					}
 					break;
-					
-					//case MapType::desert:
-					//{
-					//	CBlob@ rain = server_CreateBlob("sandstorm", 255, Vec2f(0, 0));
-					//	if (rain !is null)
-					//	{
-					//		rain.server_SetTimeToDie(length / 30.00f);
-					//	}
-					//}
-					//break;
 
-					//case MapType::magmacore:
-					//{
-					//	break;
-					//}
+					case MapType::desert:
+					{
+						break;
+					}
 					
 					case MapType::normal:
 					case MapType::jungle:
