@@ -115,7 +115,7 @@ void onTick(CBlob@ this)
 
 							b.AddForce(force * 1.50f * mod);
 							ShakeScreen(80 * mod, 32 * mod, b.getPosition());
-							SetKnocked(b, 300 * mod);
+							//SetKnocked(b, 300 * mod);
 							length = blobs[i].distance + 8;
 
 							break;
