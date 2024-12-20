@@ -201,38 +201,42 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ killer, u8 customData)
 			}
 		
 		}
-			
-		dropped_coins = victim_coins * reward_factor;
-			
-		if (hasKiller)
+		
+		bool save_coins = victimBlob.getName() == "peasant" || victimBlob.getName() == "slave";
+		dropped_coins = save_coins ? XORRandom(50) : victim_coins * reward_factor;
+		
+		if (!save_coins)
 		{
-			f32 killer_reward = dropped_coins;
-
-			if (killer.getTeamNum() < 7 && killer !is victim)
+			if (hasKiller)
 			{
-				TeamData@ team_data;
-				GetTeamData(killer.getTeamNum(), @team_data);
-			
-				if (team_data !is null)
+				f32 killer_reward = dropped_coins;
+
+				if (killer.getTeamNum() < 7 && killer !is victim)
 				{
-					if (team_data.tax_enabled)
+					TeamData@ team_data;
+					GetTeamData(killer.getTeamNum(), @team_data);
+
+					if (team_data !is null)
 					{
-						CPlayer@ leader = getPlayerByUsername(team_data.leader_name);
-						if (leader !is null)
+						if (team_data.tax_enabled)
 						{
-							killer_reward *= 0.50f;
-							leader.server_setCoins(Maths::Clamp(leader.getCoins() + killer_reward, 0, MAX_COINS));
+							CPlayer@ leader = getPlayerByUsername(team_data.leader_name);
+							if (leader !is null)
+							{
+								killer_reward *= 0.50f;
+								leader.server_setCoins(Maths::Clamp(leader.getCoins() + killer_reward, 0, MAX_COINS));
+							}
 						}
 					}
 				}
+
+				mod = killer_reward;
+				if (killer !is victim) killer.server_setCoins(Maths::Clamp(killer.getCoins() + 100 + killer_reward, 0, MAX_COINS));
 			}
-			
-			mod = killer_reward;
-			if (killer !is victim) killer.server_setCoins(Maths::Clamp(killer.getCoins() + 100 + killer_reward, 0, MAX_COINS));
+			else if (victimBlob !is null) server_DropCoins(victimBlob.getPosition(), dropped_coins);
+
+			victim.server_setCoins(Maths::Clamp(victim.getCoins() - (100 + mod) / 2, 0, MAX_COINS));
 		}
-		else if (victimBlob !is null) server_DropCoins(victimBlob.getPosition(), dropped_coins);
-		
-		victim.server_setCoins(Maths::Clamp(victim.getCoins() - (100 + mod) / 2, 0, MAX_COINS));
 	}
 }
 
