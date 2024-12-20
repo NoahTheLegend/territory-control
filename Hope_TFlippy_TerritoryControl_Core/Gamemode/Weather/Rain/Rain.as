@@ -213,7 +213,7 @@ void RenderRain(CBlob@ this, int id)
 		f32 tsc = f32(this.getTickSinceCreated());
 		f32 tsc_mod = Maths::Min(tsc/fadein_tsc, 1.0f);
 		f32 alpha = Maths::Clamp(Maths::Min((tsc-256.0f)*0.1f, Maths::Max(fog, 255) * modifier), 0, 200*Maths::Min(1.0f, level));
-		f32 rain_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 55, 155);
+		f32 rain_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 10, 155);
 		f32 fadeout_ttd_s = fadeout_ttd/30;
 		f32 ttd = this.getTimeToDie();
 		if (ttd<fadeout_ttd_s)
