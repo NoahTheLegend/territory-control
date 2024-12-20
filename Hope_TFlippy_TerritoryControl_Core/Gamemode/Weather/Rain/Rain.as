@@ -96,7 +96,6 @@ f32 current_h = -1024.0f;
 
 void onTick(CBlob@ this)
 {
-	printf(""+this.getTimeToDie());
 	f32 max_level = this.get_f32("max_level");
 	f32 level = Maths::Max(this.get_f32("level"), this.get_f32("min_level"));
 	f32 level_increase = this.get_f32("level_increase");
