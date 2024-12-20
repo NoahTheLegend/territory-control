@@ -43,20 +43,20 @@ void onTick(CRules@ this)
 						CBlob@ rain = server_CreateBlob("blizzard", 255, Vec2f(0, 0));
 						if (rain !is null)
 						{
-							rain.server_SetTimeToDie(length / 30.00f);
+
 						}
 					}
 					break;
 					
-					case MapType::desert:
-					{
-						CBlob@ rain = server_CreateBlob("sandstorm", 255, Vec2f(0, 0));
-						if (rain !is null)
-						{
-							rain.server_SetTimeToDie(length / 30.00f);
-						}
-					}
-					break;
+					//case MapType::desert:
+					//{
+					//	CBlob@ rain = server_CreateBlob("sandstorm", 255, Vec2f(0, 0));
+					//	if (rain !is null)
+					//	{
+					//		rain.server_SetTimeToDie(length / 30.00f);
+					//	}
+					//}
+					//break;
 
 					//case MapType::magmacore:
 					//{
@@ -71,7 +71,7 @@ void onTick(CRules@ this)
 						CBlob@ rain = server_CreateBlob("rain", 255, Vec2f(0, 0));
 						if (rain !is null)
 						{
-							rain.server_SetTimeToDie(length / 30.00f);
+							
 						}
 					}
 					break;

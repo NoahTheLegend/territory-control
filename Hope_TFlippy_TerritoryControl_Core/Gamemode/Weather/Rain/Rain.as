@@ -6,54 +6,68 @@
 #include "MakeSeed.as";
 #include "CustomBlocks.as";
 
+const f32 volume_smooth = 0.0005f;
+const u16 min_lifetime = 1.5f*60*30;
+const f32 fadeout_ttd = min_lifetime;
+const f32 fadein_tsc = min_lifetime*2;
+
 void onInit(CBlob@ this)
 {
-	this.getShape().SetStatic(true);
-	this.getCurrentScript().tickFrequency = 1;
-	
-	this.getShape().SetRotationsAllowed(true);
+    this.getShape().SetStatic(true);
+    this.getCurrentScript().tickFrequency = 1;
 
-	getMap().CreateSkyGradient("skygradient_rain.png");
+    this.getShape().SetRotationsAllowed(true);
 
-	CBlob@ b = getBlobByName("info_dead");
-	if (b !is null) this.Tag("acidic rain");
+    CBlob@ b = getBlobByName("info_dead");
+    if (b !is null) this.Tag("acidic rain");
 
-	if (isServer())
-	{
-		this.server_SetTimeToDie(150 + XORRandom(150));
-	}
-	
-	if (isClient())
-	{
-		Render::addBlobScript(Render::layer_postworld, this, "Rain.as", "RenderRain");
-		if(!Texture::exists("RAIN"))
-			Texture::createFromFile("RAIN", "rain.png");
-		if(!Texture::exists("FOG"))
-			Texture::createFromFile("FOG", "pixel.png");
+    if (isServer())
+    {
+        this.server_SetTimeToDie((min_lifetime + XORRandom(2.5f*60*30)) / 30);
+    }
 
-		client_AddToChat("A"+(this.hasTag("acidic rain")?"n acidic " : " ")+"rainstorm has formed! Heavy wind will now blow away aerial vehicles and "+(this.hasTag("acidic rain") ? "burn your flesh!" : "promote plant growth."), SColor(255, 255, 0, 0));
-
-		CSprite@ sprite = this.getSprite();
-		sprite.getConsts().accurateLighting = false;
-		sprite.SetEmitSound("rain_loop.ogg");
-		sprite.SetEmitSoundPaused(false);
-		CMap@ map = getMap();
-		uvs = 2048.0f/f32(spritesize);
+    if (isClient())
+    {
+        Render::addBlobScript(Render::layer_postworld, this, "Rain.as", "RenderRain");
+        if (!Texture::exists("RAIN")) Texture::createFromFile("RAIN", "rain.png");
+        if (!Texture::exists("FOG")) Texture::createFromFile("FOG", "pixel.png");
 		
-		Vertex[] BigQuad = 
-		{
-			Vertex(-1024,	-1024, 	-800,	0,		0,		0x90ffffff),
-			Vertex(1024,	-1024,	-800,	uvs,	0,		0x90ffffff),
-			Vertex(1024,	1024,	-800,	uvs,	uvs,	0x90ffffff),
-			Vertex(-1024,	1024,	-800,	0,		uvs,	0x90ffffff)
-		};
-		
-		Rain_vs = BigQuad;
-		BigQuad[0].z = BigQuad[1].z = BigQuad[2].z = BigQuad[3].z = 1500;
-		Fog_vs = BigQuad;
-	}
-	
-	getRules().set_bool("raining", true);
+        CSprite@ sprite = this.getSprite();
+        sprite.getConsts().accurateLighting = false;
+        sprite.SetEmitSound("rain_loop.ogg");
+        sprite.SetEmitSoundPaused(false);
+
+        uvs = 2048.0f / f32(spritesize);
+
+        Vertex[] BigQuad =
+        {
+            Vertex(-1024, -1024, -800, 0, 0, 0x90ffffff),
+            Vertex(1024, -1024, -800, uvs, 0, 0x90ffffff),
+            Vertex(1024, 1024, -800, uvs, uvs, 0x90ffffff),
+            Vertex(-1024, 1024, -800, 0, uvs, 0x90ffffff)
+        };
+
+        Rain_vs = BigQuad;
+        BigQuad[0].z = BigQuad[1].z = BigQuad[2].z = BigQuad[3].z = 1500;
+        Fog_vs = BigQuad;
+    }
+
+    this.set_f32("min_level", 0.15f);
+    this.set_f32("level", 0.15f);
+    this.set_f32("max_level", 0.8f);
+    this.set_f32("level_increase", 1.0001f + this.getTimeToDie() / 500000);
+
+    if (isClient())
+    {
+        CBitStream params;
+        params.write_bool(false);
+        params.write_f32(this.get_f32("level"));
+        params.write_f32(this.get_f32("level_increase"));
+        params.write_f32(this.getTimeToDie());
+        this.SendCommand(this.getCommandID("sync"), params);
+    }
+
+    getRules().set_bool("raining", true);
 }
 
 const int spritesize = 512;
@@ -62,9 +76,8 @@ Vertex[] Rain_vs;
 Vertex[] Fog_vs;
 
 f32 sine;
-
-f32 windTarget = 0;	
-f32 wind = 0;	
+f32 windTarget = 0;
+f32 wind = 0;
 u32 nextWindShift = 0;
 
 f32 fog = 0;
@@ -76,24 +89,41 @@ f32 modifierTarget = 1;
 f32 fogHeightModifier = 0;
 f32 fogDarkness = 0;
 
-Vec2f rainpos = Vec2f(0,0);
+Vec2f rainpos = Vec2f(0, 0);
 f32 uvMove = 0;
-f32 last_uvMove = 0;
-f32 lastFrameTime = 0;
+
+f32 current_h = -1024.0f;
 
 void onTick(CBlob@ this)
 {
+	printf(""+this.getTimeToDie());
+	f32 max_level = this.get_f32("max_level");
+	f32 level = Maths::Max(this.get_f32("level"), this.get_f32("min_level"));
+	f32 level_increase = this.get_f32("level_increase");
+
+	getRules().set_bool("raining", true);
+
+	this.set_f32("level", Maths::Min(max_level, level*level_increase));
+	if (level_increase > 1.000f && this.getTimeToDie() <= 60 && this.getTickSinceCreated() > min_lifetime)
+	{
+		this.set_f32("level_increase", 1.0f/level_increase); // reverse it for fadeout
+	}
+
+	f32 factor = level / max_level;
+
+	uvs = 2048.0f/f32(spritesize)*(1.0f+factor/2);
+
 	CMap@ map = getMap();
 	if (getGameTime() >= nextWindShift)
 	{
-		windTarget = XORRandom(1000) - 500;
+		windTarget = 50 + XORRandom(200);
 		nextWindShift = getGameTime() + 30 + XORRandom(300);
 		
-		fogTarget = 50 + XORRandom(150);
+		fogTarget = 10 + XORRandom(5);
 	}
 	
-	wind = Maths::Lerp(wind, windTarget, 0.02f);
-	fog = Maths::Lerp(fog, fogTarget, 0.01f);
+	wind = Lerp(wind, windTarget * factor, 0.025f);
+	fog = Lerp(fog, fogTarget, 0.001f);
 		
 	sine = (Maths::Sin((getGameTime() * 0.0125f)) * 8.0f);
 	Vec2f sineDir = Vec2f(0, 1).RotateBy(sine * 20);
@@ -111,25 +141,25 @@ void onTick(CBlob@ this)
 			blob.AddForce(sineDir * blob.getRadius() * wind * 0.01f);
 		}
 	}
+		
+	Vec2f dir = Vec2f(0, 1).RotateBy(70);
 
 	if (isClient())
 	{	
-		lastFrameTime = 0;
 		CCamera@ cam = getCamera();
 		fogHeightModifier = 0.00f;
-		
+		CBlob@ local = getLocalPlayerBlob();
+
 		if (cam !is null && uvs > 0)
 		{
-			Vec2f cam_pos = cam.getPosition();
-			rainpos = Vec2f(int(cam_pos.x / spritesize) * spritesize + (spritesize/2), int(cam_pos.y / spritesize) * spritesize + (spritesize/2));
-			this.setPosition(cam_pos);
+			Vec2f cam_pos = local !is null ? local.getPosition() : cam.getPosition();
 
-			uvMove -= 0.05f;
-			if (XORRandom(500) == 0)
-			{
-				Sound::Play("thunder_distant" + XORRandom(4));
-				SetScreenFlash(XORRandom(100), 255, 255, 255);
-			}
+			f32 h = Maths::Lerp(current_h, int(cam_pos.y / spritesize) * spritesize + (spritesize/2), 0.001f);
+			current_h = h;
+			rainpos = Vec2f(int(cam_pos.x / spritesize) * spritesize + (spritesize/2), current_h);
+
+			this.setPosition(cam_pos);
+			uvMove = (uvMove - 0.075f*(level/1.5f)) % uvs;
 			
 			Vec2f hit;
 			if (getMap().rayCastSolidNoBlobs(Vec2f(cam_pos.x, 0), cam_pos, hit))
@@ -142,93 +172,66 @@ void onTick(CBlob@ this)
 				modifierTarget = 1;
 			}
 			
-			modifier = Maths::Lerp(modifier, modifierTarget, 0.10f);
-			fogHeightModifier = 1.00f - ((cam_pos.y*2) / (map.tilemapheight * map.tilesize));
+			modifier = Lerp(modifier, modifierTarget, 0.10f);
+			fogHeightModifier = 1.00f - (cam_pos.y / (map.tilemapheight * map.tilesize));
 			
-			//if (getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.03f * modifier, 90, cam_pos);
+			if (level > 0.5f && getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.01f * level * modifier, 90 * level, cam.getPosition());
 			
-			this.getSprite().SetEmitSoundSpeed(0.4f + modifier * 0.5f);
-			this.getSprite().SetEmitSoundVolume(0.50f + 0.2f * modifier);
+			this.getSprite().SetEmitSoundSpeed(0.265f + XORRandom(16)*0.001f + modifier * Maths::Min(max_level, level) * 0.5f);
+			f32 fadein_volume = this.getTickSinceCreated() * volume_smooth * level;
+			this.getSprite().SetEmitSoundVolume(level > 0.5f ? Maths::Lerp(fadein_volume, level, 0.1f) : Maths::Min(level, fadein_volume));
 		}
-		
-		
-		
-		fogDarkness = Maths::Clamp(50 + (fog * 0.10f), 0, 150);
-		//if (modifier > 0.01f) SetScreenFlash(Maths::Clamp(Maths::Max(fog, 255 * fogHeightModifier * 1.20f) * modifier, 0, 190), fogDarkness, fogDarkness, fogDarkness);
-		
-		// print("" + modifier);
-		
-		// print("" + (fog * modifier));
-		
-		//this.getShape().SetAngleDegrees(10 + sine);
-	}
-	
-	if (isServer())
-	{
-		CMap@ map = getMap();
-		u32 rand = XORRandom(1000);
-		
-		if (rand == 0)
-		{
-			f32 x = XORRandom(map.tilemapwidth);
-			Vec2f pos = Vec2f(x, map.getLandYAtX(x)) * 8;
-			
-			CBlob@ blob = server_CreateBlob("lightningbolt", -1, pos);
-		}	
-		
-		if (XORRandom(25) == 0)
-		{
-			CBlob@[] blobs;
-			getBlobsByTag("gas", @blobs);
-			
-			if (blobs.length > 0)
-			{
-				CBlob@ b = blobs[XORRandom(blobs.length - 1)];
-				if (b !is null)
-				{
-					Vec2f pos = b.getPosition();
-					if (!map.rayCastSolidNoBlobs(Vec2f(pos.x, 0), pos))
-					{
-						b.server_Die();
-					}
-				}
-			}
-		}
-		
-		if (getGameTime() % 10 == 0) DecayStuff();
+
+		f32 t = map.getDayTime();
+		f32 time_mod = (1.0f - (t > 0.9f ? Maths::Abs(t-1.0f) : Maths::Min(0.1f, t))*10);
+		this.set_f32("time_mod", time_mod);
+		f32 base_darkness = 200;
+		fogDarkness = 55;
 	}
 }
 
 void RenderRain(CBlob@ this, int id)
 {
-	Render::SetTransformWorldspace();
-	Render::SetAlphaBlend(true);
-	
-	lastFrameTime += getRenderDeltaTime() * getTicksASecond();  // We are using this because ApproximateCorrectionFactor is lerped
+	f32 level = Maths::Max(0.2f, this.get_f32("level"));
+	if (Rain_vs.size() > 0)
+	{
+		Render::SetTransformWorldspace();
+		Render::SetAlphaBlend(true);
+		Rain_vs[0].v = Rain_vs[1].v = uvMove;
+		Rain_vs[2].v = Rain_vs[3].v = uvMove + uvs;
+		float[] model;
+		Matrix::MakeIdentity(model);
 
-	last_uvMove = Maths::Lerp(last_uvMove, uvMove, lastFrameTime);
+		f32 fl = this.get_f32("fl");
+		f32 exact_rot = Maths::Max(5, Maths::Abs(5.0f * level*10.0f)) * fl;
+		f32 rot = exact_rot + Maths::Sin(getGameTime()*0.01f)*8*level;
 
-	Rain_vs[0].v = Rain_vs[1].v = last_uvMove;
-	Rain_vs[2].v = Rain_vs[3].v = last_uvMove + uvs;
-	float[] model;
-	Matrix::MakeIdentity(model);
-	Matrix::SetRotationDegrees(model,
-		0,
-		0,
-		10.0f + sine
-	);
-	Matrix::SetTranslation(model,
-		rainpos.x,
-		rainpos.y,
-		0
-	);
-	Render::SetModelTransform(model);
-	Render::RawQuads("RAIN", Rain_vs);
-	f32 alpha = Maths::Clamp(Maths::Max(fog, 255 * fogHeightModifier * 1.20f) * modifier, 0, 190);
-	Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha,fogDarkness,fogDarkness+(this.hasTag("acidic rain")?50:0),fogDarkness);
-	Render::RawQuads("FOG", Fog_vs);
+		Matrix::SetRotationDegrees(model, 0.00f, 0.00f, rot);
+		Matrix::SetTranslation(model, rainpos.x, rainpos.y, 0.00f);
+		Render::SetModelTransform(model);
+		Render::RawQuads("RAIN", Rain_vs);
+		
+		f32 tsc = f32(this.getTickSinceCreated());
+		f32 tsc_mod = Maths::Min(tsc/fadein_tsc, 1.0f);
+		f32 alpha = Maths::Clamp(Maths::Min((tsc-256.0f)*0.1f, Maths::Max(fog, 255) * modifier), 0, 200*Maths::Min(1.0f, level));
+		f32 rain_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 55, 155);
+		f32 fadeout_ttd_s = fadeout_ttd/30;
+		f32 ttd = this.getTimeToDie();
+		if (ttd<fadeout_ttd_s)
+		{
+			rain_alpha *= ttd/fadeout_ttd_s;
+			alpha *= ttd/fadeout_ttd_s;
+		}
+
+		Rain_vs[0].col.setAlpha(rain_alpha);
+		Rain_vs[1].col.setAlpha(rain_alpha);
+		Rain_vs[2].col.setAlpha(rain_alpha);
+		Rain_vs[3].col.setAlpha(rain_alpha);
+
+		Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha * 0.25f, fogDarkness, fogDarkness, fogDarkness);
+		if (current_h >= -512.0f) Render::RawQuads("FOG", Fog_vs);
+	}
 }
-
 
 void onCommand(CBlob@ this,u8 cmd,CBitStream @params)
 {
@@ -553,4 +556,9 @@ u32 getTaggedBlobsInRadius(CMap@ map, const Vec2f pos, const f32 radius, const s
 	}
 
 	return counter;
+}
+
+f32 Lerp(f32 v0, f32 v1, f32 t) 
+{
+	return v0 + t * (v1 - v0);
 }

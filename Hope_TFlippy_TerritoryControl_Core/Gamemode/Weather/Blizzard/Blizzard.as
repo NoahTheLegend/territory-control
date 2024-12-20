@@ -6,29 +6,77 @@
 #include "MakeSeed.as";
 #include "CustomBlocks.as";
 
+const f32 volume_smooth = 0.00015f;
+const u16 min_lifetime = 1.5f*60*30;
+const f32 fadeout_ttd = min_lifetime;
+const f32 fadein_tsc = 45*30;
+
 void onInit(CBlob@ this)
 {
 	this.getShape().SetStatic(true);
 	this.getCurrentScript().tickFrequency = 1;
 	
 	this.getShape().SetRotationsAllowed(true);
-
-	getMap().CreateSkyGradient("skygradient_blizzard.png");
+	current_h = -1024.0f;
 
 	if (isServer())
 	{
-		this.server_SetTimeToDie(300);
+		this.server_SetTimeToDie((min_lifetime + XORRandom(4.0f*60*30)) / 30);
 	}
 
 	if (isClient())
 	{
-		int id = Render::addBlobScript(Render::layer_postworld, this, "Blizzard.as", "RenderBlizzard");
+		Render::addBlobScript(Render::layer_postworld, this, "Blizzard.as", "RenderBlizzard");
 		if(!Texture::exists("BLIZZARD")) Texture::createFromFile("BLIZZARD", "blizzard.png");
 		if(!Texture::exists("FOG")) Texture::createFromFile("FOG", "pixel.png");
 	}
-	
-	getRules().set_bool("raining", true);
-	client_AddToChat("A blizzard has formed! Heavy wind will now blow away aerial vehicles and promote snow growth.", SColor(255, 255, 0, 0));
+
+	this.addCommandID("sync");
+
+	f32 fl = this.getNetworkID()%2==0 ? -1:1;
+	this.set_f32("fl", fl);
+
+	this.set_f32("min_level", 0.15f);
+	this.set_f32("level", 0.15f);
+	this.set_f32("max_level", 1.25f);
+	this.set_f32("level_increase", 1.0001f + this.getTimeToDie()/500000);
+
+	if (isClient())
+	{
+		CBitStream params;
+		params.write_bool(false);
+		params.write_f32(this.get_f32("level"));
+		params.write_f32(this.get_f32("level_increase"));
+		params.write_f32(this.getTimeToDie());
+		this.SendCommand(this.getCommandID("sync"), params);
+	}
+}
+
+void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
+{
+	if (cmd == this.getCommandID("sync"))
+	{
+		bool sync = params.read_bool();
+		if (isServer() && !sync)
+		{
+			CBitStream params1;
+			params1.write_bool(true);
+			params1.write_f32(this.get_f32("level"));
+			params1.write_f32(this.get_f32("level_increase"));
+			params1.write_f32(this.getTimeToDie());
+			this.SendCommand(this.getCommandID("sync"), params1);
+		}
+		if (isClient() && sync)
+		{
+			f32 level = params.read_f32();
+			f32 increase = params.read_f32();
+			f32 ttd = params.read_f32();
+
+			this.set_f32("level", level);
+			this.set_f32("level_increase", increase);
+			this.server_SetTimeToDie(ttd);
+		}
+	}
 }
 
 const int spritesize = 128;
@@ -52,6 +100,7 @@ void Setup(CSprite@ this)
 	if (isClient())
 	{
 		this.SetEmitSound("Blizzard_Loop.ogg");
+		this.SetEmitSoundVolume(0);
 		this.SetEmitSoundPaused(false);
 		CMap@ map = getMap();
 		uvs = 2048.0f/f32(spritesize);
@@ -70,6 +119,8 @@ void Setup(CSprite@ this)
 	}
 }
 
+f32 sine;
+
 f32 windTarget = 0;	
 f32 wind = 0;	
 u32 nextWindShift = 0;
@@ -86,8 +137,26 @@ f32 fogDarkness = 0;
 Vec2f blizzardpos = Vec2f(0,0);
 f32 uvMove = 0;
 
+f32 current_h = -1024.0f;
+
 void onTick(CBlob@ this)
 {
+	f32 max_level = this.get_f32("max_level");
+	f32 level = Maths::Max(this.get_f32("level"), this.get_f32("min_level"));
+	f32 level_increase = this.get_f32("level_increase");
+
+	getRules().set_bool("raining", true);
+
+	this.set_f32("level", Maths::Min(max_level, level*level_increase));
+	if (level_increase > 1.000f && this.getTimeToDie() <= 60 && this.getTickSinceCreated() > min_lifetime)
+	{
+		this.set_f32("level_increase", 1.0f/level_increase); // reverse it for fadeout
+	}
+
+	f32 factor = level / max_level;
+
+	uvs = 2048.0f/f32(spritesize);
+
 	CMap@ map = getMap();
 	if (getGameTime() >= nextWindShift)
 	{
@@ -97,10 +166,11 @@ void onTick(CBlob@ this)
 		fogTarget = 50 + XORRandom(150);
 	}
 	
-	wind = Lerp(wind, windTarget, 0.02f);
-	fog = Lerp(fog, fogTarget, 0.01f);
+	wind = Lerp(wind, windTarget * factor, 0.025f);
+	fog = Lerp(fog, fogTarget, 0.001f);
 		
-	Vec2f dir = Vec2f(0, 1).RotateBy(70);
+	sine = (Maths::Sin((getGameTime() * 0.0125f)) * 8.0f);
+	Vec2f sineDir = Vec2f(0, 1).RotateBy(sine * 20);
 	
 	CBlob@[] vehicles;
 	getBlobsByTag("aerial", @vehicles);
@@ -112,27 +182,28 @@ void onTick(CBlob@ this)
 			Vec2f pos = blob.getPosition();
 			if (map.rayCastSolidNoBlobs(Vec2f(pos.x, 0), pos)) continue;
 		
-			blob.AddForce(dir * blob.getRadius() * wind * 0.01f);
+			blob.AddForce(sineDir * blob.getRadius() * wind * 0.01f);
 		}
 	}
+		
+	Vec2f dir = Vec2f(0, 1).RotateBy(70);
 
 	if (isClient())
 	{	
 		CCamera@ cam = getCamera();
 		fogHeightModifier = 0.00f;
-		
+		CBlob@ local = getLocalPlayerBlob();
+
 		if (cam !is null && uvs > 0)
 		{
-			Vec2f cam_pos = cam.getPosition();
-			blizzardpos = Vec2f(int(cam_pos.x / spritesize) * spritesize + (spritesize/2), int(cam_pos.y / spritesize) * spritesize + (spritesize/2));
+			Vec2f cam_pos = local !is null ? local.getPosition() : cam.getPosition();
+
+			f32 h = Maths::Lerp(current_h, int(cam_pos.y / spritesize) * spritesize + (spritesize/2), 0.001f);
+			current_h = h;
+			blizzardpos = Vec2f(int(cam_pos.x / spritesize) * spritesize + (spritesize/2), current_h);
+
 			this.setPosition(cam_pos);
-			uvMove = (uvMove - 0.09f) % uvs;
-			
-			// if (XORRandom(500) == 0)
-			// {
-				// Sound::Play("thunder_distant" + XORRandom(4));
-				// SetScreenFlash(XORRandom(100), 255, 255, 255);
-			// }
+			uvMove = (uvMove - 0.075f*level) % (uvs*level);
 			
 			Vec2f hit;
 			if (getMap().rayCastSolidNoBlobs(Vec2f(cam_pos.x, 0), cam_pos, hit))
@@ -148,16 +219,21 @@ void onTick(CBlob@ this)
 			modifier = Lerp(modifier, modifierTarget, 0.10f);
 			fogHeightModifier = 1.00f - (cam_pos.y / (map.tilemapheight * map.tilesize));
 			
-			if (getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.03f * modifier, 90, cam_pos);
+			if (level > 0.5f && getGameTime() % 5 == 0) ShakeScreen(Maths::Abs(wind) * 0.01f * level * modifier, 90 * level, cam.getPosition());
 			
-			this.getSprite().SetEmitSoundSpeed(0.5f + modifier * 0.5f);
-			this.getSprite().SetEmitSoundVolume(0.30f + 0.10f * modifier);
+			this.getSprite().SetEmitSoundSpeed(0.5f + modifier * Maths::Min(max_level, level) * 0.5f);
+			f32 fadein_volume = this.getTickSinceCreated() * volume_smooth * level;
+			this.getSprite().SetEmitSoundVolume(level > 0.5f ? Maths::Lerp(fadein_volume, level, 0.1f) : Maths::Min(level, fadein_volume));
 		}
-		
-		fogDarkness = Maths::Clamp(130 + (fog * 0.10f), 0, 255);
+
+		f32 t = map.getDayTime();
+		f32 time_mod = (1.0f - (t > 0.9f ? Maths::Abs(t-1.0f) : Maths::Min(0.1f, t))*10);
+		this.set_f32("time_mod", time_mod);
+		f32 base_darkness = 200;
+		fogDarkness = Maths::Clamp(base_darkness - base_darkness*time_mod/4 * (fog * 0.25f), 25, 255);
 	}
 	
-	Snow(this);
+	if (getGameTime() % (45 - (23 * (level/max_level))) == 0) Snow(this);
 }
 
 const int max_snow_difference = 4;
@@ -191,9 +267,13 @@ void Snow(CBlob@ this)
 					const TileType tileType_l = tile_l.type;
 					const TileType tileType_r = tile_r.type;
 					
-					if (tileType_c == CMap::tile_empty || map.isTileGrass(tileType_c))
+					if (tileType_c == CMap::tile_empty)
 					{
 						map.server_SetTile(pos_c, CMap::tile_snow_pile_v5);
+					}
+					else if (map.isTileGrass(tileType_c))
+					{
+						map.server_SetTile(pos_c, CMap::tile_snow_pile_v2);
 					}
 					else 
 					{
@@ -206,14 +286,12 @@ void Snow(CBlob@ this)
 						}
 						else if (tileType_c == CMap::tile_snow_pile) 
 						{
-							//map.server_SetTile(pos_c, CMap::tile_snow);
+							map.server_SetTile(pos_c, CMap::tile_snow);
 						}
 					}
+					
+					const TileType tiletype_c = tile_c.type;
 				}
-				
-				// if (tile_c == CMap::tile_empty || map.isTileGrass(tile_c)) map.server_SetTile(pos_c, CMap::tile_snow_pile_v5);
-				// else if (isTileSnowPile(tile_c - 1)) map.server_SetTile(pos_c, tile_c - 1);
-				// else if (tile_c == CMap::tile_snow_pile) map.server_SetTile(pos_c, CMap::tile_snow);
 			}
 		}
 	}
@@ -221,6 +299,7 @@ void Snow(CBlob@ this)
 
 void RenderBlizzard(CBlob@ this, int id)
 {
+	f32 level = Maths::Max(0.2f, this.get_f32("level"));
 	if (Blizzard_vs.size() > 0)
 	{
 		Render::SetTransformWorldspace();
@@ -229,13 +308,35 @@ void RenderBlizzard(CBlob@ this, int id)
 		Blizzard_vs[2].v = Blizzard_vs[3].v = uvMove + uvs;
 		float[] model;
 		Matrix::MakeIdentity(model);
-		Matrix::SetRotationDegrees(model, 0.00f, 0.00f, 70.0f);
+
+		f32 fl = this.get_f32("fl");
+		f32 exact_rot = Maths::Max(5, Maths::Abs(5.0f * level*10.0f)) * fl;
+		f32 rot = exact_rot + Maths::Sin(getGameTime()*0.01f)*8*level;
+
+		Matrix::SetRotationDegrees(model, 0.00f, 0.00f, rot);
 		Matrix::SetTranslation(model, blizzardpos.x, blizzardpos.y, 0.00f);
 		Render::SetModelTransform(model);
 		Render::RawQuads("BLIZZARD", Blizzard_vs);
-		f32 alpha = Maths::Clamp(Maths::Max(fog, 255 * fogHeightModifier * 1.20f) * modifier, 0, 190);
+		
+		f32 tsc = f32(this.getTickSinceCreated());
+		f32 tsc_mod = Maths::Min(tsc/fadein_tsc, 1.0f);
+		f32 alpha = Maths::Clamp(Maths::Min((tsc-256.0f)*0.1f, Maths::Max(fog, 255) * modifier), 0, 200*Maths::Min(1.0f, level));
+		f32 snow_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 55, 255);
+		f32 fadeout_ttd_s = fadeout_ttd/30;
+		f32 ttd = this.getTimeToDie();
+		if (ttd<fadeout_ttd_s)
+		{
+			snow_alpha *= ttd/fadeout_ttd_s;
+			alpha *= ttd/fadeout_ttd_s;
+		}
+
+		Blizzard_vs[0].col.setAlpha(snow_alpha);
+		Blizzard_vs[1].col.setAlpha(snow_alpha);
+		Blizzard_vs[2].col.setAlpha(snow_alpha);
+		Blizzard_vs[3].col.setAlpha(snow_alpha);
+
 		Fog_vs[0].col = Fog_vs[1].col = Fog_vs[2].col = Fog_vs[3].col = SColor(alpha, fogDarkness, fogDarkness, fogDarkness);
-		Render::RawQuads("FOG", Fog_vs);
+		if (current_h >= -512.0f) Render::RawQuads("FOG", Fog_vs);
 	}
 }
 
@@ -247,19 +348,4 @@ f32 Lerp(f32 v0, f32 v1, f32 t)
 void onDie(CBlob@ this)
 {
 	getRules().set_bool("raining", false);
-	CBlob@ jungle = getBlobByName('info_jungle');
-
-	if (jungle !is null)
-	{
-		getMap().CreateSkyGradient("skygradient_jungle.png");
-	}
-	else 
-	{
-		if (getBlobByName("info_dead") !is null)
-			getMap().CreateSkyGradient("Dead_skygradient.png");	
-		else if (getBlobByName("info_magmacore") !is null)
-			getMap().CreateSkyGradient("MagmaCore_skygradient.png");	
-		else
-			getMap().CreateSkyGradient("skygradient.png");	
-	}
 }
