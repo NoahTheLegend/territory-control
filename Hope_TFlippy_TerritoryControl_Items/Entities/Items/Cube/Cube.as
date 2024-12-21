@@ -85,8 +85,6 @@ void onTick(CBlob@ this)
 			camZ = 90 + (this.get_u8("rand")*90);
 		}
 
-		printf(""+camZ+" "+camY);
-
 		CCamera@ cam = getCamera();
 		cam.setRotation(camX, camY, camZ);
 

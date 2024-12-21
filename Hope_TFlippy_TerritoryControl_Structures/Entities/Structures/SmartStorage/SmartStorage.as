@@ -10,6 +10,7 @@ void onInit(CBlob@ this)
 	this.Tag("smart_storage");
 	this.Tag("builder always hit");
 	this.Tag("remote_storage");
+	this.Tag("change team on fort capture");
 
 	HarvestBlobMat[] mats = {};
 	mats.push_back(HarvestBlobMat(10.0f, "mat_copperingot"));

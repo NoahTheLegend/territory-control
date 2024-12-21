@@ -46,7 +46,6 @@ void ninja_clear_actor_limits(CBlob@ this)
 
 void onInit(CBlob@ this)
 {
-	this.Tag("neutral");
 	this.Tag("human");
 	
 	NinjaInfo ninja;

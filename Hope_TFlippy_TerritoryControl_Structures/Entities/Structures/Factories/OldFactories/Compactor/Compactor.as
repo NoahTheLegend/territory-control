@@ -17,6 +17,7 @@ void onInit(CBlob@ this)
 
 	this.Tag("builder always hit");
 	this.Tag("ignore extractor");
+	this.Tag("change team on fort capture");
 	
 	this.set_u32("compactor_quantity", 0);
 	this.set_string("compactor_resource", "");

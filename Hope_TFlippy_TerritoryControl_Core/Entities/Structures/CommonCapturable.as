@@ -75,8 +75,8 @@ void onTick(CBlob@ this)
 			CBlob @b = blobsInRadius[i];
 			if (b !is this && b.hasTag("player") && !b.hasTag("dead") && !b.hasTag("ignore_flags") && !b.hasTag("noCapturing"))
 			{
-				// if (b.getTeamNum() != this.getTeamNum() && (this.getTeamNum() == 255 ? (this.hasTag("can be captured by neutral") ? this.getTeamNum() < 8 : b.getTeamNum() < 8)))
-				// && (this.getTeamNum() == 255 && this.hasTag("can be captured by neutral") ? true : b.getTeamNum() < 8)
+				printf("" + ((b.getTeamNum() != this.getTeamNum()) +" "+ ((this.getTeamNum() != 255 && this.hasTag("can be captured by neutral") && b.hasTag("human")) +" or "+ ((!b.hasTag("neutral") && b.getTeamNum() < 7)))));
+
 				if ((b.getTeamNum() != this.getTeamNum()) && ((this.getTeamNum() != 255 && this.hasTag("can be captured by neutral") && b.hasTag("human")) || ((!b.hasTag("neutral") && b.getTeamNum() < 7)
 					|| (b.getTeamNum() == 250 && this.getTeamNum() < 7 && (this.hasTag("faction_base") || this.hasTag("can be captured by neutral"))))))
 				{

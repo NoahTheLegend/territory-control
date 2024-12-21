@@ -48,7 +48,6 @@ void onInit(CBlob@ this)
 	this.addCommandID("switch");
 	
 	this.set_u32("timer", 0);
-	this.Tag("neutral");
 	this.Tag("human");
 
 	KnightInfo knight;
