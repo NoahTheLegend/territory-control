@@ -222,7 +222,10 @@ void onTick(CBlob@ this)
 			}
 		}
 		
-		if (getGameTime() % (45 - (23 * (level/max_level))) == 0) DecayStuff();
+		if (getGameTime() % Maths::Clamp(150 - (140 * factor), 0, 140) == 0)
+		{
+			DecayStuff(this);
+		}
 	}
 }
 

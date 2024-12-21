@@ -185,7 +185,11 @@ void onTick(CBlob@ this)
 			blob.AddForce(sineDir * blob.getRadius() * wind * 0.01f);
 		}
 	}
-		
+
+	if (getGameTime() % Maths::Clamp(150 - (149 * factor), 0, 150) == 0)
+	{
+		Snow(this);
+	}
 	Vec2f dir = Vec2f(0, 1).RotateBy(70);
 
 	if (isClient())
@@ -232,8 +236,6 @@ void onTick(CBlob@ this)
 		f32 base_darkness = 200;
 		fogDarkness = Maths::Clamp(base_darkness - base_darkness*time_mod/4 * (fog * 0.25f), 0, 255);
 	}
-	
-	if (getGameTime() % (300 - (270 * factor)) == 0) Snow(this);
 }
 
 const int max_snow_difference = 4;
