@@ -103,7 +103,10 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 		}
 		else if (blob !is null && blob.isCollidable())
 		{
-			this.server_Hit(blob, this.getPosition(), Vec2f(0, 0), 0.50f, Hitters::fire, true);
+			if (this.getTickSinceCreated() > 5)
+			{
+				this.server_Hit(blob, this.getPosition(), Vec2f(0, 0), 0.50f, Hitters::fire, true);
+			}
 		}
 	}
 }
