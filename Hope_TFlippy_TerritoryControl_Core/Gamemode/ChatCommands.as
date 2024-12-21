@@ -328,7 +328,71 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					errorMessage = "Wait and try again.";
 				}
 				errorColor = SColor(0xff444444);
-			}	
+			}
+			else if (tokens[0] == "!loadbanner")
+			{
+				if (player.isMyPlayer())
+				{
+					if (tokens.length == 2)
+					{
+						string file = CFileMatcher(tokens[1]).getFirst();
+
+						if (file != "")
+						{
+							CBlob@[] nearby;
+							getMap().getBlobsInRadius(blob.getPosition(), 32.0f, @nearby);
+
+							u16 closest = 0;
+							f32 temp_dist = 32.0f;
+
+							for (u16 i = 0; i < nearby.size(); i++)
+							{
+								CBlob@ b = nearby[i];
+								if (b is null || b.getName() != "banner") continue;
+								
+								f32 dist = b.getDistanceTo(blob);
+								if (dist < temp_dist)
+								{
+									closest = b.getNetworkID();
+									temp_dist = dist;
+								}
+							}
+
+							if (closest != 0)
+							{
+								CBlob@ banner = getBlobByNetworkID(closest);
+								if (banner !is null)
+								{
+									CBitStream params;
+									
+									CFileImage@ image = CFileImage(file);
+									if(image.isLoaded())
+									{
+										f32 width = image.getWidth();
+										f32 height = image.getHeight();
+
+										if (width != 8 || height != 16)
+										{
+											client_AddToChat("Could not load a banner image - file size should be 8x16! Current w x h - "+width+" x "+height, SColor(255,255,0,0));
+										}
+										else
+										{
+											while(image.nextPixel())
+											{
+												const SColor pixel = image.readPixel();
+												params.write_s32(pixel.color);
+											}
+										}
+									}
+
+									banner.SendCommand(banner.getCommandID("load_image"), params);
+								}
+							}
+						}
+					}
+					else client_AddToChat("Requires a 8x16 file in 'KAG/Base/Sprites/', use: !loadbanner tcbanner_filename.png to load a picture to nearby banner.", SColor(255,0,0,0));
+				}	
+			}
 			else if (isMod || isCool)			//For at least moderators
 			{
 				if (tokens[0] == "!admin")
