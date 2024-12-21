@@ -49,7 +49,7 @@ void onTick(CBlob@ this)
 {
 	CBrain@ brain = this.getBrain();
 
-	if (isServer())
+	//if (isServer())
 	{
 		CBlob@ target = brain.getTarget();
 		AttachmentPoint@ ap = this.getAttachments().getAttachmentPointByName("PICKUP");
@@ -63,7 +63,7 @@ void onTick(CBlob@ this)
 				CBlob@ carried = ap.getOccupied();
 				if (carried.hasTag("automat_activable"))
 				{
-					if (carried.getName() == "claymoreremote")
+					if (isServer() && carried.getName() == "claymoreremote")
 					{
 						if (carried.getDamageOwnerPlayer() !is null)
 						{
@@ -80,7 +80,7 @@ void onTick(CBlob@ this)
 							}
 						}
 					}
-					else if (carried.hasTag("explosive") && getGameTime()%30==0)
+					else if (isServer() && carried.hasTag("explosive") && getGameTime()%30==0)
 					{
 						CBitStream params;
 						params.write_u16(this.getNetworkID());
@@ -107,7 +107,7 @@ void onTick(CBlob@ this)
 						}
 					}
 				}
-				else if (carried.hasTag("mat_gas"))
+				else if (isServer() && carried.hasTag("mat_gas"))
 				{
 					if (isServer())
 					{
@@ -118,7 +118,7 @@ void onTick(CBlob@ this)
 					carried.server_SetTimeToDie(0.5f);
 				}
 			}
-			else if (ap !is null && ap.getOccupied() is null && isServer())
+			else if (isServer() && ap !is null && ap.getOccupied() is null && isServer())
 			{
 				CInventory@ inv = this.getInventory();
 				if (inv !is null)
@@ -147,12 +147,10 @@ void onTick(CBlob@ this)
 					if (visibleTarget)
 					{
 						oc.Tag("pressing");
-						oc.Sync("pressing", true);
 					}
 					else
 					{
 						oc.Untag("pressing");
-						oc.Sync("pressing", true);
 					}
 				}
 				
