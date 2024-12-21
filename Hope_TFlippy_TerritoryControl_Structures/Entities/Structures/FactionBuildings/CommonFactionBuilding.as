@@ -790,6 +790,7 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 	int newTeamForts = 0;
 
 	CRules@ rules = getRules();
+
 	SetNearbyBlobsToTeam(this, oldTeam, newTeam);
 
 	for (uint i = 0; i < totalFortCount; i++)
@@ -831,7 +832,6 @@ void SetNearbyBlobsToTeam(CBlob@ this, const int oldTeam, const int newTeam)
 	{
 		CBlob@ b = teamBlobs[i];
 		if (b is null || b.getTeamNum() > 6) continue;
-
 		if (b.getName() != this.getName() && b.hasTag("change team on fort capture") && (b.getTeamNum() == oldTeam || b.getTeamNum() > 7))
 		{
 			b.server_setTeamNum(newTeam);
