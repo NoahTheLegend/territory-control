@@ -18,8 +18,11 @@ void onInit(CBlob@ this)
 
 	this.set_u16("owner_player_id", 0);
 	this.set_bool("locked", false);
+}
 
-	if (isClient() && !isServer())
+void onTick(CBlob@ this)
+{
+	if (isClient() && this.getTickSinceCreated() == 1)
 	{
 		CBitStream params;
 		this.SendCommand(this.getCommandID("init_sync"), params);

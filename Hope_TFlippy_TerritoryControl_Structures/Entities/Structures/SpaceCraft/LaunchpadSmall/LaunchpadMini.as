@@ -25,7 +25,6 @@ void onInit(CBlob@ this)
     this.Tag("infinite_radius");
     this.set_u8("frameindex", 0);
     this.set_u32("time_to_arrival", 0);
-    if (isClient()) InitSyncState(this);
 
     // SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 32));
@@ -112,6 +111,7 @@ void onTick(CBlob@ this)
 {
     if (this.getTickSinceCreated() == 1)
     {
+        if (isClient()) InitSyncState(this);
         this.set_bool("update", true);
     }
     

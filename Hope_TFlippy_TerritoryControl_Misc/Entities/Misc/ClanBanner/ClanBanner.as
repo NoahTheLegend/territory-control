@@ -9,12 +9,6 @@ void onInit(CBlob@ this)
     this.addCommandID("sync");
     this.addCommandID("init_sync");
 
-    if (isClient())
-    {
-        CBitStream params;
-        this.SendCommand(this.getCommandID("init_sync"), params);
-    }
-
     int cb_id = Render::addBlobScript(Render::layer_objects, this, "ClanBanner.as", "renderCanvas");
 }
 
@@ -68,7 +62,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
             data.put(i%8, Maths::Floor(i/8), SColor(step));
         }
         
-        printf("Created texture '"+tex_name+"', size "+data.width()+" x "+data.height());
+        //printf("Created texture '"+tex_name+"', size "+data.width()+" x "+data.height());
 
         if(!Texture::update(tex_name, data))
 		{
@@ -126,23 +120,13 @@ void onTick(CBlob@ this)
 {
     if (isClient())
     {
-        if (this.getTicksToDie() < 120)
+        if (this.getTickSinceCreated() == 1)
         {
-            if (this.exists("cData"))
-            {
-                CSprite@ s = this.getSprite();
-                s.ReloadSprite(this.get_string("cData")+ ".png");
-				s.SetZ(-5.00f);
-                this.doTickScripts = false;
-            }
-        }
-        else
-        {
-            this.doTickScripts = false;
+            CBitStream params;
+            this.SendCommand(this.getCommandID("init_sync"), params);
         }
     }
 }
-
 
 bool canBePickedUp( CBlob@ this, CBlob@ byBlob )
 {

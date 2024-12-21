@@ -16,8 +16,12 @@ void onInit(CBlob@ this)
 			SyncMainData(this);
 	    }
 	}
-    if (isClient())
-    {
+}
+
+void onTick(CBlob@ this)
+{
+	if (isClient() && this.getTickSinceCreated() == 1)
+	{
 		CPlayer@ local = getLocalPlayer();
 		if (local !is null)
 		{
@@ -25,7 +29,7 @@ void onInit(CBlob@ this)
 			params.write_u16(local.getNetworkID());
         	this.SendCommand(init_sync_from_client_id, params);
 		}
-    }
+	}
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ inParams)
