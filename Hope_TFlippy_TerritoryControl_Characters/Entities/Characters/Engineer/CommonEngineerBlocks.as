@@ -930,7 +930,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[3].push_back(b);
 	}
 	{
-		BuildBlock b(0, "banner", "$icon_banner$", "Banner\nBanner to show off your team's color.");
+		BuildBlock b(0, "banner", "$icon_banner$", "Banner:\n\nBanner to show off your team's color or own art.\nWrite @banner to see a tip in chat.");
 		AddRequirement(b.reqs, "coin", "", "Coins", 150);
 		b.size.Set(16, 32);
 		blocks[3].push_back(b);
