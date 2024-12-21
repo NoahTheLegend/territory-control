@@ -39,14 +39,14 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
 	CGridButton@ store = sv.AddButton("$str$", "Store ", this.getCommandID("sv_store"), Vec2f(1, 1), params);
 }
 
-void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
+void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 {
-	CBlob@ caller = getBlobByNetworkID(params.read_u16());
-
 	if (isServer())
 	{
 		if (cmd == this.getCommandID("sv_store"))
 		{
+			CBlob@ caller = getBlobByNetworkID(params.read_u16());
+			
 			if (caller !is null)
 			{
 				CInventory @inv = caller.getInventory();
