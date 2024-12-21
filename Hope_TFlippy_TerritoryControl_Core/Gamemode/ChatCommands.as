@@ -1272,7 +1272,7 @@ bool onClientProcessChat(CRules@ this,const string& in text_in,string& out text_
 					}
 				}
 			}
-			else client_AddToChat("Requires a 8x16 file in 'KAG/Base/Sprites/', use: @banner tcbanner_filename.png to load a picture to nearby banner.", SColor(255,0,0,0));
+			else client_AddToChat("Requires a 8x16 file in 'KAG/Base/Sprites/', use: @banner tcbanner_filename.png to load a picture to nearby banner. You need to restart the game after creating a file.", SColor(255,0,0,0));
 		}
 		return false;
 	}

@@ -1,7 +1,6 @@
 void onInit(CBlob@ this)
 {
 	this.Tag("builder always hit");
-	this.getSprite().SetZ(-5.00f);
 
     CSpriteLayer@ l = this.getSprite().addSpriteLayer("l", "ClanBannerDecal.png", 16, 32);
     
@@ -10,11 +9,21 @@ void onInit(CBlob@ this)
     this.addCommandID("init_sync");
 
     int cb_id = Render::addBlobScript(Render::layer_objects, this, "ClanBanner.as", "renderCanvas");
+
+    this.getSprite().SetZ(-10.0f);
+    this.getSprite().SetRelativeZ(-10.0f);
+
+    if (l !is null)
+    {
+        l.SetRelativeZ(-9.5f);
+        l.SetVisible(false);
+    }
 }
 
 void renderCanvas(CBlob@ this, int id)
 {
     if (!this.hasTag("created_texture")) return;
+
     Vec2f pos = this.getPosition() - Vec2f(4,10);
 
     Vec2f[] v_pos;
@@ -25,7 +34,7 @@ void renderCanvas(CBlob@ this, int id)
     v_uv.push_back(Vec2f(1,1)); v_pos.push_back(pos + Vec2f(8,16)); //br
     v_uv.push_back(Vec2f(0,1)); v_pos.push_back(pos + Vec2f(0,16)); //bl
 
-    Render::Quads("banner"+this.getNetworkID(), 1.0f, v_pos, v_uv);
+    Render::Quads("banner"+this.getNetworkID(), -5.0f, v_pos, v_uv);
 
     v_pos.clear();
 	v_uv.clear();
@@ -38,9 +47,15 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
         if (!isClient()) return;
         string tex_name = "banner"+this.getNetworkID();
 
-        if(!Texture::createBySize(tex_name, 8, 16))
+        if(Texture::exists(tex_name))
+        {
+            Texture::destroy(tex_name);
+        }
+
+        if (!Texture::createBySize(tex_name, 8, 16))
 		{
-			warn("Texture creation failed!");
+			warn("Texture creation failed");
+            return;
 		}
 
         ImageData@ data = Texture::data(tex_name);
@@ -51,18 +66,20 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
             return;
         }
 
+        int skips = 0;
         for (u8 i = 0; i < 128; i++)
         {
             int step;
             if (!params.saferead_s32(step))
             {
+                skips++;
                 continue;
             }
 
             data.put(i%8, Maths::Floor(i/8), SColor(step));
         }
         
-        //printf("Created texture '"+tex_name+"', size "+data.width()+" x "+data.height());
+       // printf("Created texture '"+tex_name+"', size "+data.width()+" x "+data.height()+" with "+skips+" skips");
 
         if(!Texture::update(tex_name, data))
 		{
@@ -103,7 +120,7 @@ void Sync(CBlob@ this)
     int[]@ canvas;
     if (!this.get("canvas", @canvas) || canvas.size() != 128)
     {
-        warn("Failed to load banner canvas array on sync");
+        //warn("Failed to load banner canvas array on sync");
         return;
     }
 

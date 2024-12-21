@@ -9,7 +9,7 @@
 const f32 volume_smooth = 0.00015f;
 const u16 min_lifetime = 2.0f*60*30;
 const f32 fadeout_ttd = min_lifetime;
-const f32 fadein_tsc = 45*30;
+const f32 fadein_tsc = min_lifetime;
 
 void onInit(CBlob@ this)
 {
@@ -230,10 +230,10 @@ void onTick(CBlob@ this)
 		f32 time_mod = (1.0f - (t > 0.9f ? Maths::Abs(t-1.0f) : Maths::Min(0.1f, t))*10);
 		this.set_f32("time_mod", time_mod);
 		f32 base_darkness = 200;
-		fogDarkness = Maths::Clamp(base_darkness - base_darkness*time_mod/4 * (fog * 0.25f), 25, 255);
+		fogDarkness = Maths::Clamp(base_darkness - base_darkness*time_mod/4 * (fog * 0.25f), 0, 255);
 	}
 	
-	if (getGameTime() % (45 - (23 * (level/max_level))) == 0) Snow(this);
+	if (getGameTime() % (300 - (270 * factor)) == 0) Snow(this);
 }
 
 const int max_snow_difference = 4;
@@ -321,7 +321,7 @@ void RenderBlizzard(CBlob@ this, int id)
 		f32 tsc = f32(this.getTickSinceCreated());
 		f32 tsc_mod = Maths::Min(tsc/fadein_tsc, 1.0f);
 		f32 alpha = Maths::Clamp(Maths::Min((tsc-256.0f)*0.1f, Maths::Max(fog, 255) * modifier), 0, 200*Maths::Min(1.0f, level));
-		f32 snow_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 55, 255);
+		f32 snow_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 0, 255);
 		f32 fadeout_ttd_s = fadeout_ttd/30;
 		f32 ttd = this.getTimeToDie();
 		if (ttd<fadeout_ttd_s)

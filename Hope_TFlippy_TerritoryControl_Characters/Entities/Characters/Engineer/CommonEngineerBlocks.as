@@ -150,7 +150,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	AddIconToken("$icon_beamtowermirror$", "BeamTowerMirror.png", Vec2f(16, 24), 0);
 	AddIconToken("$icon_metaldetector$", "MetalDetector.png", Vec2f(24, 24), 0, teamnum);
 	AddIconToken("$icon_mithrilreactor$", "MithrilReactor.png", Vec2f(24, 24), 0);
-	AddIconToken("$icon_banner$","ClanBanner.png",Vec2f(16, 32), 0, teamnum);
+	AddIconToken("$icon_banner$","ClanBannerIcon.png",Vec2f(16, 32), 0, teamnum);
 	AddIconToken("$icon_druglab$","DrugLab.png",Vec2f(32, 40), 0);
 	AddIconToken("$icon_altar$", "Altar.png", Vec2f(24, 32), 0, teamnum);
 	AddIconToken("$icon_tavern$", "Vodka.png", Vec2f(8, 16), 0, teamnum);
