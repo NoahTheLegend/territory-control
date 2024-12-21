@@ -8,6 +8,7 @@ void onInit(CBlob@ this)
     this.addCommandID("sync");
     this.addCommandID("init_sync");
 
+    if (!isClient()) return;
     int cb_id = Render::addBlobScript(Render::layer_objects, this, "ClanBanner.as", "renderCanvas");
 
     this.getSprite().SetZ(-10.0f);
