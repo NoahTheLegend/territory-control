@@ -42,22 +42,16 @@ int hovered_tier = -1;
 bool draw_age = false;
 bool draw_tier = false;
 
-void onInit(CRules@ this)
-{
-	onRestart(this);
-}
-
-void onRestart(CRules@ this)
-{
-	CNet@ net = getNet();
-	CMap@ map = getMap();
-	serverIP = net.joined_ip;
-
-	mapName = map is null ? "Error: Blame KAG" : map.getMapName();
-}
-
 void onRenderScoreboard(CRules@ this)
 {
+	if (mapName == "")
+	{
+		CNet@ net = getNet();
+		CMap@ map = getMap();
+		serverIP = net.joined_ip;
+		mapName = map is null ? "Error: Blame KAG" : map.getMapName();
+	}
+	
 	u32 gt = getGameTime();
 	Render::SetTransformWorldspace();
 	hovered_accolade = -1;
