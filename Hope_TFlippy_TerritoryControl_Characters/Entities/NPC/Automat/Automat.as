@@ -140,11 +140,22 @@ void onTick(CBlob@ this)
 			{
 				this.setAimPos(target.getPosition() + Vec2f(0, 4));
 				this.setKeyPressed(key_action1, visibleTarget);
-				if (ap.getOccupied() !is null)
+
+				CBlob@ oc = ap.getOccupied();
+				if (oc !is null)
 				{
-					if (visibleTarget) ap.getOccupied().Tag("pressing");
-					else ap.getOccupied().Untag("pressing");
+					if (visibleTarget)
+					{
+						oc.Tag("pressing");
+						oc.Sync("pressing", true);
+					}
+					else
+					{
+						oc.Untag("pressing");
+						oc.Sync("pressing", true);
+					}
 				}
+				
 				this.getCurrentScript().tickFrequency = 1;
 			}
 			else

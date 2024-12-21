@@ -255,7 +255,7 @@ void BomberHandling(CBlob@ this, VehicleInfo@ v)
 					{
 						u32 quantity = item.getQuantity();
 
-						if (item.maxQuantity > 8)
+						if (quantity == 1)
 						{
 							// To prevent spamming 
 							this.server_PutOutInventory(item);
