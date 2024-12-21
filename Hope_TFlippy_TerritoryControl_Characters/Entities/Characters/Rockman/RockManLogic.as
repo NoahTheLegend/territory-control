@@ -24,6 +24,9 @@ const f32 hit_damage = 1.5f;
 
 void onInit(CBlob@ this)
 {
+	this.Tag("neutral");
+	this.Tag("human");
+	
 	this.set_f32("pickaxe_distance", 10.0f);
 	this.set_f32("gib health", -3.0f);
 	

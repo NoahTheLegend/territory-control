@@ -17,6 +17,9 @@ const int STAB_TIME = 22;
 
 void onInit(CBlob@ this)
 {
+	this.Tag("neutral");
+	this.Tag("human");
+	
 	ArcherInfo archer;
 	this.set("archerInfo", @archer);
 

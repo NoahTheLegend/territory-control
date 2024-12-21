@@ -17,7 +17,7 @@ void onInit(CBlob@ this)
 	this.set_bool("map_damage_raycast", false);
 	this.set_Vec2f("explosion_offset", Vec2f(0, 16));
 	
-	this.set_u8("stack size", 4);
+	this.set_u8("stack size", 8);
 	this.set_f32("bomb angle", 90);
 	
 	this.Tag("explosive");
@@ -117,7 +117,7 @@ void DoExplosion(CBlob@ this)
 				f32 mod = Maths::Clamp(1.00f - (dist / 192.00f), 0, 1);
 				f32 force = Maths::Clamp(blob.getRadius() * 70 * mod * modifier, 0, blob.getMass() * 50);
 				
-				blob.AddForce(dir * force);
+				blob.AddForce((dir * force) * mod);
 				SetKnocked(blob, 150 * mod);
 				
 				if (server && XORRandom(100) < 12 * modifier)
