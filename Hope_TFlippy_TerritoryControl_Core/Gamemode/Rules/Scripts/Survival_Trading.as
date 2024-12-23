@@ -202,7 +202,8 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ killer, u8 customData)
 		
 		}
 		
-		bool save_coins = victimBlob.getName() == "peasant" || victimBlob.getName() == "slave";
+		bool save_coins = true;
+		if (victimBlob !is null) victimBlob.getName() == "peasant" || victimBlob.getName() == "slave";
 		dropped_coins = save_coins ? XORRandom(50) : victim_coins * reward_factor;
 		
 		if (!save_coins)
