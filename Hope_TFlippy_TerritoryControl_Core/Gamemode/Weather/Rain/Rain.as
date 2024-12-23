@@ -224,7 +224,7 @@ void onTick(CBlob@ this)
 		
 		if (getGameTime() % Maths::Clamp(150 - (140 * factor), 0, 140) == 0)
 		{
-			DecayStuff(this);
+			DecayStuff();
 		}
 	}
 }
