@@ -84,11 +84,11 @@ void updateEnvironment(CRules@ this)
 		//u8 chance_forest = 37; // Sum should be 100
 
 		// xmas holiday
-		u8 chance_dead = 4;
-		u8 chance_jungle = 10;
-		u8 chance_arctic = 16+20;
-		u8 chance_desert = 33-10;
-		u8 chance_forest = 37-10;
+		u8 chance_dead = 4-2;
+		u8 chance_jungle = 10-5;
+		u8 chance_arctic = 16+37;
+		u8 chance_desert = 33-15;
+		u8 chance_forest = 37-15;
 
 		array<string> blobs = {"info_dead", "info_jungle", "info_arctic", "info_desert", "info_forest"};
 
