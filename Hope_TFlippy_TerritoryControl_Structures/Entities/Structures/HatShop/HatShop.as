@@ -74,6 +74,12 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
+	{
+		ShopItem@ s = addShopItem(this, "Christmas Hat", "$xmashat$", "xmashat", "Present the holiday vibes!", true);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+
+		s.spawnNothing = true;
+	}
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
