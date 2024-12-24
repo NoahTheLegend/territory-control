@@ -651,9 +651,6 @@ bool doDefaultSpawn(CPlayer@ player, string blobType, u8 team, bool ignoreDisabl
 					case MapType::jungle:
 						server_CreateBlob("info_jungle", 255, Vec2f(0, 0));
 						break;
-					//case MapType::magmacore:
-					//	server_CreateBlob("info_magmacore", 255, Vec2f(0, 0));
-					//	break;
 					default:
 						break;
 				}

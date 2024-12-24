@@ -77,19 +77,35 @@ void updateEnvironment(CRules@ this)
 {
 	if (isServer())
 	{
-		u8 rand = XORRandom(100);
+		//u8 chance_dead = 4;
+		//u8 chance_jungle = 10;
+		//u8 chance_arctic = 16;
+		//u8 chance_desert = 33;
+		//u8 chance_forest = 37; // Sum should be 100
 
-		if (rand < 4)
+		// xmas holiday
+		u8 chance_dead = 4;
+		u8 chance_jungle = 10;
+		u8 chance_arctic = 16+20;
+		u8 chance_desert = 33-10;
+		u8 chance_forest = 37-10;
+
+		array<string> blobs = {"info_dead", "info_jungle", "info_arctic", "info_desert", "info_forest"};
+
+		u8 rand = XORRandom(100);
+		u8 cumulative = 0;
+
+		array<u8> chances = {chance_dead, chance_jungle, chance_arctic, chance_desert, chance_forest};
+
+		for (uint i = 0; i < chances.length(); i++)
 		{
-			//if (XORRandom(3) == 0)
-				server_CreateBlob("info_dead", 255, Vec2f(0, 0));
-			//else
-			//	server_CreateBlob("info_magmacore", 255, Vec2f(0, 0));
+			cumulative += chances[i];
+			if (rand < cumulative)
+			{
+				server_CreateBlob(blobs[i], 255, Vec2f(0, 0));
+				break;
+			}
 		}
-		else if (rand >= 4 && rand < 14) server_CreateBlob("info_jungle", 255, Vec2f(0, 0));
-		else if (rand >= 14 && rand < 30) server_CreateBlob("info_arctic", 255, Vec2f(0, 0));
-		else if (rand >= 30 && rand < 63) server_CreateBlob("info_desert", 255, Vec2f(0, 0));
-		else server_CreateBlob("info_forest", 255, Vec2f(0,0));
 	}
 	this.set_bool("updated", true);
 }
