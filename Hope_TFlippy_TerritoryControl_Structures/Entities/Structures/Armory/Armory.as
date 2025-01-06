@@ -89,7 +89,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Ballistic Vest", "$icon_bulletproofvest$", "bulletproofvest", "A resilient ballistic armor.\nCheap and practical. Good against all bullets.\n\nOccupies the Torso slot");
-		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 4);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 3);
 		AddRequirement(s.requirements, "coin", "", "Coins", 100);
 
 		s.spawnNothing = true;
