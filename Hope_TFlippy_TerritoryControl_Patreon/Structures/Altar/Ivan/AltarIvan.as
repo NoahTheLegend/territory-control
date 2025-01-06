@@ -89,9 +89,12 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "High Caliber Ammunition (10)", "$icon_rifleammo$", "mat_rifleammo-10", "Saint bullets for saint rifles.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 50);
-	}	
+		ShopItem@ s = addShopItem(this, "Engineer's Tools", "$engineertools$", "engineertools", "Engineer's Tools for real engineers.", true);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 4);
+		AddRequirement(s.requirements, "coin", "", "Coins", 500);
+
+		s.spawnNothing = true;
+	}
 	AddIconToken("$icon_badgercar$", "Badger.png", Vec2f(32, 16), 0);
 	{
 		ShopItem@ s = addShopItem(this, "Squat of Badger", "$icon_badgercar$", "badgercar", "Just don't hit it once", false, true);
