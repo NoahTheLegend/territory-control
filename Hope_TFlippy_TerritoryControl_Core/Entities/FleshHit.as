@@ -128,7 +128,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;
 
-			if (headname == "militaryhelmet" || headname == "nvd") armorMaxHealth = 60.0f;
+			if (headname == "militaryhelmet" || headname == "nvd") armorMaxHealth = 85.0f;
 			else if (headname == "carbonhelmet") armorMaxHealth = 190.0f;
 			else if (headname == "wilmethelmet") armorMaxHealth = 120.0f;
 			else if (headname == "scubagear") armorMaxHealth = 10.0f;
@@ -147,12 +147,12 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 					case HittersTC::bullet_low_cal:
 					case HittersTC::shotgun:
-						ratio = 0.20f;
+						ratio = 0.15f;
 						break;
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.20f;
+						ratio = 0.15f;
 						break;
 
 					default:
@@ -264,7 +264,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;
 
-			if (torsoname == "bulletproofvest") armorMaxHealth = 75.0f;
+			if (torsoname == "bulletproofvest") armorMaxHealth = 100.0f;
 			else if (torsoname == "carbonvest") armorMaxHealth = 200.0f;
 			else if (torsoname == "wilmetvest") armorMaxHealth = 146.0f;
 			else if (torsoname == "keg") armorMaxHealth = 10.0f;
@@ -278,7 +278,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						break;
 
 					case HittersTC::bullet_low_cal:
-						ratio = 0.45f;
+						ratio = 0.35f;
 						break;
 						
 					case HittersTC::shotgun:
@@ -287,11 +287,11 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.40f;
+						ratio = 0.30f;
 						break;
 
 					default:
-						ratio = 0.25f;
+						ratio = 0.20f;
 						break;
 				}
 			}
@@ -386,12 +386,12 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 			f32 armorMaxHealth = 100.0f;
 			f32 ratio = 0.0f;
 
-			if (torso2name == "bulletproofvest") armorMaxHealth = 75.0f;
-			else if (torso2name == "carbonvest") armorMaxHealth = 200.0f;
-			else if (torso2name == "wilmetvest") armorMaxHealth = 146.0f;
-			else if (torso2name == "keg") armorMaxHealth = 10.0f;
+			//if (torso2name == "bulletproofvest") armorMaxHealth = 75.0f;
+			//else if (torso2name == "carbonvest") armorMaxHealth = 200.0f;
+			//else if (torso2name == "wilmetvest") armorMaxHealth = 146.0f;
+			if (torso2name == "keg") armorMaxHealth = 10.0f;
 
-			if (torso2name == "bulletproofvest")
+			/*if (torso2name == "bulletproofvest")
 			{
 				switch (customData)
 				{
@@ -400,7 +400,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						break;
 
 					case HittersTC::bullet_low_cal:
-						ratio = 0.45f;
+						ratio = 0.35f;
 						break;
 						
 					case HittersTC::shotgun:	
@@ -409,7 +409,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 					case HittersTC::bullet_high_cal:
 					case HittersTC::railgun_lance:
-						ratio = 0.40f;
+						ratio = 0.30f;
 						break;
 
 					default:
@@ -480,8 +480,8 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						ratio = 0.35f;
 						break;
 				}
-			}
-			else if (torso2name == "keg" && !isBullet && customData != HittersTC::radiation)
+			}*/
+			if (torso2name == "keg" && !isBullet && customData != HittersTC::radiation)
 			{
 				if ((customData == Hitters::fire || customData == Hitters::burn || customData == Hitters::explosion || 
 					customData == Hitters::bomb || customData == Hitters::bomb_arrow) && this.get_f32("keg_explode") == 0.0f)
