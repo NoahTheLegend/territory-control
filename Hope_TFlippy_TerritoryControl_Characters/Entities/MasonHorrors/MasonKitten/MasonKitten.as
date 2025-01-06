@@ -104,7 +104,7 @@ void onTick(CSprite@ this)
 		if (blob.get_u32("next meow") < getGameTime() && XORRandom(100) < 30) 
 		{
 			blob.set_u32("next meow", getGameTime() + 120);
-			this.PlaySound("build_wall" + XORRandom(5), 0.5f, 1);
+			this.PlaySound("build_wall", 0.5f, 1);
 		}
 	}
 }
@@ -150,7 +150,7 @@ void onInit(CBlob@ this)
 	vars.jumpForce.Set(0.0f, -50.0f);
 	vars.maxVelocity = 3.2f;
 
-	this.set_u8("number of steaks", 2);
+	//his.set_u8("number of steaks", 5);
 	this.set_u32("next meow", getGameTime());
 	this.set_u32("next screech", getGameTime());
 
@@ -206,7 +206,7 @@ void onTick(CBlob@ this)
 						}
 						if (inventoryBlob.hasTag("flesh"))
 						{
-							this.getSprite().PlaySound("Pus_Attack_" + XORRandom(3), 1.1f, 1.00f);
+							this.getSprite().PlaySound("build_wall", 1.1f, 1.00f);
 							ParticleBloodSplat(inventoryBlob.getPosition(), true);
 						}
 					}
@@ -232,7 +232,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 {
 	if (!this.hasTag("dead") && getGameTime() > this.get_u32("next screech"))
 	{
-		this.getSprite().PlaySound("build_wall" + XORRandom(4), 1.00f, 1.0f);
+		this.getSprite().PlaySound("build_wall", 1.00f, 1.0f);
 		this.set_u32("next screech", getGameTime() + 30);
 		this.AddForce(Vec2f(0.0f, -180.0f));
 	}
@@ -319,5 +319,19 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		params.write_u16(carried.getNetworkID());
 
 		CButton@ buttonWrite = caller.CreateGenericButton("$icon_paper$", Vec2f(0, 0), this, this.getCommandID("write"), "Rename", params);
+	}
+}
+
+void onDie(CBlob@ this)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		CBlob@ blob = server_CreateBlob("steak", this.getTeamNum(), this.getPosition());
+
+		if (blob !is null)
+		{
+			blob.server_SetQuantity(1 + XORRandom(2));
+			blob.setVelocity(Vec2f(XORRandom(4) - 2, -2 - XORRandom(4)));
+		}
 	}
 }
