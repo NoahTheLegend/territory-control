@@ -809,14 +809,33 @@ void onChangeTeam(CBlob@ this, const int oldTeam)
 
 	if ((oldTeamForts <= 0 || this.get_string("base_name") != "") && !this.hasTag("just_switched_team"))
 	{
-		if (isServer())
+		TeamData@ team_data;
+		GetTeamData(this.getTeamNum(), @team_data);
+
+		bool destroy_hall = false;
+		if (team_data !is null)
 		{
+			destroy_hall = totalFortCount > (MAX_HALL_AMOUNT + calc_extra_halls_per_member(team_data));
+		}
+
+		if (isServer())
+		{	
 			CBitStream bt;
 			bt.write_s32(newTeam);
 			bt.write_s32(oldTeam);
 			bt.write_bool(oldTeamForts == 0);
 
 			this.SendCommand(this.getCommandID("faction_captured"), bt);
+
+			if (destroy_hall) this.server_Die();
+		}
+		if (isClient())
+		{
+			if (destroy_hall)
+			{
+				SColor teamColor = getRules().getTeam(this.getTeamNum()).color;
+				client_AddToChat(this.getInventoryName() + "was demolitioned due to the overflow of the hall limit.", teamColor);
+			}
 		}
 	}
 
