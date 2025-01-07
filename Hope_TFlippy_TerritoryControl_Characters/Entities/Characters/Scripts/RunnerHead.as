@@ -228,6 +228,12 @@ void ReloadHead(CSprite@ this)
 			head_index = 126;
 
 		}
+		if (ply.getUsername() == "QuantalJ")
+		{	
+		
+			head_index = 127;
+
+		}
 		
 		u8 deity_id = blob.get_u8("deity_id");
 		switch (deity_id)
