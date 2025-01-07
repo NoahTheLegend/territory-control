@@ -128,7 +128,7 @@ class Bullet
                 CBlob@ blob = @hit.blob;
                 if (blob !is null)
                 {
-                    if (blob.hasTag("human"))
+                    if (blob.hasTag("human") && !gunBlob.exists("ProjBlob"))
                     {
                         // Check if already hit
                         bool alreadyHit = false;
