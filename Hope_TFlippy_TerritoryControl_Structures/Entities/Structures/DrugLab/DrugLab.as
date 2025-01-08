@@ -174,6 +174,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	}
 }
 
+
 void React(CBlob@ this)
 {
 	if (getGameTime() >= this.get_u32("next_react"))
@@ -181,25 +182,25 @@ void React(CBlob@ this)
 		CInventory@ inv = this.getInventory();
 		if (inv !is null)
 		{
-			const f32 mithril_count = inv.getCount("mat_mithril");
-			const f32 e_mithril_count = inv.getCount("mat_mithrilenriched");
-			const f32 fuel_count = inv.getCount("mat_fuel");
-			const f32 acid_count = inv.getCount("mat_acid");
-			const f32 oil_count = inv.getCount("mat_oil");
-			const f32 sulphur_count = inv.getCount("mat_sulphur");
-			const f32 meat_count = inv.getCount("mat_meat");
-			const f32 dangermeat_count = inv.getCount("mat_dangerousmeat");
-			const f32 methane_count = inv.getCount("mat_methane");
-			const f32 mustard_count = inv.getCount("mat_mustard");
-			const f32 dirt_count = inv.getCount("mat_dirt");
-			const f32 coal_count = inv.getCount("mat_coal");
-			const f32 steel_count = inv.getCount("mat_steelingot");
-			const f32 protopopov_count = inv.getCount("mat_protopopov");
-			const f32 rippiogas_count = inv.getCount("mat_rippio");
-			const f32 ganja_count = inv.getCount("mat_ganja");
-			const f32 steroid_count = inv.getCount("steroid");
-			const f32 pumpkin_count = inv.getCount("pumpkin");
-			const f32 mat_boof_count = inv.getCount("mat_boof");
+			f32 mithril_count = inv.getCount("mat_mithril");
+			f32 e_mithril_count = inv.getCount("mat_mithrilenriched");
+			f32 fuel_count = inv.getCount("mat_fuel");
+			f32 acid_count = inv.getCount("mat_acid");
+			f32 oil_count = inv.getCount("mat_oil");
+			f32 sulphur_count = inv.getCount("mat_sulphur");
+			f32 meat_count = inv.getCount("mat_meat");
+			f32 dangermeat_count = inv.getCount("mat_dangerousmeat");
+			f32 methane_count = inv.getCount("mat_methane");
+			f32 mustard_count = inv.getCount("mat_mustard");
+			f32 dirt_count = inv.getCount("mat_dirt");
+			f32 coal_count = inv.getCount("mat_coal");
+			f32 steel_count = inv.getCount("mat_steelingot");
+			f32 protopopov_count = inv.getCount("mat_protopopov");
+			f32 rippiogas_count = inv.getCount("mat_rippio");
+			f32 ganja_count = inv.getCount("mat_ganja");
+			f32 steroid_count = inv.getCount("steroid");
+			f32 pumpkin_count = inv.getCount("pumpkin");
+			f32 mat_boof_count = inv.getCount("mat_boof");
 
 			const f32 heat = this.get_f32("heat") + Maths::Pow((mithril_count * 3.00f) + (e_mithril_count * 15.00f), 2) / 20000.00f;
 			const f32 pressure = Maths::Pow(1000 + (methane_count * 75) + (fuel_count * 100) + (acid_count * 75) + (mustard_count * 25), Maths::Max(1, 1.00f + (heat * 0.0002f)));
@@ -285,6 +286,9 @@ void React(CBlob@ this)
 					ganja_blob.server_SetQuantity(Maths::Max(ganja_blob.getQuantity() - 20, 0));
 					dirt_blob.server_SetQuantity(Maths::Max(dirt_blob.getQuantity() - 20, 0));
 
+					ganja_count -= 20;
+					dirt_count -= 20;
+
 					Material::createFor(this, "boof", 1 + XORRandom(2));
 				}
 
@@ -300,6 +304,8 @@ void React(CBlob@ this)
 					fiks_blob.server_Die();
 					dangermeat_blob.server_SetQuantity(Maths::Max(dangermeat_blob.getQuantity() - 45, 0));
 
+					dangermeat_count -= 45;
+
 					Material::createFor(this, "goobypill", 2 + XORRandom(2));
 					if (XORRandom(100) < 33) Material::createFor(this, "gooby", 1 + XORRandom(2));
 				}
@@ -313,6 +319,9 @@ void React(CBlob@ this)
 				if (isServer())
 				{
 					dangermeat_blob.server_SetQuantity(Maths::Max(dangermeat_blob.getQuantity() - 15, 0));
+
+					dangermeat_count -= 15;
+
 					Material::createFor(this, "mat_explodium", 1 + XORRandom(2));
 					Material::createFor(this, "mat_meat", 9 + XORRandom(5));
 				}
@@ -374,6 +383,9 @@ void React(CBlob@ this)
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - 50, 0));
 					vodka_blob.server_Die();
 
+					fuel_count -= 50;
+					coal_count -= 50;
+
 					Material::createFor(this, "sosek", 2 + XORRandom(3));
 				}
 
@@ -389,6 +401,10 @@ void React(CBlob@ this)
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 50, 0));
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - 50, 0));
 
+					fuel_count -= 50;
+					acid_count -= 50;
+					coal_count -= 50;
+
 					Material::createFor(this, "fumes", 2 + XORRandom(5));
 				}
 
@@ -403,6 +419,10 @@ void React(CBlob@ this)
 					protopopov_blob.server_SetQuantity(Maths::Max(protopopov_blob.getQuantity() - 50, 0));
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 50, 0));
 					mithril_blob.server_SetQuantity(Maths::Max(mithril_blob.getQuantity() - 25, 0));
+
+					protopopov_count -= 50;
+					acid_count -= 50;
+					mithril_count -= 25;
 
 					Material::createFor(this, "dew", 2 + XORRandom(4));
 				}
@@ -438,6 +458,10 @@ void React(CBlob@ this)
 				{
 					oil_blob.server_SetQuantity(Maths::Max(oil_blob.getQuantity() - count, 0));
 					methane_blob.server_SetQuantity(Maths::Max(methane_blob.getQuantity() - count, 0));
+
+					oil_count -= count;
+					methane_count -= count;
+
 					Material::createFor(this, "mat_fuel", count * 1.50f);
 				}
 
@@ -453,6 +477,9 @@ void React(CBlob@ this)
 				if (isServer())
 				{
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - count, 0));
+
+					coal_count -= count;
+
 					Material::createFor(this, "mat_oil", count * 1.75f);
 				}
 
@@ -469,6 +496,10 @@ void React(CBlob@ this)
 				{
 					steel_blob.server_SetQuantity(Maths::Max(steel_blob.getQuantity() - 6, 0));
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - count, 0));
+
+					steel_count -= 6;
+					coal_count -= count;
+
 					Material::createFor(this, "mat_carbon", count * 1.75f);
 				}
 
@@ -484,6 +515,10 @@ void React(CBlob@ this)
 				{
 					mustard_blob.server_SetQuantity(Maths::Max(mustard_blob.getQuantity() - count, 0));
 					fuel_blob.server_SetQuantity(Maths::Max(fuel_blob.getQuantity() - count, 0));
+
+					mustard_count -= count;
+					fuel_count -= count;
+
 					Material::createFor(this, "mat_acid", count * 2.00f);
 				}
 
@@ -493,11 +528,14 @@ void React(CBlob@ this)
 
 			if (pressure > 1000 && heat > 300 && hasMeat)
 			{
-				f32 count = Maths::Min(meat_count, pressure * 0.001f);
+				f32 count = Maths::Min(meat_count, pressure * 0.001f) * 0.25f;
 
 				if (isServer())
 				{
-					meat_blob.server_SetQuantity(Maths::Max(meat_blob.getQuantity() - count * 0.25f, 0));
+					meat_blob.server_SetQuantity(Maths::Max(meat_blob.getQuantity() - count, 0));
+
+					meat_count -= count;
+
 					Material::createFor(this, "mat_methane", count * 0.75f);
 					Material::createFor(this, "mat_acid", count * 0.75f);
 				}
@@ -508,11 +546,14 @@ void React(CBlob@ this)
 
 			if (pressure > 10000 && pressure < 50000 && heat > 1000 && hasOil)
 			{
-				f32 count = Maths::Min(oil_count, pressure * 0.0004f);
+				f32 count = Maths::Min(oil_count, pressure * 0.0004f) * 0.50f;
 
 				if (isServer())
 				{
-					oil_blob.server_SetQuantity(Maths::Max(oil_blob.getQuantity() - count * 0.50f, 0));
+					oil_blob.server_SetQuantity(Maths::Max(oil_blob.getQuantity() - count, 0));
+
+					oil_count -= count;
+
 					Material::createFor(this, "mat_fuel", count * 0.75f);
 					Material::createFor(this, "mat_acid", count * 0.25f);
 					Material::createFor(this, "mat_dirt", count * 0.50f);
@@ -528,6 +569,10 @@ void React(CBlob@ this)
 				{
 					mithril_blob.server_SetQuantity(Maths::Max(mithril_blob.getQuantity() - 50, 0));
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 25, 0));
+
+					mithril_count -= 50;
+					acid_count -= 25;
+
 					Material::createFor(this, "domino", 3 + XORRandom(6));
 					Material::createFor(this, "mat_mithrilenriched", XORRandom(10));
 					Material::createFor(this, "mat_fuel", XORRandom(40));
@@ -543,6 +588,10 @@ void React(CBlob@ this)
 				{
 					sulphur_blob.server_SetQuantity(Maths::Max(sulphur_blob.getQuantity() - 50, 0));
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 25, 0));
+
+					sulphur_count -= 50;
+					acid_count -= 25;
+
 					Material::createFor(this, "stimpill", 4 + XORRandom(3));
 					if (XORRandom(100) < 50) Material::createFor(this, "stim", 1 + XORRandom(2));
 					Material::createFor(this, "mat_dirt", XORRandom(15));
@@ -562,6 +611,11 @@ void React(CBlob@ this)
 					e_mithril_blob.server_SetQuantity(Maths::Max(e_mithril_blob.getQuantity() - 5, 0));
 					meat_blob.server_SetQuantity(Maths::Max(meat_blob.getQuantity() - 10, 0));
 
+					acid_count -= 25;
+					methane_count -= 25;
+					e_mithril_count -= 5;
+					meat_count -= 10;
+
 					Material::createFor(this, "poot", 1 + XORRandom(2));
 					Material::createFor(this, "bobomax", XORRandom(2));
 					Material::createFor(this, "mat_oil", XORRandom(25));
@@ -579,6 +633,10 @@ void React(CBlob@ this)
 					meat_blob.server_SetQuantity(Maths::Max(meat_blob.getQuantity() - 15, 0));
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 25, 0));
 
+					dirt_count -= 50;
+					meat_count -= 15;
+					acid_count -= 25;
+
 					Material::createFor(this, "bobongo", 3 + XORRandom(5));
 					Material::createFor(this, "mat_methane", XORRandom(50));
 
@@ -595,11 +653,14 @@ void React(CBlob@ this)
 
 			if (pressure < 50000 && heat > 100 && hasAcid && !hasMeat)
 			{
-				f32 count = Maths::Min(Maths::Min(acid_count * 0.25f, acid_count), pressure * 0.00025f);
+				f32 count = Maths::Min(Maths::Min(acid_count * 0.25f, acid_count), pressure * 0.00025f) * 0.25f;
 
 				if (isServer())
 				{
-					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - count * 0.25f, 0));
+					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - count, 0));
+
+					acid_count -= count;
+
 					Material::createFor(this, "mat_dirt", count * 3.00f);
 				}
 
@@ -618,6 +679,9 @@ void React(CBlob@ this)
 						oil_blob.server_SetQuantity(Maths::Max(oil_blob.getQuantity() - 20, 0));
 						bobomax.server_Die();
 
+						acid_count -= 25;
+						oil_count -= 20;
+
 						Material::createFor(this, "foof", 3 + XORRandom(7));
 					}
 
@@ -635,6 +699,8 @@ void React(CBlob@ this)
 					{
 						oil_blob.server_SetQuantity(Maths::Max(oil_blob.getQuantity() - 25, 0));
 						stim.server_Die();
+
+						oil_count -= 25;
 
 						Material::createFor(this, "rippiopill", 2 + XORRandom(2));
 						if (XORRandom(100) < 50) Material::createFor(this, "rippio", 1 + XORRandom(2));
@@ -657,6 +723,10 @@ void React(CBlob@ this)
 				{
 					rippiogas_blob.server_SetQuantity(Maths::Max(rippiogas_blob.getQuantity() - 25, 0));
 					protopopovBulb_blob.server_Die();
+
+					rippiogas_count -= 25;
+
+
 					Material::createFor(this, "mat_love", 15 + XORRandom(11));
 					if (XORRandom(100) < 50)
 					{
@@ -675,6 +745,9 @@ void React(CBlob@ this)
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 15, 0));
 					mithril_blob.server_SetQuantity(Maths::Max(mithril_blob.getQuantity() - 5, 0));
 
+					acid_count -= 15;
+					mithril_count -= 5;
+
 					Material::createFor(this, "fiks", 4 + XORRandom(4));
 					Material::createFor(this, "domino", XORRandom(7));
 				}
@@ -690,6 +763,9 @@ void React(CBlob@ this)
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 20, 0));
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - 15, 0));
 
+					acid_count -= 20;
+					coal_count -= 15;
+
 					Material::createFor(this, "babby", 2 + XORRandom(3));
 				}
 
@@ -704,6 +780,10 @@ void React(CBlob@ this)
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 50, 0));
 					sulphur_blob.server_SetQuantity(Maths::Max(sulphur_blob.getQuantity() - 250, 0));
 					coal_blob.server_SetQuantity(Maths::Max(coal_blob.getQuantity() - 100, 0));
+
+					acid_count -= 50;
+					sulphur_count -= 250;
+					coal_count -= 100;
 
 					Material::createFor(this, "propesko", 1 + XORRandom(2));
 					if (XORRandom(100) < 10)
@@ -723,6 +803,9 @@ void React(CBlob@ this)
 					oil_blob.server_SetQuantity(Maths::Max(oil_blob.getQuantity() - 15, 0));
 					mithril_blob.server_SetQuantity(Maths::Max(mithril_blob.getQuantity() - 5, 0));
 
+					oil_count -= 15;
+					mithril_count -= 5;
+
 					Material::createFor(this, "schisk", 2 + XORRandom(3));
 					Material::createFor(this, "bobomax", 1 + XORRandom(3));
 				}
@@ -740,6 +823,8 @@ void React(CBlob@ this)
 					{
 						oil_blob.server_SetQuantity(Maths::Max(oil_blob.getQuantity() - 25, 0));
 						vodka.server_Die();
+
+						oil_count -= 25;
 
 						Material::createFor(this, "paxilonpill", 2 + XORRandom(2));
 						//Material::createFor(this, "mat_paxilon", 15 + XORRandom(35));
@@ -762,6 +847,8 @@ void React(CBlob@ this)
 					mustard_blob.server_SetQuantity(Maths::Max(mustard_blob.getQuantity() - 50, 0));
 					love_blob.server_Die();
 
+					mustard_count -= 50;
+
 					Material::createFor(this, "mat_gae", 100 + XORRandom(50));
 				}
 
@@ -775,6 +862,8 @@ void React(CBlob@ this)
 				{
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - 25, 0));
 					rippio_blob.server_Die();
+
+					acid_count -= 25;
 
 					Material::createFor(this, "love", 1 + XORRandom(1));
 				}
@@ -816,9 +905,13 @@ void React(CBlob@ this)
 			{
 				if (isServer())
 				{
+					u8 rand = XORRandom(11);
 					steroid_blob.server_Die();
-					mat_boof.server_SetQuantity(Maths::Max(mat_boof.getQuantity() - (25-XORRandom(11)), 0));
+					mat_boof.server_SetQuantity(Maths::Max(mat_boof.getQuantity() - (25-rand), 0));
 					e_mithril_blob.server_SetQuantity(Maths::Max(e_mithril_blob.getQuantity() - 10, 0));
+
+					e_mithril_count -= 10;
+					mat_boof_count -= 25-rand;
 
 					Material::createFor(this, "polymorphine", 1 + (XORRandom(4) == 0 ? 1 : 0));
 					if (XORRandom(6) == 0)
@@ -835,6 +928,7 @@ void React(CBlob@ this)
 
 	this.set_u32("next_react", getGameTime() + 15);
 }
+
 
 void onRender(CSprite@ this)
 {
