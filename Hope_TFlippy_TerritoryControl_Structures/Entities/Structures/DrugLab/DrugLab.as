@@ -528,13 +528,13 @@ void React(CBlob@ this)
 
 			if (pressure > 1000 && heat > 300 && hasMeat)
 			{
-				f32 count = Maths::Min(meat_count, pressure * 0.001f) * 0.25f;
+				f32 count = Maths::Min(meat_count, pressure * 0.001f);
 
 				if (isServer())
 				{
-					meat_blob.server_SetQuantity(Maths::Max(meat_blob.getQuantity() - count, 0));
+					meat_blob.server_SetQuantity(Maths::Max(meat_blob.getQuantity() - count * 0.25f, 0));
 
-					meat_count -= count;
+					meat_count -= count * 0.25f;
 
 					Material::createFor(this, "mat_methane", count * 0.75f);
 					Material::createFor(this, "mat_acid", count * 0.75f);
@@ -653,13 +653,13 @@ void React(CBlob@ this)
 
 			if (pressure < 50000 && heat > 100 && hasAcid && !hasMeat)
 			{
-				f32 count = Maths::Min(Maths::Min(acid_count * 0.25f, acid_count), pressure * 0.00025f) * 0.25f;
+				f32 count = Maths::Min(Maths::Min(acid_count * 0.25f, acid_count), pressure * 0.00025f);
 
 				if (isServer())
 				{
-					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - count, 0));
+					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - count * 0.25f, 0));
 
-					acid_count -= count;
+					acid_count -= count * 0.25f;
 
 					Material::createFor(this, "mat_dirt", count * 3.00f);
 				}
