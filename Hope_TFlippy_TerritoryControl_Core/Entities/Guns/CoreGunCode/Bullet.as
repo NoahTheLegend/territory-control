@@ -30,8 +30,6 @@ class Bullet
     u8 Speed;
     s8 TimeLeft;
 
-    CBlob@[] hitHumans; 
-
     Bullet(CBlob@ humanBlob, CBlob@ gun, f32 angle, Vec2f pos, BulletModule@[] pointer)
     {
         @hoomanShooter = humanBlob;
@@ -52,8 +50,6 @@ class Bullet
 
         OldPos = CurrentPos;
         LastLerpedPos = CurrentPos;
-
-        hitHumans = array<CBlob@>(); 
 
         for (int a = 0; a < modules.length(); a++)
         {
@@ -128,28 +124,6 @@ class Bullet
                 CBlob@ blob = @hit.blob;
                 if (blob !is null)
                 {
-                    if (blob.hasTag("human"))
-                    {
-                        // Check if already hit
-                        bool alreadyHit = false;
-                        for (uint i = 0; i < hitHumans.length(); i++)
-                        {
-                            if (hitHumans[i] is blob)
-                            {
-                                alreadyHit = true;
-                                break;
-                            }
-                        }
-                        if (alreadyHit)
-                        {
-                            continue; 
-                        }
-                        else
-                        {
-                            hitHumans.push_back(blob); 
-                        }
-                    }
-
                     int hash = blob.getName().getHash();
                     switch (hash)
                     {
