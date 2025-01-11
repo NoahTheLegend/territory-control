@@ -75,6 +75,12 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
+		ShopItem@ s = addShopItem(this, "Fez", "$fez$", "fez", "Can't make a kebab without it.", true);
+		AddRequirement(s.requirements, "coin", "", "Coins", 250);
+
+		s.spawnNothing = true;
+	}
+	{
 		ShopItem@ s = addShopItem(this, "Christmas Hat", "$xmashat$", "xmashat", "Present the holiday vibes!", true);
 		AddRequirement(s.requirements, "coin", "", "Coins", 250);
 
