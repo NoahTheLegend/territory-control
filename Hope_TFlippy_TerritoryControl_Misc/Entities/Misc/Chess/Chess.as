@@ -174,10 +174,10 @@ void onTick(CBlob@ this)
 			u16 p1_id = p1.getNetworkID();
 			u16 cplayer_id = p1.getPlayer() is null ? 0 : p1.getPlayer().getNetworkID();
 
-			if (ap1.isKeyJustPressed(key_left) && sb % 8 != 0) sb -= 1;
-			if (ap1.isKeyJustPressed(key_right) && sb % 8 != 7) sb += 1;
-			if (ap1.isKeyJustPressed(key_up) && Maths::Floor(sb/8) != 0) sb -= 8;
-			if (ap1.isKeyJustPressed(key_down) && Maths::Floor(sb/8) != 7) sb += 8;
+			if (ap1.isKeyJustPressed(key_right) && sb % 8 != 0) sb -= 1;
+			if (ap1.isKeyJustPressed(key_left) && sb % 8 != 7) sb += 1;
+			if (ap1.isKeyJustPressed(key_down) && Maths::Floor(sb/8) != 0) sb -= 8;
+			if (ap1.isKeyJustPressed(key_up) && Maths::Floor(sb/8) != 7) sb += 8;
 
 			if (ap1.isKeyJustPressed(key_action1) && (localhost || !table.turn_white))
 			{
@@ -256,6 +256,7 @@ const SColor col_enemy = SColor(140,255,0,0);
 const SColor col_path = SColor(140,0,255,0);
 const SColor col_recent_from = SColor(215,155,155,255);
 const SColor col_recent_to = SColor(215,225,135,135);
+const SColor col_check = SColor(215,255,0,0);
 const string[] cols = {"A","B","C","D","E","F","G","H"};
 
 f32 old_factor = 0;
@@ -298,7 +299,7 @@ void onRender(CSprite@ sprite)
 	f32 factor = tilesize/24.0f*0.5f;
 
 	// disable visual render
-	bool rendering = true;
+	bool rendering = local !is null;
 	if (local !is null && !local.isAttachedTo(this))
 	{
 		Vec2f mpos = driver.getWorldPosFromScreenPos(getControls().getInterpMouseScreenPos());
@@ -316,17 +317,36 @@ void onRender(CSprite@ sprite)
 
 		// rows
 		GUI::SetFont("menu");
-		for (u8 i = 0; i < 8; i++)
-		{
-			f32 row_offset = (area/8)*(i+1);
-			GUI::DrawTextCentered(""+(i+1), tl+Vec2f(-16, area - row_offset + (area/8)/2 - 1.5f), SColor(225,255,255,255));
-		}
 
-		// cols
-		for (u8 i = 0; i < 8; i++)
+		if (my_p1)
 		{
-			f32 col_offset = (area/8)*i;
-			GUI::DrawTextCentered(cols[i], tl+Vec2f(col_offset + (area/8)/2 - 3.0f, area + 16 - 4.0f), SColor(225,255,255,255));
+			for (u8 i = 0; i < 8; i++)
+			{
+				f32 row_offset = (area/8)*(8-i);
+				GUI::DrawTextCentered(""+(8-i), tl+Vec2f(-16, row_offset - (area/8)/2 - 1.5f), SColor(225,255,255,255));
+			}
+
+			// cols
+			for (u8 i = 0; i < 8; i++)
+			{
+				f32 col_offset = (area/8)*i;
+				GUI::DrawTextCentered(cols[7-i], tl+Vec2f(col_offset + (area/8)/2 - 3.0f, area + 16 - 4.0f), SColor(225,255,255,255));
+			}
+		}
+		else
+		{
+			for (u8 i = 0; i < 8; i++)
+			{
+				f32 row_offset = (area/8)*(i+1);
+				GUI::DrawTextCentered(""+(i+1), tl+Vec2f(-16, area - row_offset + (area/8)/2 - 1.5f), SColor(225,255,255,255));
+			}
+
+			// cols
+			for (u8 i = 0; i < 8; i++)
+			{
+				f32 col_offset = (area/8)*i;
+				GUI::DrawTextCentered(cols[i], tl+Vec2f(col_offset + (area/8)/2 - 3.0f, area + 16 - 4.0f), SColor(225,255,255,255));
+			}
 		}
 
 		bool turn_white = table.turn_white;
@@ -369,7 +389,10 @@ void onRender(CSprite@ sprite)
 			}
 		}
 
-		GUI::DrawTextCentered(my_p0 && turn_white ? "Your turn" : my_p1 && turn_black ? "Your turn" : "", tl + Vec2f(area/2,-20), SColor(255,255,255,255));
+		if (table.end)
+			GUI::DrawTextCentered((table.turn_white ? "Black" : "White") + " team won. Press [END] key to restart.", tl + Vec2f(area/2, -20), SColor(255, 255, 255, 255));
+		else
+			GUI::DrawTextCentered(my_p0 && turn_white ? "Your turn" : my_p1 && turn_black ? "Your turn" : "Enemy's turn", tl + Vec2f(area/2, -20), SColor(255, 255, 255, 255));
 
 		// F1 help menu
 		bool reset = my_p0 ? this.get_bool("reset_white") : my_p1 ? this.get_bool("reset_black") : false;
@@ -389,20 +412,22 @@ void onRender(CSprite@ sprite)
 		u8 sb = this.get_u8("selected_black");
 		u8 cb = this.get_s8("captured_black");
 
+		u8 check_index = table.check_index;
+
 		// draw tiles
 		for (u8 i = 0; i < 64; i++)
 		{
-			u8 x = i%8;
-			u8 y = Maths::Floor(i/8);
+			u8 x = i % 8;
+			u8 y = Maths::Floor(i / 8);
 
-			SColor col = (y%2==0 ? i%2 : (i+1)%2) == 0 ? col_white : col_black;
+			SColor col = (y % 2 == 0 ? i % 2 : (i + 1) % 2) == 0 ? col_white : col_black;
 			Board@ p = @table.board_pieces[x][y];
 			bool not_empty = p !is null && p.type != 0;
 
 			if (my_p0)
 			{
-				bool selected = x == sw%8 && y == Maths::Floor(sw/8);
-				bool captured = x == cw%8 && y == Maths::Floor(cw/8) && not_empty;
+				bool selected = x == sw % 8 && y == Maths::Floor(sw / 8);
+				bool captured = x == cw % 8 && y == Maths::Floor(cw / 8) && not_empty;
 
 				if (selected)
 				{
@@ -417,8 +442,8 @@ void onRender(CSprite@ sprite)
 
 			if (my_p1)
 			{
-				bool selected = x == sb%8 && y == Maths::Floor(sb/8);
-				bool captured = x == cb%8 && y == Maths::Floor(cb/8) && not_empty;
+				bool selected = x == sb % 8 && y == Maths::Floor(sb / 8);
+				bool captured = x == cb % 8 && y == Maths::Floor(cb / 8) && not_empty;
 
 				if (selected)
 				{
@@ -438,7 +463,25 @@ void onRender(CSprite@ sprite)
 			}
 
 			Vec2f tile_offset = Vec2f(f32(x) * tilesize, f32(y) * tilesize) + tl;
+			if (my_p1) // Mirror the board for black player
+			{
+				tile_offset = Vec2f(f32(7 - x) * tilesize, f32(7 - y) * tilesize) + tl;
+			}
 			GUI::DrawRectangle(tile_offset, tile_offset + Vec2f(tilesize, tilesize), col);
+		}
+
+		// draw check
+		if (check_index != 255 && check_index != (my_p0 ? cw : cb))
+		{
+			u8 x = check_index % 8;
+			u8 y = Maths::Floor(check_index / 8);
+
+			Vec2f tile_offset = Vec2f(f32(x) * tilesize, f32(y) * tilesize) + tl;
+			if (my_p1) // Mirror the board for black player
+			{
+				tile_offset = Vec2f(f32(7 - x) * tilesize, f32(7 - y) * tilesize) + tl;
+			}
+			GUI::DrawRectangle(tile_offset, tile_offset + Vec2f(tilesize, tilesize), col_check);
 		}
 
 		// draw selection & captured
@@ -447,8 +490,8 @@ void onRender(CSprite@ sprite)
 			u8 s = my_p0 ? sw : sb;
 			u8 c = my_p0 ? cw : cb;
 
-			u8 x = c%8;
-			u8 y = Maths::Floor(c/8);
+			u8 x = c % 8;
+			u8 y = Maths::Floor(c / 8);
 
 			Board@ p = @table.board_pieces[x][y];
 			bool not_empty = p !is null && p.type != 0;
@@ -461,7 +504,11 @@ void onRender(CSprite@ sprite)
 				s8 tile = move_tiles[j];
 				if (tile == s) continue;
 
-				Vec2f special_tile_offset = Vec2f(f32(tile%8) * tilesize, f32(Maths::Floor(tile/8)) * tilesize) + tl;
+				Vec2f special_tile_offset = Vec2f(f32(tile % 8) * tilesize, f32(Maths::Floor(tile / 8)) * tilesize) + tl;
+				if (my_p1) // Mirror the board for black player
+				{
+					special_tile_offset = Vec2f(f32(7 - (tile % 8)) * tilesize, f32(7 - Maths::Floor(tile / 8)) * tilesize) + tl;
+				}
 				GUI::DrawRectangle(special_tile_offset, special_tile_offset + Vec2f(tilesize, tilesize), col_path);
 			}
 
@@ -470,28 +517,45 @@ void onRender(CSprite@ sprite)
 				s8 tile = enemy_tiles[j];
 				if (tile == s) continue;
 
-				Vec2f special_tile_offset = Vec2f(f32(tile%8) * tilesize, f32(Maths::Floor(tile/8)) * tilesize) + tl;
+				Vec2f special_tile_offset = Vec2f(f32(tile % 8) * tilesize, f32(Maths::Floor(tile / 8)) * tilesize) + tl;
+				if (my_p1) // Mirror the board for black player
+				{
+					special_tile_offset = Vec2f(f32(7 - (tile % 8)) * tilesize, f32(7 - Maths::Floor(tile / 8)) * tilesize) + tl;
+				}
 				GUI::DrawRectangle(special_tile_offset, special_tile_offset + Vec2f(tilesize, tilesize), col_enemy);
 			}
 		}
 	}
 
 	f32 lerp = this.isAttached() ? 0.66f : 0.33f;
+	f32 rdt_factor = 60.0f * getRenderExactDeltaTime();
+	lerp *= rdt_factor;
+
+	if (this.hasTag("team1_rotate_immediately"))
+	{
+		lerp = 1;
+		this.Untag("team1_rotate_immediately");
+	}
+
 	// draw icons
 	for (u8 i = 0; i < 64; i++)
 	{
-		u8 x = i%8;
-		u8 y = Maths::Floor(i/8);
+		u8 x = i % 8;
+		u8 y = Maths::Floor(i / 8);
 
 		Board@ p = @table.board_pieces[x][y];
 		bool not_empty = p !is null && p.type != 0;
 
 		Vec2f tile_offset = Vec2f(f32(x) * tilesize, f32(y) * tilesize) + tl;
+		if (my_p1) // Mirror the board for black player
+		{
+			tile_offset = Vec2f(f32(7 - x) * tilesize, f32(7 - y) * tilesize) + tl;
+		}
 		if (not_empty)
 		{
-			Vec2f pos = driver.getWorldPosFromScreenPos(tile_offset - Vec2f(7,8) * factor);
+			Vec2f pos = driver.getWorldPosFromScreenPos(tile_offset - Vec2f(7, 8) * factor);
 			if (p.icon_pos == Vec2f_zero) p.icon_pos = pos;
-			
+
 			p.icon_pos = Vec2f_lerp(p.icon_pos, pos, lerp);
 			if (rendering) p.render_icon(factor);
 		}
@@ -508,6 +572,7 @@ class Table
 	u8 castling_rook_moved_white;
 	u8 castling_rook_moved_black;
 	bool turn_white;
+	u8 check_index;
 	array<array<Board@>> board_pieces();
 	bool end;
 
@@ -519,6 +584,7 @@ class Table
 		castling_rook_moved_white = 0;
 		castling_rook_moved_black = 0;
 		turn_white = true;
+		check_index = 255;
 		board_pieces = array<array<Board@>>(8, array<Board@>(8, MakePieceOnBoard(@this, 0, -1)));
 		end = false;
 	}
@@ -534,7 +600,7 @@ class Table
 	}
 }
 
-Board@ MakePieceOnBoard(Table@ table, u8 type, s8 color)
+Board@ MakePieceOnBoard(Table@ table, u8 type, s8 color) // piece factory
 {
 	switch(type)
 	{
@@ -546,7 +612,7 @@ Board@ MakePieceOnBoard(Table@ table, u8 type, s8 color)
 		case 6: return cast<Board@>(@king(table, color));
 	}
 
-	return @Board(table, type, color, false);
+	return @Board(table, type, color);
 }
 
 const Vec2f up = Vec2f(0, -1); 
@@ -558,22 +624,20 @@ class Board // breaks solid, but who cares
 {
 	Table@ table;
 	u8 type; s8 color; 				// Board, team
-	s8[] dirs; bool inf;			// 0 = top, 1 = top right, 2 = right ... 8 = knight, 9 = castling
 	Vec2f icon_pos;					// pos on screen
 
 	Board()
 	{
 		icon_pos = Vec2f_zero;
-		type = 0; color = -1; inf = false;
+		type = 0; color = -1;
 	}
 
-	Board(Table@ _table, s8 _type, s8 _color, bool _inf)
+	Board(Table@ _table, s8 _type, s8 _color)
 	{
 		Board();
 		@table = @_table;
 		type = _type;
 		color = _color;
-		inf = _inf;
 	}
 
 	void render_icon(f32 factor)
@@ -589,11 +653,6 @@ class Board // breaks solid, but who cares
 	void set_board(Board@[][] board)
 	{
 		table.set_board(board);
-	}
-
-	void add_direction(s8 dir)
-	{
-		dirs.push_back(dir);
 	}
 
 	// returns true if dest is out of 8x8 board area (with intepreting 1d array to 2d)
@@ -630,7 +689,7 @@ class Board // breaks solid, but who cares
 
 	// returns tiles in one array, iterating directions assigned to pieces
 	// ^ additionally separates enemy tiles into another array
-	s8[] get_move_tiles(s8 pos, s8 team, s8[] &out enemies)
+	s8[] get_move_tiles(s8 pos, s8 team, s8[] &out enemies, u8 override_type = 0)
 	{
 		s8[] arr;
 		Board@[][] board_pieces = get_board();
@@ -641,7 +700,10 @@ class Board // breaks solid, but who cares
 		Board@ p = @board_pieces[x][y];
 		if (p is null) return arr;
 
-		bool is_pawn = p.type == 1;
+		u8 type = override_type == 0 ? p.type : override_type;
+		bool inf = type == 2 || type == 4 || type == 5;
+
+		bool is_pawn = type == 1;
 		bool first_pawn_move = is_pawn && (p.color == 0 ? y == 6 : y == 1);
 
 		if (is_pawn)
@@ -676,24 +738,65 @@ class Board // breaks solid, but who cares
 			}	
 		}
 	
-		for (s8 i = 0; i < dirs.size(); i++) // direction types
+		if (type == 1) // pawn
 		{
-			s8 dir = dirs[i];
-			if (dir < 8) // straight & diagonal
+			for (s8 j = 0; j < (first_pawn_move ? 2 : 1); j++) // tiles in line
+			{
+				Vec2f dir_vec = team == 0 ? Vec2f(up) * (j + 1) : Vec2f(down) * (j + 1);
+				if (is_out_of_bounds(pos, dir_vec)) continue;
+
+				s8 pos_dir = pos + int(dir_vec.x) + int(dir_vec.y) * 8;
+				s8 obstacle = has_obstacle(pos_dir, team);
+
+				if (obstacle == 0)
+				{
+					break;
+				}
+				else if (obstacle == 1)
+				{
+					break;
+				}
+
+				arr.push_back(pos_dir);
+			}
+		}
+		if (type == 3) // knight
+		{
+			Vec2f[] knight_dirs = {
+				Vec2f(up) + up + left, Vec2f(up) + up + right, Vec2f(right) + right + up, Vec2f(right) + right + down,
+				Vec2f(down) + down + right, Vec2f(down) + down + left, Vec2f(left) + left + down, Vec2f(left) + left + up
+			};
+
+			for (s8 j = 0; j < knight_dirs.size(); j++)
+			{
+				Vec2f dir = knight_dirs[j];
+
+				if (is_out_of_bounds(pos, dir)) continue;
+
+				s8 tile = pos + int(dir.x) + int(dir.y) * 8;
+
+				s8 obstacle = has_obstacle(tile, team);
+				if (obstacle == 0) continue;
+				else if (obstacle == 1)
+				{
+					enemies.push_back(tile);
+					continue;
+				}
+
+				arr.push_back(tile);
+			}
+		}
+		if (type == 2 || type == 5 || type == 6) // bishop, queen, king (diagonal)
+		{
+			Vec2f[] directions = {Vec2f(up) + right, Vec2f(down) + right, Vec2f(down) + left, Vec2f(up) + left};
+			for (s8 i = 0; i < directions.size(); i++)
 			{
 				bool do_break = false;
-				for (s8 j = 0; j < (inf ? 8 : first_pawn_move ? 2 : 1); j++) // tiles in line
+				for (s8 j = 0; j < (inf ? 8 : 1); j++) // tiles in line
 				{
 					if (do_break) continue;
-	
-					Vec2f[] directions = {
-						up, Vec2f(up) + right, right, Vec2f(down) + right,
-						down, Vec2f(down) + left, left, Vec2f(up) + left
-					};
-	
-					Vec2f dir_vec = directions[dir];
-					if (is_pawn && team == 1) dir_vec *= -1;
-					dir_vec = dir_vec * (j + 1);
+
+					Vec2f dir_vec = directions[i] * (j + 1);
 					if (is_out_of_bounds(pos, dir_vec)) continue;
 
 					s8 pos_dir = pos + int(dir_vec.x) + int(dir_vec.y) * 8;
@@ -706,110 +809,293 @@ class Board // breaks solid, but who cares
 					}
 					else if (obstacle == 1)
 					{
-						if (is_pawn) break; // stop if it's next to some thing
-
 						enemies.push_back(pos_dir);
 						do_break = true;
 						continue;
 					}
-	
+
 					arr.push_back(pos_dir);
 				}
 			}
-			else if (dir == 8) // knight
+		}
+		if (type == 4 || type == 5 || type == 6) // rook, queen, king (straight)
+		{
+			Vec2f[] directions = {up, right, down, left};
+			for (s8 i = 0; i < directions.size(); i++)
 			{
-				Vec2f[] knight_dirs = {
-					Vec2f(up) + up + left, Vec2f(up) + up + right, Vec2f(right) + right + up, Vec2f(right) + right + down,
-					Vec2f(down) + down + right, Vec2f(down) + down + left, Vec2f(left) + left + down, Vec2f(left) + left + up
-				};
-	
-				for (s8 j = 0; j < knight_dirs.size(); j++)
+				bool do_break = false;
+				for (s8 j = 0; j < (inf ? 8 : 1); j++) // tiles in line
 				{
-					Vec2f dir = knight_dirs[j];
-	
-					if (is_out_of_bounds(pos, dir)) continue;
-	
-					s8 tile = pos + int(dir.x) + int(dir.y) * 8;
-	
-					s8 obstacle = has_obstacle(tile, team);
-					if (obstacle == 0) continue;
-					else if (obstacle == 1)
+					if (do_break) continue;
+
+					Vec2f dir_vec = directions[i] * (j + 1);
+					if (is_out_of_bounds(pos, dir_vec)) continue;
+
+					s8 pos_dir = pos + int(dir_vec.x) + int(dir_vec.y) * 8;
+					s8 obstacle = has_obstacle(pos_dir, team);
+
+					if (obstacle == 0)
 					{
-						enemies.push_back(tile);
+						do_break = true;
 						continue;
 					}
-	
-					arr.push_back(tile);
+					else if (obstacle == 1)
+					{
+						enemies.push_back(pos_dir);
+						do_break = true;
+						continue;
+					}
+					arr.push_back(pos_dir);
 				}
 			}
-			else if (dir == 9) // castling
+		}
+		if (type == 6 && override_type == 0) // king (castling)
+		{
+			s8 safe_sides = get_safe_castling_sides(pos, team);
+			if (safe_sides == -1) return arr;
+
+			if (color == 0 && table.can_castle_white)
 			{
-				if (color == 0 && table.can_castle_white)
+				bool can_castle_left = false;
+				bool can_castle_right = false;
+
+				bool clear_left = has_obstacle(pos-1, team) == -1 && has_obstacle(pos-2, team) == -1 && has_obstacle(pos-3, team) == -1;
+				bool clear_right = has_obstacle(pos+1, team) == -1 && has_obstacle(pos+2, team) == -1;
+
+				s8 safe_sides = get_safe_castling_sides(pos, team);
+
+				if (table.castling_rook_moved_white < 3)
 				{
-					bool can_castle_left = false;
-					bool can_castle_right = false;
-
-					bool clear_left = has_obstacle(pos-1, team) == -1 && has_obstacle(pos-2, team) == -1 && has_obstacle(pos-3, team) == -1;
-					bool clear_right = has_obstacle(pos+1, team) == -1 && has_obstacle(pos+2, team) == -1;
-
-					if (table.castling_rook_moved_white < 3)
+					// none of left & right rooks moved yet
+					if (table.castling_rook_moved_white == 0)
 					{
-						// none of left & right rooks moved yet
-						if (table.castling_rook_moved_white == 0)
-						{
-							can_castle_left = clear_left;
-							can_castle_right = clear_right;
-						}
-						// left rook moved
-						if (!can_castle_right && table.castling_rook_moved_white == 1)
-						{
-							can_castle_right = clear_right;
-						}
-						// right rook moved
-						if (!can_castle_left && table.castling_rook_moved_white == 2)
-						{
-							can_castle_left = clear_left;
-						}
+						can_castle_left = clear_left && (safe_sides == 0 || safe_sides == 2);
+						can_castle_right = clear_right && (safe_sides == 1 || safe_sides == 2);
 					}
-
-					if (can_castle_left) arr.push_back(pos-2);
-					if (can_castle_right) arr.push_back(pos+2);
+					// left rook moved
+					if (!can_castle_right && table.castling_rook_moved_white == 1)
+					{
+						can_castle_right = clear_right && (safe_sides == 1 || safe_sides == 2);
+					}
+					// right rook moved
+					if (!can_castle_left && table.castling_rook_moved_white == 2)
+					{
+						can_castle_left = clear_left && (safe_sides == 0 || safe_sides == 2);
+					}
 				}
-				else if (color == 1 && table.can_castle_black)
+
+				if (can_castle_left) arr.push_back(pos-2);
+				if (can_castle_right) arr.push_back(pos+2);
+			}
+			else if (color == 1 && table.can_castle_black)
+			{
+				bool can_castle_left = false;
+				bool can_castle_right = false;
+
+				bool clear_left = has_obstacle(pos-1, team) == -1 && has_obstacle(pos-2, team) == -1 && has_obstacle(pos-3, team) == -1;
+				bool clear_right = has_obstacle(pos+1, team) == -1 && has_obstacle(pos+2, team) == -1;
+
+				s8 safe_sides = get_safe_castling_sides(pos, team);
+
+				if (table.castling_rook_moved_black < 3)
 				{
-					bool can_castle_left = false;
-					bool can_castle_right = false;
-
-					bool clear_left = has_obstacle(pos-1, team) == -1 && has_obstacle(pos-2, team) == -1 && has_obstacle(pos-3, team) == -1;
-					bool clear_right = has_obstacle(pos+1, team) == -1 && has_obstacle(pos+2, team) == -1;
-
-					if (table.castling_rook_moved_black < 3)
+					// none of left & right rooks moved yet
+					if (table.castling_rook_moved_black == 0)
 					{
-						// none of left & right rooks moved yet
-						if (table.castling_rook_moved_black == 0)
-						{
-							can_castle_left = clear_left;
-							can_castle_right = clear_right;
-						}
-						// left rook moved
-						if (!can_castle_right && table.castling_rook_moved_black == 1)
-						{
-							can_castle_right = clear_right;
-						}
-						// right rook moved
-						if (!can_castle_left && table.castling_rook_moved_black == 2)
-						{
-							can_castle_left = clear_left;
-						}
+						can_castle_left = clear_left && (safe_sides == 0 || safe_sides == 2);
+						can_castle_right = clear_right && (safe_sides == 1 || safe_sides == 2);
 					}
-
-					if (can_castle_left) arr.push_back(pos-2);
-					if (can_castle_right) arr.push_back(pos+2);
+					// left rook moved
+					if (!can_castle_right && table.castling_rook_moved_black == 1)
+					{
+						can_castle_right = clear_right && (safe_sides == 1 || safe_sides == 2);
+					}
+					// right rook moved
+					if (!can_castle_left && table.castling_rook_moved_black == 2)
+					{
+						can_castle_left = clear_left && (safe_sides == 0 || safe_sides == 2);
+					}
 				}
+
+				if (can_castle_left) arr.push_back(pos-2);
+				if (can_castle_right) arr.push_back(pos+2);
 			}
 		}
 	
 		return arr;
+	}
+
+	// can this tile attack enemy king?
+	u8 approximate_check(s8 pos, s8 team)
+	{
+		if (pos < 0 || pos >= 64) return 255;
+
+		Board@[][] board_pieces = get_board();
+		s8 x = pos % 8;
+		s8 y = Maths::Floor(pos / 8);
+
+		Board@ p = @board_pieces[x][y];
+		if (p is null) return 255;
+		
+		if (p.type != 6)
+		{
+			s8[] enemies;
+			s8[] move_tiles = p.get_move_tiles(pos, team, enemies);
+
+			for (u8 i = 0; i < enemies.size(); i++)
+			{
+				s8 nx = enemies[i] % 8;
+				s8 ny = Maths::Floor(enemies[i] / 8);
+
+				Board@ p = @board_pieces[nx][ny];
+				if (p is null) continue;
+
+				if (p.type == 6 && p.color != team)
+					return enemies[i];
+			}
+		}
+		else return approximate_hit(pos, team) ? pos : 255;
+
+		return 255;
+	}
+
+	// can this tile be hit by enemy?
+	bool approximate_hit(s8 pos, s8 team)
+	{
+		if (pos < 0 || pos >= 64) return false;
+
+		Board@[][] board_pieces = get_board();
+		s8 x = pos % 8;
+		s8 y = Maths::Floor(pos / 8);
+
+		Board@ p = @board_pieces[x][y];
+		if (p is null) return false;
+
+		// check if there are enemy bishops, queens at diagonal paths
+		s8[] diagonal_dirs;
+		p.get_move_tiles(pos, team, diagonal_dirs, 2);
+
+		for (s8 i = 0; i < diagonal_dirs.size(); i++)
+		{
+			s8 nx = diagonal_dirs[i] % 8;
+			s8 ny = Maths::Floor(diagonal_dirs[i] / 8);
+
+			Board@ p = @board_pieces[nx][ny];
+			if (p is null) continue;
+
+			if (p.type == 2 || p.type == 5)
+			{
+				if (p.color != team)
+				{
+					return true;
+				}
+			}
+		}
+
+		// check if there are enemy rooks, queens at straight paths
+		s8[] straight_dirs;
+		p.get_move_tiles(pos, team, straight_dirs, 4);
+		
+		for (s8 i = 0; i < straight_dirs.size(); i++)
+		{
+			s8 nx = straight_dirs[i] % 8;
+			s8 ny = Maths::Floor(straight_dirs[i] / 8);
+
+			Board@ p = @board_pieces[nx][ny];
+			if (p is null) continue;
+
+			if (p.type == 4 || p.type == 5)
+			{
+				if (p.color != team)
+				{
+					return true;
+				}
+			}
+		}
+
+		// check if there are enemy knights
+		s8[] knight_dirs;
+		p.get_move_tiles(pos, team, knight_dirs, 3);
+
+		for (s8 i = 0; i < knight_dirs.size(); i++)
+		{
+			s8 nx = knight_dirs[i] % 8;
+			s8 ny = Maths::Floor(knight_dirs[i] / 8);
+
+			Board@ p = @board_pieces[nx][ny];
+			if (p is null) continue;
+
+			if (p.type == 3)
+			{
+				if (p.color != team)
+				{
+					return true;
+				}
+			}
+		}
+
+		// check if there are enemy pawns
+		s8[] pawn_dirs;
+		p.get_move_tiles(pos, team, pawn_dirs, 1);
+
+		for (s8 i = 0; i < pawn_dirs.size(); i++)
+		{
+			s8 nx = pawn_dirs[i] % 8;
+			s8 ny = Maths::Floor(pawn_dirs[i] / 8);
+
+			Board@ p = @board_pieces[nx][ny];
+			if (p is null) continue;
+
+			if (p.type == 1)
+			{
+				if (p.color != team)
+				{
+					return true;
+				}
+			}
+		}
+
+		// check if there is enemy king
+		s8[] king_dirs;
+		p.get_move_tiles(pos, team, king_dirs, 6);
+
+		for (s8 i = 0; i < king_dirs.size(); i++)
+		{
+			s8 nx = king_dirs[i] % 8;
+			s8 ny = Maths::Floor(king_dirs[i] / 8);
+
+			Board@ p = @board_pieces[nx][ny];
+			if (p is null) continue;
+
+			if (p.type == 6)
+			{
+				if (p.color != team)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	// returns -1 if no castling, 0 if left, 1 if right and 2 if both
+	s8 get_safe_castling_sides(s8 pos, s8 team)
+	{
+		if (pos == table.check_index) return -1;
+
+		Board@[][] board_pieces = get_board();
+		s8 x = pos % 8;
+		s8 y = Maths::Floor(pos / 8);
+
+		bool can_castle_left = !approximate_hit(pos - 1, team) && !approximate_hit(pos - 2, team);
+		bool can_castle_right = !approximate_hit(pos + 1, team) && !approximate_hit(pos + 2, team);
+
+		if (can_castle_left && can_castle_right) return 2;
+		else if (can_castle_left) return 0;
+		else if (can_castle_right) return 1;
+
+		return -1;
 	}
 
 	// sets the pointer of a Board@ object (chess piece) into another tile and creates an empty tile at old pos
@@ -864,18 +1150,34 @@ class Board // breaks solid, but who cares
 				blob.getSprite().PlaySound("board_move.ogg", 0.33f, 1.0f+getRandomPitch());
 		}
 
+		// Disable castling if a rook on its initial place is killed
+		if (on_dest !is null && on_dest.type == 4)
+		{
+			if (on_dest.color == 0)
+			{
+				if (dest_x == 0 && dest_y == 7) table.castling_rook_moved_white |= 0x01;
+				if (dest_x == 7 && dest_y == 7) table.castling_rook_moved_white |= 0x02;
+			}
+			else if (on_dest.color == 1)
+			{
+				if (dest_x == 0 && dest_y == 0) table.castling_rook_moved_black |= 0x01;
+				if (dest_x == 7 && dest_y == 0) table.castling_rook_moved_black |= 0x02;
+			}
+		}
+
 		@board_pieces[dest_x][dest_y] = @on_pos;
 		@board_pieces[x][y] = MakePieceOnBoard(table, 0, -1);
 		
 		set_board(board_pieces);
 		on_move_tile(pos, dest, !force);
+		
+		table.check_index = approximate_check(dest, on_pos.color);
 		log(blob, pos, dest, pid, on_pos.color);
 
 		if (on_dest.type == 6) end_game(on_dest.color);
 		return true;
 	}
 	
-	// default hook to semantically separate code
 	void on_move_tile(s8 pos, s8 dest, bool do_end_turn)
 	{
 		Board@[][] board_pieces = get_board();
@@ -902,17 +1204,16 @@ class Board // breaks solid, but who cares
 			{
 				if (table.can_castle_white)
 				{
-					bool can_move_any = table.castling_rook_moved_white == 0;
-					bool can_move_left = table.castling_rook_moved_white == 2 || can_move_any;
-					bool can_move_right = table.castling_rook_moved_white == 1 || can_move_any;
+					bool can_move_left = old_x == 4 && x == 2;
+					bool can_move_right = old_x == 4 && x == 6;
 
-					if (can_move_left && old_x == 4 && x == 2)
+					if (can_move_left)
 					{
 						Board@ rook = @table.board_pieces[0][7];
 						if (rook !is null && rook.move_to(56, 59, true))
 						{}
 					}
-					if (can_move_right && old_x == 4 && x == 6)
+					if (can_move_right)
 					{
 						Board@ rook = @table.board_pieces[7][7];
 						if (rook !is null && rook.move_to(63, 61, true))
@@ -929,17 +1230,16 @@ class Board // breaks solid, but who cares
 			{
 				if (table.can_castle_black)
 				{
-					bool can_move_any = table.castling_rook_moved_black == 0;
-					bool can_move_left = table.castling_rook_moved_black == 2 || can_move_any;
-					bool can_move_right = table.castling_rook_moved_black == 1 || can_move_any;
+					bool can_move_left = old_x == 4 && x == 2;
+					bool can_move_right = old_x == 4 && x == 6;
 
-					if (can_move_left && old_x == 4 && x == 2)
+					if (can_move_left)
 					{
 						Board@ rook = @table.board_pieces[0][0];
 						if (rook !is null && rook.move_to(0, 3, true))
 						{}
 					}
-					if (can_move_right && old_x == 4 && x == 6)
+					if (can_move_right)
 					{
 						Board@ rook = @table.board_pieces[7][0];
 						if (rook !is null && rook.move_to(7, 5, true))
@@ -1025,8 +1325,7 @@ class pawn : Board
 {
 	pawn(Table@ table, s8 color)
 	{
-		super(table, 1, color, false);
-		add_direction(0);
+		super(table, 1, color);
 	}
 };
 
@@ -1034,8 +1333,7 @@ class bishop : Board
 {
 	bishop(Table@ table, s8 color)
 	{
-		super(table, 2, color, true);
-		add_direction(1);add_direction(3);add_direction(5);add_direction(7);
+		super(table, 2, color);
 	}
 };
 
@@ -1043,8 +1341,7 @@ class knight : Board
 {
 	knight(Table@ table, s8 color)
 	{
-		super(table, 3, color, false);
-		add_direction(8);
+		super(table, 3, color);
 	}
 };
 
@@ -1052,8 +1349,7 @@ class rook : Board
 {
 	rook(Table@ table, s8 color)
 	{
-		super(table, 4, color, true);
-		add_direction(0);add_direction(2);add_direction(4);add_direction(6);
+		super(table, 4, color);
 	}
 };
 
@@ -1061,9 +1357,7 @@ class queen : Board
 {
 	queen(Table@ table, s8 color)
 	{
-		super(table, 5, color, true);
-		add_direction(0);add_direction(2);add_direction(4);add_direction(6);
-		add_direction(1);add_direction(3);add_direction(5);add_direction(7);
+		super(table, 5, color);
 	}
 };
 
@@ -1071,10 +1365,7 @@ class king : Board
 {
 	king(Table@ table, s8 color)
 	{
-		super(table, 6, color, false);
-		add_direction(0);add_direction(2);add_direction(4);add_direction(6);
-		add_direction(1);add_direction(3);add_direction(5);add_direction(7);
-		add_direction(9);
+		super(table, 6, color);
 	}
 };
 
@@ -1125,6 +1416,7 @@ void SendSyncFromServer(CBlob@ this)
 	params1.write_u8(table.castling_rook_moved_black);
 	params1.write_bool(this.get_bool("reset_white"));
 	params1.write_bool(this.get_bool("reset_black"));
+	params1.write_u8(table.check_index);
 	params1.write_bool(table.turn_white);
 	params1.write_bool(table.end);
 
@@ -1203,6 +1495,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			this.set_bool("reset_black", reset_black);
 
 			//
+			table.check_index = params.read_u8();
 			table.turn_white = params.read_bool();
 			table.end = params.read_bool();
 
@@ -1360,32 +1653,34 @@ void ResetBoard(CBlob@ this)
 	this.set_s8("captured_black", -1);
 
 	// white
-    for (s8 i = 0; i < 8; i++)
-    {
-        @table.board_pieces[i][6] = MakePieceOnBoard(table, 1, 0);
-    }
-    @table.board_pieces[0][7] = MakePieceOnBoard(table, 4, 0);
-    @table.board_pieces[7][7] = MakePieceOnBoard(table, 4, 0);
-    @table.board_pieces[1][7] = MakePieceOnBoard(table, 3, 0);
-    @table.board_pieces[6][7] = MakePieceOnBoard(table, 3, 0);
-    @table.board_pieces[2][7] = MakePieceOnBoard(table, 2, 0);
-    @table.board_pieces[5][7] = MakePieceOnBoard(table, 2, 0);
-    @table.board_pieces[3][7] = MakePieceOnBoard(table, 5, 0);
-    @table.board_pieces[4][7] = MakePieceOnBoard(table, 6, 0);
+	@table.board_pieces[0][7] = MakePieceOnBoard(table, 4, 0);
+	@table.board_pieces[1][7] = MakePieceOnBoard(table, 3, 0);
+	@table.board_pieces[2][7] = MakePieceOnBoard(table, 2, 0);
+	@table.board_pieces[3][7] = MakePieceOnBoard(table, 5, 0);
+	@table.board_pieces[4][7] = MakePieceOnBoard(table, 6, 0);
+	@table.board_pieces[5][7] = MakePieceOnBoard(table, 2, 0);
+	@table.board_pieces[6][7] = MakePieceOnBoard(table, 3, 0);
+	@table.board_pieces[7][7] = MakePieceOnBoard(table, 4, 0);
+
+	for (u8 i = 0; i < 8; i++)
+	{
+		@table.board_pieces[i][6] = MakePieceOnBoard(table, 1, 0);
+	}
 
 	// black
-    for (s8 i = 0; i < 8; i++)
-    {
-        @table.board_pieces[i][1] = MakePieceOnBoard(table, 1, 1);
-    }
-    @table.board_pieces[0][0] = MakePieceOnBoard(table, 4, 1);
-    @table.board_pieces[7][0] = MakePieceOnBoard(table, 4, 1);
-    @table.board_pieces[1][0] = MakePieceOnBoard(table, 3, 1);
-    @table.board_pieces[6][0] = MakePieceOnBoard(table, 3, 1);
-    @table.board_pieces[2][0] = MakePieceOnBoard(table, 2, 1);
-    @table.board_pieces[5][0] = MakePieceOnBoard(table, 2, 1);
-    @table.board_pieces[3][0] = MakePieceOnBoard(table, 5, 1);
-    @table.board_pieces[4][0] = MakePieceOnBoard(table, 6, 1);
+	@table.board_pieces[0][0] = MakePieceOnBoard(table, 4, 1);
+	@table.board_pieces[1][0] = MakePieceOnBoard(table, 3, 1);
+	@table.board_pieces[2][0] = MakePieceOnBoard(table, 2, 1);
+	@table.board_pieces[3][0] = MakePieceOnBoard(table, 5, 1);
+	@table.board_pieces[4][0] = MakePieceOnBoard(table, 6, 1);
+	@table.board_pieces[5][0] = MakePieceOnBoard(table, 2, 1);
+	@table.board_pieces[6][0] = MakePieceOnBoard(table, 3, 1);
+	@table.board_pieces[7][0] = MakePieceOnBoard(table, 4, 1);
+
+	for (u8 i = 0; i < 8; i++)
+	{
+		@table.board_pieces[i][1] = MakePieceOnBoard(table, 1, 1);
+	}
 
     this.set("Table", @table);
 }
@@ -1408,6 +1703,12 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 // avoid shitty exploiting when two objects are plugged into each other
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 {
+	if (attached !is this && attached.isMyPlayer() && attachedPoint.name == "PLAYER1")
+	{
+		// hack lerp for immediate board rotation
+		this.Tag("team1_rotate_immediately");
+	}
+
 	if (attached is this)
 	{
 		this.setAngleDegrees(this.isFacingLeft() ? 90 : -90);
@@ -1428,6 +1729,12 @@ void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 // reset visuals
 void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 {
+	if (detached !is this && detached.isMyPlayer() && attachedPoint.name == "PLAYER1")
+	{
+		// hack lerp for immediate board rotation
+		this.Tag("team1_rotate_immediately");
+	}
+
 	this.setAngleDegrees(0);
 }
 
