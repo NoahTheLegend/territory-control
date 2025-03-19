@@ -1455,46 +1455,45 @@ class Board // breaks solid, but who cares
 		// parse back into int
 		int[] dates;
 		u8 matches = 0;
-		for (u8 i = 0; i < max_cache; i++)
-		{
-			string match = CFileMatcher("../Cache/"+i+"_chess_2025_").getFirst();
-			print("found? "+match);
+		//for (u8 i = 0; i < max_cache; i++)
+		//{
+		//	string match = CFileMatcher("../Cache/"+i+"_chess_2025_").getFirst(); // CFileMatcher does not goes through Cache/ directory
 
-			string[] split = match.split("_");
-			if (split.size() >= 4)
-			{
-				string date = split[2];
-				string[] parsed = date.split("-");
-				if (parsed.size() >= 6)
-				{
-					int year = parseInt(parsed[2]);
-					int month = parseInt(parsed[0]);
-					int day = parseInt(parsed[1]);
-					int hour = parseInt(parsed[3]);
-					int minute = parseInt(parsed[4]);
-					int second = parseInt(parsed[5]);
-					
-					int time = (year * 31536000) + (month * 2592000) + (day * 86400) + (hour * 3600) + (minute * 60) + second;
-					dates.push_back(time);
-					matches++;
-				}
-			}
-		}
+		//	string[] split = match.split("_");
+		//	if (split.size() >= 4)
+		//	{
+		//		string date = split[2];
+		//		string[] parsed = date.split("-");
+		//		if (parsed.size() >= 6)
+		//		{
+		//			int year = parseInt(parsed[2]);
+		//			int month = parseInt(parsed[0]);
+		//			int day = parseInt(parsed[1]);
+		//			int hour = parseInt(parsed[3]);
+		//			int minute = parseInt(parsed[4]);
+		//			int second = parseInt(parsed[5]);
+		//			
+		//			int time = (year * 31536000) + (month * 2592000) + (day * 86400) + (hour * 3600) + (minute * 60) + second;
+		//			dates.push_back(time);
+		//			matches++;
+		//		}
+		//	}
+		//}
 
-		if (matches == max_cache)
-		{
-			// define the oldest cache to replace
-			int temp_time = local_time;
-			for (u8 i = 0; i < dates.size(); i++)
-			{
-				if (dates[i] < temp_time)
-				{
-					temp_time = dates[i];
-					index = i;
-				}
-			}
-		}
-		else index = matches;
+		//if (matches == max_cache)
+		//{
+		//	// define the oldest cache to replace
+		//	int temp_time = local_time;
+		//	for (u8 i = 0; i < dates.size(); i++)
+		//	{
+		//		if (dates[i] < temp_time)
+		//		{
+		//			temp_time = dates[i];
+		//			index = i;
+		//		}
+		//	}
+		//}
+		//else index = matches;
 	
 		ConfigFile cfg;
 		cfg.loadFile(CFileMatcher(index+"_chess").getFirst());
@@ -1530,10 +1529,12 @@ class Board // breaks solid, but who cares
 			}
 			
 			string full_cfg_name = new_cfg_name + "_" + username_0 + "_vs_" + username_1 + ".cfg";
-			cfg.add_string("Match of "+last_player_attached_0 + " versus "+last_player_attached_1+": ", text);
-			cfg.saveFile(full_cfg_name);
-
-			print("Saved the match to config: "+full_cfg_name);
+			cfg.add_string("Match of "+last_player_attached_0 + " versus "+last_player_attached_1, text);
+			cfg.add_string("Time", local_date);
+			
+			//cfg.saveFile(full_cfg_name);
+			cfg.saveFile("0_chess_last_match.cfg");
+			//print("Saved the match to config: "+full_cfg_name);
 		}
 		else error("Failed to cache the match moves");
 	}
