@@ -1,16 +1,23 @@
-﻿// LIST OF KNOWN BUGS
-// ====================================
-// render_icon interpolation does not work properly due to Sync: board on client is fully rebuilt when synced
-// ^ find out a better hack or save signatures of all pieces in a board instead of creating new ones (kinda easy to ruin in AS)
-// ^ currently Sync() is delayed for sync_delay amount of ticks
-// ------------------------------------
-// when attached to player and chess blob is partially inside map, the rendered board microshakes until finished
-// colliding with map at least once
-// ------------------------------------
-
-// README
+﻿// README
 // secondary seat (black) has fixed facepos of attachment point, after including this file in a mod, you should
 // perform changes to Seats.as using "seat turn around" tag to avoid hard setting occupied facepos
+// made by NoahTheLegend
+
+namespace Chess
+{
+	enum PieceType
+	{
+		EMPTY = 0,
+		PAWN = 1,
+		BISHOP = 2,
+		KNIGHT = 3,
+		ROOK = 4,
+		QUEEN = 5,
+		KING = 6
+	}
+}
+
+string[] piece_names = {"empty", "pawn", "bishop", "knight", "rook", "queen", "king"};
 
 const u8 sync_delay = 30;
 void onInit(CBlob@ this)
@@ -39,6 +46,9 @@ void onInit(CBlob@ this)
 	this.set_bool("reset_black", false);
 	this.set_u32("sync_time", 0);
 	this.set_u16("sync_pid", 0);
+	this.set_string("last_player_attached_0", "none");
+	this.set_string("last_player_attached_1", "none");
+
 	if (isClient()) this.set_f32("tilesize", 24.0f * getCamera().targetDistance); // getCamera() doesnt exist serverside
 	this.getSprite().SetRelativeZ(-50);
 
@@ -112,7 +122,7 @@ void onTick(CBlob@ this)
 			{
 				Board@ target = @table.board_pieces[sw%8][Maths::Floor(sw/8)];
 				bool not_null = target !is null;
-				bool not_empty = not_null && target.type != 0;
+				bool not_empty = not_null && target.type != Chess::EMPTY;
 
 				if (cw != -1 && not_null && target.color != 0)
 				{
@@ -183,7 +193,7 @@ void onTick(CBlob@ this)
 			{
 				Board@ target = @table.board_pieces[sb%8][Maths::Floor(sb/8)];
 				bool not_null = target !is null;
-				bool not_empty = not_null && target.type != 0;
+				bool not_empty = not_null && target.type != Chess::EMPTY;
 
 				if (cb != -1 && not_null && target.color != 1)
 				{
@@ -356,10 +366,12 @@ void onRender(CSprite@ sprite)
 
 		// movement history + mark recent enemy move
 		string[]@ chess_player;
-		u8[] game_from;
-		u8[] game_to;
+		u32[] game_from;
+		u32[] game_to;
+		s32[] taken_pieces;
 		if (this.get("chess_player", @chess_player) && this.get("game_from", game_from) && this.get("game_to", game_to)
-			&& chess_player.size() == game_from.size() && chess_player.size() == game_to.size())
+			&& chess_player.size() == game_from.size() && chess_player.size() == game_to.size()
+			&& this.get("taken_pieces", taken_pieces) && chess_player.size() == taken_pieces.size())
 		{
 			int size = chess_player.size();
 			int s = Maths::Min(size, 8);
@@ -383,7 +395,8 @@ void onRender(CSprite@ sprite)
 				}
 
 			    string[] spl = chess_player[actual_index].split("_");
-			    string text = spl[0]+": " + cols[from_x] + "" + from_y + " - " + cols[to_x] + "" + to_y;
+			    string text = spl[0]+": " + cols[from_x] + from_y + " - " + cols[to_x] + to_y;
+				if (taken_pieces[actual_index] > 0) text += " (captured "+piece_names[taken_pieces[actual_index]]+")";
 				
 			    GUI::DrawText(text, tl + Vec2f(area + 16, row_offset - (area / 8) + 1.5f), SColor(225, 255, 255, 255));
 			}
@@ -422,7 +435,7 @@ void onRender(CSprite@ sprite)
 
 			SColor col = (y % 2 == 0 ? i % 2 : (i + 1) % 2) == 0 ? col_white : col_black;
 			Board@ p = @table.board_pieces[x][y];
-			bool not_empty = p !is null && p.type != 0;
+			bool not_empty = p !is null && p.type != Chess::EMPTY;
 
 			if (my_p0)
 			{
@@ -494,7 +507,7 @@ void onRender(CSprite@ sprite)
 			u8 y = Maths::Floor(c / 8);
 
 			Board@ p = @table.board_pieces[x][y];
-			bool not_empty = p !is null && p.type != 0;
+			bool not_empty = p !is null && p.type != Chess::EMPTY;
 
 			s8[] enemy_tiles;
 			s8[] move_tiles = p.get_move_tiles(c, p.color, enemy_tiles);
@@ -544,7 +557,7 @@ void onRender(CSprite@ sprite)
 		u8 y = Maths::Floor(i / 8);
 
 		Board@ p = @table.board_pieces[x][y];
-		bool not_empty = p !is null && p.type != 0;
+		bool not_empty = p !is null && p.type != Chess::EMPTY;
 
 		Vec2f tile_offset = Vec2f(f32(x) * tilesize, f32(y) * tilesize) + tl;
 		if (my_p1) // Mirror the board for black player
@@ -575,6 +588,9 @@ class Table
 	u8 check_index;
 	array<array<Board@>> board_pieces();
 	bool end;
+	u8 last_turn_from;
+	u8 last_turn_to;
+	s8 last_piece_taken;
 
 	Table()
 	{
@@ -587,6 +603,9 @@ class Table
 		check_index = 255;
 		board_pieces = array<array<Board@>>(8, array<Board@>(8, MakePieceOnBoard(@this, 0, -1)));
 		end = false;
+		last_turn_from = 255;
+		last_turn_to = 255;
+		s8 last_piece_taken = -1;
 	}
 
 	Board@[][] get_board()
@@ -682,7 +701,7 @@ class Board // breaks solid, but who cares
 		s8 y = Maths::Floor(pos/8);
 
 		Board@ p = @board_pieces[x][y];
-		if (p is null || p.type == 0) return -1;
+		if (p is null || p.type == Chess::EMPTY) return -1;
 
 		return team == p.color ? 0 : 1;
 	}
@@ -700,7 +719,7 @@ class Board // breaks solid, but who cares
 		Board@ p = @board_pieces[x][y];
 		if (p is null) return arr;
 
-		u8 type = override_type == 0 ? p.type : override_type;
+		u8 type = override_type == Chess::EMPTY ? p.type : override_type;
 		bool inf = type == 2 || type == 4 || type == 5;
 
 		bool is_pawn = type == 1;
@@ -712,12 +731,35 @@ class Board // breaks solid, but who cares
 			{
 				// top left enemy check
 				{
+					if (x != 0)
+					{
+						bool left_pawn = false;
+						Board@ neighbour = @board_pieces[x-1][y];
+						if (neighbour !is null && neighbour.type == Chess::PAWN && neighbour.color == 1)
+							left_pawn = true;
+
+						if (table.last_turn_to == pos - 1 && table.last_turn_from == pos - 17 && left_pawn) // en passant
+							enemies.push_back(pos-9);
+					}
+
 					s8 obstacle = has_obstacle(pos - 9, team);
 					if (obstacle != -1 && obstacle == 1 && !is_out_of_bounds(pos, Vec2f(up)+left))
 						enemies.push_back(pos-9);
+					
 				}
-				// top right
+				// top right enemy check
 				{
+					if (x != 7)
+					{
+						bool right_pawn = false;
+						Board@ neighbour = @board_pieces[x+1][y];
+						if (neighbour !is null && neighbour.type == Chess::PAWN && neighbour.color == 1)
+							right_pawn = true;
+
+						if (table.last_turn_to == pos + 1 && table.last_turn_from == pos - 15 && right_pawn) // en passant
+							enemies.push_back(pos-7);
+					}
+
 					s8 obstacle = has_obstacle(pos - 7, team);
 					if (obstacle != -1 && obstacle == 1 && !is_out_of_bounds(pos, Vec2f(up)+right))
 						enemies.push_back(pos-7);
@@ -725,17 +767,41 @@ class Board // breaks solid, but who cares
 			}
 			else // black
 			{
+				// bottom left enemy check (top right for team 1)
 				{
-					s8 obstacle = has_obstacle(pos + 9, team);
-					if (obstacle != -1 && obstacle == 1 && !is_out_of_bounds(pos, Vec2f(down)+right))
-						enemies.push_back(pos + 9);
-				}
-				{
+					if (x != 0)
+					{
+						bool left_pawn = false;
+						Board@ neighbour = @board_pieces[x-1][y];
+						if (neighbour !is null && neighbour.type == Chess::PAWN && neighbour.color == 0)
+							left_pawn = true;
+
+						if (table.last_turn_to == pos - 1 && table.last_turn_from == pos + 15 && left_pawn) // en passant
+							enemies.push_back(pos+7);
+					}
+					
 					s8 obstacle = has_obstacle(pos + 7, team);
 					if (obstacle != -1 && obstacle == 1 && !is_out_of_bounds(pos, Vec2f(down)+left))
-						enemies.push_back(pos + 7);
+						enemies.push_back(pos+7);
 				}
-			}	
+				// bottom right enemy check (top left for team 1)
+				{
+					if (x != 7)
+					{
+						bool right_pawn = false;
+						Board@ neighbour = @board_pieces[x+1][y];
+						if (neighbour !is null && neighbour.type == Chess::PAWN && neighbour.color == 0)
+							right_pawn = true;
+
+						if (table.last_turn_to == pos + 1 && table.last_turn_from == pos + 17 && right_pawn) // en passant
+							enemies.push_back(pos+9);
+					}
+
+					s8 obstacle = has_obstacle(pos + 9, team);
+					if (obstacle != -1 && obstacle == 1 && !is_out_of_bounds(pos, Vec2f(down)+right))
+						enemies.push_back(pos+9);
+				}
+			}
 		}
 	
 		if (type == 1) // pawn
@@ -937,7 +1003,7 @@ class Board // breaks solid, but who cares
 		Board@ p = @board_pieces[x][y];
 		if (p is null) return 255;
 		
-		if (p.type != 6)
+		if (p.type != Chess::KING)
 		{
 			s8[] enemies;
 			s8[] move_tiles = p.get_move_tiles(pos, team, enemies);
@@ -950,7 +1016,7 @@ class Board // breaks solid, but who cares
 				Board@ p = @board_pieces[nx][ny];
 				if (p is null) continue;
 
-				if (p.type == 6 && p.color != team)
+				if (p.type == Chess::KING && p.color != team)
 					return enemies[i];
 			}
 		}
@@ -983,7 +1049,7 @@ class Board // breaks solid, but who cares
 			Board@ p = @board_pieces[nx][ny];
 			if (p is null) continue;
 
-			if (p.type == 2 || p.type == 5)
+			if (p.type == Chess::BISHOP || p.type == Chess::QUEEN)
 			{
 				if (p.color != team)
 				{
@@ -1004,7 +1070,7 @@ class Board // breaks solid, but who cares
 			Board@ p = @board_pieces[nx][ny];
 			if (p is null) continue;
 
-			if (p.type == 4 || p.type == 5)
+			if (p.type == Chess::ROOK || p.type == Chess::QUEEN)
 			{
 				if (p.color != team)
 				{
@@ -1025,7 +1091,7 @@ class Board // breaks solid, but who cares
 			Board@ p = @board_pieces[nx][ny];
 			if (p is null) continue;
 
-			if (p.type == 3)
+			if (p.type == Chess::KNIGHT)
 			{
 				if (p.color != team)
 				{
@@ -1046,7 +1112,7 @@ class Board // breaks solid, but who cares
 			Board@ p = @board_pieces[nx][ny];
 			if (p is null) continue;
 
-			if (p.type == 1)
+			if (p.type == Chess::PAWN)
 			{
 				if (p.color != team)
 				{
@@ -1067,7 +1133,7 @@ class Board // breaks solid, but who cares
 			Board@ p = @board_pieces[nx][ny];
 			if (p is null) continue;
 
-			if (p.type == 6)
+			if (p.type == Chess::KING)
 			{
 				if (p.color != team)
 				{
@@ -1114,7 +1180,7 @@ class Board // breaks solid, but who cares
 		Board@ on_pos  = @board_pieces[x][y];
 		Board@ on_dest = @board_pieces[dest_x][dest_y];
 
-		if (on_pos is null || on_pos.type == 0)
+		if (on_pos is null || on_pos.type == Chess::EMPTY)
 		{
 			error("Tried to move null piece: ["+x+"]["+y+"] - ["+dest_x+"]["+dest_y+"]");
 			return false;
@@ -1144,14 +1210,14 @@ class Board // breaks solid, but who cares
 
 		if (isClient() && blob !is null)
 		{
-			if (on_dest !is null && on_dest.type != 0)
+			if (on_dest !is null && on_dest.type != Chess::EMPTY)
 				blob.getSprite().PlaySound("board_cap.ogg", 0.33f, 1.0f+getRandomPitch());
 			else
 				blob.getSprite().PlaySound("board_move.ogg", 0.33f, 1.0f+getRandomPitch());
 		}
 
 		// Disable castling if a rook on its initial place is killed
-		if (on_dest !is null && on_dest.type == 4)
+		if (on_dest !is null && on_dest.type == Chess::ROOK)
 		{
 			if (on_dest.color == 0)
 			{
@@ -1165,6 +1231,7 @@ class Board // breaks solid, but who cares
 			}
 		}
 
+		table.last_piece_taken = on_dest.type;
 		@board_pieces[dest_x][dest_y] = @on_pos;
 		@board_pieces[x][y] = MakePieceOnBoard(table, 0, -1);
 		
@@ -1174,7 +1241,7 @@ class Board // breaks solid, but who cares
 		table.check_index = approximate_check(dest, on_pos.color);
 		log(blob, pos, dest, pid, on_pos.color);
 
-		if (on_dest.type == 6) end_game(on_dest.color);
+		if (on_dest.type == Chess::KING) end_game(on_dest.color);
 		return true;
 	}
 	
@@ -1191,14 +1258,43 @@ class Board // breaks solid, but who cares
 		Board@ p = @board_pieces[x][y];
 		if (p is null) return;
 
-		// pawn reached the end, transform into queen
-		if (p.type == 1 && (p.color == 0 ? y == 0 : y == 7))
+		// pawn 
+		if (p.type == Chess::PAWN)
 		{
-			Board@ np = MakePieceOnBoard(table, 5, p.color);
-			@board_pieces[x][y] = np;
-			set_board(board_pieces);
+			// reached the end, transform into queen
+			if ((p.color == 0 ? y == 0 : y == 7))
+			{
+				Board@ np = MakePieceOnBoard(table, 5, p.color);
+				@board_pieces[x][y] = np;
+
+				set_board(board_pieces);
+			}
+			
+			// en passant check to remove enemy pawn
+			if (p.color == 0)
+			{
+				Board@ enemy = @board_pieces[x][y+1];
+				if (enemy !is null && enemy.type == Chess::PAWN && enemy.color == 1
+					&& table.last_turn_from == dest - 8 && table.last_turn_to == dest + 8)
+				{
+					@board_pieces[x][y+1] = MakePieceOnBoard(table, 0, -1);
+					table.last_piece_taken = Chess::PAWN;
+					set_board(board_pieces);
+				}
+			}
+			else if (p.color == 1)
+			{
+				Board@ enemy = @board_pieces[x][y-1];
+				if (enemy !is null && enemy.type == Chess::PAWN && enemy.color == 0
+					&& table.last_turn_from == dest + 8 && table.last_turn_to == dest - 8)
+				{
+					@board_pieces[x][y-1] = MakePieceOnBoard(table, 0, -1);
+					table.last_piece_taken = Chess::PAWN;
+					set_board(board_pieces);
+				}
+			}
 		}
-		else if (p.type == 6) // castling king
+		else if (p.type == Chess::KING) // castling king
 		{
 			if (p.color == 0)
 			{
@@ -1253,7 +1349,7 @@ class Board // breaks solid, but who cares
 				table.can_castle_black = false;
 			}
 		}
-		else if (p.type == 4) // rook validation, if moved at least once - disable castling at its side
+		else if (p.type == Chess::ROOK) // rook validation, if moved at least once - disable castling at its side
 		{
 			if (p.color == 0)
 			{
@@ -1272,6 +1368,8 @@ class Board // breaks solid, but who cares
 		}
 		
 		if (do_end_turn) end_turn(p.color);
+		table.last_turn_from = pos;
+		table.last_turn_to = dest;
 	}
 
 	// another unnecessary hook
@@ -1284,21 +1382,22 @@ class Board // breaks solid, but who cares
 	void end_game(s8 team)
 	{
 		table.end = true;
+		cache(getBlobByNetworkID(table.id));
 	}
 
-	// logging for tcpr bot
+	// logging for tcpr bot and recent moves history
 	void log(CBlob@ blob, s8 pos, s8 dest, s8 pid = 0, const s8 team = -1)
 	{
 		if (!isServer()) return;
 
 		string[]@ chess_player;
-		u8[] game_from;
-		u8[] game_to;
-		if (blob !is null && blob.get("chess_player", @chess_player) && blob.get("game_from", game_from) && blob.get("game_to", game_to))
+		u32[] game_from;
+		u32[] game_to;
+		s32[] taken_pieces;
+		if (blob !is null && blob.get("chess_player", @chess_player)
+			&& blob.get("game_from", game_from) && blob.get("game_to", game_to)
+			&& blob.get("taken_pieces", taken_pieces))
 		{
-			//CPlayer@ player = pid == 0 ? null : getPlayerByNetworkId(pid); // crashes the game
-			//string text = pid == 0 ? "-1_Chess rules" : (player !is null ? team+"_"+player.getUsername() : "-1_Unknown");
-
 			string text = team == 0 ? "White" : team == 1 ? "Black" : "Rules";
 
 			s8 moved_from = Maths::Clamp(pos, 0, 63);
@@ -1307,17 +1406,136 @@ class Board // breaks solid, but who cares
 			chess_player.push_back(text);
 			game_from.push_back(moved_from);
 			game_to.push_back(moved_to);
+			taken_pieces.push_back(table.last_piece_taken);
 
 			blob.set("chess_player", @chess_player);
 			blob.set("game_from", game_from);
 			blob.set("game_to", game_to);
+			blob.set("taken_pieces", taken_pieces);
 
 			CBitStream params;
 			params.write_string(text);
-			params.write_s8(moved_from);
-			params.write_s8(moved_to);
+			params.write_u8(moved_from);
+			params.write_u8(moved_to);
+			params.write_s8(table.last_piece_taken);
 			blob.SendCommand(blob.getCommandID("sync_log"), params);
 		}
+	}
+
+	// store the game to cache when match ended and player is attached
+	void cache(CBlob@ blob)
+	{
+		if (!isClient()) return;
+		
+		CBlob@ local = getLocalPlayerBlob();
+		if (local is null) return;
+		
+		if (blob is null) return;
+		if (!local.isAttachedTo(blob)) return;
+
+		const int max_cache = 3;
+		int local_time = Time_Local(); // time in seconds
+
+		string year =  "" + Time_Year();
+		string month = "" + Time_Month();
+		if (month.size() == 1) month = "0" + month;
+		string day =   "" + Time_MonthDate();
+		if (day.size() == 1) day = "0" + day;
+
+		string parsed_hour =   "" + (local_time / 3600) % 24;
+		if (parsed_hour.size() == 1) parsed_hour = "0" + parsed_hour;
+		string parsed_minute = "" + (local_time % 3600) / 60;
+		if (parsed_minute.size() == 1) parsed_minute = "0" + parsed_minute;
+		string parsed_second = "" + local_time % 60;
+		if (parsed_second.size() == 1) parsed_second = "0" + parsed_second;
+		
+		int index = 0;
+		string local_date = month + "-" + day + "-" + year + "_" + parsed_hour + "-" + parsed_minute + "-" + parsed_second;
+		
+		// parse back into int
+		int[] dates;
+		u8 matches = 0;
+		for (u8 i = 0; i < max_cache; i++)
+		{
+			string match = CFileMatcher("../Cache/"+i+"_chess_2025_").getFirst();
+			print("found? "+match);
+
+			string[] split = match.split("_");
+			if (split.size() >= 4)
+			{
+				string date = split[2];
+				string[] parsed = date.split("-");
+				if (parsed.size() >= 6)
+				{
+					int year = parseInt(parsed[2]);
+					int month = parseInt(parsed[0]);
+					int day = parseInt(parsed[1]);
+					int hour = parseInt(parsed[3]);
+					int minute = parseInt(parsed[4]);
+					int second = parseInt(parsed[5]);
+					
+					int time = (year * 31536000) + (month * 2592000) + (day * 86400) + (hour * 3600) + (minute * 60) + second;
+					dates.push_back(time);
+					matches++;
+				}
+			}
+		}
+
+		if (matches == max_cache)
+		{
+			// define the oldest cache to replace
+			int temp_time = local_time;
+			for (u8 i = 0; i < dates.size(); i++)
+			{
+				if (dates[i] < temp_time)
+				{
+					temp_time = dates[i];
+					index = i;
+				}
+			}
+		}
+		else index = matches;
+	
+		ConfigFile cfg;
+		cfg.loadFile(CFileMatcher(index+"_chess").getFirst());
+		string new_cfg_name = index+"_"+"chess"+"_"+local_date;
+		
+		u32[] game_from;
+		u32[] game_to;
+		if (blob.get("game_from", game_from) && blob.get("game_to", game_to)
+			&& game_from.size() == game_to.size())
+		{
+			string last_player_attached_0 = blob.get_string("last_player_attached_0");
+			string last_player_attached_1 = blob.get_string("last_player_attached_1");
+
+			string[] split_0 = last_player_attached_0.split("/");
+			string[] split_1 = last_player_attached_1.split("/");
+			
+			string username_0 = "none";
+			string username_1 = "none";
+
+			if (split_0.size() == 2) username_0 = split_0[1].substr(0, split_0[1].size() - 1);
+			if (split_1.size() == 2) username_1 = split_1[1].substr(0, split_1[1].size() - 1);
+			
+			string text = "";
+			for (u8 i = 0; i < game_from.size(); i++)
+			{
+				s8 from_x = game_from[i] % 8;
+			    s8 from_y = 8 - Maths::Floor(game_from[i] / 8);
+
+			    s8 to_x = game_to[i] % 8;
+			    s8 to_y = 8 - Maths::Floor(game_to[i] / 8);
+
+				text += cols[from_x] + from_y + "-" + cols[to_x] + to_y + " ";
+			}
+			
+			string full_cfg_name = new_cfg_name + "_" + username_0 + "_vs_" + username_1 + ".cfg";
+			cfg.add_string("Match of "+last_player_attached_0 + " versus "+last_player_attached_1+": ", text);
+			cfg.saveFile(full_cfg_name);
+
+			print("Saved the match to config: "+full_cfg_name);
+		}
+		else error("Failed to cache the match moves");
 	}
 };
 
@@ -1419,6 +1637,11 @@ void SendSyncFromServer(CBlob@ this)
 	params1.write_u8(table.check_index);
 	params1.write_bool(table.turn_white);
 	params1.write_bool(table.end);
+	params1.write_u8(table.last_turn_from);
+	params1.write_u8(table.last_turn_to);
+	params1.write_s8(table.last_piece_taken);
+	params1.write_string(this.get_string("last_player_attached_0"));
+	params1.write_string(this.get_string("last_player_attached_1"));
 
 	for (u8 i = 0; i < 64; i++)
 	{
@@ -1499,6 +1722,13 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 			table.turn_white = params.read_bool();
 			table.end = params.read_bool();
 
+			table.last_turn_from = params.read_u8();
+			table.last_turn_to = params.read_u8();
+			table.last_piece_taken = params.read_s8();
+
+			this.set_string("last_player_attached_0", params.read_string());
+			this.set_string("last_player_attached_1", params.read_string());
+
 			for (s8 i = 0; i < 64; i++)
 			{
 				s8 x = i%8;
@@ -1526,23 +1756,27 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 		if (!isClient()) return;
 
 		string text = params.read_string();
-		s8 moved_from = params.read_s8();
-		s8 moved_to = params.read_s8();
+		u8 moved_from = params.read_u8();
+		u8 moved_to = params.read_u8();
+		s8 taken_piece = params.read_s8();
 
 		string[]@ chess_player;
-		u8[] game_from;
-		u8[] game_to;
+		u32[] game_from;
+		u32[] game_to;
+		s32[] taken_pieces;
 
-		bool assign = this.get("chess_player", @chess_player) && this.get("game_from", game_from) && this.get("game_to", game_to);
+		bool assign = this.get("chess_player", @chess_player) && this.get("game_from", game_from) && this.get("game_to", game_to) && this.get("taken_pieces", taken_pieces);
 		if (!assign) return;
 
 		chess_player.push_back(text);
 		game_from.push_back(moved_from);
 		game_to.push_back(moved_to);
+		taken_pieces.push_back(0);
 
 		this.set("chess_player", @chess_player);
 		this.set("game_from", game_from);
 		this.set("game_to", game_to);
+		this.set("taken_pieces", taken_pieces);
 	}
 	else if (cmd == this.getCommandID("reset"))
 	{
@@ -1596,7 +1830,7 @@ void PrintGameLog(CBlob@ this)
 		s8 y = Maths::Floor(i/8);
 
 		Board@ p = @table.board_pieces[x][y];
-		if (p is null || p.type != 6) continue;
+		if (p is null || p.type != Chess::KING) continue;
 
 		if (p.color == 0) was_white_king = true;
 		else if (p.color == 1) was_black_king = true;
@@ -1612,11 +1846,12 @@ void PrintGameLog(CBlob@ this)
 	string tcpr_text = "gamelog";
 
 	string[]@ chess_player;
-	u8[] game_from;
-	u8[] game_to;
-	bool assign = this.get("chess_player", @chess_player) && this.get("game_from", game_from) && this.get("game_to", game_to);
+	u32[] game_from;
+	u32[] game_to;
+	s32[] taken_pieces;
+	bool assign = this.get("chess_player", @chess_player) && this.get("game_from", game_from) && this.get("game_to", game_to) && this.get("taken_pieces", taken_pieces);
 	
-	if (assign && game_from.size() == game_to.size() && game_from.size() == chess_player.size())
+	if (assign && game_from.size() == game_to.size() && game_from.size() == chess_player.size() && game_from.size() == taken_pieces.size())
 	{
 		for (int i = 0; i < game_from.size(); i++)
 		{
@@ -1634,12 +1869,14 @@ void PrintGameLog(CBlob@ this)
 void ResetGameLog(CBlob@ this)
 {
 	string[] chess_player;
-	u8[] game_from;
-	u8[] game_to;
+	u32[] game_from;
+	u32[] game_to;
+	s32[] taken_pieces;
 
 	this.set("chess_player", @chess_player);
 	this.set("game_from", game_from);
 	this.set("game_to", game_to);
+	this.set("taken_pieces", taken_pieces);
 }
 
 void ResetBoard(CBlob@ this)
@@ -1703,6 +1940,10 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 // avoid shitty exploiting when two objects are plugged into each other
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 {
+	CPlayer@ p = attached.getPlayer();
+	if (p !is null)
+		this.set_string("last_player_attached_"+attachedPoint.name.substr(attachedPoint.name.length()-1, 1), "["+p.getCharacterName()+" / "+p.getUsername()+"]");
+	
 	if (attached !is this && attached.isMyPlayer() && attachedPoint.name == "PLAYER1")
 	{
 		// hack lerp for immediate board rotation
