@@ -21,6 +21,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 	    CBlob@ carried = caller.getCarriedBlob();
         CBitStream params;
         params.write_u16(caller.getNetworkID());
+
         if (carried !is null && carried.getName() == "mat_mithril")
         {
             CButton@ button = caller.CreateGenericButton("$mat_mithril$", Vec2f(0, -16.0f), this, this.getCommandID("nvd_refuel"), "Refill the NVD ("+caller.get_u16("nvd_fuel")+")", params);
@@ -36,7 +37,9 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("nvd_refuel"))
 	{
-        u16 blobid = params.read_u16();
+        u16 blobid;
+        if (!params.saferead_u16(blobid)) return;
+        
         CBlob@ blob = getBlobByNetworkID(blobid);
         if (blob !is null)
         {

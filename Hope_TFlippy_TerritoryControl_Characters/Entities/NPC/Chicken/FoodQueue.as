@@ -32,7 +32,7 @@ class FoodQueue	//queue to eat food - collision based rather than radius based
 
 			if (!found_food && this.isOverlapping(@blob)) 
 			{
-				if (blob.getQuantity() == 1)
+				if (blob.getQuantity() <= 1)
 					blob.server_Die();
 				else
 					blob.server_SetQuantity(blob.getQuantity()-1);
