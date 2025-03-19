@@ -269,7 +269,7 @@ void Snow(CBlob@ this)
 					const TileType tileType_l = tile_l.type;
 					const TileType tileType_r = tile_r.type;
 					
-					if (tileType_c == CMap::tile_empty)
+					if ((tileType_c == CMap::tile_empty || map.isTileBackground(tile_c)) && map.getBlobAtPosition(pos_c) is null)
 					{
 						map.server_SetTile(pos_c, CMap::tile_snow_pile_v5);
 					}

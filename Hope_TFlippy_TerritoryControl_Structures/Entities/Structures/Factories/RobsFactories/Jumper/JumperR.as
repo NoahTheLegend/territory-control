@@ -18,7 +18,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 	if (Maths::Abs(blob.getVelocity().y) < 2.0f){
 		if(blob.getPosition().x > this.getPosition().x-1 && blob.getPosition().x < this.getPosition().x+1){
 			blob.setVelocity(Vec2f(0.0f, -8.0f));
-		} else {
+		} else if (!blob.hasTag("building")) {
 			blob.setVelocity(Vec2f(0.0f, -8.0f));
 			blob.setPosition(Vec2f(this.getPosition().x,blob.getPosition().y));
 		}

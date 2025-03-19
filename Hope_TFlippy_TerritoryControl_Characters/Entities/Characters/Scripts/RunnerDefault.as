@@ -131,7 +131,7 @@ void onTick(CBlob@ this)
 		{
 			moveVars.swimspeed = 2.0f;
 			CBlob@ fishie = this.getCarriedBlob();
-			if (fishie !is null && fishie.getName() == "fishy")
+			if (fishie !is null && fishie.getName() == "fishy" && !fishie.hasTag("dead"))
 			{
 				moveVars.swimspeed = 3.25f;
 			}

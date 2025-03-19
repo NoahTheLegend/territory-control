@@ -35,7 +35,7 @@ void onInit(CBlob@ this)
 
 	HarvestBlobMat[] mats = {};
 	mats.push_back(HarvestBlobMat(10.0f, "mat_wood")); 
-	mats.push_back(HarvestBlobMat(1.0f, "mat_copperwire")); //Get the full 1 wire back
+	//mats.push_back(HarvestBlobMat(1.0f, "mat_copperwire")); //Get the full 1 wire back
 	this.set("minableMats", mats);	
 }
 

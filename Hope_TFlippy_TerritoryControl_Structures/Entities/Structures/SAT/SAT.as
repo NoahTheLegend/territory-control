@@ -1,6 +1,4 @@
-﻿// Princess brain
-
-#include "Hitters.as";
+﻿#include "Hitters.as";
 #include "HittersTC.as";
 #include "Knocked.as";
 #include "VehicleAttachmentCommon.as"
@@ -43,7 +41,6 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 
 void onTick(CBlob@ this)
 {
-	return; // crashes server when a target is far enough, todo: fix
 	CBlob@[] blobs;
 	getBlobsByTag("faction_base", @blobs);
 	
@@ -96,7 +93,9 @@ void onTick(CBlob@ this)
 		f32 y = tpos.y / 8.00f;
 		f32 v = 40.00f;
 		f32 g = sv_gravity;
-		f32 sqrt = Maths::Sqrt((v*v*v*v) - (g*(g*(x*x) + 2.00f*y*(v*v))));
+		f32 sqrtValue = (v*v*v*v) - (g*(g*(x*x) + 2.00f*y*(v*v)));
+		if (sqrtValue < 0) return; // avoid crash by returning early if sqrt value is negative
+		f32 sqrt = Maths::Sqrt(sqrtValue);
 		f32 ang = Maths::ATan(((v*v) + sqrt)/(g*x)); // * 57.2958f;
 		f32 angDeg = Maths::Abs(ang * 57.2958f);
 		

@@ -767,11 +767,36 @@ void RemoveOldLeader(CBlob@ this)
 
 void onChangeTeam(CBlob@ this, const int oldTeam)
 {
+	int newTeam = this.getTeamNum();
+
+	TeamData@ team_data;
+	GetTeamData(this.getTeamNum(), @team_data);
+	
+	// if we exceed maximum halls amount, kill this hall
+	if (team_data !is null && newTeam < 7)
+	{
+		CBlob@[] forts;
+		getBlobsByTag("faction_base", @forts);
+
+		u8 count = 0;
+		for(uint i = 0; i < forts.length; i++)
+		{
+			if (forts[i] is null) continue;
+			u8 team = forts[i].getTeamNum();
+			if (team == this.getTeamNum()) count++;
+		}
+
+		if (count >= (MAX_HALL_AMOUNT + calc_extra_halls_per_member(team_data)))
+		{
+			this.server_Die();
+			return;
+		}
+	}
+
 	this.set_u32("next_team_change", getGameTime()+150);
 
 	CBlob@[] forts;
 	getBlobsByTag("faction_base", @forts);
-	int newTeam = this.getTeamNum();
 
 	if (this.hasTag("main_hall"))
 	{
@@ -888,10 +913,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 		{
 			// bool deserter = ply.get_u32("teamkick_time") > getGameTime();
 			bool recruitment_enabled = team_data.recruitment_enabled;
-			bool upkeep_gud = (team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 2 ? 1 : team_data.player_count))) <= team_data.upkeep_cap;
-			// bool is_premium = ply.getSupportTier() > 0;
-
-			//print("" + ply.getSupportTier());
+			bool upkeep_gud = (team_data.upkeep + UPKEEP_COST_PLAYER+(team_data.player_count-(team_data.player_count > 1 ? 1 : team_data.player_count))) <= team_data.upkeep_cap;
 
 			bool can_join = recruitment_enabled && upkeep_gud;
 

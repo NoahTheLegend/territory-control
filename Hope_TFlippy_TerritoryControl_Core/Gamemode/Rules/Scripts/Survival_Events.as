@@ -62,7 +62,7 @@ void onTick(CRules@ this)
         if (timeSinceMeteor > 6000 && XORRandom(Maths::Max(35000 - timeSinceMeteor, 0)) == 0) // Meteor strike
         {
 			//tcpr("[RGE] Random event: Meteor");
-            server_CreateBlob("meteor", -1, Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
+            if (isServer()) server_CreateBlob("meteor", -1, Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
 			
 			this.set_u32("lastMeteor", time);
         }

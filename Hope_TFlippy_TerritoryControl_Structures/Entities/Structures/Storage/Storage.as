@@ -342,19 +342,6 @@ void onCreateInventoryMenu(CBlob@ this, CBlob@ forBlob, CGridMenu@ gridmenu)
 	if (forBlob is null) return;
 	if (forBlob.getControls() is null) return;
 
-	//CInventory@ inv = forBlob.getInventory();
-	//CInventory@ tinv = this.getInventory();
-	//if (inv is null || tinv is null) return;
-	//if (inv.getItemsCount() == 0) return;
-//
-	//bool is_full = true;
-	//Vec2f slots = tinv.getInventorySlots();
-	//for (u16 i = 0; i < slots.x*slots.y; i++)
-	//{
-	//	if (tinv.getItem(i) is null) is_full = false;
-	//}
-	//if (is_full) return;
-
 	Vec2f mscpos = forBlob.getControls().getMouseScreenPos(); 
 
 	Vec2f MENU_POS = mscpos+Vec2f(-160,-72);

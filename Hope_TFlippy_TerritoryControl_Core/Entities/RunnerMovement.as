@@ -63,10 +63,8 @@ void onTick(CMovement@ this)
 	Vec2f vel = blob.getVelocity();
 	Vec2f pos = blob.getPosition();
 	CShape@ shape = blob.getShape();
-
 	const f32 vellen = shape.vellen;
-
-
+	
 	if (is_client && getGameTime() % 3 == 0)
 	{
 		if (vel.y > 0.2f)

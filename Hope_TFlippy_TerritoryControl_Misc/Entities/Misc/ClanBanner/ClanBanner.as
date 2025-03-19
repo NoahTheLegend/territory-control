@@ -24,21 +24,22 @@ void onInit(CBlob@ this)
 void renderCanvas(CBlob@ this, int id)
 {
     if (!this.hasTag("created_texture")) return;
-
-    Vec2f pos = this.getPosition() - Vec2f(4,10);
+    
+    float angle = this.getAngleDegrees();
+    Vec2f pos = this.getPosition() - Vec2f(4, 10).RotateBy(angle);
 
     Vec2f[] v_pos;
-	Vec2f[] v_uv;
+    Vec2f[] v_uv;
 
-    v_uv.push_back(Vec2f(0,0)); v_pos.push_back(pos + Vec2f(0,0)); //tl
-    v_uv.push_back(Vec2f(1,0)); v_pos.push_back(pos + Vec2f(8,0)); //tr
-    v_uv.push_back(Vec2f(1,1)); v_pos.push_back(pos + Vec2f(8,16)); //br
-    v_uv.push_back(Vec2f(0,1)); v_pos.push_back(pos + Vec2f(0,16)); //bl
+    v_uv.push_back(Vec2f(0, 0)); v_pos.push_back(pos + Vec2f(0, 0).RotateBy(angle)); //tl
+    v_uv.push_back(Vec2f(1, 0)); v_pos.push_back(pos + Vec2f(8, 0).RotateBy(angle)); //tr
+    v_uv.push_back(Vec2f(1, 1)); v_pos.push_back(pos + Vec2f(8, 16).RotateBy(angle)); //br
+    v_uv.push_back(Vec2f(0, 1)); v_pos.push_back(pos + Vec2f(0, 16).RotateBy(angle)); //bl
 
-    Render::Quads("banner"+this.getNetworkID(), -5.0f, v_pos, v_uv);
+    Render::Quads("banner" + this.getNetworkID(), -5.0f, v_pos, v_uv);
 
     v_pos.clear();
-	v_uv.clear();
+    v_uv.clear();
 }
 
 void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)

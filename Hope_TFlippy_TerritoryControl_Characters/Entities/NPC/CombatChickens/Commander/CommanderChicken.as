@@ -148,7 +148,8 @@ void onInit(CBlob@ this)
 		
 		if (XORRandom(100) < 100) //was 20 before 
 		{
-			MakeMat(this, this.getPosition(), "villaincap", 1);
+			CBlob@ villain = server_CreateBlob("villaincap", -1, this.getPosition());
+			this.server_PutInInventory(villain);
 		}
 
 		// gun and ammo
