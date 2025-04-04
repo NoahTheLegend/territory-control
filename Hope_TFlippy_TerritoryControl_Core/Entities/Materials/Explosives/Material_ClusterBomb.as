@@ -1,8 +1,6 @@
 #include "Hitters.as";
 #include "Explosion.as";
 
-const int PRIME_TIME = 3;
-
 string[] particles = 
 {
 	"LargeSmoke",
@@ -118,13 +116,28 @@ void DoExplosion(CBlob@ this)
 			}
 		}
 	
-		for (int i = 0; i < 8 * this.getQuantity(); i++)
+		CBlob@ boom = server_CreateBlobNoInit("clusterbombexplosion");
+		boom.setPosition(this.getPosition());
+		boom.set_f32("bomb angle", this.get_f32("bomb angle"));
+		int boom_end = 8;
+		int boom_frequency = 1;
+
+		CBlob@[] blobsInRadius;
+		if (map.getBlobsInRadius(pos, 128.0f, @blobsInRadius))
 		{
-			CBlob@ blob = server_CreateBlob("tankshell", this.getTeamNum(), this.getPosition());
-			blob.setVelocity(getRandomVelocity(angle, 15 + XORRandom(5), 45));
-			blob.server_SetTimeToDie(20 + XORRandom(10));
-			blob.set_u32("primed_time", getGameTime() + PRIME_TIME);
+			for (int i = 0; i < blobsInRadius.length; i++)
+			{		
+				CBlob@ blob = blobsInRadius[i];
+				if (blob !is null && blob.getName() == "mat_clusterbomb")
+				{
+					boom_frequency += 1;
+				}
+			}
 		}
+		boom.set_u8("boom_frequency", boom_frequency);
+		boom.set_u8("boom_end", boom_end);
+		// default values for the cluster bomb
+		boom.Init();
 	}
 
 	if (isClient())
