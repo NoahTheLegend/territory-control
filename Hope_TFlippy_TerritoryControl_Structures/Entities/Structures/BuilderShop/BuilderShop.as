@@ -163,6 +163,14 @@ void onInit(CBlob@ this)
 
 		s.spawnNothing = true;
 	}
+	{
+		ShopItem@ s = addShopItem(this, "Decorative Flower", "$decorativeflower$", "decorativeflower", "A cute flower in a pot.", true);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
+		AddRequirement(s.requirements, "coin", "", "Coins", 150);
+		AddRequirement(s.requirements, "blob", "mat_dirt", "Dirt", 10);
+
+		s.spawnNothing = true;
+	}
 
 	// {
 	// 	ShopItem@ s = addShopItem(this, "Cowboy Hat", "$cowboyhat$", "cowboyhat", "A hat gives you +99 shooting accuracy!", true);
