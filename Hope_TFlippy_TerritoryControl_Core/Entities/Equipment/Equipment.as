@@ -173,10 +173,10 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 				if (eqName == "bulletproofvest" || eqName == "carbonvest" || eqName == "wilmetvest" || eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));
 				item.server_Die();
 			}
-			else if (getEquipmentType(item) == "torso" && cmd == this.getCommandID("equip2_torso"))
+			else if (getEquipmentType(item) == "torso" && canWearSecondaryTorso(item) && cmd == this.getCommandID("equip2_torso"))
 			{
 				add2Torso(caller, eqName);
-				if (eqName == "bulletproofvest" || eqName == "carbonvest" || eqName == "wilmetvest" || eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));
+				if (eqName == "keg") caller.set_f32(eqName+"_health", item.get_f32("health"));
 				item.server_Die();
 			}
 			else if (getEquipmentType(item) == "boots" && cmd == this.getCommandID("equip_boots"))
@@ -190,6 +190,11 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 
 		caller.ClearMenus();
 	}
+}
+
+bool canWearSecondaryTorso(CBlob@ item)
+{
+	return getEquipmentType(item) == "torso" && item.getName() != "bulletproofvest" && item.getName() != "carbonvest" && item.getName() != "wilmetvest";
 }
 
 string getEquipmentType(CBlob@ equipment)
@@ -437,13 +442,13 @@ void onDie(CBlob@ this)
 		}
 		if (torso2name != "")
 		{
-			if (torso2name == "bulletproofvest" || torso2name == "carbonvest" || torso2name == "wilmetvest")
+			/*if (torso2name == "bulletproofvest" || torso2name == "carbonvest" || torso2name == "wilmetvest")
 			{
 				CBlob@ item = server_CreateBlob(torso2name, this.getTeamNum(), this.getPosition());
 				if (item !is null) item.set_f32("health", this.get_f32(torso2name+"_health"));
 				this.RemoveScript(torso2name+"_effect.as");
 			}
-			else if (!this.exists("vest_explode") && torso2name != "keg")
+			else*/ if (!this.exists("vest_explode") && torso2name != "keg")
 				server_CreateBlob(torso2name, this.getTeamNum(), this.getPosition());
 		}
 		if (bootsname != "")
