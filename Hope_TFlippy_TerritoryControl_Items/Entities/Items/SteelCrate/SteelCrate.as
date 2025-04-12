@@ -166,7 +166,7 @@ void MakeInventory(CBlob@ this, string dest)
     {
         if (dest == "asteroid")
         {
-            for (u8 i = 0; i < 25+this.get_f32("drs")*8+XORRandom(11); i++)
+            for (u8 i = 0; i < 30+this.get_f32("drs")*8+XORRandom(11); i++)
             {
                 u8 slot = XORRandom(matAsteroid.length);
                 u16 chance;
@@ -195,7 +195,7 @@ void MakeInventory(CBlob@ this, string dest)
         }
         else if (dest == "moon")
         {
-            for (u8 i = 0; i < 30+this.get_f32("drs")*5+XORRandom(16); i++)
+            for (u8 i = 0; i < 40+this.get_f32("drs")*5+XORRandom(11); i++)
             {
                 u8 slot = XORRandom(matMoon.length);
                 u16 chance;
@@ -231,7 +231,7 @@ void MakeInventory(CBlob@ this, string dest)
         }
         else if (dest == "exoplanet")
         {
-            for (u8 i = 0; i < 25+this.get_f32("drs")*5+XORRandom(16); i++)
+            for (u8 i = 0; i < 40+this.get_f32("drs")*5+XORRandom(11); i++)
             {
                 u8 slot = XORRandom(matExoplanet.length);
                 u16 chance;
