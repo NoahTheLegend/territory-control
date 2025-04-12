@@ -12,7 +12,7 @@ void onInit(CBlob@ this)
 
 	//General
 	//settings.CLIP = 0; //Amount of ammunition in the gun at creation
-	settings.TOTAL = 4; //Max amount of ammo that can be in a clip
+	settings.TOTAL = 6; //Max amount of ammo that can be in a clip
 	settings.FIRE_INTERVAL = 15; //Time in between shots
 	settings.RELOAD_TIME = 28; //Time it takes to reload (in ticks)
 	settings.AMMO_BLOB = "mat_smallrocket"; //Ammunition the gun takes

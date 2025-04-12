@@ -47,27 +47,30 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 	this.server_Die();
 	this.getSprite().Gib();
 
-	CPlayer@ p = this.getDamageOwnerPlayer();
-	if (p is null) { return; }
+	CMap@ map = getMap();
+	if (map is null) { return; }
 
-	CBlob@ blob = p.getBlob();
-	if (blob is null) { return; }
+	Vec2f pos = this.getPosition() + Vec2f(0,2);
+	CBlob@[] blobsInRadius;
+	if (map.getBlobsInRadius(pos, 48.0f, @blobsInRadius))
+	{
+		for (u32 i = 0; i < blobsInRadius.length; i++)
+		{
+			CBlob@ blob = blobsInRadius[i];
+			if (blob is null || blob is this) { continue; }
 
-	Vec2f dir = blob.getPosition() - this.getPosition();
-	f32 dist = dir.Length();
+			Vec2f dir = blob.getPosition() - pos;
+			f32 dist = dir.Length();
 
-	if (dist > 50) { return; }
+			if (dist > 32) { continue; }
+			dir.Normalize();
 
+			f32 mod = Maths::Clamp(1.00f - (dist / 48.00f), 0, 1);
+			f32 force = Maths::Clamp(blob.getRadius() * 70 * mod * 3, 0, blob.getMass() * 50);
 
-	dir.Normalize();
-	
-	f32 mod = Maths::Clamp(1.00f - (dist / 192.00f), 0, 1);
-	f32 force = Maths::Clamp(blob.getRadius() * 70 * mod * 3, 0, blob.getMass() * 50);
-	
-	blob.AddForce(dir * (force / 2.75f));
-	//SetKnocked(blob, 150 * mod);
-
-
+			blob.AddForce(dir * (force / 2));
+		}
+	}
 }
 
 void onDie(CBlob@ this)
