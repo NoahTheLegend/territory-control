@@ -10,6 +10,7 @@
 
 const f32 speed_thresh = 2.4f;
 const f32 speed_hard_thresh = 2.6f;
+const u8 base_cooldown = 8;
 
 const string buzz_prop = "drill timer";
 
@@ -18,12 +19,12 @@ const u8 heat_max = 200;
 
 const string last_drill_prop = "drill last active";
 
-const u8 heat_add = 2;
-const u8 heat_add_constructed = 1;
+const u8 heat_add = 4;
+const u8 heat_add_constructed = 7;
 const u8 heat_add_blob = 1;
 const u8 heat_cool_amount = 5;
 
-const u8 heat_cooldown_time = 10;
+const u8 heat_cooldown_time = 5;
 const u8 heat_cooldown_time_water = u8(heat_cooldown_time / 3);
 
 const f32 max_heatbar_view_range = 65;
@@ -241,7 +242,7 @@ void onTick(CBlob@ this)
 			heat++;
 		}
 
-		u8 delay_amount = 8;
+		u8 delay_amount = base_cooldown;
 		if (this.get_bool("just hit dirt")) delay_amount = 10;
 		if (inwater) delay_amount = 20;
 
@@ -347,7 +348,7 @@ void onTick(CBlob@ this)
 							{
 								for (uint i = 0; i < 2; i++)
 								{
-									if ((tile >= 848 && tile <= 864 && XORRandom(11) != 0)
+									if (isTileTitanium(tile) || (isTileIron(tile) && XORRandom(8) != 0)
 										|| isTilePlasteel(tile)) // titanium
 									{
 										sprite.PlaySound("metal_stone.ogg", 1.0f, 1.1f);
@@ -393,7 +394,7 @@ void onTick(CBlob@ this)
 							if (!map.isTileStone(tile) || !map.isTileGold(tile))
 							{
 								hitsomething = true;
-								if (map.isTileCastle(tile) || map.isTileWood(tile))
+								if (isSolid(tile) || map.isTileCastle(tile) || map.isTileWood(tile))
 								{
 									hit_constructed = true;
 								}

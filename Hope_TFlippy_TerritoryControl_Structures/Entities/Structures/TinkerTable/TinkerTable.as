@@ -36,8 +36,7 @@ void onInit(CBlob@ this)
 
 	{
 		ShopItem@ s = addShopItem(this, "Drill", "$icon_drill$", "drill", descriptions[43], false);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 2);
-		AddRequirement(s.requirements, "coin", "", "Coins", 25);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 6);
 
 		s.spawnNothing = true;
 	}

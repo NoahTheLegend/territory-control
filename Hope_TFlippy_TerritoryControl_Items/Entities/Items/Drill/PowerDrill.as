@@ -10,11 +10,12 @@
 
 const f32 speed_thresh = 10.0f;
 const f32 speed_hard_thresh = 10.2f;
+const u8 base_cooldown = 7;
 
 const string buzz_prop = "drill timer";
 
 const string heat_prop = "drill heat";
-const u8 heat_max = 250;
+const u8 heat_max = 150;
 
 const string last_drill_prop = "drill last active";
 
@@ -23,11 +24,10 @@ const u8 heat_add_constructed = 1;
 const u8 heat_add_blob = 1;
 const u8 heat_cool_amount = 5;
 
-const u8 heat_cooldown_time = 10;
+const u8 heat_cooldown_time = 5;
 const u8 heat_cooldown_time_water = u8(heat_cooldown_time / 3);
 
 const f32 max_heatbar_view_range = 65;
-
 const bool show_heatbar_when_idle = false;
 
 void onInit(CSprite@ this)
@@ -149,13 +149,11 @@ void onTick(CSprite@ this)
 	}
 }
 
-
 void onTick(CBlob@ this)
 {
 	u8 heat = this.get_u8(heat_prop);
 	const u32 gametime = getGameTime();
 	bool inwater = this.isInWater();
-
 	CSprite@ sprite = this.getSprite();
 
 	if (heat > 0)
@@ -176,11 +174,13 @@ void onTick(CBlob@ this)
 			{
 				makeSteamPuff(this, 0.5f, 5, false);
 			}
+
 			heat -= Maths::Min(heat, heat_cool_amount); //Cannot reduce heat below 0 (previously could)
 		}
 		this.set_u8(heat_prop, heat);
 		this.Sync(heat_prop, true);
 	}
+	
 	sprite.SetEmitSoundPaused(true);
 	if (this.isAttached())
 	{
@@ -233,7 +233,7 @@ void onTick(CBlob@ this)
 			heat++;
 		}
 
-		u8 delay_amount = 6;
+		u8 delay_amount = base_cooldown;
 		if (this.get_bool("just hit dirt")) delay_amount = 6;
 		if (inwater) delay_amount = 20;
 
@@ -341,8 +341,7 @@ void onTick(CBlob@ this)
 								{
 									//tile destroyed last hit
 
-									if ((tile >= 848 && tile <= 864 && XORRandom(7) != 0)
-										|| isTilePlasteel(tile)) // titanium
+									if ((isTileTitanium(tile) || isTilePlasteel(tile)) && XORRandom(6) != 0) // titanium
 									{
 										sprite.PlaySound("metal_stone.ogg", 1.0f, 1.1f);
 										sparks(hi.hitpos, attackVel.Angle(), 1.0f);

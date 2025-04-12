@@ -393,7 +393,7 @@ namespace CMap
 
 bool isTileIron(TileType tile)
 {
-	return tile >= CMap::tile_iron && tile <= CMap::tile_iron_v14;
+	return tile >= CMap::tile_iron && tile <= CMap::tile_iron_d8;
 }
 
 bool isTileTitanium(TileType tile)
@@ -418,7 +418,7 @@ bool isTileConcrete(TileType tile)
 
 bool isTileBConcrete(TileType tile)
 {
-	return tile >= CMap::tile_bconcrete && tile <= CMap::tile_bconcrete_v14;
+	return tile >= CMap::tile_bconcrete && tile <= CMap::tile_bconcrete_d7;
 }
 
 bool isTileReinforcedConcrete(TileType tile)
@@ -473,7 +473,23 @@ bool isTileBKudzu(TileType tile)
 
 bool isTileBricks(TileType tile)
 {
-	return tile >= CMap::tile_bricks && tile <= CMap::tile_bricks_d0;
+	return tile >= CMap::tile_bricks && tile <= CMap::tile_bricks_d4;
+}
+
+bool isSolid(TileType tile)
+{
+	return isTileIron(tile) ||
+		   isTileTitanium(tile) ||
+		   isTileRustyIron(tile) ||
+		   isTileConcrete(tile) ||
+		   isTileReinforcedConcrete(tile) ||
+		   isTileMossyConcrete(tile) ||
+		   isTilePlasteel(tile) ||
+		   isTileKudzu(tile) ||
+		   isTileGlass(tile) ||
+		   isTileSnow(tile) ||
+		   isTileSnowPile(tile) ||
+		   isTileBricks(tile);
 }
 
 void onInit(CMap@ this)
