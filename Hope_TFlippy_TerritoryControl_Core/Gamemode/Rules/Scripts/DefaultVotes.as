@@ -365,7 +365,7 @@ VoteObject@ Create_VoteNextmap(CPlayer@ byplayer, string reason, u8 maptype)
 	vote.reason = reason;
 	vote.byuser = byplayer.getUsername();
 	vote.forcePassFeature = "nextmap";
-	vote.required_percent = 0.65f;
+	vote.required_percent = 0.6f;
 
 	CalculateVoteThresholds(vote);
 
@@ -576,7 +576,7 @@ void onMainMenuCreated(CRules@ this, CContextMenu@ menu)
 		else
 		{
 			Menu::addInfoBox(mapmenu, "Vote Next Map Type", "Vote to change the map\nto the next in cycle.\n\n" +
-			                 "- Currently requires 65% of players to vote yes\n" +
+			                 "- Requires 60% of all players to vote yes\n" +
 							 "- You can vote for 3 different types of maps");
 
 			Menu::addSeparator(mapmenu);
