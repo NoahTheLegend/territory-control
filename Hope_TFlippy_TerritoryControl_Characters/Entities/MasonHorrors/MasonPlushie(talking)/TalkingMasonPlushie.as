@@ -57,8 +57,10 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	if (this.getDistanceTo(caller) > 96.0f) return;
 	if (caller is null) return;
+
  	CBitStream params;
-	params.write_u16(caller.getNetworkID());
+	params.write_bool(true);
+	params.write_u8(0);
 	caller.CreateGenericButton(14, Vec2f(0, 0), this, this.getCommandID("ask"), "Ask", params);
 }
 
@@ -66,6 +68,19 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if(cmd == this.getCommandID("ask"))
 	{
-		this.getSprite().PlayRandomSound("test", 2.0f, 0.90f);
+		bool init = params.read_bool();
+		u8 index = params.read_u8();
+
+		if (init && isServer())
+		{
+			CBitStream params1;
+			params1.write_bool(false);
+			params1.write_u8(1+XORRandom(11));
+			this.SendCommand(this.getCommandID("ask"), params1);
+		}
+		if (!init && isClient())
+		{
+			this.getSprite().PlaySound("masonphrase"+index, 2.0f, 0.90f);
+		}
 	}
 }
