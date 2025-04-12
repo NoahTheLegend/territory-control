@@ -778,8 +778,8 @@ void React(CBlob@ this)
 					acid_count -= 15;
 					mithril_count -= 5;
 
-					Material::createFor(this, "fiks", 2 + XORRandom(2));
-					Material::createFor(this, "domino", XORRandom(3));
+					Material::createFor(this, "fiks", XORRandom(6));
+					Material::createFor(this, "domino", XORRandom(6));
 				}
 
 				ShakeScreen(30.0f, 60, this.getPosition());
@@ -815,7 +815,7 @@ void React(CBlob@ this)
 					sulphur_count -= 100;
 					coal_count -= 10;
 
-					Material::createFor(this, "propesko", 1 + XORRandom(4));
+					Material::createFor(this, "propesko", 1 + (XORRandom(2) == 0 ? 1 : 0));
 					/*if (XORRandom(100) < 10)
 					{
 						Material::createFor(this, "love", 2);
