@@ -9,7 +9,7 @@ const f32 MAX_HEAT = 350.0f;
 void onInit(CBlob@ this)
 {
 	Vehicle_Setup(this,
-	              350, // move speed
+	              400, // move speed
 	              0.3f,  // turn speed
 	              Vec2f(0.0f, 0.0f), // jump out velocity
 	              true  // inventory access
@@ -235,11 +235,27 @@ void onTick(CBlob@ this)
 							Vec2f fromPos = faceleft ? Vec2f(32,-6).RotateBy(rotation) : Vec2f(-64,6).RotateBy(rotation);
 							const f32 distance = 48.0f;
 							Vec2f attackVel = direction * attack_distance;
+
+							f32 angle = 40;
+							if (driver.isKeyPressed(key_down))
+							{
+								angle += 5;
+								bool side = this.get_bool("break");
+								if (side)
+								{
+									attackVel.RotateBy(6);
+								}
+								else
+								{
+									attackVel.RotateBy(-6);
+								}
+							}
+
 							HitInfo@[] hitInfos;
 							bool hitsomething = false;
 							bool hitblob = false;
 
-							if (map.getHitInfosFromArc(this.getPosition() + fromPos + attackVel, -attackVel.Angle() - (faceleft ? -2.0f : 2.0f), 42, distance, this, true, @hitInfos))
+							if (map.getHitInfosFromArc(this.getPosition() + fromPos + attackVel, -attackVel.Angle() - (faceleft ? -2.0f : 2.0f), angle, distance, this, true, @hitInfos))
 							{
 								bool hit_ground = false;
 								for (uint i = 0; i < hitInfos.length; i++)
