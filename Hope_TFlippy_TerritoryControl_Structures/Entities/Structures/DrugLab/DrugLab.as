@@ -573,7 +573,7 @@ void React(CBlob@ this)
 					mithril_count -= 50;
 					acid_count -= 25;
 
-					Material::createFor(this, "domino", 1 + XORRandom(2));
+					Material::createFor(this, "domino", 2 + XORRandom(3));
 					Material::createFor(this, "mat_mithrilenriched", XORRandom(10));
 					Material::createFor(this, "mat_fuel", XORRandom(40));
 				}
@@ -785,7 +785,7 @@ void React(CBlob@ this)
 					sulphur_count -= 250;
 					coal_count -= 100;
 
-					Material::createFor(this, "propesko", 1 + (XORRandom(5) == 0 ? 1 : 0));
+					Material::createFor(this, "propesko", 1 + (XORRandom(2) == 0 ? 1 : 0));
 					if (XORRandom(100) < 10)
 					{
 						Material::createFor(this, "love", 2);
