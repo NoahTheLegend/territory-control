@@ -15,7 +15,7 @@ const u8 base_cooldown = 7;
 const string buzz_prop = "drill timer";
 
 const string heat_prop = "drill heat";
-const u8 heat_max = 150;
+const u8 heat_max = 250;
 
 const string last_drill_prop = "drill last active";
 
