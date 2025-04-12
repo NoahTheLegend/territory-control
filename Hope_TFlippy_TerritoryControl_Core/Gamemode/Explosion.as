@@ -581,6 +581,9 @@ bool HitBlob(CBlob@ this, CBlob@ hit_blob, f32 radius, f32 damage, const u8 hitt
 		f32 scale = 0;
 		Vec2f bombforce = getBombForce(radius, hit_blob_pos, pos, hit_blob.getMass(), scale);
 		f32 dam = damage * scale;
+		f32 structure_mod = 1.0f;
+		if (this.exists("structure_damage_mod")) structure_mod = this.get_f32("structure_damage_mod");
+		if (hit_blob.hasTag("building")) dam *= structure_mod;
 		this.server_Hit(hit_blob, hit_blob_pos, bombforce, dam, hitter, hitter == Hitters::water || isOwnerBlob(this, hit_blob) || should_teamkill || hit_blob.hasTag("dead"));
 	}
 

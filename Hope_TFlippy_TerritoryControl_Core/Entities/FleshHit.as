@@ -121,6 +121,16 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		string torsoname = this.get_string("equipment_torso");
 		string torso2name = this.get_string("equipment2_torso");
 		string bootsname = this.get_string("equipment_boots");
+
+		bool is_propesko = hitterBlob !is null && hitterBlob.hasTag("propesko_explosion") && customData == Hitters::explosion;
+		f32 hit_angle = 0.0f;
+		if (hitterBlob !is null)
+		{
+			Vec2f hit_dir = hitterBlob.getPosition() - this.getPosition();
+			hit_dir.Normalize();
+			hit_angle = 360 - hit_dir.Angle();
+		}
+		//print(this.getName()+" "+is_propesko+" "+(hitterBlob !is null ? hitterBlob.getName() : "null") + " "+hit_angle+" "+(customData == Hitters::explosion)+" "+hitterBlob.hasTag("propesko_explosion"));
 		
 		if (headname != "" && this.exists(headname+"_health"))
 		{
@@ -197,6 +207,16 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						break;
 
 					case Hitters::explosion:
+					{
+						ratio = 0.6f;
+						if (is_propesko && hit_angle < 360-45 && hit_angle > 180+45)
+						{
+							ratio = 0;
+							dmg *= 0.01f;
+						}
+
+						break;
+					}
 					case Hitters::sword:
 					case Hitters::keg:
 					case Hitters::mine:
@@ -304,6 +324,19 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						break;
 					
 					case Hitters::explosion:
+					{
+						ratio = 0.5f;
+						if (is_propesko &&
+							((hit_angle > 180-45 && hit_angle < 180+45)
+							|| (hit_angle > 360-45 && hit_angle <= 360)
+							|| (hit_angle < 45 && hit_angle >= 0)))
+						{
+							ratio = 0;
+							dmg *= 0.01f;
+						}
+
+						break;
+					}
 					case Hitters::sword:
 					case Hitters::keg:
 					case Hitters::mine:
@@ -536,8 +569,16 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 						break;
 
 					case Hitters::explosion:
-						ratio = 0.5f;
+					{
+						ratio = 0.6f;
+						if (is_propesko && hit_angle < 180-45 && hit_angle > 45)
+						{
+							ratio = 0;
+							dmg *= 0.01f;
+						}
+
 						break;
+					}
 
 					default: ratio = 0.1f;
 						break;
@@ -617,15 +658,11 @@ void onDie(CBlob@ this)
 
 					if (blob !is null)
 					{
-					//if (explodium_amount > 0.00f) blob.set_f32("explodium_amount", explodium_amount);
-
-					// print("" + explodium_amount);
-				
-					blob.server_SetQuantity(1 + (frac * 0.25f + XORRandom(frac)));
-					if (this.hasTag("badger"))
-						blob.server_SetQuantity(blob.getQuantity() * 0.25);
-						
-					blob.setVelocity(vel);
+						blob.server_SetQuantity(1 + (frac * 0.25f + XORRandom(frac)));
+						if (this.hasTag("badger"))
+							blob.server_SetQuantity(blob.getQuantity() * 0.25);
+							
+						blob.setVelocity(vel);
 					}
 				}
 			}

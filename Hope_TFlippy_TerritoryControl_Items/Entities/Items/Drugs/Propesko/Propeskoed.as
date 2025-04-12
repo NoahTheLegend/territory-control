@@ -51,6 +51,8 @@ void DoExplosion(CBlob@ this)
 			boom.set_u8("boom_frequency", 1);
 			boom.set_u32("boom_delay", 0);
 			boom.set_u32("flash_delay", 0);
+			boom.set_f32("structure_damage_mod", Maths::Min(1.0f, 0.01f + this.get_f32("propeskoed") / 100.0f));
+			boom.Tag("propesko_explosion");
 			boom.Tag("no fallout");
 			boom.Tag("no flash");
 			boom.Tag("no mithril");
