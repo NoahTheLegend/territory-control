@@ -22,7 +22,7 @@ void onInit(CBlob@ this)
 	this.set_u32("no_shoot", 0);
 
 	Vehicle_SetupWeapon(this, v,
-	                    120, // fire delay (ticks)
+	                    90, // fire delay (ticks)
 	                    1, // fire bullets amount
 	                    Vec2f(-6.0f, 2.0f), // fire position offset
 	                    "mat_howitzershell", // bullet ammo config name
@@ -234,7 +234,7 @@ bool isInventoryAccessible(CBlob@ this, CBlob@ forBlob)
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)
 {
 	if (attached.hasTag("bomber")) return;
-	this.set_u32("no_shoot", getGameTime()+120);
+	this.set_u32("no_shoot", getGameTime()+45);
 }
 
 void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
