@@ -703,15 +703,14 @@ void React(CBlob@ this)
 			// Sulphur Mat Recipe
 			if (pressure < 50000 && heat > 100 && hasAcid && !hasMeat)
 			{
-				f32 count = Maths::Min(Maths::Min(acid_count * 0.25f, acid_count), pressure * 0.00025f) * 0.25f;
+				f32 count = Maths::Min(Maths::Min(acid_count * 0.25f, acid_count), pressure * 0.00025f) * 2;
 
 				if (isServer())
 				{
 					acid_blob.server_SetQuantity(Maths::Max(acid_blob.getQuantity() - count, 0));
-
 					acid_count -= count;
 
-					Material::createFor(this, "mat_dirt", count * 3.00f);
+					Material::createFor(this, "mat_sulphur", count * (2 + XORRandom(3)));
 				}
 
 				ShakeScreen(20.0f, 30, this.getPosition());

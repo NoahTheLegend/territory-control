@@ -785,7 +785,7 @@ void React(CBlob@ this)
 					sulphur_count -= 250;
 					coal_count -= 100;
 
-					Material::createFor(this, "propesko", 1 + (XORRandom(2) == 0 ? 1 : 0));
+					Material::createFor(this, "propesko", 1 + (XORRandom(3) == 0 ? 1 : 0));
 					if (XORRandom(100) < 10)
 					{
 						Material::createFor(this, "love", 2);
