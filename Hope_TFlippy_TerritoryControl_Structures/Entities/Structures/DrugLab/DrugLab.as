@@ -519,7 +519,7 @@ void React(CBlob@ this)
 					mustard_count -= count;
 					fuel_count -= count;
 
-					Material::createFor(this, "mat_acid", count * 2.00f);
+					Material::createFor(this, "mat_acid", count * (8.0f + XORRandom(11)*0.1f));
 				}
 
 				ShakeScreen(20.0f, 90, this.getPosition());

@@ -570,12 +570,13 @@ void React(CBlob@ this)
 					mustard_count -= count;
 					fuel_count -= count;
 
-					Material::createFor(this, "mat_acid", count * 2.00f);
+					Material::createFor(this, "mat_acid", count * (8.0f + XORRandom(21)*0.1f));
 				}
 
 				ShakeScreen(20.0f, 90, this.getPosition());
 				this.getSprite().PlaySound("DrugLab_Create_Acidic.ogg", 1.00f, 1.00f);
 			}
+
 			// Methane & Acid mat Recipe
 			if (pressure > 1000 && heat > 300 && meat_blob !is null)
 			{
