@@ -171,7 +171,7 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Gauss Rifle", "$icon_gaussrifle$", "gaussrifle", "A modified toy used to kill people.\n\nUses Titanium Ingots.");
+		ShopItem@ s = addShopItem(this, "Gauss Rifle", "$icon_gaussrifle$", "gaussrifle", "A modified toy used to kill people.\n\nUses Mithril Ingots.");
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 6);
 		AddRequirement(s.requirements, "blob", "mat_titaniumingot", "Titanium Ingot", 8);
 		AddRequirement(s.requirements, "blob", "mat_mithril", "Mithril", 40);
