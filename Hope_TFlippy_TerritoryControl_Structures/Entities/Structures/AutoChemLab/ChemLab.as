@@ -702,7 +702,7 @@ void React(CBlob@ this)
 				this.getSprite().PlaySound("DrugLab_Create_Creamy.ogg", 1.00f, 1.00f);
 			}
 			// Sulphur Mat Recipe
-			if (pressure < 50000 && heat > 100 && hasAcid && !hasMeat)
+			if (pressure < 50000 && heat > 100 && hasAcid && !hasMeat && !hasMustard)
 			{
 				f32 count = Maths::Min(Maths::Min(acid_count * 0.25f, acid_count), pressure * 0.00025f) * 2;
 
