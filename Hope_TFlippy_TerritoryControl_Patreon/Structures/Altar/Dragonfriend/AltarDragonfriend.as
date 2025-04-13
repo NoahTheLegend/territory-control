@@ -27,7 +27,7 @@ void onInit(CBlob@ this)
 	
 	AddIconToken("$icon_dragonfriend_follower$", "InteractionIcons.png", Vec2f(32, 32), 11);
 	{
-		ShopItem@ s = addShopItem(this, "Rite of Greed", "$icon_dragonfriend_follower$", "follower", "Gain a Premium Dragon Membership by paying 1499 coins.\n\nThe Dragon disapproves anyone with a poor credit rating.");
+		ShopItem@ s = addShopItem(this, "Rite of Greed", "$icon_dragonfriend_follower$", "follower", "Gain a Premium Dragon Membership by paying 1999 coins.\n\nThe Dragon disapproves anyone with a poor credit rating.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 1999);
 		s.customButton = true;
 		s.buttonwidth = 2;	
