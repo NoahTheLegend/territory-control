@@ -874,7 +874,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 		blocks[3].push_back(b);
 	}
 	{
-		BuildBlock b(0, "nuclearreactor", "$nuclearreactor$", "Nuclear Reactor:\n\nConverts enriched mithril into default with bigger yield.\nProduces wilmet material on higher temperatures.\n\nHas a control panel with password check. Can be sabotaged.\n\nRequires enriched mithril as fuel, mithril also increases heat.\n\nYou can set up a catalyst or refrigerant into the utility slot (also remove them with a wrench) to get certain modifications.\n\nExplodes with an insane power when heated up too much.");
+		BuildBlock b(0, "nuclearreactor", "$nuclearreactor$", "Nuclear Reactor:\n\nConverts enriched mithril into various materials.\nProduces wilmet material on higher temperatures.\n\nHas a control panel with a password protection. Can be unlocked with a codebreaker.\n\nRequires enriched mithril as fuel, mithril also increases heat.\n\nExplodes with an insane power when heated up too much.");
 		AddRequirement(b.reqs, "blob", "mat_ironingot", "Iron Ingot", 100);
 		AddRequirement(b.reqs, "blob", "mat_steelingot", "Steel Ingot", 40);
 		AddRequirement(b.reqs, "blob", "mat_copperwire", "Copper Wire", 150);
