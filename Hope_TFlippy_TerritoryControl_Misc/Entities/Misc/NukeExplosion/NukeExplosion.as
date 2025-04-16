@@ -19,8 +19,8 @@ void onInit(CBlob@ this)
 {
 	this.Tag("map_damage_dirt");
 	this.getShape().SetStatic(true);
-	this.set_f32("map_damage_ratio", 0.125f);
-
+	
+	if (!this.exists("map_damage_ratio")) this.set_f32("map_damage_ratio", 0.125f);
 	if (!this.exists("boom_frequency")) this.set_u8("boom_frequency", 3);
 	if (!this.exists("boom_start")) this.set_u8("boom_start", 0);
 	if (!this.exists("boom_end")) this.set_u8("boom_end", 20);
@@ -28,7 +28,10 @@ void onInit(CBlob@ this)
 	if (!this.exists("flash_delay")) this.set_u32("flash_delay", 0);
 	if (!this.exists("mithril_amount")) this.set_f32("mithril_amount", 150);
 	if (!this.exists("flash_distance")) this.set_f32("flash_distance", 2500);
+	if (!this.exists("nuke_explosion_radius")) this.set_f32("nuke_explosion_radius", 128.0f);
+	if (!this.exists("nuke_explosion_damage")) this.set_f32("nuke_explosion_damage", 192.0f);
 	if (!this.exists("custom_explosion_sound")) this.set_string("custom_explosion_sound", "Nuke_Kaboom");
+	if (!this.exists("custom_explosion_sound_pitch")) this.set_f32("custom_explosion_sound_pitch", 1.0f);
 
 	if (isClient())
 	{
@@ -54,16 +57,21 @@ void DoExplosion(CBlob@ this)
 	const f32 invModifier = 1.00f - modifier;
 
 	this.set_f32("map_damage_radius", 256.0f * modifier);
-
 	this.set_Vec2f("explosion_offset", Vec2f(0, 0));
-	Explode(this, 128.0f * modifier, 192.0f * (1.00f - modifier));
+
+	f32 explosion_radius = this.get_f32("nuke_explosion_radius") * modifier;
+	f32 explosion_damage = this.get_f32("nuke_explosion_damage");
+	f32 explosion_angle = 1000;
+	if (this.exists("explosion_angle")) explosion_angle = this.get_f32("explosion_angle");
+
+	Explode(this, explosion_radius, explosion_damage * (1.0f - modifier));
 
 	if (!this.hasTag("no side blast"))
 	{
 		for (int i = 0; i < 2; i++)
 		{
 			this.set_Vec2f("explosion_offset", Vec2f((100 - XORRandom(200)) / 50.0f, (100 - XORRandom(200)) / 400.0f) * 128 * modifier);
-			Explode(this, 128.0f * modifier, 64.0f * (1 - modifier));
+			Explode(this, explosion_radius * modifier, explosion_damage / 3 * (1.0f - modifier));
 		}
 	}
 
@@ -199,7 +207,7 @@ void onTick(CBlob@ this)
 
 				if (this.getMap().getBlobsInRadius(this.getPosition(), this.get_f32("flash_distance"), @blobs))
 				{
-					// print("" + blobs.length);
+					f32 explosion_damage = this.get_f32("nuke_explosion_damage");
 
 					for (int i = 0; i < blobs.length; i++)
 					{
@@ -207,7 +215,7 @@ void onTick(CBlob@ this)
 
 						if (!this.getMap().rayCastSolidNoBlobs(blob.getPosition(), this.getPosition()))
 						{
-							this.server_Hit(blob, blob.getPosition(), Vec2f(), 350.00f, Hitters::fire, true);
+							this.server_Hit(blob, blob.getPosition(), Vec2f(), explosion_damage, Hitters::fire, true);
 						}
 					}
 				}
@@ -226,7 +234,8 @@ void onTick(CBlob@ this)
 			
 			if (modifier > 0.01f && !this.hasTag("no_sound"))
 			{
-				Sound::Play(this.get_string("custom_explosion_sound"), getDriver().getWorldPosFromScreenPos(getDriver().getScreenCenterPos()), 2.0f - (0.2f * (1 - modifier)), modifier);
+				f32 pitch = this.get_f32("custom_explosion_sound_pitch");
+				Sound::Play(this.get_string("custom_explosion_sound"), getDriver().getWorldPosFromScreenPos(getDriver().getScreenCenterPos()), 2.0f - (0.2f * (1 - modifier)), modifier * pitch);
 			}
 		}
 	}

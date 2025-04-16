@@ -61,9 +61,29 @@ void onTick(CRules@ this)
 
         if (timeSinceMeteor > 6000 && XORRandom(Maths::Max(35000 - timeSinceMeteor, 0)) == 0) // Meteor strike
         {
-			//tcpr("[RGE] Random event: Meteor");
-            if (isServer()) server_CreateBlob("meteor", -1, Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
+			u8 chance_big_meteor = 10; // 10%
+			u8 chance_medium_meteor = 40; // 30%
+			u8 chance_small_meteor = 50; // 50%
+
+			string[] meteor_types = {"small", "medium", "big"};
+			u8[] variants_count = {3, 2, 2};
 			
+			string blobname = "meteor";
+			u8 rnd = XORRandom(100);
+			if (rnd < chance_big_meteor) blobname += meteor_types[2] + XORRandom(variants_count[2]);
+			else if (rnd < chance_medium_meteor) blobname += meteor_types[1] + XORRandom(variants_count[1]);
+			else blobname += meteor_types[0] + XORRandom(variants_count[0]);
+			print(blobname);
+
+			CBlob@ meteor = server_CreateBlobNoInit(blobname);
+			if (meteor !is null)
+			{
+				meteor.server_setTeamNum(-1);
+				meteor.setPosition(Vec2f(XORRandom(map.tilemapwidth) * map.tilesize, 0.0f));
+				meteor.Tag("spawn_at_sky");
+				meteor.Init();
+			}
+	
 			this.set_u32("lastMeteor", time);
         }
 		

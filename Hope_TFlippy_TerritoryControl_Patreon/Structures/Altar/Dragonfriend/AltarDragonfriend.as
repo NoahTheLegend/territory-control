@@ -50,7 +50,7 @@ void onInit(CBlob@ this)
 	AddIconToken("$icon_dragonfriend_offering_1$", "AltarDragonfriend_Icons.png", Vec2f(24, 24), 1);
 	{
 		ShopItem@ s = addShopItem(this, "Offering of the Meteor", "$icon_dragonfriend_offering_1$", "offering_meteor", "Offer 10000 coins to summon a meteor.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 10000);
+		AddRequirement(s.requirements, "coin", "", "Coins", 15000);
 		s.customButton = true;
 		s.buttonwidth = 1;	
 		s.buttonheight = 1;
@@ -288,7 +288,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream@ params)
 								this.add_f32("deity_power", 799);
 							
 								f32 map_width = getMap().tilemapwidth * 8.00f;
-								CBlob@ item = server_CreateBlob("meteor", this.getTeamNum(), Vec2f(XORRandom(map_width), 0));
+								CBlob@ item = server_CreateBlob("meteorsmall"+XORRandom(3), this.getTeamNum(), Vec2f(XORRandom(map_width), 0));
 								
 								server_DropCoins(this.getPosition(), XORRandom(100));
 							}

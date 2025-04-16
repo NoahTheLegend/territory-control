@@ -8,7 +8,7 @@ void onTick(CBlob@ this)
 {
 	if (this.hasTag("dead")) return;
 	
-	f32 true_level = this.get_f32("sturded");		
+	f32 true_level = this.get_f32("sturded");
 	f32 level = 1.00f + true_level;
 	if (true_level > 4.0f) true_level = 4.0f;
 	
@@ -38,7 +38,4 @@ void onTick(CBlob@ this)
 					
 		this.set_f32("sturded", Maths::Max(0, this.get_f32("sturded") - (0.00025f)));
 	}
-	
-	// print("" + true_level);
-	// print("" + (1.00f / (level)));
 }

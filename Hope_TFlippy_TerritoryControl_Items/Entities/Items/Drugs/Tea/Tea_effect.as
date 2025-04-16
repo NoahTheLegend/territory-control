@@ -16,7 +16,7 @@ const string[] scriptnames =
 	//"Pooted.as",
 	"Fusk_Effect.as",
 	//"Gooby_Effect.as",
-	//"Paxilon_Effect.as",
+	"Paxilon_Effect.as",
 	"Propeskoed.as",
 	"Radpilled.as",
 	//"Rippioed.as",
@@ -25,7 +25,7 @@ const string[] scriptnames =
 	"Stimed.as",
 	"Polymorphine_Effect.as",
 	"Sturded.as",
-	"Mustardeffect.as",
+	"Mustardeffect.as"
 	//"Pigger_Pregnant.as"
 };
 
@@ -101,9 +101,6 @@ void onTick(CBlob@ this)
 		this.RemoveScript("Bobomaxed.as");
 	}
 
-
-
-
 	if (isClient())
 	{
 		if (this.isMyPlayer())
@@ -113,5 +110,6 @@ void onTick(CBlob@ this)
 		}
 	}
 
+	this.set_f32("overdosing", this.get_f32("overdosing") / 2);
 	this.getCurrentScript().runFlags |= Script::remove_after_this;
 }

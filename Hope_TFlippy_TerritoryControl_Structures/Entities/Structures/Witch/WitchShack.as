@@ -98,13 +98,6 @@ void onInit(CBlob@ this)
 		s.spawnNothing = true;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Infernal Stone", "$infernalstone$", "infernalstone", "It's hot!");
-		AddRequirement(s.requirements, "blob", "meteor", "Meteor", 1);
-		AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel", 100);
-		AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 250);
-		s.spawnNothing = true;
-	}
-	{
 		ShopItem@ s = addShopItem(this, "Funny Magical Card Booster Pack", "$card_pack$", "card_pack", "A full pack of fun!");
 		AddRequirement(s.requirements, "coin", "", "Coins", 30);
 		s.spawnNothing = true;

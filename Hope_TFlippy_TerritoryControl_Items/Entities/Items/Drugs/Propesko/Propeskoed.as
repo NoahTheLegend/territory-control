@@ -11,6 +11,8 @@ void onDie(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
+	f32 true_level = this.get_f32("propeskoed");
+	
 	if (this.hasTag("dead")) return;
 	this.add_f32("propeskoed", this.get_f32("propeskorate"));
 }

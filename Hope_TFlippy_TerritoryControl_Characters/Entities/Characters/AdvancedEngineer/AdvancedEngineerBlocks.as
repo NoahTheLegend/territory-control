@@ -862,7 +862,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 
 		// AddRequirement(b.reqs, "blob", "adminbuilder", "You have to be an Engineer", 1);
 		b.buildOnGround = true;
-		b.size.Set(64, 48);
+		b.size.Set(112, 56);
 		blocks[3].push_back(b);
 	}
 	{

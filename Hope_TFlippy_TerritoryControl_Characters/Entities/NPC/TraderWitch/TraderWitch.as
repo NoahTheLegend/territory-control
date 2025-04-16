@@ -162,13 +162,6 @@ void onInit(CBlob@ this)
 		    s.spawnNothing = true;
 	    }
 		{
-			ShopItem@ s = addShopItem(this, "Infernal Stone", "$infernalstone$", "infernalstone", "It's hot!");
-			AddRequirement(s.requirements, "blob", "meteor", "Meteor", 1);
-			AddRequirement(s.requirements, "blob", "mat_plasteel", "Plasteel", 100);
-			AddRequirement(s.requirements, "blob", "mat_wilmet", "Wilmet", 250);
-			s.spawnNothing = true;
-	    }
-		{
 		    ShopItem@ s = addShopItem(this, "Illegal gun part", "$illegalgunpart$", "illegalgunpart", "Very illegal gun parts for very illegal weapons.");
 		    AddRequirement(s.requirements, "coin", "", "Coins", 5000);
 		    s.spawnNothing = true;

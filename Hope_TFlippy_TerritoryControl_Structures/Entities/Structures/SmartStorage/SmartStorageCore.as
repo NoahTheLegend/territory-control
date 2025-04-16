@@ -1,24 +1,14 @@
 // Script by brewskidafixer
 #include "SmartStorageHelpers.as";
 
-const u8 MaxItems = 8;
-//string[] GitemsArray; //this same global array for all instances of script
-//bool Gsynced = false;
+const u8 MaxItems = 4;
 void onInit(CBlob@ this)
 {
-	
-	//string[] itemsArray;
-	//this.set("itemsArray", @itemsArray);
-	//if (isServer()) Gsynced = true;
-	
-	
 	this.set_string("itemsArray", "");
-	this.set_u8("itemsnum",0);
+	this.set_u8("itemsnum", 0);
 	this.addCommandID("sv_withdraw");
 	this.addCommandID("sv_delete");
-	//this.addCommandID("sv_sync");
-	//print("SS start "+this.get_string("itemsArray"));
-	//this.addCommandID("sv_store");
+
 	
 	string[] GitemsArray;
 	this.set("GitemsArray",@GitemsArray);

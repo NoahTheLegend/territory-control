@@ -289,6 +289,25 @@ bool onServerProcessChat(CRules@ this,const string& in text_in,string& out text_
 					}
 				}
 			}
+			else if (tokens.length > 1 && tokens[0] == "!meteor")
+			{
+				CBlob@ meteor = server_CreateBlobNoInit("meteor" + tokens[1]);
+				if (tokens.length > 2 && tokens[2] == "sky")
+				{
+					meteor.Tag("spawn_at_sky");
+					Vec2f thispos = blob.getPosition();
+					Vec2f pos = Vec2f(blob.getPosition().x, 0.0f);
+					meteor.setPosition(pos);
+					meteor.Init();
+				}
+				else
+				{
+					meteor.setPosition(blob.getPosition());
+					meteor.Init();
+				}
+
+				return false;
+			}
 			else if (tokens.length > 1 && tokens[0] == "!write") 
 			{
 				if (getGameTime() > this.get_u32("nextwrite"))

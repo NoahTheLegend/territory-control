@@ -20,11 +20,21 @@ void onInit(CBlob@ this)
 
 void onTick(CBlob@ this)
 {
+	if (isClient())
+	{
+		CSprite@ sprite = this.getSprite();
+		if (sprite !is null)
+		{
+			this.inventoryIconFrame = this.hasTag("cold") ? 7 : 1;
+			sprite.SetAnimation(this.hasTag("cold") ? "cold" : "default");
+		}
+	}
+	if (this.hasTag("cold")) return;
+
 	if (this.isInWater())
 	{
 		if (!isClient()){ return;}
 		makeSteamParticle(this, Vec2f(), XORRandom(100) > 50 ? "MediumSteam" : "SmallSteam");
-		// this.getSprite().PlaySound("Steam.ogg");
 		return;
 	}
 	
@@ -47,12 +57,12 @@ void onTick(CBlob@ this)
 		if (map.getTile(pos).type == CMap::tile_wood_back) map.server_setFireWorldspace(pos, true);
 		if (map.getTile(pos + Vec2f(0, 8)).type == CMap::tile_wood) map.server_setFireWorldspace(pos + Vec2f(0, 8), true);
 	}
+
 	if(isClient())
 	{
 		if ( XORRandom(100) < 60) this.getSprite().PlaySound("FireRoar.ogg");
 		makeSteamParticle(this, Vec2f(), XORRandom(100) < 30 ? ("SmallSmoke" + (1 + XORRandom(2))) : "SmallExplosion" + (1 + XORRandom(3)));
 	}
-	
 }
 
 void makeSteamParticle(CBlob@ this, const Vec2f vel, const string filename = "SmallSteam")
@@ -75,4 +85,3 @@ void onThisAddToInventory(CBlob@ this, CBlob@ inventoryBlob)
 	this.doTickScripts = true;
 	inv.doTickScripts = true;
 }
-

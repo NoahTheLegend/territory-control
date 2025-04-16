@@ -7,9 +7,10 @@
 #include "CustomBlocks.as";
 
 const f32 volume_smooth = 0.00015f;
-const u16 min_lifetime = 2.0f*60*30;
-const f32 fadeout_ttd = min_lifetime;
+const u16 min_lifetime = 2.5f*60*30;
+const f32 max_lifetime_minutes = 6.0f;
 const f32 fadein_tsc = min_lifetime;
+const f32 fadeout_ttd = min_lifetime;
 
 void onInit(CBlob@ this)
 {
@@ -21,7 +22,7 @@ void onInit(CBlob@ this)
 
 	if (isServer())
 	{
-		this.server_SetTimeToDie((min_lifetime + XORRandom(5.0f*60*30)) / 30);
+		this.server_SetTimeToDie((min_lifetime + XORRandom(max_lifetime_minutes*60*30)) / 30);
 	}
 
 	if (isClient())
@@ -324,7 +325,7 @@ void RenderBlizzard(CBlob@ this, int id)
 		Render::SetModelTransform(model);
 		Render::RawQuads("BLIZZARD", Blizzard_vs);
 		
-		f32 tsc = f32(this.getTickSinceCreated());
+		f32 tsc = Maths::Max(0, f32(this.getTickSinceCreated()) - 30 * 30);
 		f32 tsc_mod = Maths::Min(tsc/fadein_tsc, 1.0f);
 		f32 alpha = Maths::Clamp(Maths::Min((tsc-256.0f)*0.1f, Maths::Max(fog, 255) * modifier), 0, 200*Maths::Min(1.0f, level));
 		f32 snow_alpha = tsc_mod * Maths::Clamp(255-255*this.get_f32("time_mod"), 0, 255);

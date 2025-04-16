@@ -138,7 +138,7 @@ void onTick(CBlob@ this)
 										blob.getSprite().PlaySound("DrillOverheat.ogg");
 										blob.server_Die();
 									}
-									if (blob.getName() == "meteor" && blob.get_s32("heat") > 0)
+									if (blob.getName().find("meteor") != -1 && blob.get_s32("heat") > 0)
 									{
 										blob.add_s32("heat", -100);
 										blob.getSprite().PlaySound("DrillOverheat.ogg");

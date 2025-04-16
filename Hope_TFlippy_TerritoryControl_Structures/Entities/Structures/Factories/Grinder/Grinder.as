@@ -99,6 +99,7 @@ void onTick(CBlob@ this)
 			CBlob@ blob = blobs[i];
 			if (blob is null) { continue; }
 			if (blob.getName() == "ninja") continue; // feature sure
+			
 			bool vulnerable = !blob.isAttached() && !blob.isInInventory();
 			if ((blob.hasTag("cruisemissile") || blob.hasTag("weapon")) && !vulnerable) continue;
 

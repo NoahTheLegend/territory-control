@@ -332,7 +332,7 @@ void addTokens(CBlob@ this)
 	AddIconToken("$icon_jetpackv2$", "JetpackV2.png", Vec2f(16, 16), 0, teamnum);
 	AddIconToken("$icon_catalyzer$", "Catalyzer.png", Vec2f(9, 11), 0, teamnum);
 	AddIconToken("$icon_drill$", "Drill.png", Vec2f(32, 16), 0, teamnum);
-	AddIconToken("$icon_refrigerant$", "RefrigerantIcon", Vec2f(8, 14), 0, teamnum);
+	AddIconToken("$icon_refrigerant$", "RefrigerantIcon.png", Vec2f(16, 16), 0, teamnum);
 }
 
 void onTick(CBlob@ this)

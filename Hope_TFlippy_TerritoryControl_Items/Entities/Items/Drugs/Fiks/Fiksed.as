@@ -17,7 +17,7 @@ void onTick(CBlob@ this)
 	{
 		this.getCurrentScript().runFlags |= Script::remove_after_this;
 	}
-	else if (true_level <= 8)
+	else if (true_level <= 4)
 	{
 		if (this.getTickSinceCreated() % 6 == 0)
 		{

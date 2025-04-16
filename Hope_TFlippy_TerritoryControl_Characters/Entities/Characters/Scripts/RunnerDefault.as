@@ -12,7 +12,6 @@ void onInit(CBlob@ this)
 {
 	this.getCurrentScript().removeIfTag = "dead";
 	this.Tag("medium weight");
-
 	this.Tag("grapplable");
 
 	this.addCommandID("jetpackv1_effects_client");
@@ -35,6 +34,7 @@ void onInit(CBlob@ this)
 	setKnockable(this);
 
 	this.set_u32("disable_gliding", 0);
+	this.set_f32("overdosing", 0);
 }
 
 void onTick(CBlob@ this)

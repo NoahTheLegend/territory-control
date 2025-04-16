@@ -12,7 +12,7 @@ void onTick(CBlob@ this)
 	
 	true_level /= Maths::Clamp(sosek_level * 4.00f, 1.00f, 20.00f);
 	f32 level = 1.00f + true_level;
-	
+
 	if (true_level <= 0)
 	{
 		onDie(this);
