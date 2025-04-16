@@ -71,7 +71,7 @@ void onTick(CBlob@ this)
 							for (int i = 0; i < blobs.length; i++)
 							{
 								CBlob@ b = blobs[i].blob;
-								if (b !is null && b !is holder && b.hasTag("flesh"))
+								if (b !is null && b !is holder && b.hasTag("flesh") && !b.hasTag("gas immune"))
 								{
 									if (isServer())
 									{
