@@ -90,12 +90,12 @@ const string[][] requirements = {
 };
 
 const string[] material_tooltips = { // tooltips for materials
-	"Requires a heat absorber, a refrigerant and heat "+material_generation_ranges[0][0]+"-"+material_generation_ranges[0][1]+"°C",
-	"Requires a heat absorber, a refrigerant and heat "+material_generation_ranges[1][0]+"-"+material_generation_ranges[1][1]+"°C",
-	"Requires a refrigerant and heat "+material_generation_ranges[2][0]+"-"+material_generation_ranges[2][1]+"°C",
-	"Requires heat "+material_generation_ranges[3][0]+"-"+material_generation_ranges[3][1]+"°C",
-	"Requires a catalyzer and heat "+material_generation_ranges[4][0]+"-"+material_generation_ranges[4][1]+"°C",
-	"Requires a catalyzer, a burner and heat "+material_generation_ranges[5][0]+"-"+material_generation_ranges[5][1]+"°C"
+	"Requires a heat absorber, a refrigerant and heat "+material_generation_ranges[0][0]+" - "+material_generation_ranges[0][1]+"°C",
+	"Requires a heat absorber, a refrigerant and heat "+material_generation_ranges[1][0]+" - "+material_generation_ranges[1][1]+"°C",
+	"Requires a refrigerant and heat "+material_generation_ranges[2][0]+" - "+material_generation_ranges[2][1]+"°C",
+	"Requires heat "+material_generation_ranges[3][0]+" - "+material_generation_ranges[3][1]+"°C",
+	"Requires a catalyzer and heat "+material_generation_ranges[4][0]+" - "+material_generation_ranges[4][1]+"°C",
+	"Requires a catalyzer, a burner and heat "+material_generation_ranges[5][0]+" - "+material_generation_ranges[5][1]+"°C"
 };
 
 const string[] material_icons = {
@@ -147,6 +147,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("interact_fuel");
 	this.addCommandID("sync_prep");
 	this.addCommandID("sync");
+	this.addCommandID("remove_from_attached");
 	this.addCommandID("set_temp_mode");
 
 	if (isClient())
@@ -475,22 +476,6 @@ void onTick(CBlob@ this)
 				{
 					wait_for_anim_end = false;
 					animation = "warning";
-
-					if (this.getTickSinceCreated() % 30 == 0)
-					{
-						this.add_u8("sustimer", 1);
-						if (this.get_u8("sustimer") == 2)
-						{
-							sprite.PlaySound("SusMeltdown.ogg", 5.0f);
-
-							this.SetLight(true);
-							this.SetLightRadius(128.0f);
-							this.SetLightColor(SColor(255, 255, 0, 0));
-
-							this.set_u8("sustimer", 0);
-						}
-						else this.SetLight(false);
-					}
 				}
 			}
 
@@ -503,6 +488,25 @@ void onTick(CBlob@ this)
 					console.SetAnimation(animation);
 					if (!same_anim && console.animation.name != "") console.animation.frame = 0;
 				}
+			}
+		}
+
+		if (sabotaging)
+		{
+			if (this.getTickSinceCreated() % 30 == 0)
+			{
+				this.add_u8("sustimer", 1);
+				if (this.get_u8("sustimer") == 2)
+				{
+					sprite.PlaySound("SusMeltdown.ogg", 5.0f);
+
+					this.SetLight(true);
+					this.SetLightRadius(128.0f);
+					this.SetLightColor(SColor(255, 255, 0, 0));
+
+					this.set_u8("sustimer", 0);
+				}
+				else this.SetLight(false);
 			}
 		}
 	}
@@ -739,6 +743,12 @@ void CloseTerminal(CBlob@ this, bool all_terminals = false)
 		if (!all_terminals || rules.get_u16("terminal_id") == this.getNetworkID())
 			this.getSprite().PlaySound("TerminalClose.ogg", 0.5f, 1.0f + XORRandom(100) * 0.001f);
 
+		if (p.isMyPlayer())
+		{
+			CBitStream params;
+			params.write_u16(p.getNetworkID());
+			this.SendCommand(this.getCommandID("remove_from_attached"), params);
+		}
 		rules.set_u16("terminal_id", 0);
 	}
 }
@@ -795,7 +805,7 @@ void UpdateMaterialsCount(CBlob@ this, CInventory@ inv)
 	f32 total_heat = Maths::Round((mithril_heat + enriched_mithril_heat) * 10) / 10.0f;
 	f32 target_heat_factor = Maths::Clamp(total_heat >= 0 ? (total_heat / max_temp_c) * 0.5f : -(Maths::Abs(total_heat) / Maths::Abs(min_temp_c)) * 0.5f, -0.5f, 0.5f);
 	this.set_f32("target_heat_factor", target_heat_factor);
-	string target_heat_text = "~"+formatTemp(total_heat, temp_mode);
+	string target_heat_text = "~ "+formatTemp(total_heat, temp_mode);
 	this.set_string("target_heat_text", target_heat_text);
 }
 
@@ -1630,6 +1640,25 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 		if (isServer()) AttachUsername(this, player);
 		SetTerminalForLocal(this, player.getNetworkID());
+	}
+	else if (cmd == this.getCommandID("remove_from_attached"))
+	{
+		if (!isServer()) return;
+		u16 id = params.read_u16();
+
+		CPlayer@ player = getPlayerByNetworkId(id);
+		if (player is null) return;
+
+		string[]@ attached;
+		if (!this.get("attached", @attached)) return;
+		if (attached is null) return;
+
+		int index = attached.find(player.getUsername());
+		if (index != -1)
+		{
+			attached.removeAt(index);
+			server_Sync(this);
+		}
 	}
 	else if (cmd == this.getCommandID("set_temp_mode"))
 	{

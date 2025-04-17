@@ -95,7 +95,7 @@ void onTick(CBlob@ this)
         this.AddTorque(this.getVelocity().x * this.getMass() * (0.1f+(XORRandom(10) * 0.01f)) / (type+1));
     }
 
-    if (isServer() && type == 0 && this.exists("detach_timing") && this.get_u32("detach_timing") >= getGameTime())
+    if (isServer() && type == 0 && this.exists("detach_timing") && this.get_u32("detach_timing") + 1 >= getGameTime())
         this.AddTorque(this.getVelocity().x * this.getMass() * (0.5f+(XORRandom(50) * 0.01f)));
 
     s32 heat = this.get_s32("heat");
