@@ -210,7 +210,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(CMap::tile_concrete, "concrete_block", "$concrete_block$", "Concrete Block:\n\nSlightly more durable than stone.");
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 4);
+		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 8);
 		blocks[0].push_back(b);
 	}
 	{
@@ -311,7 +311,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int teamnum = 7)
 	}
 	{
 		BuildBlock b(0, "concrete_triangle", "$concrete_triangle$", "Concrete Triangle");
-		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 4);
+		AddRequirement(b.reqs, "blob", "mat_concrete", "Concrete", 8);
 		blocks[0].push_back(b);
 	}
 	{

@@ -3,7 +3,7 @@
 #include "Hitters.as";
 
 const u32 update_rate = 30;
-const f32 lerp_overdosing = 0.1f;
+const f32 lerp_overdosing = 0.2f;
 
 const f32 slowness = 1.0f;
 const f32 max_slowness = 2.0f;

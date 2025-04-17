@@ -58,6 +58,7 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 		{
 			CBlob@ blob = blobsInRadius[i];
 			if (blob is null || blob is this) { continue; }
+			if (blob.hasTag("explosive")) { continue; }
 
 			Vec2f dir = blob.getPosition() - pos;
 			f32 dist = dir.Length();
@@ -68,7 +69,7 @@ void DoExplosion(CBlob@ this, Vec2f velocity)
 			f32 mod = Maths::Clamp(1.00f - (dist / 48.00f), 0, 1);
 			f32 force = Maths::Clamp(blob.getRadius() * 70 * mod * 3, 0, blob.getMass() * 50);
 
-			blob.AddForce(dir * (force / 2));
+			blob.AddForce(dir * (force * 0.75f));
 		}
 	}
 }

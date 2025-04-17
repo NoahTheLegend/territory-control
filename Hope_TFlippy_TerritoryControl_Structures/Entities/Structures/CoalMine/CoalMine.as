@@ -217,42 +217,42 @@ void onTick(CBlob@ this)
 			}
 			case 1:
 			{
-				this.setInventoryName("Rich on iron mine");
+				this.setInventoryName("Iron rich mine");
 				break;
 			}
 			case 2:
 			{
-				this.setInventoryName("Rich on copper mine");
+				this.setInventoryName("Copper rich mine");
 				break;
 			}
 			case 3:
 			{
-				this.setInventoryName("Rich on gold mine");
+				this.setInventoryName("Gold rich mine");
 				break;
 			}
 			case 4:
 			{
-				this.setInventoryName("Rich on titanium mine");
+				this.setInventoryName("Titanium rich mine");
 				break;
 			}
 			case 5:
 			{
-				this.setInventoryName("Rich on coal mine");
+				this.setInventoryName("Coal rich mine");
 				break;
 			}
 			case 6:
 			{
-				this.setInventoryName("Rich on mithril mine");
+				this.setInventoryName("Mithril rich mine");
 				break;
 			}
 			case 7:
 			{
-				this.setInventoryName("Rich on dirt mine");
+				this.setInventoryName("Dirt rich mine");
 				break;
 			}
 			case 8:
 			{
-				this.setInventoryName("Rich on sulphur mine");
+				this.setInventoryName("Sulphur rich mine");
 				break;
 			}
 		}

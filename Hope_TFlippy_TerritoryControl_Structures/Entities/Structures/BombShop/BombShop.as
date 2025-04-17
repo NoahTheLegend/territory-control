@@ -192,13 +192,13 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Gregor (1)", "$icon_claymore$", "claymore-1", "A remotely triggered explosive device covered in some sort of slime. Sticks to surfaces.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 75);
+		AddRequirement(s.requirements, "coin", "", "Coins", 125);
 
 		s.spawnNothing = true;
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Gregor Remote Detonator", "$icon_claymoreremote$", "claymoreremote-1", "A device used to remotely detonate Gregors.");
-		AddRequirement(s.requirements, "coin", "", "Coins", 100);
+		AddRequirement(s.requirements, "coin", "", "Coins", 50);
 
 		s.spawnNothing = true;
 	}

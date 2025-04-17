@@ -61,9 +61,9 @@ void onTick(CRules@ this)
 
         if (timeSinceMeteor > 6000 && XORRandom(Maths::Max(35000 - timeSinceMeteor, 0)) == 0) // Meteor strike
         {
-			u8 chance_big_meteor = 10; // 10%
-			u8 chance_medium_meteor = 40; // 30%
-			u8 chance_small_meteor = 50; // 50%
+			u8 chance_big_meteor = 15; // 15%
+			u8 chance_medium_meteor = 45; // 30%
+			u8 chance_small_meteor = 100; // last
 
 			string[] meteor_types = {"small", "medium", "big"};
 			u8[] variants_count = {3, 2, 2};

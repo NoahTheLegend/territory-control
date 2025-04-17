@@ -3,7 +3,7 @@
 #include "MakeMat.as";
 #include "CustomBlocks.as";
 
-const u8 cold_infernalstone_spawn_chance = 5;
+const u8 cold_infernalstone_spawn_chance = 10;
 
 u8 get_type(CBlob@ this)
 {
@@ -78,8 +78,8 @@ void onInit(CBlob@ this)
             Vec2f lpos = local.getPosition();
             if (Maths::Abs(lpos.x - this.getPosition().x) > 512.0f)
             {
-                if (lpos.x < this.getPosition().x) extra = " at east";
-                else extra = " at west";
+                if (lpos.x < this.getPosition().x) extra = " in the east";
+                else extra = " in the west";
             }
         }
         client_AddToChat("A bright flash illuminates the sky"+extra, SColor(255, 255, 0, 0));
